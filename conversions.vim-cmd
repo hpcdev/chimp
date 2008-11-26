@@ -1,0 +1,65 @@
+1.  Redorder ZDPlasKin so that it comes before comments and references.
+
+
+These conversions were done in this order:
+
+%s/^\<ELASTIC\>\_s*\([^ ]*\)\_s*\([^ ]*\)\s*\/ mass ratio\_s*\([^ ]*\)\s*\([^ ]*\)\s*\/ scale factors\_s*\(\%(\%(.\%(-\{10,}\)\@!\)*\n\)*\)\_s*\(-\{10,}\)/\t<Interaction bolsig="elastic">\r\t    <e_mass_ratio>\2<\/e_mass_ratio>\r\t    <Eq><In>(<P>e-<\/P>)+(<P>\1<\/P>)<\/In>-\&gt;<Out>(<P>e-<\/P>)+(<P>\1<\/P>)<\/Out><\/Eq>\r\t    <reference>From Bolsig+ ELASTIC; \5<\/reference>\r\t    <cross_section type="data" xscale="\3*MeV" yscale="\4*m^2">\r\6/cg
+
+%s/^\<ELASTIC\>\_s*\([^ ]*\)\_s*\([^ ]*\)\s*\/ mass ratio\_s*\(\%(\%(.\%(-\{10,}\)\@!\)*\n\)*\)\_s*\(-\{10,}\)/\t<Interaction bolsig="elastic">\r\t    <e_mass_ratio>\2<\/e_mass_ratio>\r\t    <Eq><In>(<P>e-<\/P>)+(<P>\1<\/P>)<\/In>-\&gt;<Out>(<P>e-<\/P>)+(<P>\1<\/P>)<\/Out><\/Eq>\r\t    <reference>From Bolsig+ ELASTIC; \3<\/reference>\r\t    <cross_section type="data" xscale="MeV" yscale="m^2">\r\4/cg
+
+
+
+
+%s/^\<MOMENTUM\>\_s*\([^ ]*\)\_s*\([^ ]*\)\s*\/ mass ratio\_s*\([^ ]*\)\s*\([^ ]*\)\s*\/ scale factors\_s*\(\%(\%(.\%(-\{10,}\)\@!\)*\n\)*\)\_s*\(-\{10,}\)/\t<Interaction bolsig="momentum">\r\t    <e_mass_ratio>\2<\/e_mass_ratio>\r\t    <Eq><In>(<P>e-<\/P>)+(<P>\1<\/P>)<\/In>-\&gt;<Out>(<P>e-<\/P>)+(<P>\1<\/P>)<\/Out><\/Eq>\r\t    <reference>From Bolsig+ MOMENTUM; \5<\/reference>\r\t    <cross_section type="data" xscale="\3*MeV" yscale="\4*m^2">\r\6/cg
+
+%s/^\<MOMENTUM\>\_s*\([^ ]*\)\_s*\([^ ]*\)\s*\/ mass ratio\_s*\(\%(\%(.\%(-\{10,}\)\@!\)*\n\)*\)\_s*\(-\{10,}\)/\t<Interaction bolsig="momentum">\r\t    <e_mass_ratio>\2<\/e_mass_ratio>\r\t    <Eq><In>(<P>e-<\/P>)+(<P>\1<\/P>)<\/In>-\&gt;<Out>(<P>e-<\/P>)+(<P>\1<\/P>)<\/Out><\/Eq>\r\t    <reference>From Bolsig+ MOMENTUM; \3<\/reference>\r\t    <cross_section type="data" xscale="MeV" yscale="m^2">\r\4/cg
+
+
+
+
+%s/^\<EXCITATION\>\_s*\([^ ]*\)\_s*\([^ ]*\)\s*\/ threshold energy\_s*ZDPlasKin:\s*\([^ ]*\)\s*->\s*\([^ ]*\)\s*+\s*\([^ ]*\)\_s*\(\%(\%(.\%(-\{10,}\)\@!\)*\n\)*\)\_s*\(-\{10,}\)/\t<Interaction bolsig="excitation">\r\t    <threshold_energy>\2<\/threshold_energy>\r\t    <Eq><In>(<P>e-<\/P>)+(<P>\3<\/P>)<\/In>-\&gt;<Out>(<P>e-<\/P>)+(<P>\4<\/P>)+(<P>\5<\/P>)<\/Out><\/Eq>\r\t    <reference>From Bolsig+ EXCITATION; \6<\/reference>\r\t    <cross_section type="data" xscale="MeV" yscale="m^2">\r\7/cg
+
+%s/^\<EXCITATION\>\_s*\([^ ]*\)\s*->\s*\([^ ]*\)\_s*\([^ ]*\)\s*\/ threshold energy\_s*\(\%(\%(.\%(-\{10,}\)\@!\)*\n\)*\)\_s*\(-\{10,}\)/\t<Interaction bolsig="excitation">\r\t    <threshold_energy>\3<\/threshold_energy>\r\t    <Eq><In>(<P>e-<\/P>)+(<P>\1<\/P>)<\/In>-\&gt;<Out>(<P>e-<\/P>)+(<P>\2<\/P>)<\/Out><\/Eq>\r\t    <reference>From Bolsig+ EXCITATION; \4<\/reference>\r\t    <cross_section type="data" xscale="MeV" yscale="m^2">\r\5/cg
+
+
+
+
+%s/^\<IONIZATION\>\_s*\([^ ]*\)\_s*\([^ ]*\)\s*\/ threshold energy\_s*\([^ ]*\)\s*\([^ ]*\)\s*\/ scale factors\_s*ZDPlasKin:\s*\([^ ]*\)\s*->\s*\([^ ]*\)\_s*\(\%(\%(.\%(-\{10,}\)\@!\)*\n\)*\)\_s*\(-\{10,}\)/\t<Interaction bolsig="ionization">\r\t    <threshold_energy>\2<\/threshold_energy>\r\t    <Eq><In>(<P>e-<\/P>)+(<P>\5<\/P>)<\/In>-\&gt;<Out>(<P M="2">e-<\/P>)+(<P>\6<\/P>)<\/Out><\/Eq>\r\t    <reference>From Bolsig+ IONIZATION; \7<\/reference>\r\t    <cross_section type="data" xscale="\3*MeV" yscale="\4*m^2">\r\8/cg
+
+%s/^\<IONIZATION\>\_s*\([^ ]*\)\_s*\([^ ]*\)\s*\/ threshold energy\_s*ZDPlasKin:\s*\([^ ]*\)\s*->\s*\([^ ]*\)\_s*\(\%(\%(.\%(-\{10,}\)\@!\)*\n\)*\)\_s*\(-\{10,}\)/\t<Interaction bolsig="ionization">\r\t    <threshold_energy>\2<\/threshold_energy>\r\t    <Eq><In>(<P>e-<\/P>)+(<P>\3<\/P>)<\/In>-\&gt;<Out>(<P M="2">e-<\/P>)+(<P>\4<\/P>)<\/Out><\/Eq>\r\t    <reference>From Bolsig+ IONIZATION; \5<\/reference>\r\t    <cross_section type="data" xscale="MeV" yscale="m^2">\r\6/cg
+
+
+
+
+%s/^\<ATTACHMENT\>\_s*\([^ ]*\)\_s*\([^ ]*\)\s*\([^ ]*\)\s*\/ scale factors\_s*ZDPlasKin:\s*\([^ ]*\)\s*->\s*\([^ ]*\)\s*+\s*\([^ ]*\)\_s*\(\%(\%(.\%(-\{10,}\)\@!\)*\n\)*\)\_s*\(-\{10,}\)/\t<Interaction bolsig="attachment">\r\t    <Eq><In>(<P>e-<\/P>)+(<P>\4<\/P>)<\/In>-\&gt;<Out>(<P>\5<\/P>)+(<P>\6<\/P>)<\/Out><\/Eq>\r\t    <reference>From Bolsig+ ATTACHMENT; \7<\/reference>\r\t    <cross_section type="data" xscale="\2*MeV" yscale="\3*m^2">\r\8/cg
+
+%s/^\<ATTACHMENT\>\_s*\([^ ]*\)\_s*ZDPlasKin:\s*\([^ ]*\)\s*->\s*\([^ ]*\)\s*+\s*\([^ ]*\)\_s*\(\%(\%(.\%(-\{10,}\)\@!\)*\n\)*\)\_s*\(-\{10,}\)/\t<Interaction bolsig="attachment">\r\t    <Eq><In>(<P>e-<\/P>)+(<P>\2<\/P>)<\/In>-\&gt;<Out>(<P>\3<\/P>)+(<P>\4<\/P>)<\/Out><\/Eq>\r\t    <reference>From Bolsig+ ATTACHMENT; \5<\/reference>\r\t    <cross_section type="data" xscale="MeV" yscale="m^2">\r\6/cg
+
+%s/^\<ATTACHMENT\>\_s*\([^ ]*\)\_s*ZDPlasKin:\s*\([^ ]*\)\s*->\s*\([^ ]*\)\_s*\(\%(\%(.\%(-\{10,}\)\@!\)*\n\)*\)\_s*\(-\{10,}\)/\t<Interaction bolsig="attachment">\r\t    <Eq><In>(<P>e-<\/P>)+(<P>\2<\/P>)<\/In>-\&gt;<Out>(<P>\3<\/P>)<\/Out><\/Eq>\r\t    <reference>From Bolsig+ ATTACHMENT; \4<\/reference>\r\t    <cross_section type="data" xscale="MeV" yscale="m^2">\r\5/cg
+
+
+
+
+# now for data conversion
+# make sure that no numbers start with only '.'
+%s/\(^\|[^0-9.]\)\(\.[0-9]\)/\10\2/cg
+
+
+# change all data values
+%s/^\s*\([0-9]\+\.\{0,1}[0-9]*\%([eE][+-]\{0,1}[0-9]*\)\{0,1}\)\s\+\([0-9]\+\.\{0,1}[0-9]*\%([eE][+-]\{0,1}[0-9]*\)\{0,1}\)\s*\n/\t\t<val x="\1" y="\2"\/>\r/cg
+
+
+# Add </Interaction>
+%s/\/>\n-\{10,}/\/>\r\t    <\/cross_section>\r\t<\/Interaction>/cg
+
+# Get rid of the '-------------------' that remains before the data
+%s/\n-\{10,}\(\_s*<val\)/\1/cg
+
+# remove the stray \n before </reference> 
+%s/\_s\+<\/reference>/<\/reference>/cg
+
+
+
+#for converting binary collision specifiers to equation (binary in, binary out)
+%s/<Input>\_s*<Particle name="\([^"]*\)"\/>\_s*<Particle name="\([^"]*\)"\/>\_s*<\/Input>\_s*<Output>\_s*<Particle name="\([^"]*\)"\/>\_s*<Particle name="\([^"]*\)"\/>\_s*<\/Output>/<Eq><In>(<P>\1<\/P>)+(<P>\2<\/P>)<\/In>-\&gt;<Out>(<P>\3<\/P>)+(<P>\4<\/P>)<\/Out><\/Eq>/cg
+
