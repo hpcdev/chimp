@@ -5,9 +5,10 @@
 
 #include <olson-tools/physical/physical.h>
 
-namespace particledb {
+#include "VHSCrossSection.h"
+#include "DATACrossSection.h"
 
-namespace Interaction {
+namespace particledb { namespace Interaction {
 
     /** Input data type indices. */
     struct Input {
@@ -15,16 +16,8 @@ namespace Interaction {
         int B;
     };
 
-    /** Output information of interactions. */
-    struct Output {
-        struct item {
-            int n;
-            int type;
-        };
-
-        virtual ~Output() {}
-
-        std::vector<item> items;
+    struct CrossSection {
+        virtual ~CrossSection() {}
 
         /** Compute the cross section.
          * @param v_relative
@@ -39,11 +32,114 @@ namespace Interaction {
         }
     };
 
-    struct Info : Input, Output {};
+    /** Output information of interactions. */
+    struct Output {
+        struct item {
+            int n;
+            int type;
+        };
+
+        Output() : cs(NULL) {}
+        ~Output() {}
+
+        std::vector<item> items;
+
+        CrossSection * cs;
+
+        /** Compute the cross section.
+         * @param v_relative
+         *     The relative velocity of the two particles in question.
+         * */
+        double cross_section(const double & v_relative) {
+            return cs->cross_section(v_relative);
+        }
+
+        /** Effective radius.  Required by octree::Octree and dsmc::ParticleNode. */
+        double effective_radius(const double & v_relative) const {
+            return cs->effective_radius(v_relative);
+        }
+    };
+
+    static inline XMLContext::list find_all_interactions(const XMLContext & x, const std::string & A, const std::string & B) {
+        std::string Eq_in;
+        if (A == B)
+            Eq_in = '(' + A + ')';
+        else
+            Eq_in = '(' + A + ")+(" + B + ')';
+        /* find all equations that match the given inputs. */
+        return x.eval("//Interaction[string(Eq/In)='" + Eq_in + "']");
+    }
+
+    static inline XMLContext::list find_elastic_interactions(const XMLContext & x, const std::string & A, const std::string & B) {
+        std::string Eq;
+        if (A == B)
+            Eq = '(' + A + ")->(" + A + ')';
+        else
+            Eq = '(' + A + ")+(" + B + ")->(" + A + ")+(" + B + ')';
+        /* find all equations that match the given inputs. */
+        return x.eval("//Interaction[string(Eq)='" + Eq + "']");
+    }
+
+    struct Info : Input, Output {
+        template <class RnDB>
+        static Info load(const XMLContext & x, const std::string & Eq, const RnDB & db) {
+            return Info::load(
+                x.find("//Interaction[string(Eq)='" + Eq + "']"),
+                db
+            );
+        }
+
+        template <class RnDB>
+        static Info load(const XMLContext & x, const RnDB & db) {
+            Info retval;
+            XMLContext::list xl = x.eval("Eq/In/P");
+
+            /* FIXME:  take care of case when the A == B and thus only one
+             * input will be listed, but with a multiplier attribute of "M=2"
+             * */
+            if (xl.size() != 2)
+                throw xml_error("Need exactly two inputs for a binary interaction");
+
+            retval.A = db.findParticle(xl[0].parse<std::string>());
+            retval.B = db.findParticle(xl[1].parse<std::string>());
+
+
+            /* now determine the output particles and their respective
+             * multipliers. */
+            xl = x.eval("Eq/Out/P");
+            for (XMLContext::list::iterator i = xl.begin(); i != xl.end(); i++) {
+                Output::item it = {0, db.findParticle(i->parse<std::string>())};
+                try {
+                    it.n = i->query<int>("@M");
+                } catch (xml::no_results) {/* ignored */}
+
+                retval.items.push_back(it);
+            }
+
+            /* now, instantiate the child CrossSection object with the correct
+             * type. */
+            XMLContext cs_x = x.find("cross_section");
+            std::string cs_type = cs_x.query<std::string>("@type");
+
+            /* masses of input items: m_A, m_B */
+            double mu_AB = m_A * m_B / (m_A + m_B);
+            if        (cs_type == "vhs/vss") {
+                cs = VHSCrossSection::load(cx_x, mu_AB);
+            } else if (cs_type == "data") {
+                cs = DATACrossSection::load(cx_x, mu_AB);
+            }
+        }
+    };
 
     struct Set {
         Input lhs;
         std::vector<Output*> rhs;
+
+        /** Return type of calcualteOutPath.
+         * OutPath.first:  the index of the output interaction.<br>
+         * OutPath.second:  the cross-section value for this output path.
+         * */
+        typedef std::pair<int, double> OutPath;
 
         /** Chooses an interaction path to traverse dependent on the incident
          * relative speed and the current value of (sigma*relspeed)_max. 
@@ -63,7 +159,7 @@ namespace Interaction {
             std::vector<double> cs;
             cs.reserve(rhs.size());
             for (std::vector<Output*>::iterator i = rhs.begin(); i != rhs.end(); i++) {
-                double csi = rhs.cross_section(v_relative);
+                double csi = i->cross_section(v_relative);
                 cs_tot += csi;
                 cs.push_back(csi);
 
@@ -89,9 +185,9 @@ namespace Interaction {
             cs_tot = 0;
             int j = 0;
             for (std::vector<double>::iterator i = cs.begin(); i < cs.end(); i++, j++) {
-                cs_tot += rhs.cross_section(v_relative);
+                cs_tot += (*i);
                 if (cs_tot > r)
-                    return j;
+                    return std::make_pair(j,(*i));
             }
 
             /* we actually better never get here. */
@@ -119,44 +215,5 @@ namespace Interaction {
         }
     };
 
-}/* namespace Interaction */
-
-
-
-
-
-/** The base class of all binary interactions (binary inputs).
- * */
-struct Interaction {
-    std::vector<Interaction *> load(const XMLContext & x, const std::string & A, const std::string & B) {
-        std::string Eq_in;
-        if (A == B)
-            Eq_in = '(' + A + ')';
-        else
-            Eq_in = '(' + A + ")+(" + B + ')';
-        /* find all equations that match the given inputs. */
-        XMLContext::list xl = x.eval("//Interaction[string(Eq/In)='" + Eq_in + "']");
-
-        std::vector<Interaction *> ilist;
-
-        for (XMLKContext::list::iterator i = xl.begin(); i != xl.end(); i++) {
-            /* first see if this interaction is allowed. */
-            XMLContext & xi = (*i);
-            std::string Eq = xi.query<std::sring>("Eq");
-
-            if (!allowed)
-                continue;
-
-            XMLContext cs_x = xi.find("cross_section");
-            std::string cs_type = cs_x.query<std::string>("@type");
-
-            if        (cs_type == "vhs/vss") {
-            } else if (cs_type == "data") {
-            }
-        }
-    }
-};
-
-} /* particledb namespace .*/
-
+}}/* namespace particldb::Interaction */
 #endif // PARTICLEDB_INTERACTION_H

@@ -5,11 +5,17 @@
 
 #include <iostream>
 #include "physical_parse.h"
-#include "physical_calc.C"
+#include "physical_calc.h"
+
+typedef particledb::data_set<physical::Quantity,physical::Quantity> pqdata_set;
 
 int main(int argc, char **argv) {
     using physical::Quantity;
     using namespace particledb::xml;
+    using particledb::data_set;
+    using particledb::convert_data_set;
+    using physical::constant::eV;
+    using physical::unit::m;
 
     XMLDoc db("particledb.xml");
     prepareCalculator(db);
@@ -31,7 +37,12 @@ int main(int argc, char **argv) {
                 try {
                     enum Quantity::PRINT_TYPE old = Quantity::print_type;
                     Quantity::print_type = Quantity::MATH_PRINT;
-                    std::cout << db.query< data_set<Quantity,Quantity> >(argv[i]+1) << std::endl;
+                    pqdata_set ds = db.query<pqdata_set>(argv[i]+1);
+                    std::pair<Quantity,Quantity> u = std::make_pair(eV, m*m);
+                    std::cout << ds << std::endl;
+                    std::cout << "converted ....\n"
+                              << convert_data_set<double,double>(ds.begin(), ds.end(), u)
+                              << std::endl;
                     Quantity::print_type = old;
                 } catch (physical::exception & e) {
                     std::cout << e.what() << std::endl;

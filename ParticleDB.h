@@ -91,6 +91,8 @@
 #  include "Interaction.h"
 #  include "Particle.h"
 
+#  include "../ArrayND.h"
+
 namespace particledb {
 
 
@@ -102,7 +104,7 @@ class RuntimeDB {
     std::vector<_Properties> props;
 
     /** Initialized at time of initCrossSpeciesTable() call. */
-    Interaction::Set * interactions;
+    Array2D<Interaction::Set *> interactions;
 
   public:
 

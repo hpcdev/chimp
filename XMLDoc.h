@@ -6,7 +6,6 @@
 #include <libxml/parser.h>
 #include <libxml/xpath.h>
 //#include <libxml/xpathInternals.h>
-#include <set>
 #include <list>
 #include <stdexcept>
 #include <sstream>
@@ -295,72 +294,6 @@ namespace particledb { namespace xml {
         }
     };
 
-
-
-    template <class A, class B>
-    struct data_point : std::pair<A,B> {
-        typedef std::pair<A,B> super;
-        data_point() : super() {}
-        data_point(const A& a, const B& b) : super(a,b) {}
-    };
-
-    template <class A, class B>
-    bool operator<(const data_point<A,B> & lhs, const data_point<A,B> & rhs) {
-        return lhs.first < rhs.first;
-    }
-
-    template <class A, class B>
-    std::ostream & operator<<(std::ostream & out, const data_point<A,B> & p) {
-        return out << "<data x=\'" << p.first << "\' y=\'" << p.second << "\'/>";
-    }
-
-
-    template <class A, class B>
-    struct parser< data_point<A,B> > {
-        static data_point<A,B> parse(const XMLContext & x) {
-            A a = x.query<A>("@x");
-            B b = x.query<B>("@y");
-            return data_point<A,B>(a,b);
-        }
-    };
-
-
-
-    template <class A, class B>
-    struct data_set : std::set< data_point<A,B> > {};
-
-    template<class A, class B>
-    std::ostream & operator<<(std::ostream & out, const data_set<A,B> & data) {
-        out << "<dataset>\n";
-        typename data_set<A,B>::const_iterator i;
-        for (i = data.begin(); i != data.end(); i++)
-            out << (*i) << '\n';
-        return out << "</dataset>";
-    }
-
-    template <class A, class B>
-    struct parser< data_set<A,B> > {
-        static data_set<A,B> parse(const XMLContext & x) {
-            A xscale = x.query<A>("@xscale");
-            B yscale = x.query<B>("@yscale");
-
-            XMLContext::list x_list = x.eval("val");
-            XMLContext::list::iterator i = x_list.begin();
-
-            data_set<A,B> data;
-            for(; i != x_list.end(); i++) {
-                XMLContext & x1 = (*i);
-                data_point<A,B> dp = x1.parse< data_point<A,B> >();
-                dp.first  *= xscale;
-                dp.second *= yscale;
-                data.insert( dp );
-            }
-
-            return data;
-        }
-    };
-
-    }/* namespace xml */
-}/* namespace particledb */
+}}/* namespace particledb::xml */
 
 #endif // PARTICLEDB_XMLDOC_H

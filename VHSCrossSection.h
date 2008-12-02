@@ -2,17 +2,20 @@
 #define PARTICLEDB_VHSPROPERTIES_H
 
 #include "Interaction.h"
+#include "VHSInfo.h"
 
-#include <olson-tools/physical.h>
+#include <olson-tools/physical/physical.h>
 
 namespace particledb { namespace Interaction {
 
-struct VHSInteraction : Info {
+struct VHSCrossSection : CrossSection {
     /** Reduced mass for the input particles. */
     double reduced_mass;
 
     /** The vhs information for this particular interaction. */
     VHSInfo vhs;
+
+    virtual ~VHSCrossSection() {}
 
     /** Compute the cross section.
      * This implements the variable hard-sphere model as
@@ -21,7 +24,7 @@ struct VHSInteraction : Info {
      * @param v_relative
      *     The relative velocity between two particles.
      * */
-    inline double vhs_cross_section(const double & v_relative) const {
+    virtual double cross_section(const double & v_relative) const {
         using physical::constant::K_B;
         return 
                 /* the collision cross-section is based on
@@ -36,24 +39,14 @@ struct VHSInteraction : Info {
           * vhs.gamma_visc_inv;
     }
 
-    /** Compute the cross section.
-     * This implements the variable hard-sphere model as
-     * described in equation 4.63 in Graeme Bird's book.
-     *
-     * @param v_relative
-     *     The relative velocity between two particles.
-     * */
-    virtual double cross_section(const double & v_relative) const {
-        return vhs_cross_section(v_relative);
-    }
-
     /** Load the information into this properties node.
-     *
-     * @see DSMCInfo::load().
      * */
-    static VHSInfo load(XMLContext & x);
+    static VHSCrossSection load(XMLContext & x, const double & mu) {
+        reduced_mass = mu;
+        vhs = VHSInfo::load(x);
+    }
 };
 
-} /* particledb namespace .*/
+}} /* namespace particledb::Interaction.*/
 
 #endif // PARTICLEDB_VHSPROPERTIES_H

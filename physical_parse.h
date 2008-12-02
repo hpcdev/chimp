@@ -2,9 +2,12 @@
 #define PARTICLEDB_PHYSICAL_PARSE_H
 
 #include "XMLDoc.h"
+#include "data_set.h"
 #include <olson-tools/physical/calc/infix.h>
 
-namespace particledb { namespace xml {
+namespace particledb {
+    
+    namespace xml {
     template <>
     struct parser< physical::Quantity > {
         static physical::Quantity parse(const XMLContext & x) {
@@ -21,6 +24,23 @@ namespace particledb { namespace xml {
             return q;
         }
     };
-}} /* namespace particledb::xml */
+    } /* namespace xml */
 
+
+    template <class C, class D, class InIter>
+    data_set<C,D> convert_data_set(
+        InIter i, const InIter & f,
+        const std::pair<physical::Quantity,physical::Quantity> & units) {
+        data_set<C,D> retval;
+        for (; i != f; i++)
+            retval.insert(
+                std::make_pair<C,D>(
+                    i->first.assertMatch(units.first).coeff,
+                    i->second.assertMatch(units.second).coeff
+                )
+            );
+        return retval;
+    }
+
+} /* namespace particledb */
 #endif // PARTICLEDB_PHYSICAL_PARSE_H
