@@ -1,3 +1,47 @@
 1.  effective_radius needs to return something like:
     size * (0.5 * diameter)
     where 'size' is the representative particle size.  
+
+2.  Need to create code to find a best (initial) guess of (sigma*v)_max.  This
+    guess should be based upon some multiple of the sqrt of temperature.
+    Assuming that a particular cell of particles in thermal, we should predict
+    the maximum relative velocity in the ensemble and then perform a quick
+    search through the cross-section data to set the (sigma*v)_max value.
+    This value should be allowed to be upgraded if higher values are met
+    during runtime.  It should also be allowed to be downgraded if we can
+    detect that the v_max (used to search for (sigma*v)_max) is significantly
+    higher than the similar sqrt-of-temperature factor for the current
+    time-step.  
+
+    It may be necessary to force all functional cross-section sources
+    (currently only VHS) to also provide a derivative of the cross-section.
+    This may help in searching for maximum values of the cross-section in
+    particular regions.  
+
+    It might even be better if the functional forms do the search themselves
+    since they may actually be smart enough to know that they are
+    monotonically increasing/decreasing or whatever. 
+
+    I think the best approach would be to require each CrossSection type to
+    define a virtual function 'find_max_sigma_v_rel(v_rel_max)'.  This way,
+    functional forms can perform their smartest method for satisfying the
+    function and discrete forms can easily just search through their data
+    within that velocity range to find the maximum value.  
+
+DONE
+
+3.  Create an 'averaged cross-section' source when no cross-section data is
+    found for a particular interaction.  This source would search for and use
+    the single-species cross-sections for each of the two dissimilar inputs
+    to create an averaged cross section.  This average would not represent the
+    average cross-section, but rather the average diameter.  
+
+    If the two single-species cross-section data are in the form of VHSData,
+    then the resulting average should be a VHS source where each of the
+    parameters is averaged correctly.  If the two sources are NOT in the form
+    of VHSData, it may be necessary to pick a particular grid that spans the
+    energy range of both data-sets and a discretization that is no smaller
+    than the discretization of the data-sets.  The resulting grid (in velocity
+    space) would not need to be uniform (as it currently is not required to
+    be), so the grid step size could be a local choice.  
+

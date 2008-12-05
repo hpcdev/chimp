@@ -25,7 +25,7 @@ struct VHSCrossSection : CrossSection {
      * @param v_relative
      *     The relative velocity between two particles.
      * */
-    virtual double cross_section(const double & v_relative) const {
+    virtual inline double cross_section(const double & v_relative) const {
         using physical::constant::K_B;
         using olson_tools::SQR;
         using olson_tools::fast_pow;
@@ -41,6 +41,12 @@ struct VHSCrossSection : CrossSection {
                   )
               ), (vhs.visc_T_law - 0.5))
           * vhs.gamma_visc_inv;
+    }
+
+    virtual double find_max_sigma_v_rel(const double & v_rel_max) const {
+        /* just return the product since the product is monotonically
+         * increasing. */
+        return cross_section(v_rel_max)*v_rel_max;
     }
 
     std::ostream & print(std::ostream & out) const {

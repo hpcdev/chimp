@@ -4,6 +4,7 @@
 
 #include <cmath>
 #include <vector>
+#include <ostream>
 
 #include <olson-tools/physical/physical.h>
 #include <olson-tools/random/random.h>
@@ -26,6 +27,18 @@ namespace particledb { namespace interaction {
 
         /** A set of right hand sides of the several equations. */
         eq_list rhs;
+
+        Set(const Input & lhs = Input(), const eq_list & rhs = eq_list()) : lhs(lhs), rhs(rhs) {}
+
+        template <class RnDB>
+        std::ostream & print(std::ostream & out, const RnDB & db) const {
+            out << "{\n"
+                       "\tInput : "; lhs.print(out,db) << "\n";
+            for (int i = 0; i < rhs.size(); i++) {
+                out << "\tOutput #" << i << ":  "; rhs[i].print(out,db) << '\n';
+            }
+            return out << '}';
+        }
 
         /** Chooses an interaction path to traverse dependent on the incident
          * relative speed and the current value of (sigma*relspeed)_max. 

@@ -22,6 +22,11 @@ namespace particledb { namespace interaction {
          * */
         virtual double cross_section(const double & v_relative) const  = 0;
 
+        /** Find the local maximum of cross-section*velocity (within a given
+         * range of velocity space.
+         * */
+        virtual double find_max_sigma_v_rel(const double & v_rel_max) const = 0;
+
         /** Effective radius.  Required by octree::Octree and dsmc::ParticleNode. */
         double effective_radius(const double & v_relative) const {
 #ifndef PHYSICAL_QUANTITY_H

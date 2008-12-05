@@ -5,7 +5,7 @@
 #include <vector>
 #include <boost/shared_ptr.hpp>
 #include <ostream>
-#include <set>
+#include <list>
 #include <string>
 
 #include "CrossSection.h"
@@ -20,6 +20,8 @@ namespace particledb { namespace interaction {
     struct Input {
         int A;
         int B;
+
+        Input(const int & A = 0, const int & B = 0) : A(A), B(B) {}
 
         template <class RnDB>
         std::ostream & print(std::ostream & out, const RnDB & db) const {
@@ -129,10 +131,10 @@ namespace particledb { namespace interaction {
             using boost::shared_ptr;
 
             Equation retval;
-            XMLContext::list xl = x.eval("Eq/In/P");
+            XMLContext::set xl = x.eval("Eq/In/P");
 
             if (xl.size() == 2) {
-                XMLContext::list::iterator i = xl.begin();
+                XMLContext::set::iterator i = xl.begin();
                 retval.A = db.findParticle(i->parse<string>());
                 retval.B = db.findParticle((++i)->parse<string>());
                 if (retval.A == -1 || retval.B == -1)
@@ -151,7 +153,7 @@ namespace particledb { namespace interaction {
             /* now determine the output particles and their respective
              * multipliers. */
             xl = x.eval("Eq/Out/P");
-            for (XMLContext::list::iterator i = xl.begin(); i != xl.end(); i++) {
+            for (XMLContext::set::iterator i = xl.begin(); i != xl.end(); i++) {
                 Output::item it = {0, db.findParticle(i->parse<string>())};
 
                 if (it.type == -1)
@@ -192,17 +194,17 @@ namespace particledb { namespace interaction {
         }
     };
 
-    static inline xml::XMLContext::list filter_interactions(
-            const xml::XMLContext::list & xl_in,
+    static inline xml::XMLContext::set filter_interactions(
+            const xml::XMLContext::set & xl_in,
             const std::set<std::string> & allowed_equations) {
         using xml::XMLContext;
         using std::string;
 
-        XMLContext::list xl_out;
-        for (XMLContext::list::const_iterator i = xl_in.begin(); i!= xl_in.end(); i++) {
+        XMLContext::set xl_out;
+        for (XMLContext::set::const_iterator i = xl_in.begin(); i!= xl_in.end(); i++) {
             if (allowed_equations.find(i->query<string>("Eq"))
                 != allowed_equations.end())
-            xl_out.push_back(*i);
+            xl_out.insert(*i);
         }
 
         return xl_out;
@@ -210,8 +212,12 @@ namespace particledb { namespace interaction {
             
 
     /** Find all interactions where A and B are inputs.
+     * NOTE:  According to the standard Equation format in the xml file, A and
+     * B should be in order of mass, with mass(A) < mass(B).
+     * B should be in order of mass, with mass(A) < mass(B).
+     * This function does not reorder A and B.
      * */
-    static inline xml::XMLContext::list find_all_interactions(
+    static inline xml::XMLContext::set find_all_interactions(
             const xml::XMLContext & x,
             const std::string & A,
             const std::string & B) {
@@ -225,8 +231,11 @@ namespace particledb { namespace interaction {
     }
 
     /** Find all elastic interactions where A and B are inputs and outputs.
+     * NOTE:  According to the standard Equation format in the xml file, A and
+     * B should be in order of mass, with mass(A) < mass(B).
+     * This function does not reorder A and B.
      * */
-    static inline xml::XMLContext::list find_elastic_interactions(
+    static inline xml::XMLContext::set find_elastic_interactions(
             const xml::XMLContext & x,
             const std::string & A,
             const std::string & B) {

@@ -57,6 +57,21 @@ struct DATACrossSection : CrossSection {
         }
     }
 
+    virtual double find_max_sigma_v_rel(const double & v_rel_max) const {
+        /* search through the data within the range [0:v_rel_max) to find
+         * maximum product. */
+        double retval = 0;
+        /* find the first entry not less that v_rel_max */
+        table_t::const_iterator f = table.lower_bound(v_rel_max);
+        for (table_t::const_iterator i = table.begin(); i != f; i++) {
+            double prod_i = i->first * i->second;
+            if (retval < prod_i)
+                retval = prod_i;
+        }
+
+        return retval;
+    }
+
     std::ostream & print(std::ostream & out) const {
         out << table;
         return out;

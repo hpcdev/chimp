@@ -55,10 +55,10 @@ int main(int argc, char **argv) {
             case 'r':
                 raw = true;
             case 'm':
-                XMLContext::list xl = db.eval(argv[i]+1);
-                XMLContext::list::iterator i = xl.begin();
+                XMLContext::set xl = db.eval(argv[i]+1);
+                XMLContext::set::iterator i = xl.begin();
                 for (; i != xl.end(); i++) {
-                    XMLContext & x = (*i);
+                    const XMLContext & x = (*i);
                     try {
                         if (!raw)
                             std::cout << x.parse<Quantity>() << std::endl;

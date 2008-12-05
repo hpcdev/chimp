@@ -86,6 +86,8 @@
 #  include <cfloat>
 #  include <set>
 #  include <string>
+#  include <boost/shared_ptr.hpp>
+
 
 #  include <olson-tools/nothing.h>
 #  include <olson-tools/logger.h>
@@ -107,19 +109,19 @@ class RuntimeDB {
   public:
     typedef _Properties prop_type;
     typedef std::vector<prop_type> prop_list;
-    typedef Array2D<interaction::Set *> InteractionMatrix;
+    typedef Array2D< boost::shared_ptr<interaction::Set> > InteractionMatrix;
 
   private:
     /** Vector of particle properties. */
     prop_list props;
 
-    /** Initialized at time of initCrossSpeciesTable() call. */
+    /** Initialized at time of initInteractions() call. */
     InteractionMatrix interactions;
 
   public:
     /** Set of interactions to allow.
-     * This set should be built before calling initCrossSpeciesTable.  When
-     * initCrossSpeciesTable is called, it will consult this set to filter out
+     * This set should be built before calling initInteractions.  When
+     * initInteractions is called, it will consult this set to filter out
      * any equations that are not to be allowed.
      * */
     std::set<std::string> allowed_equations;
@@ -140,9 +142,9 @@ class RuntimeDB {
           prop_type & operator[](const int & i)       { return props[i]; }
 
     /** return the set of cross-species properties for the two given species. */
-    const interaction::Set & operator()(const int & i, const int & j) const { return interactions(i,j); }
+    const interaction::Set & operator()(const int & i, const int & j) const { return *interactions(i,j); }
     /** return the set of cross-species properties for the two given species. */
-          interaction::Set & operator()(const int & i, const int & j)       { return interactions(i,j); }
+          interaction::Set & operator()(const int & i, const int & j)       { return *interactions(i,j); }
 
     /** Get the index of the particle type with the specified name.
      * @return Index of particle type or -1 if not found.
@@ -163,7 +165,7 @@ class RuntimeDB {
      * runtime database.  Note that only the information relevant to the
      * templated prop_type class will get loaded. 
      *
-     * initCrossSpeciesTable() should be called AFTER this.
+     * initInteractions() should be called AFTER this.
      * */
     int addParticleType(const std::string & name) {
         xml::XMLContext x = xmlDb.root_context.find("//Particle[@name=\"" + name + "\"]");
@@ -198,7 +200,53 @@ class RuntimeDB {
         return props.size() - 1;
     }
 
-    void initCrossSpeciesTable() {
+    void initInteractions() {
+        using olson_tools::Vector;
+        using interaction::Input;
+        using interaction::Equation;
+        using interaction::Set;
+        using interaction::find_all_interactions;;
+        using interaction::find_elastic_interactions;;
+        using interaction::filter_interactions;;
+        using xml::XMLContext;
+
+        const Vector<unsigned int,2> sz(VInit, props.size(), props.size());
+        interactions.allocate(sz);
+
+        for (int i = 0; i < props.size(); i++) {
+            for (int j = i; j < props.size(); j++) {
+                const Particle::property::mass & m_i = props[i];
+                const Particle::property::mass & m_j = props[j];
+                int A = i, B = j;
+                if (m_i.value > m_j.value)
+                    A = j, B = i;
+
+                const Particle::property::name & n_A = props[A];
+                const Particle::property::name & n_B = props[B];
+
+                /* get a set of ALL interactions. */
+                XMLContext::set xl = find_all_interactions(xmlDb.root_context, n_A.value, n_B.value);
+                /* filter by set of allowed equations. */
+                xl = filter_interactions(xl, allowed_equations);
+                /* Add in elastic interactions. */
+                XMLContext::set xe = find_elastic_interactions(xmlDb.root_context, n_A.value, n_B.value);
+                xl.insert(xe.begin(), xe.end());
+
+
+                /* first instantiate the (i,j)th interactions */
+                boost::shared_ptr<Set> set(new Set(Input(A,B)));
+
+                /* add each of the allowed interactions to the new set. */
+                for (XMLContext::set::iterator k = xl.begin(); k != xl.end(); k++)
+                    set->rhs.push_back(Equation::load(*k,*this));
+
+                /* assign this instantiation to the (i,j)th location */
+                interactions(i,j) = set;
+
+                /* now copy a pointer to the (j,i)th location. */
+                interactions(j,i) = interactions(i,j);
+            }
+        }
     }
 
     /** Creates and returns a static instance of the RuntimeDB.  Note that

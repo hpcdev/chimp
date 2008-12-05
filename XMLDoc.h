@@ -6,7 +6,7 @@
 #include <libxml/parser.h>
 #include <libxml/xpath.h>
 //#include <libxml/xpathInternals.h>
-#include <list>
+#include <set>
 #include <stdexcept>
 #include <sstream>
 
@@ -55,13 +55,21 @@ namespace particledb { namespace xml {
 
     /** A simple class to represent a single (node-specific) XML context.  */
     struct XMLContext {
-        /** A list of XMLContext instances.
-         * @see eval(...)
-         * */
-        typedef std::list<XMLContext> list;
-
         xmlXPathContextPtr ctx;
         xmlNodePtr node;
+
+        /** The comparator for the XMLContext::set type. */
+        struct XMLContextSetComparator {
+            bool operator()(const XMLContext & lhs, const XMLContext & rhs) {
+                return lhs.node < rhs.node;
+            }
+        };
+
+        /** A (unique) set of XMLContext instances.
+         * @see eval(...)
+         * */
+        typedef std::set<XMLContext, XMLContextSetComparator> set;
+
 
         /** The default constructor creates a contextless instance. */
         XMLContext() : ctx(NULL), node(NULL) {}
@@ -81,14 +89,14 @@ namespace particledb { namespace xml {
             ctx(ctx), node(node) {}
 
         /** Method to reset/set the context of this instance. */
-        void set(xmlXPathContextPtr _ctx, xmlNodePtr _node) {
+        void assign(xmlXPathContextPtr _ctx, xmlNodePtr _node) {
             ctx = _ctx;
             node = _node;
         }
 
         /** Method to reset/set the context of this instance. */
-        void set(xmlXPathContextPtr _ctx) {
-            set(_ctx, _ctx->node);
+        void assign(xmlXPathContextPtr _ctx) {
+            assign(_ctx, _ctx->node);
         }
 
         /** Assertion which throws an xml_error if the context object pointer
@@ -122,11 +130,11 @@ namespace particledb { namespace xml {
         /** A simpler method to obtain the unformatted results of a particular
          * XPath expression.
          *
-         * @return A std::list of XMLContext instances that represent each of
+         * @return A std::set of XMLContext instances that (uniquely) represent each of
          * the different results of the XPath expression <code>q</code>.
          * */
-        XMLContext::list eval(const std::string & q) const {
-            XMLContext::list result;
+        XMLContext::set eval(const std::string & q) const {
+            XMLContext::set result;
             xmlXPathObjectPtr xpathObj = raw_eval(q);
 
             if (!xpathObj) {
@@ -141,7 +149,7 @@ namespace particledb { namespace xml {
 
             for(int i = nodes->nodeNr - 1; i >= 0; i--) {
                 XMLContext x(*this, nodes->nodeTab[i]);
-                result.push_back(x);
+                result.insert(x);
             }
             xmlXPathFreeObject(xpathObj);
 
@@ -152,13 +160,13 @@ namespace particledb { namespace xml {
          * expression in <code>q</code>.
          * */
         XMLContext find(const std::string & q) const {
-            XMLContext::list x_list = eval(q);
-            if (x_list.size() == 0)
+            XMLContext::set x_set = eval(q);
+            if      (x_set.size() == 0)
                 throw no_results("query '" + q + "' produced no results. cannot create context");
-            else if (x_list.size() >1)
+            else if (x_set.size() >1)
                 throw too_many_results("query '" + q + "' produced too many results. cannot create context");
             else
-                return x_list.front();
+                return *x_set.begin();
         }
 
         /** Search for and parse a specific (single-valued) result of the
@@ -256,7 +264,7 @@ namespace particledb { namespace xml {
                 throw xml_error( "Error: unable to parse file \"" + filename + '\"');
 
             /* Create xpath evaluation context */
-            root_context.set(xmlXPathNewContext(doc));
+            root_context.assign(xmlXPathNewContext(doc));
             try {
                 root_context.assertContext("unable to create root XPath context");
             } catch (xml_error & e) {
@@ -292,7 +300,7 @@ namespace particledb { namespace xml {
             return root_context.query(q, _default);
         }
 
-        XMLContext::list eval(const std::string & q) const {
+        XMLContext::set eval(const std::string & q) const {
             assertOpen();
             return root_context.eval(q);
         }

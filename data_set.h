@@ -48,12 +48,12 @@ namespace particledb {
                 A xscale = x.query<A>("@xscale");
                 B yscale = x.query<B>("@yscale");
 
-                XMLContext::list x_list = x.eval("val");
-                XMLContext::list::iterator i = x_list.begin();
+                XMLContext::set x_set = x.eval("val");
+                XMLContext::set::iterator i = x_set.begin();
 
                 data_set<A,B> data;
-                for(; i != x_list.end(); i++) {
-                    XMLContext & x1 = (*i);
+                for(; i != x_set.end(); i++) {
+                    const XMLContext & x1 = (*i);
                     data_point<A,B> dp = x1.parse< data_point<A,B> >();
                     dp.first  *= xscale;
                     dp.second *= yscale;
