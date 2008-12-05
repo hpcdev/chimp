@@ -63,7 +63,7 @@
         <Interaction type="elastic">
             <Eq><In>(<P M="2">85Rb</P>)</In>-&gt;<Out>(<P M="2">85Rb</P>)</Out></Eq>
             <cross_section type="vhs/vss">
-                <value>8*pi*(100*a_0)^2</value>
+                <value>8*pi*(100*a_0)^2 /radian</value>
                 <T_ref>150*uK</T_ref>             <!-- We'll just guess this value -->
                 <visc_T_law>3.0/4.0</visc_T_law><!-- We'll just guess this value -->
                 <reference>Need reference for diameter and cross section--Almost common knowledge in the cold atom physics community.  The VHS/VSS data is just an educated guess.  </reference>
@@ -73,7 +73,7 @@
         <Interaction type="elastic">
             <Eq><In>(<P M="2">Ar</P>)</In>-&gt;<Out>(<P M="2">Ar</P>)</Out></Eq>
             <cross_section type="vhs/vss">
-                <value>pi*(0.417*nm)^2</value>
+                <value>pi*(0.417*nm)^2 /radian</value>
                 <T_ref>273*K</T_ref>
                 <visc_T_law>0.81</visc_T_law>
                 <vss_param_inv>1.0</vss_param_inv>
@@ -84,7 +84,7 @@
         <Interaction type="elastic">
             <Eq><In>(<P M="2">e-</P>)</In>-&gt;<Out>(<P M="2">e-</P>)</Out></Eq>
             <cross_section type="vhs/vss">
-                <value>pi*(4.17e-10*m)^2</value>
+                <value>pi*(0.417*nm)^2 /radian</value>
                 <T_ref>273*K</T_ref>
                 <visc_T_law>0.81</visc_T_law>
                 <vss_param_inv>1.0</vss_param_inv>
@@ -323,7 +323,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>N2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>N2(rot)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; N2 ROTATIONAL excitation</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="0.2000E-01" y="0.000"/>
 		<val x="0.3000E-01" y="0.2500E-21"/>
 		<val x="0.4000" y="0.2500E-21"/>
@@ -359,7 +358,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>N2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>N2(v1res)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; N2 VIBRATIONAL (V=1), input as two separate tables</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="0.2900" y="0.000"/>
 		<val x="0.3000" y="0.1000E-22"/>
 		<val x="0.3300" y="0.1700E-22"/>
@@ -397,7 +395,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>N2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>N2(v1)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; N2 VIBRATIONAL (V=1), input as two separate tables</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="0.2910" y="0.000"/>
 		<val x="1.600" y="0.000"/>
 		<val x="1.650" y="0.2700E-20"/>
@@ -433,7 +430,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>N2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>N2(v2)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; N2 VIBRATIONAL (V=2)</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="0.5900" y="0.000"/>
 		<val x="1.700" y="0.000"/>
 		<val x="1.800" y="0.1500E-21"/>
@@ -465,7 +461,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>N2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>N2(v3)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; N2 VIBRATIONAL (V=3)</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="0.8800" y="0.000"/>
 		<val x="1.900" y="0.000"/>
 		<val x="2.000" y="0.9600E-20"/>
@@ -493,7 +488,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>N2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>N2(v4)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; N2 VIBRATIONAL (V=4)</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="1.170" y="0.000"/>
 		<val x="2.000" y="0.000"/>
 		<val x="2.100" y="0.2025E-20"/>
@@ -519,7 +513,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>N2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>N2(v5)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; N2 VIBRATIONAL (V=5)</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="1.470" y="0.000"/>
 		<val x="2.100" y="0.000"/>
 		<val x="2.200" y="0.8250E-20"/>
@@ -545,7 +538,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>N2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>N2(v6)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; N2 VIBRATIONAL (V=6)</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="1.760" y="0.000"/>
 		<val x="2.200" y="0.000"/>
 		<val x="2.300" y="0.6300E-22"/>
@@ -569,7 +561,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>N2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>N2(v7)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; N2 VIBRATIONAL (V=7)</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="2.060" y="0.000"/>
 		<val x="2.300" y="0.000"/>
 		<val x="2.400" y="0.1260E-21"/>
@@ -595,7 +586,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>N2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>N2(v8)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; N2 VIBRATIONAL (V=8)</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="2.350" y="0.000"/>
 		<val x="2.500" y="0.000"/>
 		<val x="2.600" y="0.1890E-21"/>
@@ -619,7 +609,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>N2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>N2(A3,v0-4)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; N2 ELECTRONIC (A3 V=0-4)</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="6.170" y="0.000"/>
 		<val x="7.000" y="0.1000E-22"/>
 		<val x="7.800" y="0.2800E-22"/>
@@ -653,7 +642,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>N2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>N2(A3,v5-9)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; N2 ELECTRONIC (A3 V=5-9)</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="7.000" y="0.000"/>
 		<val x="7.300" y="0.2000E-22"/>
 		<val x="7.800" y="0.5000E-22"/>
@@ -687,7 +675,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>N2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>N2(B3)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; N2 ELECTRONIC (B3)</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="7.350" y="0.000"/>
 		<val x="8.000" y="0.3620E-21"/>
 		<val x="9.000" y="0.9380E-21"/>
@@ -719,7 +706,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>N2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>N2(W3)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; N2 ELECTRONIC (W3)</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="7.360" y="0.000"/>
 		<val x="8.000" y="0.1800E-22"/>
 		<val x="9.000" y="0.4960E-21"/>
@@ -753,7 +739,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>N2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>N2(A3,v10-)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; N2 ELECTRONIC (A3 V=10-)</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="7.800" y="0.000"/>
 		<val x="8.100" y="0.1500E-22"/>
 		<val x="8.500" y="0.4000E-22"/>
@@ -787,7 +772,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>N2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>N2(B-3)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; N2 ELECTRONIC (B'3)</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="8.160" y="0.000"/>
 		<val x="9.000" y="0.1070E-21"/>
 		<val x="10.00" y="0.2350E-21"/>
@@ -819,7 +803,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>N2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>N2(a-1)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; N2 ELECTRONIC (a'1)</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="8.400" y="0.000"/>
 		<val x="9.000" y="0.6700E-22"/>
 		<val x="11.00" y="0.3020E-21"/>
@@ -847,7 +830,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>N2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>N2(a1)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; N2 ELECTRONIC (a1)</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="8.550" y="0.000"/>
 		<val x="9.000" y="0.1270E-21"/>
 		<val x="14.00" y="0.1474E-20"/>
@@ -879,7 +861,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>N2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>N2(w1)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; N2 ELECTRONIC (w1)</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="8.890" y="0.000"/>
 		<val x="9.000" y="0.1300E-22"/>
 		<val x="10.00" y="0.2610E-21"/>
@@ -907,7 +888,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>N2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>N2(C3)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; N2 ELECTRONIC (C3)</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="11.03" y="0.000"/>
 		<val x="11.50" y="0.4050E-21"/>
 		<val x="12.00" y="0.9300E-21"/>
@@ -945,7 +925,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>N2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>N2(E3)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; N2 ELECTRONIC (E3)</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="11.87" y="0.000"/>
 		<val x="12.92" y="0.4960E-21"/>
 		<val x="12.70" y="0.7000E-23"/>
@@ -971,7 +950,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>N2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>N2(a--1)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; N2 ELECTRONIC (a"1)</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="12.25" y="0.000"/>
 		<val x="13.00" y="0.5400E-22"/>
 		<val x="15.00" y="0.1880E-21"/>
@@ -1003,7 +981,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>N2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>N2(SUM_OF_SINGLET_STATES)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; N2 SUM OF SINGLET STATES</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="13.00" y="0.000"/>
 		<val x="14.00" y="0.8100E-21"/>
 		<val x="15.00" y="0.1900E-20"/>
@@ -1033,7 +1010,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>N2</P>)</In>-&gt;<Out>(<P M="2">e-</P>)+(<P>N2^+</P>)</Out></Eq>
 	    <reference>From Bolsig+ IONIZATION;</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="15.60" y="0.000"/>
 		<val x="16.00" y="0.2100E-21"/>
 		<val x="16.50" y="0.4600E-21"/>
@@ -1137,7 +1113,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P M="2">O2</P>)</In>-&gt;<Out>(<P>O2^-</P>)+(<P>O2</P>)</Out></Eq>
 	    <reference>From Bolsig+ ATTACHMENT; 3-body attachment : DO NOT MULTIPLY BY NEUTRAL DENSITY</reference>
 	    <cross_section type="data" xscale="eV" yscale="1.e-20*m^2">
-		<val x="0.00000" y="0.00000"/>
 		<val x="0.580000E-01" y="0.00000"/>
 		<val x="0.730000E-01" y="0.560000E-20"/>
 		<val x="0.830000E-01" y="0.180000E-19"/>
@@ -1180,7 +1155,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>O2</P>)</In>-&gt;<Out>(<P>O^-</P>)+(<P>O</P>)</Out></Eq>
 	    <reference>From Bolsig+ ATTACHMENT; 2-body attachment</reference>
 	    <cross_section type="data" xscale="eV" yscale="1.e-20*m^2">  
-		<val x="0.00000" y="0.00000"/>
 		<val x="4.40000" y="0.00000"/>
 		<val x="4.90000" y="0.00000"/>
 		<val x="5.38000" y="0.230000E-02"/>
@@ -1208,7 +1182,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>O2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>O2(rot)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; O2 single level approximation to peaked rotational. T=300K</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="0.7000E-01" y="0.000"/>
 		<val x="0.8000E-01" y="0.5400E-22"/>
 		<val x="0.1000" y="0.000"/>
@@ -1262,7 +1235,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>O2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>O2(v1res)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; O2 v=1, 0.19V resonance ,energy loss =0.190 eV</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="4.000" y="0.000"/>
 		<val x="5.000" y="0.4200E-21"/>
 		<val x="6.000" y="0.1000E-20"/>
@@ -1285,7 +1257,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>O2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>O2(v1)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; O2 v=1, with split peak, energy loss =0.19 eV</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="0.1900" y="0.000"/>
 		<val x="0.2000" y="0.1000E-22"/>
 		<val x="0.2100" y="0.1000E-22"/>
@@ -1337,7 +1308,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>O2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>O2(v2)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; O2 v=2 energy loss =0.380 eV</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="0.5600" y="0.000"/>
 		<val x="0.5700" y="0.1400E-20"/>
 		<val x="0.5900" y="0.000"/>
@@ -1379,7 +1349,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>O2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>O2(v2res)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; O2 v=2 9V resonnance,energy loss =0.380eV</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="4.000" y="0.000"/>
 		<val x="5.000" y="0.2800E-21"/>
 		<val x="6.000" y="0.4000E-21"/>
@@ -1402,7 +1371,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>O2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>O2(v3)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; O2 v=3;  with 9eV resonance ,energy loss = 0.570 eV</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="0.6800" y="0.000"/>
 		<val x="0.6900" y="0.3700E-22"/>
 		<val x="0.7100" y="0.000"/>
@@ -1455,7 +1423,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>O2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>O2(v4)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; O2 v=4 with 9eV resonance energy loss =0.750 eV</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="0.7900" y="0.000"/>
 		<val x="0.8000" y="0.1500E-22"/>
 		<val x="0.8200" y="0.000"/>
@@ -1501,7 +1468,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>O2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>O2(a1)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; O2  singlet delta metastable level</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="0.9770" y="0.000"/>
 		<val x="1.500" y="0.5800E-22"/>
 		<val x="2.000" y="0.1530E-21"/>
@@ -1535,7 +1501,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>O2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>O2(b1)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; O2 B singlet sigma</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="1.627" y="0.000"/>
 		<val x="2.000" y="0.2600E-22"/>
 		<val x="3.000" y="0.9700E-22"/>
@@ -1568,7 +1533,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>O2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>O2(4.5eV)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; O2  4.5 ev energy loss</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="4.500" y="0.000"/>
 		<val x="4.800" y="0.3000E-22"/>
 		<val x="5.000" y="0.9000E-22"/>
@@ -1592,7 +1556,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>O2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>O2(6.0eV)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; O2  6.0 ev energy loss</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="6.000" y="0.000"/>
 		<val x="7.000" y="0.1500E-20"/>
 		<val x="7.800" y="0.2300E-20"/>
@@ -1612,7 +1575,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>O2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>O2(8.4eV)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; O2  8.4 ev energy loss</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="8.400" y="0.000"/>
 		<val x="9.400" y="0.1000E-19"/>
 		<val x="30.00" y="0.1200E-19"/>
@@ -1632,7 +1594,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>O2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>O2(9.97eV)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; O2  9.97 ev energy loss</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="9.970" y="0.000"/>
 		<val x="20.00" y="0.1300E-21"/>
 		<val x="30.00" y="0.2600E-21"/>
@@ -1658,7 +1619,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>O2</P>)</In>-&gt;<Out>(<P M="2">e-</P>)+(<P>O2^+</P>)</Out></Eq>
 	    <reference>From Bolsig+ IONIZATION;</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="12.06" y="0.000"/>
 		<val x="13.00" y="0.2500E-21"/>
 		<val x="18.00" y="0.2500E-20"/>
@@ -1761,7 +1721,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>H2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>H2(j0-2)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; Qrot  H2 J=0 -J=2 CROMPTON ET AL (1969), HENRY-LAN(1969)</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0" y="0"/>
 		<val x="0.044" y="0"/>
 		<val x="0.047" y="1.8630E-22"/>
 		<val x="0.05" y="2.7540E-22"/>
@@ -1798,7 +1757,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>H2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>H2(j1-3)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; Qrot H2 J=1-J=3 GIBSON (1970),HEAPS AND GREEN (1975),CALD. (1976)</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0" y="0"/>
 		<val x="0.073" y="0"/>
 		<val x="0.075" y="1.0125E-22"/>
 		<val x="0.08" y="1.7280E-22"/>
@@ -1837,7 +1795,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>H2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>H2(v1)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; V=1 EHRHARDT ET AL 1968 EXCPT CROMPTON THRESHOLD</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="0.5160" y="0.000"/>
 		<val x="0.7000" y="0.2000E-21"/>
 		<val x="1.000" y="0.6000E-21"/>
@@ -1870,7 +1827,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>H2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>H2(v2)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; V=2 EHRHARDT ET AL 1968</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="1.000" y="0.000"/>
 		<val x="1.300" y="0.000"/>
 		<val x="1.500" y="0.3000E-22"/>
@@ -1895,7 +1851,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>H2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>H2(v3)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; V=3 EHRHARDT ET AL 1968</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="1.500" y="0.000"/>
 		<val x="1.800" y="0.3000E-22"/>
 		<val x="1.900" y="0.1000E-22"/>
@@ -1921,7 +1876,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>H2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>H2(b3)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; (B3SIG) excitation -84/07/06</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="8.900" y="0.000"/>
 		<val x="10.00" y="0.1322E-20"/>
 		<val x="12.00" y="0.3438E-20"/>
@@ -1944,7 +1898,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>H2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>H2(B1)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; (B1SIG) excitation 84/07/06</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="11.30" y="0.000"/>
 		<val x="11.70" y="0.1000E-20"/>
 		<val x="12.50" y="0.9000E-21"/>
@@ -1971,7 +1924,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>H2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>H2(c3)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; (C3PI) excitation 84/07/06</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="11.75" y="0.000"/>
 		<val x="11.88" y="0.8000E-21"/>
 		<val x="12.25" y="0.1400E-20"/>
@@ -1998,7 +1950,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>H2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>H2(a3)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; (A3SIG) excitation 84/05/25</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="11.80" y="0.000"/>
 		<val x="13.00" y="0.1100E-20"/>
 		<val x="14.00" y="0.1200E-20"/>
@@ -2020,7 +1971,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>H2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>H2(C1)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; (C1PI) excitation 84/05/25</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="12.40" y="0.000"/>
 		<val x="13.00" y="0.3000E-21"/>
 		<val x="14.00" y="0.1000E-20"/>
@@ -2047,7 +1997,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>H2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>H2(d3)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; (D3PI)   excitation  84/05/25</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="14.00" y="0.000"/>
 		<val x="15.60" y="0.4100E-21"/>
 		<val x="20.00" y="0.3100E-21"/>
@@ -2068,7 +2017,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>H2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>H</P>)+(<P>H(n=2)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; dissociative excitation of n=2 states</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="15.00" y="0.000"/>
 		<val x="17.00" y="0.000"/>
 		<val x="20.00" y="0.5000E-21"/>
@@ -2095,7 +2043,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>H2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>H2(SUM_OF_RYDBERG_STATES)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; sum of excitation to rydberg levels</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="15.20" y="0.000"/>
 		<val x="16.00" y="0.000"/>
 		<val x="17.00" y="0.1300E-21"/>
@@ -2122,7 +2069,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>H2</P>)</In>-&gt;<Out>(<P M="2">e-</P>)+(<P>H2^+</P>)</Out></Eq>
 	    <reference>From Bolsig+ IONIZATION; ionization rapp and englanden-golden (1965)</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="15.40" y="0.000"/>
 		<val x="19.50" y="0.2490E-20"/>
 		<val x="21.00" y="0.3360E-20"/>
@@ -2148,7 +2094,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>H2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>H</P>)+(<P>H(n=3)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; H2 DISSOCIATIVE EXcit TO N = 3 (BALMER ALPHA)</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0" y="0"/>
 		<val x="16.6" y="0"/>
 		<val x="18" y="4.5E-23"/>
 		<val x="19" y="5.6E-23"/>
@@ -2205,7 +2150,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>Cl2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>Cl2(vib)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; Vibrational excitation</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="0.6900E-01" y="0.000"/>
 		<val x="0.6910E-01" y="0.1100E-21"/>
 		<val x="0.8000E-01" y="0.8800E-21"/>
@@ -2231,7 +2175,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>Cl2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>Cl2(B3)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; electronic excitation       B[3]pi</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="2.500" y="0.000"/>
 		<val x="2.700" y="0.4800E-20"/>
 		<val x="3.000" y="0.6720E-20"/>
@@ -2253,7 +2196,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>Cl2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>Cl2(C1)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; electronic excitation      C[1]pi</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="3.120" y="0.000"/>
 		<val x="4.200" y="0.3450E-20"/>
 		<val x="5.000" y="0.5980E-20"/>
@@ -2278,7 +2220,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>Cl2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>Cl2(b1-c1)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; electronic excitation      B[1]pi + C[1]pi</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="9.250" y="0.000"/>
 		<val x="13.00" y="0.3000E-20"/>
 		<val x="16.00" y="0.4500E-20"/>
@@ -2353,7 +2294,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>Cl2</P>)</In>-&gt;<Out>(<P M="2">e-</P>)+(<P>Cl2^+</P>)</Out></Eq>
 	    <reference>From Bolsig+ IONIZATION;</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="11.49" y="0.000"/>
 		<val x="11.60" y="0.5000E-21"/>
 		<val x="12.00" y="0.9270E-21"/>
@@ -2440,7 +2380,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>F2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>F2(v1)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; vibrational excitation</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="0.1100" y="0.000"/>
 		<val x="0.2000" y="0.6400E-20"/>
 		<val x="0.3000" y="0.8500E-20"/>
@@ -2500,7 +2439,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>F2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>F2(v2)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; vibrational excitation</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="0.2190" y="0.000"/>
 		<val x="0.3000" y="0.8200E-20"/>
 		<val x="0.4000" y="0.9900E-20"/>
@@ -2559,7 +2497,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>F2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>F2(v3)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; vibrational excitation</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="0.3400" y="0.000"/>
 		<val x="0.4000" y="0.5200E-20"/>
 		<val x="0.5000" y="0.6300E-20"/>
@@ -2596,7 +2533,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>F2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>F2(v4)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; vibrational excitation</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="0.4210" y="0.000"/>
 		<val x="0.5000" y="0.1800E-20"/>
 		<val x="0.6000" y="0.2100E-20"/>
@@ -2626,7 +2562,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>F2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>F2(a3)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; dissociation       a[3]pi{u} -> 2 F</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="3.160" y="0.000"/>
 		<val x="4.000" y="0.6500E-21"/>
 		<val x="4.200" y="0.1000E-20"/>
@@ -2654,7 +2589,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>F2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>F2(A1)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; dissociation      A[1]pi{u} -> 2 F</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="4.340" y="0.000"/>
 		<val x="5.000" y="0.4000E-21"/>
 		<val x="6.000" y="0.6000E-21"/>
@@ -2680,7 +2614,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>F2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>F2(C1)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; electronic excitation    C[1]sigma{u}[+]</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="11.57" y="0.000"/>
 		<val x="11.73" y="0.1020E-21"/>
 		<val x="12.62" y="0.3010E-21"/>
@@ -2706,7 +2639,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>F2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>F2(H1)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; electronic excitation      H[1]pi{u}</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="13.08" y="0.000"/>
 		<val x="19.25" y="0.1035E-21"/>
 		<val x="20.40" y="0.1439E-21"/>
@@ -2731,7 +2663,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>F2</P>)</In>-&gt;<Out>(<P M="2">e-</P>)+(<P>F2^+</P>)</Out></Eq>
 	    <reference>From Bolsig+ IONIZATION;</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="15.69" y="0.000"/>
 		<val x="16.54" y="0.1030E-21"/>
 		<val x="16.56" y="0.1500E-21"/>
@@ -2874,7 +2805,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>HCl</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>HCl(v1)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; vibratinal excitation</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="0.3600" y="0.000"/>
 		<val x="0.4600" y="0.1305E-18"/>
 		<val x="0.7000" y="0.2925E-19"/>
@@ -2892,7 +2822,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>HCl</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>HCl(v2)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; vibrational excitation</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="0.7000" y="0.000"/>
 		<val x="0.8000" y="0.1207E-19"/>
 		<val x="0.9000" y="0.5100E-20"/>
@@ -2912,7 +2841,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>HCl</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>HCl(A1)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; electronic excitation A[1]pi</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="5.500" y="0.000"/>
 		<val x="6.900" y="0.3080E-20"/>
 		<val x="7.450" y="0.3360E-20"/>
@@ -2927,7 +2855,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>HCl</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>HCl(B1-C1)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; electronic excitation B[1]pi + C[1]pi</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="9.300" y="0.000"/>
 		<val x="9.600" y="0.3960E-20"/>
 		<val x="10.30" y="0.1104E-19"/>
@@ -2941,7 +2868,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>HCl</P>)</In>-&gt;<Out>(<P>H</P>)+(<P>Cl^-</P>)</Out></Eq>
 	    <reference>From Bolsig+ ATTACHMENT; attachment forming Cl-</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="0.2010" y="0.000"/>
 		<val x="0.4100" y="0.000"/>
 		<val x="0.4500" y="0.5000E-22"/>
@@ -2990,7 +2916,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>HCl</P>)</In>-&gt;<Out>(<P>H^-</P>)+(<P>Cl</P>)</Out></Eq>
 	    <reference>From Bolsig+ ATTACHMENT; attachment forming H-</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="5.600" y="0.000"/>
 		<val x="6.750" y="0.1150E-21"/>
 		<val x="7.000" y="0.1290E-21"/>
@@ -3015,7 +2940,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>HCl</P>)</In>-&gt;<Out>(<P M="2">e-</P>)+(<P>HCl^+</P>)</Out></Eq>
 	    <reference>From Bolsig+ IONIZATION;</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="12.74" y="0.000"/>
 		<val x="20.00" y="0.1600E-19"/>
 		<val x="25.00" y="0.2460E-19"/>
@@ -3083,7 +3007,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>CF4</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>CF4(0.08eV)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; vibrational excitation (2,4)</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="0.8000E-01" y="0.000"/>
 		<val x="0.8800E-01" y="0.1240E-20"/>
 		<val x="0.9400E-01" y="0.3258E-20"/>
@@ -3116,7 +3039,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>CF4</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>CF4(0.166eV)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; vibrational excitation (1,3)</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="0.1660" y="0.000"/>
 		<val x="0.1740" y="0.1621E-19"/>
 		<val x="0.1910" y="0.9539E-19"/>
@@ -3157,7 +3079,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>CF4</P>)</In>-&gt;<Out>(<P>CF2^-</P>)+(<P>F2</P>)</Out></Eq>
 	    <reference>From Bolsig+ ATTACHMENT;</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="6.420" y="0.000"/>
 		<val x="6.427" y="0.1000E-21"/>
 		<val x="6.787" y="0.1328E-21"/>
@@ -3178,7 +3099,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>CF4</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>CF4(7.57eV)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; electronic excitation</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="7.570" y="0.000"/>
 		<val x="7.573" y="0.9911E-22"/>
 		<val x="8.140" y="0.5890E-21"/>
@@ -3200,7 +3120,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>CF4</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>CF2</P>)+(<P>F2</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; dissociative excitation</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="12.70" y="0.000"/>
 		<val x="12.71" y="0.1003E-21"/>
 		<val x="13.44" y="0.8774E-21"/>
@@ -3223,7 +3142,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>CF4</P>)</In>-&gt;<Out>(<P M="2">e-</P>)+(<P>CF4^+</P>)</Out></Eq>
 	    <reference>From Bolsig+ IONIZATION;</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="15.61" y="0.000"/>
 		<val x="15.61" y="0.9793E-22"/>
 		<val x="16.80" y="0.2894E-21"/>
@@ -3291,7 +3209,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>SiH4</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>SiH4(0.113eV)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; vibrational excitation (2,4), extrapolate using ln(energy)/energy**2</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="0.1130" y="0.000"/>
 		<val x="0.1180" y="0.1010E-20"/>
 		<val x="0.1190" y="0.3260E-20"/>
@@ -3344,7 +3261,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>SiH4</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>SiH4(0.27eV)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; vibrational excitation (1,3)</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="0.2700" y="0.000"/>
 		<val x="0.2710" y="0.1274E-19"/>
 		<val x="0.2760" y="0.1617E-19"/>
@@ -3389,7 +3305,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>SiH4</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>SiH4(7.8eV)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; excitation</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0."/>
 		<val x="7.7" y="0."/>
 		<val x="7.800" y="0.1010E-20"/>
 		<val x="7.830" y="0.2040E-20"/>
@@ -3418,7 +3333,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>SiH4</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>SiH4(8.4eV)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; dissociative excitation</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="8.400" y="0.000"/>
 		<val x="8.810" y="0.1010E-20"/>
 		<val x="8.840" y="0.1880E-20"/>
@@ -3471,7 +3385,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>SiH4</P>)</In>-&gt;<Out>(<P M="2">e-</P>)+(<P>SiH4^+</P>)</Out></Eq>
 	    <reference>From Bolsig+ IONIZATION;</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="11.60" y="0.000"/>
 		<val x="12.22" y="0.1000E-20"/>
 		<val x="12.29" y="0.1840E-20"/>
@@ -3569,7 +3482,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>SF6</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>SF6(0.095eV)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; vibrational excitation</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="0.9500E-01" y="0.000"/>
 		<val x="0.1500" y="0.3400E-18"/>
 		<val x="0.2000" y="0.2000E-18"/>
@@ -3595,7 +3507,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>SF6</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>SF6(10.0eV)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; electronic excitation</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="10.00" y="0.000"/>
 		<val x="12.00" y="0.5000E-20"/>
 		<val x="14.00" y="0.9000E-20"/>
@@ -3618,7 +3529,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>SF6</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>SF6(11.7eV)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; electronic excitation</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="11.70" y="0.000"/>
 		<val x="14.50" y="0.7560E-21"/>
 		<val x="17.50" y="0.1710E-20"/>
@@ -3645,7 +3555,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>SF6</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>SF6(15.0eV)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; electronic excitation</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="15.00" y="0.000"/>
 		<val x="17.50" y="0.6048E-21"/>
 		<val x="19.00" y="0.1368E-20"/>
@@ -3672,7 +3581,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>SF6</P>)</In>-&gt;<Out>(<P M="2">e-</P>)+(<P>SF6^+</P>)</Out></Eq>
 	    <reference>From Bolsig+ IONIZATION;</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="15.70" y="0.000"/>
 		<val x="16.45" y="0.8000E-22"/>
 		<val x="17.30" y="0.3300E-21"/>
@@ -3752,7 +3660,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>SF6</P>)</In>-&gt;<Out>(<P>SF4^-</P>)+(<P>F2</P>)</Out></Eq>
 	    <reference>From Bolsig+ ATTACHMENT; attachment to form F-, F2-, and SF4-</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="1.300" y="0.000"/>
 		<val x="1.600" y="0.7150E-24"/>
 		<val x="1.900" y="0.1300E-23"/>
@@ -3858,8 +3765,8 @@
 	<Interaction type="excitation">
 	    <threshold_energy>19.82*eV</threshold_energy>
 	    <Eq><In>(<P>e-</P>)+(<P>He</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>He(19.82eV)</P>)</Out></Eq>
-	    <reference>From Bolsig+ EXCITATION; 1.  1.e-20  / scale factors FROM 1960'S ANALYSIS OF MEIR-LEIBNITZ AND OTHERS BY PHELPS</reference>
-	    <cross_section type="data" xscale="eV" yscale="m^2">
+	    <reference>From Bolsig+ EXCITATION; FROM 1960'S ANALYSIS OF MEIR-LEIBNITZ AND OTHERS BY PHELPS</reference>
+	    <cross_section type="data" xscale="eV" yscale="1.e-20*m^2">
 		<val x="0.0000E+00" y="0.0000E+00"/>
 		<val x="0.1980E+02" y="0.0000E+00"/>
 		<val x="0.2002E+02" y="0.4100E-01"/>
@@ -3975,7 +3882,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>Ne</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>Ne(3P2)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; NE 3P2 excitation</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="16.62" y="0.000"/>
 		<val x="17.00" y="0.1060E-21"/>
 		<val x="18.00" y="0.1740E-21"/>
@@ -3999,7 +3905,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>Ne</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>Ne(3P1)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; NE 3P1 (1S4) excitation; extrapolated after 200 eV using ln(energy)/energy</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="16.67" y="0.000"/>
 		<val x="17.71" y="0.2410E-22"/>
 		<val x="20.97" y="0.5300E-22"/>
@@ -4027,7 +3932,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>Ne</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>Ne(1P1)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; Excitation 1P1 (1S2), extrapolated after 200 eV using ln(energy)/energy</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="16.84" y="0.000"/>
 		<val x="20.82" y="0.1910E-21"/>
 		<val x="23.65" y="0.4880E-21"/>
@@ -4059,7 +3963,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>Ne</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>Ne(2P)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; (2p)  extrapolated after 88 eV using ln(energy)energy**2</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="18.72" y="0.000"/>
 		<val x="18.72" y="0.2800E-22"/>
 		<val x="19.25" y="0.1110E-21"/>
@@ -4085,7 +3988,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>Ne</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>Ne(2S+3D)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; allowed (2s+3d); extrapolated after 90 eV using ln(energy)/energy</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="20.00" y="0.000"/>
 		<val x="20.28" y="0.2700E-22"/>
 		<val x="21.16" y="0.5800E-22"/>
@@ -4111,7 +4013,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>Ne</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>Ne(3P)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; excitation (3p)</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="20.65" y="0.000"/>
 		<val x="21.69" y="0.2680E-22"/>
 		<val x="23.25" y="0.4360E-22"/>
@@ -4134,7 +4035,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>Ne(3P2)</P>)</In>-&gt;<Out>(<P M="2">e-</P>)+(<P>Ne^+</P>)</Out></Eq>
 	    <reference>From Bolsig+ IONIZATION; stepwise ionization from metastable</reference>
 	    <cross_section type="data" xscale="eV" yscale="???*m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="4.900" y="0."/>
 		<val x="6.760" y="3.2"/>
 		<val x="7.946" y="4.4"/>
@@ -4162,7 +4062,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>Ne</P>)</In>-&gt;<Out>(<P M="2">e-</P>)+(<P>Ne^+</P>)</Out></Eq>
 	    <reference>From Bolsig+ IONIZATION; Total ionization, WETZEL &amp; HEER</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="21.56" y="0.000"/>
 		<val x="22.00" y="0.9000E-22"/>
 		<val x="23.00" y="0.1900E-21"/>
@@ -4287,7 +4186,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>Ar</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>Ar*</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; LOW E SCHAPERT-SCHEIBNER, HI E UNKNOWN</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0" y="0"/>
 		<val x="11.5" y="0"/>
 		<val x="12.7" y="7E-22"/>
 		<val x="13.7" y="1.41E-21"/>
@@ -4330,7 +4228,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>Ar</P>)</In>-&gt;<Out>(<P M="2">e-</P>)+(<P>Ar^+</P>)</Out></Eq>
 	    <reference>From Bolsig+ IONIZATION; RAPP-SCHRAM</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0" y="0"/>
 		<val x="15.8" y="0"/>
 		<val x="16" y="2.02E-22"/>
 		<val x="17" y="1.34E-21"/>
@@ -4424,7 +4321,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>Kr</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>Kr(9.5eV)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION;</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="9.500" y="0.000"/>
 		<val x="10.29" y="0.1451E-22"/>
 		<val x="10.30" y="0.1110E-22"/>
@@ -4458,7 +4354,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>Kr</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>Kr(a10.0eV)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION;</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="10.00" y="0.000"/>
 		<val x="10.81" y="0.1095E-21"/>
 		<val x="11.01" y="0.1573E-21"/>
@@ -4490,7 +4385,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>Kr</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>Kr(b10.0eV)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION;</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="10.00" y="0.000"/>
 		<val x="11.04" y="0.1039E-22"/>
 		<val x="11.37" y="0.1476E-22"/>
@@ -4522,7 +4416,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>Kr</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>Kr(c10.0eV)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION;</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="10.00" y="0.000"/>
 		<val x="20.00" y="0.1360E-20"/>
 		<val x="22.00" y="0.1600E-20"/>
@@ -4539,7 +4432,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>Kr</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>Kr(11.0eV)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION;</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="11.00" y="0.000"/>
 		<val x="11.50" y="0.1600E-20"/>
 		<val x="14.00" y="0.7700E-20"/>
@@ -4561,7 +4453,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>Kr</P>)</In>-&gt;<Out>(<P M="2">e-</P>)+(<P>Kr^+</P>)</Out></Eq>
 	    <reference>From Bolsig+ IONIZATION;</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="14.00" y="0.000"/>
 		<val x="14.24" y="0.1603E-21"/>
 		<val x="14.34" y="0.1008E-21"/>
@@ -4657,7 +4548,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>Xe</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>Xe(1s5)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; Excitation XE+e__e + XE*(1s5)</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="8.310" y="0.000"/>
 		<val x="8.470" y="0.2500E-21"/>
 		<val x="8.840" y="0.6300E-21"/>
@@ -4686,7 +4576,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>Xe</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>Xe(1s4)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; Excitation XE+e__e + XE*(1s4)</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="8.440" y="0.000"/>
 		<val x="15.09" y="0.3420E-20"/>
 		<val x="17.18" y="0.4210E-20"/>
@@ -4709,7 +4598,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>Xe</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>Xe(1s3-1s2-2p)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; XE+e__e + XE*(1s3+1s2+2p) extrapolated after 40 eV using ln(energy)/energy</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="9.690" y="0.000"/>
 		<val x="10.04" y="0.1057E-20"/>
 		<val x="10.60" y="0.2127E-20"/>
@@ -4738,7 +4626,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>Xe</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>Xe(2s-3d)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; XE+e__e + XE*(2s+3d) extrapolated after 40 eV using ln(energy)/energy</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="10.00" y="0.000"/>
 		<val x="11.44" y="0.4600E-20"/>
 		<val x="12.35" y="0.6400E-20"/>
@@ -4765,7 +4652,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>Xe</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>Xe(2p-)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; Excitation XE+e__e + XE*(2p') set to zero at 200 eV</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="11.00" y="0.000"/>
 		<val x="11.26" y="0.4140E-21"/>
 		<val x="12.56" y="0.9000E-21"/>
@@ -4791,7 +4677,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>Xe</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>Xe(11.7eV)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; XE+e__e + XE*(3&lt;n&lt;9) extrapolated after 100 eV</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="11.70" y="0.000"/>
 		<val x="13.59" y="0.7440E-21"/>
 		<val x="15.79" y="0.1840E-20"/>
@@ -4819,7 +4704,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>Xe(1s5)</P>)</In>-&gt;<Out>(<P M="2">e-</P>)+(<P>Xe^+</P>)</Out></Eq>
 	    <reference>From Bolsig+ IONIZATION; xe(1s5)+e-->xe+ +2e ionization from metastable level</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="3.440" y="0.000"/>
 		<val x="6.710" y="0.9550E-25"/>
 		<val x="8.270" y="0.1144E-24"/>
@@ -4846,7 +4730,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>Xe</P>)</In>-&gt;<Out>(<P M="2">e-</P>)+(<P>Xe^+</P>)</Out></Eq>
 	    <reference>From Bolsig+ IONIZATION; RAPP &amp; ENGLANDER 1965 j.chem.phy 43 1464</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="12.12" y="0.000"/>
 		<val x="12.50" y="0.1100E-20"/>
 		<val x="13.00" y="0.2560E-20"/>
@@ -4957,7 +4840,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>CO2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>CO2(0.083eV)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; vibrational excitation    000 -> 010</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="0.8300E-01" y="0.000"/>
 		<val x="0.8440E-01" y="0.8500E-20"/>
 		<val x="0.8620E-01" y="0.1160E-19"/>
@@ -5002,7 +4884,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>CO2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>CO2(0.167eV)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; vibrational excitation 000 -> 020 + 100</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="0.1670" y="0.000"/>
 		<val x="0.2000" y="0.6000E-20"/>
 		<val x="0.2200" y="0.7600E-20"/>
@@ -5038,7 +4919,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>CO2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>CO2(0.291eV)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; vibrational excitation 000 -> 001</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="0.2910" y="0.000"/>
 		<val x="0.2970" y="0.4000E-20"/>
 		<val x="0.3030" y="0.5000E-20"/>
@@ -5066,7 +4946,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>CO2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>CO2(0.339eV)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; vibrational excitation 000 -> 0n0 + n00</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="0.3390" y="0.000"/>
 		<val x="1.500" y="0.000"/>
 		<val x="1.950" y="0.7000E-21"/>
@@ -5085,7 +4964,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>CO2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>CO2(0.252eV)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; vibrational excitation 000 -> 0n0 + n00</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="0.2520" y="0.000"/>
 		<val x="2.500" y="0.000"/>
 		<val x="3.000" y="0.3200E-20"/>
@@ -5103,7 +4981,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>CO2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>CO2(0.422eV)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; vibrational excitation 000 -> 0n0 + n00</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="0.4220" y="0.000"/>
 		<val x="2.500" y="0.000"/>
 		<val x="3.000" y="0.1050E-20"/>
@@ -5119,7 +4996,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>CO2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>CO2(0.505eV)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; vibrational excitation  000 -> 0n0 + n00</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="0.5050" y="0.000"/>
 		<val x="2.500" y="0.000"/>
 		<val x="3.000" y="0.1560E-20"/>
@@ -5135,7 +5011,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>CO2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>CO2(2.5eV)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; vibrational excitation 000 -> 0n0 + n00</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="2.500" y="0.000"/>
 		<val x="3.000" y="0.1800E-20"/>
 		<val x="3.600" y="0.2500E-20"/>
@@ -5150,7 +5025,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>CO2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>CO2(7.0eV)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; Electronic Excitation</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="7.000" y="0.000"/>
 		<val x="8.000" y="0.6000E-20"/>
 		<val x="8.500" y="0.6000E-20"/>
@@ -5164,7 +5038,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>CO2</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>CO2(10.5eV)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; Electronic Excitation</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="10.50" y="0.000"/>
 		<val x="12.00" y="0.6900E-20"/>
 		<val x="12.70" y="0.7300E-20"/>
@@ -5183,7 +5056,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>CO2</P>)</In>-&gt;<Out>(<P M="2">e-</P>)+(<P>CO2^+</P>)</Out></Eq>
 	    <reference>From Bolsig+ IONIZATION;</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="13.30" y="0.000"/>
 		<val x="14.50" y="0.6000E-21"/>
 		<val x="15.00" y="0.1040E-20"/>
@@ -5203,7 +5075,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>CO2</P>)</In>-&gt;<Out>(<P>CO</P>)+(<P>O^-</P>)</Out></Eq>
 	    <reference>From Bolsig+ ATTACHMENT; dissociative attachment</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="3.850" y="0.000"/>
 		<val x="4.300" y="0.1400E-22"/>
 		<val x="4.500" y="0.1400E-22"/>
@@ -5237,7 +5108,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>Hg</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>Hg(6-3P0)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; Hg excit   Hg(6-1S0)-->Hg(6-3P0)    Rockwood P.Rev.A 1973</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="4.660" y="0.000"/>
 		<val x="4.830" y="0.2965E-20"/>
 		<val x="4.865" y="0.3436E-20"/>
@@ -5275,7 +5145,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>Hg</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>Hg(6-3P1)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; Hg excit   Hg(6-1S0)-->Hg(6-3P1)    Rockwood P.Rev.A 1973</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="4.870" y="0.000"/>
 		<val x="4.879" y="0.5638E-21"/>
 		<val x="4.880" y="0.6181E-21"/>
@@ -5337,7 +5206,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>Hg</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>Hg(6-3P2)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; Hg excit   Hg(6-1S0)-->Hg(6-3P2)    Rockwood P.Rev.A 1973</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="5.430" y="0.000"/>
 		<val x="5.662" y="0.2945E-21"/>
 		<val x="5.680" y="0.3845E-21"/>
@@ -5397,7 +5265,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>Hg</P>)</In>-&gt;<Out>(<P>e-</P>)+(<P>Hg(7-3S1)</P>)</Out></Eq>
 	    <reference>From Bolsig+ EXCITATION; Hg excit     Hg(6-1S0)-->Hg(7-3S1)    Kenty J.A.P. 1950</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="7.700" y="0.000"/>
 		<val x="7.706" y="0.3513E-20"/>
 		<val x="7.916" y="0.6052E-20"/>
@@ -5444,7 +5311,6 @@
 	    <Eq><In>(<P>e-</P>)+(<P>Hg</P>)</In>-&gt;<Out>(<P M="2">e-</P>)+(<P>Hg^+</P>)</Out></Eq>
 	    <reference>From Bolsig+ IONIZATION; Hg ionization   Hg(6-1S0)-->Hg+          Rockwood P.Rev.A 1973</reference>
 	    <cross_section type="data" xscale="eV" yscale="m^2">
-		<val x="0.000" y="0.000"/>
 		<val x="10.44" y="0.000"/>
 		<val x="10.85" y="0.2221E-21"/>
 		<val x="10.95" y="0.2649E-21"/>

@@ -1,20 +1,21 @@
-#ifndef PARTICLEDB_VHSPROPERTIES_H
-#define PARTICLEDB_VHSPROPERTIES_H
+#ifndef PARTICLEDB_INTERACTION_VHSCROSSSECTION_H
+#define PARTICLEDB_INTERACTION_VHSCROSSSECTION_H
 
-#include "Interaction.h"
+#include "CrossSection.h"
 #include "VHSInfo.h"
 
 #include <olson-tools/physical/physical.h>
+#include <olson-tools/power.h>
 
-namespace particledb { namespace Interaction {
+#include <ostream>
+
+namespace particledb { namespace interaction {
 
 struct VHSCrossSection : CrossSection {
-    /** Reduced mass for the input particles. */
-    double reduced_mass;
-
     /** The vhs information for this particular interaction. */
     VHSInfo vhs;
 
+    VHSCrossSection(const double & mu = 0.0) : CrossSection(mu) {}
     virtual ~VHSCrossSection() {}
 
     /** Compute the cross section.
@@ -26,6 +27,9 @@ struct VHSCrossSection : CrossSection {
      * */
     virtual double cross_section(const double & v_relative) const {
         using physical::constant::K_B;
+        using olson_tools::SQR;
+        using olson_tools::fast_pow;
+
         return 
                 /* the collision cross-section is based on
                  * eqn (4.63) for VHS model. */
@@ -39,14 +43,22 @@ struct VHSCrossSection : CrossSection {
           * vhs.gamma_visc_inv;
     }
 
+    std::ostream & print(std::ostream & out) const {
+        out << "{reduced-mass: " << reduced_mass << ", "
+            << "vhs: ";
+        vhs.print(out) << '}';
+        return out;
+    }
+
     /** Load the information into this properties node.
      * */
-    static VHSCrossSection load(XMLContext & x, const double & mu) {
-        reduced_mass = mu;
-        vhs = VHSInfo::load(x);
+    static VHSCrossSection load(xml::XMLContext & x, const double & mu) {
+        VHSCrossSection cs(mu);
+        cs.vhs = VHSInfo::load(x);
+        return cs;
     }
 };
 
-}} /* namespace particledb::Interaction.*/
+}} /* namespace particledb::interaction.*/
 
-#endif // PARTICLEDB_VHSPROPERTIES_H
+#endif // PARTICLEDB_INTERACTION_VHSCROSSSECTION_H

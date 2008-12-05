@@ -37,12 +37,7 @@ int main(int argc, char **argv) {
                 try {
                     enum Quantity::PRINT_TYPE old = Quantity::print_type;
                     Quantity::print_type = Quantity::MATH_PRINT;
-                    pqdata_set ds = db.query<pqdata_set>(argv[i]+1);
-                    std::pair<Quantity,Quantity> u = std::make_pair(eV, m*m);
-                    std::cout << ds << std::endl;
-                    std::cout << "converted ....\n"
-                              << convert_data_set<double,double>(ds.begin(), ds.end(), u)
-                              << std::endl;
+                    std::cout << db.query<pqdata_set>(argv[i]+1) << std::endl;
                     Quantity::print_type = old;
                 } catch (physical::exception & e) {
                     std::cout << e.what() << std::endl;

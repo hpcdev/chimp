@@ -1,11 +1,10 @@
-#ifndef PARTICLEDB_VHSPROPERTIES_H
-#define PARTICLEDB_VHSPROPERTIES_H
-
-#include "DSMCProperties.h"
-
-#include <olson-tools/physical.h>
+#ifndef PARTICLEDB_INTERACTION_VHSINFO_H
+#define PARTICLEDB_INTERACTION_VHSINFO_H
 
 #include <math.h>
+#include <ostream>
+
+#include "../XMLDoc.h"
 
 #if (defined(PGCC) || __sun__ == 1)
 inline double tgamma(double x) {
@@ -18,7 +17,7 @@ inline double tgamma(double x) {
 
 
 
-namespace particledb {
+namespace particledb { namespace interaction {
 
 struct VHSInfo {
     /** A cross section computed, measured, or whatever at the reference
@@ -50,14 +49,24 @@ struct VHSInfo {
     /** The reciprocal of the VSS parameter. */
     double vss_param_inv;
 
+    std::ostream & print(std::ostream & out) const {
+        out << "{cross-section: " << cross_section << ", "
+                "T-ref: " << T_ref << ", "
+                "visc-T-law: " << visc_T_law << ", "
+                "1/gamma(5/2- 'visc-T-law'): " << gamma_visc_inv << ", "
+                "1/'vss-param': " << vss_param_inv
+            << '}';
+        return out;
+    }
+
     /** Load the information into this properties node.
      *
      * @see DSMCInfo::load().
      * */
-    static VHSInfo load(XMLContext & x);
+    static VHSInfo load(xml::XMLContext & x);
 };
 
 
-} /* particledb namespace .*/
+}} /* namespace particledb::interaction.*/
 
-#endif // PARTICLEDB_VHSPROPERTIES_H
+#endif // PARTICLEDB_INTERACTION_VHSINFO_H

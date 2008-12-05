@@ -84,14 +84,19 @@
 #  include <ostream>
 #  include <fstream>
 #  include <cfloat>
+#  include <set>
+#  include <string>
 
 #  include <olson-tools/nothing.h>
 #  include <olson-tools/logger.h>
 
-#  include "Interaction.h"
+#  include "interaction/Interaction.h"
+#  include "interaction/Set.h"
 #  include "Particle.h"
 
 #  include "../ArrayND.h"
+
+#  include "XMLDoc.h"
 
 namespace particledb {
 
@@ -99,53 +104,98 @@ namespace particledb {
 /** Runtime database of properties pertinent to the current simulation. */
 template <class _Properties = Particle::Properties>
 class RuntimeDB {
+  public:
+    typedef _Properties prop_type;
+    typedef std::vector<prop_type> prop_list;
+    typedef Array2D<interaction::Set *> InteractionMatrix;
+
   private:
-    typedef std::vector<_Properties> prop_list;
-    std::vector<_Properties> props;
+    /** Vector of particle properties. */
+    prop_list props;
 
     /** Initialized at time of initCrossSpeciesTable() call. */
-    Array2D<Interaction::Set *> interactions;
+    InteractionMatrix interactions;
 
   public:
+    /** Set of interactions to allow.
+     * This set should be built before calling initCrossSpeciesTable.  When
+     * initCrossSpeciesTable is called, it will consult this set to filter out
+     * any equations that are not to be allowed.
+     * */
+    std::set<std::string> allowed_equations;
+
+    xml::XMLDoc xmlDb;
+
+    RuntimeDB(const std::string & xml_doc = "particledb.xml") : xmlDb(xml_doc) {}
+
+    /** Read-only access to the properties vector. */
+    const prop_list & getProps() const { return props; }
+
+    /** Read-only access to the interactions matrix. */
+    const InteractionMatrix & getInteractions() const { return interactions; }
 
     /** return the set of single-species properties for the given species. */
-    const _Properties & operator[](const int & i) const { return props[i]; }
+    const prop_type & operator[](const int & i) const { return props[i]; }
     /** return the set of single-species properties for the given species. */
-          _Properties & operator[](const int & i)       { return props[i]; }
+          prop_type & operator[](const int & i)       { return props[i]; }
 
     /** return the set of cross-species properties for the two given species. */
-    const InteractionTable & operator()(const int & i, const int & j) const { return interactions(i,j); }
+    const interaction::Set & operator()(const int & i, const int & j) const { return interactions(i,j); }
     /** return the set of cross-species properties for the two given species. */
-          InteractionTable & operator()(const int & i, const int & j)       { return interactions(i,j); }
+          interaction::Set & operator()(const int & i, const int & j)       { return interactions(i,j); }
 
     /** Get the index of the particle type with the specified name.
      * @return Index of particle type or -1 if not found.
      * @see Particle::type and ParticleTypeInfo.
      */
-    int findParticle(const std::string & name) {
-        for (prop_list::iterator i = props.begin(); i != props.end(); i++)
-            if (name == i->name::value)
-                return *i;
+    int findParticle(const std::string & name) const {
+        int j = 0;
+        typename prop_list::const_iterator i = props.begin();
+        for (; i != props.end(); i++, j++) {
+            Particle::property::name n = (*i);
+            if (name == n.value)
+                return j;
+        }
         return -1;
     }
 
     /** Loads the particle information for the given particle name into the
      * runtime database.  Note that only the information relevant to the
-     * templated _Properties class will get loaded. 
+     * templated prop_type class will get loaded. 
      *
      * initCrossSpeciesTable() should be called AFTER this.
      * */
-    void addParticleType(const std::string & name) throw std::runtime_error {
-        /* Perhaps we should first see if this particle type has already been
+    int addParticleType(const std::string & name) {
+        xml::XMLContext x = xmlDb.root_context.find("//Particle[@name=\"" + name + "\"]");
+        return addParticleType(x);
+    }
+
+    /** Loads the particle information from the given xml-context.
+     * Note that only the information relevant to the templated prop_type
+     * class will get loaded. 
+     *
+     * @see addParticleType(const std::string & name)
+     * */
+    int addParticleType(const xml::XMLContext & x) {
+        prop_type prop = prop_type::load(x);
+        return addParticleType(prop);
+    }
+
+    int addParticleType(const prop_type & prop) {
+
+        const Particle::property::name & n = prop;
+
+        /* See if this particle type has already been
          * loaded into the database (we don't want any duplicates). */
-        if (findParticle(name) >= 0) {
-            logger::log_warning("particle type '%s' was previously loaded", name.c_str());
-            return; /* already loaded. */
+        int i = findParticle(n.value);
+        if (i >= 0) {
+            olson_tools::logger::log_warning("particle type '%s' was previously loaded; will not reload", n.value.c_str());
+            return i; /* already loaded. */
         }
 
-        _Properties prop;
-        prop.load(xmlFile.xpathEval("//Particle[@name=\"" + name + "\"]"));
         props.push_back(prop);
+
+        return props.size() - 1;
     }
 
     void initCrossSpeciesTable() {

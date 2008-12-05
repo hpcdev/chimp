@@ -245,6 +245,10 @@ namespace particledb { namespace xml {
                 open(filename);
         }
 
+        ~XMLDoc() {
+            close();
+        }
+
         void open(const std::string & filename) throw (xml_error) {
             close();
             doc = xmlParseFile(filename.c_str());

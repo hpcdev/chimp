@@ -1,6 +1,7 @@
 #ifndef PARTICLEDB_DATA_SET_H
 #define PARTICLEDB_DATA_SET_H
 
+#include "XMLDoc.h"
 
 #include <map>
 
@@ -13,12 +14,12 @@ namespace particledb {
     };
 
     template <class A, class B>
+    struct data_set : std::map<A,B> {};
+
+    template <class A, class B>
     std::ostream & operator<<(std::ostream & out, const data_point<A,B> & p) {
         return out << "<data x=\'" << p.first << "\' y=\'" << p.second << "\'/>";
     }
-
-    template <class A, class B>
-    struct data_set : std::map<A,B> {};
 
     template<class A, class B>
     std::ostream & operator<<(std::ostream & out, const data_set<A,B> & data) {
@@ -31,37 +32,37 @@ namespace particledb {
 
 
     namespace xml {
-    template <class A, class B>
-    struct parser< data_point<A,B> > {
-        static data_point<A,B> parse(const XMLContext & x) {
-            A a = x.query<A>("@x");
-            B b = x.query<B>("@y");
-            return data_point<A,B>(a,b);
-        }
-    };
-
-
-    template <class A, class B>
-    struct parser< data_set<A,B> > {
-        static data_set<A,B> parse(const XMLContext & x) {
-            A xscale = x.query<A>("@xscale");
-            B yscale = x.query<B>("@yscale");
-
-            XMLContext::list x_list = x.eval("val");
-            XMLContext::list::iterator i = x_list.begin();
-
-            data_set<A,B> data;
-            for(; i != x_list.end(); i++) {
-                XMLContext & x1 = (*i);
-                data_point<A,B> dp = x1.parse< data_point<A,B> >();
-                dp.first  *= xscale;
-                dp.second *= yscale;
-                data.insert( dp );
+        template <class A, class B>
+        struct parser< data_point<A,B> > {
+            static data_point<A,B> parse(const XMLContext & x) {
+                A a = x.query<A>("@x");
+                B b = x.query<B>("@y");
+                return data_point<A,B>(a,b);
             }
+        };
 
-            return data;
-        }
-    };
+
+        template <class A, class B>
+        struct parser< data_set<A,B> > {
+            static data_set<A,B> parse(const XMLContext & x) {
+                A xscale = x.query<A>("@xscale");
+                B yscale = x.query<B>("@yscale");
+
+                XMLContext::list x_list = x.eval("val");
+                XMLContext::list::iterator i = x_list.begin();
+
+                data_set<A,B> data;
+                for(; i != x_list.end(); i++) {
+                    XMLContext & x1 = (*i);
+                    data_point<A,B> dp = x1.parse< data_point<A,B> >();
+                    dp.first  *= xscale;
+                    dp.second *= yscale;
+                    data.insert( dp );
+                }
+
+                return data;
+            }
+        };
     }/* namespace xml */
 
 }/* namespace particledb */
