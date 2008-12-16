@@ -27,8 +27,16 @@ namespace particledb { namespace interaction {
               const double & mu_AB = 0.0) : A(A), B(B), mu_AB(mu_AB) {}
 
         template <class RnDB>
-        Input(const RnDB & db, const int & A = 0, const int & B = 0) :
-            A(A), B(B) { set_mu_AB(db); }
+        Input(const RnDB & db, const int & A = 0, const int & B = 0) {
+            setInput(db,A,B);
+        }
+
+        template <class RnDB>
+        void setInput(const RnDB & db, const int & A = 0, const int & B = 0) {
+            this->A = A;
+            this->B = B;
+            set_mu_AB(db);
+        }
 
         template <class RnDB>
         void set_mu_AB(const RnDB & db) {

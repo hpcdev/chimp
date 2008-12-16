@@ -42,14 +42,14 @@ namespace particledb { namespace interaction {
         /** Find the local maximum of cross-section*velocity assuming an
          * ensemble of particles with a given temperature.
          * */
-        inline double find_max_sigma_v_rel_from_stddev_v(const double & stddev_v) {
+        inline double find_max_sigma_v_rel_from_stddev_v(const double & stddev_v) const {
             return find_max_sigma_v_rel(MAX_SPEED_FACTOR * stddev_v);
         }
 
         /** Find the local maximum of cross-section*velocity assuming an
          * ensemble of particles with a given temperature.
          * */
-        inline double find_max_sigma_v_rel_from_T(const double & T) {
+        inline double find_max_sigma_v_rel_from_T(const double & T) const {
             return find_max_sigma_v_rel_from_stddev_v(stddev_v_rel(T, reduced_mass));
         }
 
