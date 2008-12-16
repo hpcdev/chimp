@@ -34,10 +34,36 @@ namespace particledb { namespace interaction {
         std::ostream & print(std::ostream & out, const RnDB & db) const {
             out << "{\n"
                        "\tInput : "; lhs.print(out,db) << "\n";
-            for (int i = 0; i < rhs.size(); i++) {
+            for (unsigned int i = 0; i < rhs.size(); i++) {
                 out << "\tOutput #" << i << ":  "; rhs[i].print(out,db) << '\n';
             }
             return out << '}';
+        }
+
+
+        /** Find the local maximum of cross-section*velocity (within a given
+         * range of velocity space.
+         * */
+        inline double find_max_sigma_v_rel(const double & v_rel_max) {
+            double mx = 0.0;
+            for(eq_list::iterator i = rhs.begin(); i != rhs.end(); ++i) {
+                mx = std::max(mx, i->cs->find_max_sigma_v_rel(v_rel_max));
+            }
+            return mx;
+        }
+
+        /** Find the local maximum of cross-section*velocity assuming an
+         * ensemble of particles with a given temperature.
+         * */
+        inline double find_max_sigma_v_rel_from_stddev_v(const double & stddev_v) {
+            return find_max_sigma_v_rel(CrossSection::MAX_SPEED_FACTOR * stddev_v);
+        }
+
+        /** Find the local maximum of cross-section*velocity assuming an
+         * ensemble of particles with a given temperature.
+         * */
+        inline double find_max_sigma_v_rel_from_T(const double & T) {
+            return find_max_sigma_v_rel_from_stddev_v(stddev_v_rel(T, lhs.mu_AB));
         }
 
         /** Chooses an interaction path to traverse dependent on the incident

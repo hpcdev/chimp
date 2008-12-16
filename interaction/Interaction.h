@@ -12,6 +12,7 @@
 #include "VHSCrossSection.h"
 #include "DATACrossSection.h"
 #include "../Particle.h"
+#include "v_rel_fnc.h" /* include to make available by default. */
 
 
 namespace particledb { namespace interaction {
@@ -20,22 +21,38 @@ namespace particledb { namespace interaction {
     struct Input {
         int A;
         int B;
+        double mu_AB;
 
-        Input(const int & A = 0, const int & B = 0) : A(A), B(B) {}
+        Input(const int & A = 0, const int & B = 0,
+              const double & mu_AB = 0.0) : A(A), B(B), mu_AB(mu_AB) {}
+
+        template <class RnDB>
+        Input(const RnDB & db, const int & A = 0, const int & B = 0) :
+            A(A), B(B) { set_mu_AB(db); }
+
+        template <class RnDB>
+        void set_mu_AB(const RnDB & db) {
+            using Particle::property::mass;
+            const double & m_A = db[A].mass::value;
+            const double & m_B = db[B].mass::value;
+            mu_AB = m_A * m_B / (m_A + m_B);
+        }
 
         template <class RnDB>
         std::ostream & print(std::ostream & out, const RnDB & db) const {
             using std::string;
-            const Particle::property::name & n_A = db[A];
-            const Particle::property::name & n_B = db[B];
-            const Particle::property::mass & m_A = db[A];
-            const Particle::property::mass & m_B = db[B];
+            using Particle::property::mass;
+            using Particle::property::name;
+            const string & n_A = db[A].name::value;
+            const string & n_B = db[B].name::value;
+            const double & m_A = db[A].mass::value;
+            const double & m_B = db[B].mass::value;
 
-            const string * n0 = &n_A.value;
-            const string * n1 = &n_B.value;
-            if (m_A.value > m_B.value) {
-                n0 = &n_B.value;
-                n1 = &n_A.value;
+            const string * n0 = &n_A;
+            const string * n1 = &n_B;
+            if (m_A > m_B) {
+                n0 = &n_B;
+                n1 = &n_A;
             }
 
             out << '(' << (*n0) << ")"
@@ -129,6 +146,7 @@ namespace particledb { namespace interaction {
             using xml::xml_error;
             using std::string;
             using boost::shared_ptr;
+            using Particle::property::mass;
 
             Equation retval;
             XMLContext::set xl = x.eval("Eq/In/P");
@@ -149,6 +167,8 @@ namespace particledb { namespace interaction {
                 retval.A = retval.B = db.findParticle(xl.begin()->parse<string>());
             } else
                 throw xml_error("(too many inputs) Binary interaction must have two inputs");
+
+            retval.set_mu_AB(db);
 
             /* now determine the output particles and their respective
              * multipliers. */
@@ -174,16 +194,19 @@ namespace particledb { namespace interaction {
             XMLContext cs_x = x.find("cross_section");
             string cs_type = cs_x.query<string>("@type");
 
-            /* masses of input items: m_A, m_B */
-            const Particle::property::mass & m_A = db[retval.A];
-            const Particle::property::mass & m_B = db[retval.B];
-            double mu_AB = m_A.value * m_B.value / (m_A.value + m_B.value);
-
             if        (cs_type == "vhs/vss") {
-                shared_ptr<CrossSection> a(new VHSCrossSection(VHSCrossSection::load(cs_x, mu_AB)));
+                shared_ptr<CrossSection> a(
+                    new VHSCrossSection(
+                        VHSCrossSection::load(cs_x, retval.mu_AB)
+                    )
+                );
                 retval.cs = a;
             } else if (cs_type == "data") {
-                shared_ptr<CrossSection> a(new DATACrossSection(DATACrossSection::load(cs_x, mu_AB)));
+                shared_ptr<CrossSection> a(
+                    new DATACrossSection(
+                        DATACrossSection::load(cs_x, retval.mu_AB)
+                    )
+                );
                 retval.cs = a;
             } else {
                 string Eq = x.query<string>("Eq");

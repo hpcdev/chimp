@@ -141,6 +141,15 @@ class RuntimeDB {
     /** return the set of single-species properties for the given species. */
           prop_type & operator[](const int & i)       { return props[i]; }
 
+    /** return the set of single-species properties for the given species. */
+    const prop_type & operator[](const std::string & n) const {
+        return  props[findParticle(n)];
+    }
+    /** return the set of single-species properties for the given species. */
+          prop_type & operator[](const std::string & n)       {
+        return  props[findParticle(n)];
+    }
+
     /** return the set of cross-species properties for the two given species. */
     const interaction::Set & operator()(const int & i, const int & j) const { return *interactions(i,j); }
     /** return the set of cross-species properties for the two given species. */
@@ -213,8 +222,8 @@ class RuntimeDB {
         const Vector<unsigned int,2> sz(VInit, props.size(), props.size());
         interactions.allocate(sz);
 
-        for (int i = 0; i < props.size(); i++) {
-            for (int j = i; j < props.size(); j++) {
+        for (unsigned int i = 0; i < props.size(); i++) {
+            for (unsigned int j = i; j < props.size(); j++) {
                 const Particle::property::mass & m_i = props[i];
                 const Particle::property::mass & m_j = props[j];
                 int A = i, B = j;
@@ -234,7 +243,7 @@ class RuntimeDB {
 
 
                 /* first instantiate the (i,j)th interactions */
-                boost::shared_ptr<Set> set(new Set(Input(A,B)));
+                boost::shared_ptr<Set> set(new Set(Input(*this,A,B)));
 
                 /* add each of the allowed interactions to the new set. */
                 for (XMLContext::set::iterator k = xl.begin(); k != xl.end(); k++)

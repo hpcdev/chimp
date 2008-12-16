@@ -45,3 +45,6 @@ DONE
     space) would not need to be uniform (as it currently is not required to
     be), so the grid step size could be a local choice.  
 
+4.  Test interaction::Set::calculateOutPath(...) 
+5.  Test interaction::CrossSection::find_max_sigma_v_rel(...)
+6.  Create interaction::PreComputedSet
