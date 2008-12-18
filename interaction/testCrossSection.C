@@ -19,8 +19,8 @@ using physical::unit::m;
 using physical::unit::nm;
 using physical::unit::s;
 
-std::ostream & print(std::ostream & out, CrossSection * cs, const double & v0, const double & v1, const int & N) {
-    double dv = (v1-v0) / N;
+std::ostream & print(std::ostream & out, CrossSection * cs, const double & v0, const double & v1, const int & N_points) {
+    double dv = (v1-v0) / N_points;
     const double nm2 = nm*nm;
     for (double v = v0 + 0.5*dv; v <= v1; v += dv) {
         out << v << '\t' << (cs->cross_section(v)/nm2) << '\n';
@@ -31,7 +31,7 @@ std::ostream & print(std::ostream & out, CrossSection * cs, const double & v0, c
 
 const double v0 = 100*m/s;
 const double v1 = 10000000*m/s;
-const int N = 100;
+const int N_points = 100;
 
 int main() {
 
@@ -42,8 +42,8 @@ int main() {
     std::ofstream fdata("data.dat");
 
     std::cout << "testing VHS..." << std::endl;
-    XMLContext::list xl = db.root_context.eval("//Interaction[cross_section/@type='vhs/vss']");
-    for (XMLContext::list::iterator i = xl.begin(); i!=xl.end(); i++) {
+    XMLContext::set xl = db.root_context.eval("//Interaction[cross_section/@type='vhs/vss']");
+    for (XMLContext::set::iterator i = xl.begin(); i!=xl.end(); i++) {
         std::string Eq = i->query<std::string>("Eq");
         std::cout << "Eq:  " << Eq << std::endl;
 
@@ -52,13 +52,13 @@ int main() {
         //cs.print(std::cout) << std::endl;
 
         fvhs << "# Eq:  " << Eq << '\n';
-        print(fvhs, &cs, v0, v1, N) << "\n\n";
+        print(fvhs, &cs, v0, v1, N_points) << "\n\n";
     }
 
 
     std::cout << "testing DATACrossSection..." << std::endl;
     xl = db.root_context.eval("//Interaction[cross_section/@type='data']");
-    for (XMLContext::list::iterator i = xl.begin(); i!=xl.end(); i++) {
+    for (XMLContext::set::iterator i = xl.begin(); i!=xl.end(); i++) {
         std::string Eq = i->query<std::string>("Eq");
         std::cout << "Eq:  " << Eq << std::endl;
 
@@ -68,7 +68,7 @@ int main() {
             //cs.print(std::cout) << std::endl;
 
             fdata << "# Eq:  " << Eq << '\n';
-            print(fdata, &cs, v0, v1, N) << "\n\n";
+            print(fdata, &cs, v0, v1, N_points) << "\n\n";
         } catch (std::runtime_error & e) {
             std::cout << e.what();
         }

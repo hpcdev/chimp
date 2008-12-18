@@ -8,39 +8,14 @@
 #include <olson-tools/Vector.h>
 #include <nsort/Particle.h>
 #include <nsort/snort.h>
+#include <nsort/nsort_maps.h>
 
 
 
 
 template <class ParticleIterator>
-struct ParticleRangeContainer {
+struct cell_info {
     typedef ParticleIterator particle_iter_type;
-    IteratorRange<ParticleIterator> particles;
-};
-
-template <class ParticleIterator, class val_map,
-          class sub = ParticleRangeContainer<ParticleIterator> >
-struct octree_node : ParticleRangeContainer<ParticleIterator> {
-    typedef ParticleRangeContainer<ParticleIterator> super;
-
-    void buildOctree() {
-        //nsort<type_map> pts(n_types);
-        //pts.sort(super::particles.begin(), super::particles.end());
-        //type_map::getIterators(pts, static_cast<sub&>(*this));
-    }
-};
-
-template <class ParticleIterator, class val_map>
-struct cell_info :
-    octree_node<
-        ParticleIterator,val_map,
-        cell_info<ParticleIterator,val_map>
-    > {
-
-    typedef octree_node<
-        ParticleIterator,val_map,
-        cell_info<ParticleIterator,val_map>
-    > super;
 
     struct data_t {
         data_t (const double & vav = 0, const double & v2 = 0) : vav(vav), v2(v2) {}
@@ -62,11 +37,12 @@ struct cell_info :
 
     void sort_types(const int & n_types) {
         nsort<type_map> pts(n_types);
-        pts.sort(super::particles.begin(), super::particles.end());
+        pts.sort(particles.begin(), particles.end());
         type_map::getIterators(pts, (*this));
     }
 
     /* BEGIN STORAGE MEMBERS */
+    IteratorRange<ParticleIterator> particles;
     std::vector< IteratorRange<ParticleIterator> > types; /* size : n */
     std::vector< data_t > data;                           /* size : n */
     upper_triangle<interact_info> interaction_info;  /* size : n*(n+1)/2 */
@@ -115,15 +91,16 @@ int main() {
     Particle::list particles;
     initPVector(particles, N_part, db.getProps().size());
 
-    typedef cell_info<Particle::list::iterator,position_3D_map_w_type<0,1,2> > cell_t;
+    typedef cell_info<Particle::list::iterator> cell_t;
     cell_t cell(db.getProps().size());
 
     /* initialize single-species velocity data */
-    cell.data[db.findParticle("87Rb")]      = cell_t::data_t(0, stddev_v_rel(100*uK, 0.5*db["87Rb"].mass::value));
-    cell.data[db.findParticle("Ar"  )]      = cell_t::data_t(0, stddev_v_rel(100*uK, 0.5*db["Ar"  ].mass::value));
-    cell.data[db.findParticle("e^-" )]      = cell_t::data_t(0, stddev_v_rel(100*uK, 0.5*db["e^-" ].mass::value));
-    cell.data[db.findParticle("Hg"  )]      = cell_t::data_t(0, stddev_v_rel(100*uK, 0.5*db["Hg"  ].mass::value));
-    cell.data[db.findParticle("Hg^+")]      = cell_t::data_t(0, stddev_v_rel(100*uK, 0.5*db["Hg^+"].mass::value));
+    cell.data[db.findParticleIndx("87Rb")] = cell_t::data_t(0, stddev_v_rel(100*uK, 0.5*db["87Rb"].mass::value));
+    cell.data[db.findParticleIndx("Ar"  )] = cell_t::data_t(0, stddev_v_rel(100*uK, 0.5*db["Ar"  ].mass::value));
+    cell.data[db.findParticleIndx("e^-" )] = cell_t::data_t(0, stddev_v_rel(100*uK, 0.5*db["e^-" ].mass::value));
+    cell.data[db.findParticleIndx("Hg"  )] = cell_t::data_t(0, stddev_v_rel(100*uK, 0.5*db["Hg"  ].mass::value));
+    cell.data[db.findParticleIndx("Hg^+")] = cell_t::data_t(0, stddev_v_rel(100*uK, 0.5*db["Hg^+"].mass::value));
+
     /* initialize cross-species data */
 #if 0
     /* depending on your point of view, this method of moving through the
@@ -197,9 +174,54 @@ int main() {
 
 
 
-#if 1
-    std::cout << "\n\nAll known interactions and a small calculateOutPath test:\n";
     /* spit out known interactions and attempt execution */
+    std::cout << "\n\nAll known interactions and a small calculateOutPath test:\n";
+#if 1
+    {
+    using particledb::interaction::Set;
+    typedef upper_triangle<Set>::const_iterator sIter;
+    sIter di = db.getInteractions().begin();
+    for (; di != db.getInteractions().end(); ++di) {
+        using physical::unit::nm;
+        using olson_tools::SQR;
+        const Set & set = (*di);
+        const int & A = set.lhs.A;
+        const int & B = set.lhs.B;
+
+        if (set.rhs.size() == 0)
+            continue;
+
+        set.print(std::cout, db) << '\n';
+
+        /* now let's try and pick a mock collision pair for this
+         * interaction. */
+        if ((A == B && cell.types[A].size() < 2) ||
+            (cell.types[A].size() == 0 || cell.types[B].size() == 0))
+            continue;
+
+        Particle::list::iterator pi =
+            cell.types[A].begin() + int(cell.types[A].size()*MTRNGrand()*0.99999999);
+        Particle::list::iterator pj = pi;
+        while(pi == pj)
+            pj =
+            cell.types[B].begin() + int(cell.types[B].size()*MTRNGrand()*0.99999999);
+
+        double v_rel = (pi->v - pj->v).abs();
+
+        double & m_s_v = cell.interaction_info(A,B).max_sigma_v_rel;
+        std::pair<int,double> path = set.calculateOutPath(m_s_v, v_rel);
+        if (path.first < 0)
+            std::cout << "\tno out path\n";
+        else
+            set.rhs[path.first].print(
+                std::cout << "-----\tinputs = {" << (*pi) << ',' << (*pj) << "}\n"
+                          << "-----\tmax_sigma_v  :  " << m_s_v << "\n"
+                          << "-----\tv_rel        :  " << v_rel << "\n"
+                          << "-----\tout path     :  ", db) << "\n"
+                             "-----\tcross section:  " << (path.second/SQR(nm)) << " nm^2\n";
+    }
+    }
+#elif 1
     for (unsigned int i = 0; i < db.getProps().size(); i++)
         for (unsigned int j = i; j < db.getProps().size(); j++) {
             using particledb::interaction::Set;

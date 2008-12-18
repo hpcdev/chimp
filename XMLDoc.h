@@ -5,6 +5,7 @@
 //#include <libxml/tree.h>
 #include <libxml/parser.h>
 #include <libxml/xpath.h>
+#include <libxml/xinclude.h>
 //#include <libxml/xpathInternals.h>
 #include <set>
 #include <stdexcept>
@@ -262,6 +263,9 @@ namespace particledb { namespace xml {
             doc = xmlParseFile(filename.c_str());
             if (doc == NULL)
                 throw xml_error( "Error: unable to parse file \"" + filename + '\"');
+
+            /* specify that we want XInclude processing to work. */
+            xmlXIncludeProcess(doc);
 
             /* Create xpath evaluation context */
             root_context.assign(xmlXPathNewContext(doc));

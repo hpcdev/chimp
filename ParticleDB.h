@@ -155,17 +155,59 @@ class RuntimeDB {
 
     /** return the set of single-species properties for the given species. */
     const prop_type & operator[](const std::string & n) const {
-        return  props[findParticle(n)];
+        typename prop_list::const_iterator i = findParticle(n);
+        if (i == props.end())
+            throw std::runtime_error("particle type not loaded: '" + n + '\'');
+        return  *i;
     }
     /** return the set of single-species properties for the given species. */
           prop_type & operator[](const std::string & n)       {
-        return  props[findParticle(n)];
+        typename prop_list::iterator i = findParticle(n);
+        if (i == props.end())
+            throw std::runtime_error("particle type not loaded: '" + n + '\'');
+        return  *i;
     }
 
     /** return the set of cross-species properties for the two given species. */
-    const interaction::Set & operator()(const int & i, const int & j) const { return interactions(i,j); }
+    const interaction::Set & operator()(const int & i, const int & j) const {
+        return interactions(i,j);
+    }
     /** return the set of cross-species properties for the two given species. */
-          interaction::Set & operator()(const int & i, const int & j)       { return interactions(i,j); }
+          interaction::Set & operator()(const int & i, const int & j)       {
+        return interactions(i,j);
+    }
+
+    /** Get the (const) iterator of the particle type with the specified name.
+     * @return Iterator of particle type or getProps().end() if not found.
+     * @see Particle::type and ParticleTypeInfo
+     * @see Note for getProps() concerning ill-determined order of properties
+     * vector.
+     */
+    typename prop_list::const_iterator findParticle(const std::string & name) const {
+        typename prop_list::const_iterator i = props.begin();
+        for (; i != props.end(); i++) {
+            Particle::property::name n = (*i);
+            if (name == n.value)
+                break;
+        }
+        return i;
+    }
+
+    /** Get the (non-const) iterator of the particle type with the specified name.
+     * @return Iterator of particle type or getProps().end() if not found.
+     * @see Particle::type and ParticleTypeInfo
+     * @see Note for getProps() concerning ill-determined order of properties
+     * vector.
+     */
+    typename prop_list::iterator findParticle(const std::string & name) {
+        typename prop_list::iterator i = props.begin();
+        for (; i != props.end(); i++) {
+            Particle::property::name n = (*i);
+            if (name == n.value)
+                break;
+        }
+        return i;
+    }
 
     /** Get the index of the particle type with the specified name.
      * @return Index of particle type or -1 if not found.
@@ -173,15 +215,11 @@ class RuntimeDB {
      * @see Note for getProps() concerning ill-determined order of properties
      * vector.
      */
-    int findParticle(const std::string & name) const {
-        int j = 0;
-        typename prop_list::const_iterator i = props.begin();
-        for (; i != props.end(); i++, j++) {
-            Particle::property::name n = (*i);
-            if (name == n.value)
-                return j;
-        }
-        return -1;
+    int findParticleIndx(const std::string & name) const {
+        typename prop_list::const_iterator i = findParticle(name);
+        if (i == props.end())
+            return -1;
+        return i - props.begin();
     }
 
     /** Loads the particle information for the given particle name into the
@@ -207,14 +245,13 @@ class RuntimeDB {
     }
 
     void addParticleType(const prop_type & prop) {
-
-        const Particle::property::name & n = prop;
+        using Particle::property::name;
+        const std::string & n = prop.name::value;
 
         /* See if this particle type has already been
          * loaded into the database (we don't want any duplicates). */
-        int i = findParticle(n.value);
-        if (i >= 0)
-            olson_tools::logger::log_warning("particle type '%s' was previously loaded; will not reload", n.value.c_str());
+        if (findParticle(n) != props.end())
+            olson_tools::logger::log_warning("particle type '%s' was previously loaded; will not reload", n.c_str());
         else
             props.push_back(prop);
     }

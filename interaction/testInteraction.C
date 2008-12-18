@@ -22,15 +22,11 @@ int main() {
     RuntimeDB<> db("../particledb.xml");
     prepareCalculator(db.xmlDb);
 
-    set.lhs.A = db.addParticleType(A);
-    try {
-        set.lhs.B = db.addParticleType(B);
-    } catch (particledb::xml::no_results){
-        RuntimeDB<>::prop_type pB;
-        pB.name::value = B;
-        pB.mass::value = 10;
-        set.lhs.B = db.addParticleType(pB);
-    }
+    db.addParticleType(A);
+    db.addParticleType(B);
+
+    set.lhs.A = db.findParticle(A);
+    set.lhs.B = db.findParticle(B);
 
     db.allowed_equations.insert('('+A+")+("+B+")->("+A+")+("+B+')');
 

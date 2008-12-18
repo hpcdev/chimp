@@ -161,8 +161,8 @@ namespace particledb { namespace interaction {
 
             if (xl.size() == 2) {
                 XMLContext::set::iterator i = xl.begin();
-                retval.A = db.findParticle(i->parse<string>());
-                retval.B = db.findParticle((++i)->parse<string>());
+                retval.A = db.findParticleIndx(i->parse<string>());
+                retval.B = db.findParticleIndx((++i)->parse<string>());
                 if (retval.A == -1 || retval.B == -1)
                     throw xml_error(
                         "Cannot load equation with unknown inputs. "
@@ -172,7 +172,7 @@ namespace particledb { namespace interaction {
                 /* single species elastic collision */
                 if (xl.begin()->query<int>("@M") != 2)
                     throw xml_error("(too few inputs) Binary interaction must have two inputs");
-                retval.A = retval.B = db.findParticle(xl.begin()->parse<string>());
+                retval.A = retval.B = db.findParticleIndx(xl.begin()->parse<string>());
             } else
                 throw xml_error("(too many inputs) Binary interaction must have two inputs");
 
@@ -182,7 +182,7 @@ namespace particledb { namespace interaction {
              * multipliers. */
             xl = x.eval("Eq/Out/P");
             for (XMLContext::set::iterator i = xl.begin(); i != xl.end(); i++) {
-                Output::item it = {0, db.findParticle(i->parse<string>())};
+                Output::item it = {0, db.findParticleIndx(i->parse<string>())};
 
                 if (it.type == -1)
                     throw xml_error(

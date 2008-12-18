@@ -13,7 +13,7 @@ namespace particledb { namespace xml {
         calc.addMathLib();
         calc.addPhysicalUnits();
     
-        XMLContext::set xl = doc.eval("/ParticleDB/calc-commands/command");
+        XMLContext::set xl = doc.eval("/ParticleDB/*/calc-commands/command");
         XMLContext::set::iterator i = xl.begin();
         for (; i != xl.end(); i++) {
             const XMLContext & x = (*i);

@@ -46,5 +46,75 @@ DONE
     be), so the grid step size could be a local choice.  
 
 4.  Test interaction::Set::calculateOutPath(...) 
+DONE
+
 5.  Test interaction::CrossSection::find_max_sigma_v_rel(...)
+DONE
+
 6.  Create interaction::PreComputedSet
+
+7.  Use XML::Xinclude to include different particledb.xml type files into one
+    runtime accessible set.  This allows a user to easily maintain their own
+    set of data, even across upgrades of the software.  This also allows us
+    to separate different sets of data depending on their proprietary and or
+    sensitive nature.
+DONE
+    NOTE:  the convention will be for each included file to uniquely define
+    their own sub-tree, such as
+    "/ParticleDB/Olson" (for the 'Olson' set of data)
+    "/ParticleDB/standard" (for the 'standard' set of data--distributed by the
+    package; i.e. the default set of data)
+
+8.  Investigate the feasibility of allowing particle "<alias>" entries to be
+    given to particles so that users can refer to the same particle property
+    set by different names.  
+
+9.  If an equation specified in the "allowed_equations" set cannot be not
+    used, then issue a warning. 
+
+10. Create a generalized filter approach to establishing the set of all
+    usable equations for a particular input pair.  
+
+    This filter should have things like:
+        allow_equation("<eq>")
+        reject_equation("<eq>")
+        allow_interaction_type(["elastic", "ionization", "excitation", "attachment", ...])
+        reject_interaction_type(["elastic", "ionization", "excitation", "attachment", ...])
+
+    This filter should provide an order of precedence for equations that may
+    be multiply defined.  For instance, if the user has defined an equation in
+    the user's own xml file (which is included by the particledb.xml XInclude
+    commands), then the user should be able to give their version of the
+    equation precedence over any other definition that may match the same
+    equation "fingerprint". 
+
+    It seems like the best way to do this is to have the above allow_,reject_
+    functions take an optional argument that would specify the portion of the
+    xml tree which should take precedence in the filter.  For instance, the
+    user should be able to specify:
+        allow_equation("<eq>", "Olson")
+    to give precedence to the equation "<eq>" as defined in the Olson
+    sub-tree, e.g. in
+    "/ParticleDB/Olson/Interactions/Interaction[string(Eq)='<eq>']"
+
+11. Add a new section in the database for a predefined set of data that might
+    be useful to import together.
+    
+    For example, as user might be able to just say:
+        db.add_set("air")
+    and all particles and equations that are confirmed to be pertinent for
+    simulating "air" would be added to the runtime database.
+
+    <Set name="air">
+        <particles>
+            <P>O2</P>
+            <P>N2</P>
+        </particles>
+        <equation-filter>
+            <Allow type="equation">(O2)->(O2)</Allow>
+            <Allow type="equation">(N2)->(N2)</Allow>
+            <Allow type="equation">(O2)+(N2)->(O2)+(N2)</Allow>
+            <Deny type="interaction_type">attachment</Deny>
+        </equation-filter>
+    </Set>
+
