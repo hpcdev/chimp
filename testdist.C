@@ -1,5 +1,8 @@
 /** \file Testing the discrete distribution for selecting output path for a
  * given set of input particles.
+ *
+ * This test is meant to help design the
+ * particledb::interaction::PreComputedSet class.
  * */
 
 
