@@ -5,10 +5,12 @@
 
 #include <string>
 
-#include "XMLDoc.h"
+#include <olson-tools/xml/XMLDoc.h>
 
 namespace particledb { namespace Particle {
     namespace property {
+        namespace xml = olson_tools::xml;
+
         static const char * property_names[] = {
             "@name",
             "mass", 
@@ -34,36 +36,22 @@ namespace particledb { namespace Particle {
 
             template <class T, enum ID id>
             struct check {
-                check(const T& t) : value(t) {}
+                check(const T& t = T()) : value(t) {}
                 T value;
             };
 
-        }
-    }}
-
-    namespace xml {
-        //using namespace Particle::property::PHYS;
-        namespace ppp = Particle::property::PHYS;
-        template<>
-        template<class T, enum ppp::ID id>
-        struct parser< ppp::check<T,id> > {
-            static ppp::check<T,id> parse(const XMLContext & x) {
-                return x.parse<T>();
+            template<class T, enum ID id>
+            static void parse_item( check<T,id> & out,
+                                    const xml::XMLContext & x ) {
+                out.value = x.parse<T>();
             }
-        };
 
-        template<>
-        struct parser< ppp::check<double,ppp::KG> > {
-            static ppp::check<double,ppp::KG> parse(const XMLContext & x);
-        };
+            extern void parse_item( check<double,KG> & out,
+                                    const xml::XMLContext & x );
+            extern void parse_item( check<double,M>  & out,
+                                    const xml::XMLContext & x );
+        }/* namespace PHYS */
 
-        template<>
-        struct parser< ppp::check<double,ppp::M> > {
-            static ppp::check<double,ppp::M> parse(const XMLContext & x);
-        };
-    }
-
-    namespace Particle { namespace property {
 
         template <class T, enum PROPERTY_INDX P, bool R /*required_on_load*/ = false, enum PHYS::ID id = PHYS::NONE>
         struct property {

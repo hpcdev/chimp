@@ -4,7 +4,7 @@
 #include <math.h>
 #include <ostream>
 
-#include "../XMLDoc.h"
+#include <olson-tools/xml/XMLDoc.h>
 
 #if (defined(PGCC) || __sun__ == 1)
 inline double tgamma(double x) {
@@ -18,6 +18,7 @@ inline double tgamma(double x) {
 
 
 namespace particledb { namespace interaction {
+    namespace xml = olson_tools::xml;
 
 struct VHSInfo {
     /** A cross section computed, measured, or whatever at the reference

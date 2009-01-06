@@ -1,4 +1,4 @@
-#include "../physical_parse.h"
+#include <olson-tools/xml/physical_parse.h>
 
 #include "DATACrossSection.h"
 
@@ -11,9 +11,11 @@ using physical::unit::s;
 using physical::unit::kg;
 using namespace physical::math;
 
-typedef data_set<Quantity,Quantity> pqdata_set;
+typedef olson_tools::data_set<Quantity,Quantity> pqdata_set;
 
-DATACrossSection DATACrossSection::load( xml::XMLContext & x, const double & mu) {
+DATACrossSection DATACrossSection::load(
+                olson_tools::xml::XMLContext & x,
+                const double & mu ) {
     const Quantity m_s = m/s;
     const Quantity m2  = m*m;
     DATACrossSection cs(mu);

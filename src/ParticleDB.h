@@ -89,18 +89,19 @@
 #  include <algorithm>
 
 
-#  include <olson-tools/nothing.h>
 #  include <olson-tools/logger.h>
+#  include <olson-tools/upper_triangle.h>
+#  include <olson-tools/xml/XMLDoc.h>
+
 
 #  include "interaction/Interaction.h"
 #  include "interaction/Set.h"
 #  include "Particle.h"
 
-#  include "upper_triangle.h"
-
-#  include "XMLDoc.h"
-
 namespace particledb {
+
+    namespace xml = olson_tools::xml;
+
 
 
 /** Runtime database of properties pertinent to the current simulation. */
@@ -109,7 +110,7 @@ class RuntimeDB {
   public:
     typedef _Properties prop_type;
     typedef std::vector<prop_type> prop_list;
-    typedef upper_triangle<interaction::Set, SymmetryFix> InteractionMatrix;
+    typedef olson_tools::upper_triangle<interaction::Set, olson_tools::SymmetryFix> InteractionMatrix;
 
   private:
     /** Vector of particle properties.

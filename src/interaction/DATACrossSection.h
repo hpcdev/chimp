@@ -2,8 +2,8 @@
 #define PARTICLEDB_INTERACTION_DATACROSSSECTION_H
 
 #include "CrossSection.h"
-#include "../data_set.h"
-
+#include <olson-tools/xml/XMLDoc.h>
+#include <olson-tools/data_set.h>
 #include <olson-tools/power.h>
 
 #include <map>
@@ -22,7 +22,7 @@ namespace particledb { namespace interaction {
     const double lne_e_scaling = olson_tools::SQR(2500.0/3e8);
 
 struct DATACrossSection : CrossSection {
-    typedef data_set<double,double> table_t;
+    typedef olson_tools::data_set<double,double> table_t;
     table_t table;
 
     DATACrossSection(const double & mu = 0.0) : CrossSection(mu) {}
@@ -85,7 +85,7 @@ struct DATACrossSection : CrossSection {
      * @param mu
      *     Reduced mass of particles in question.
      * */
-    static DATACrossSection load(xml::XMLContext & x, const double & mu);
+    static DATACrossSection load(olson_tools::xml::XMLContext & x, const double & mu);
 };
 
 }} /* namespace particledb::interaction.*/

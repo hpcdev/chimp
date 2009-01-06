@@ -1,0 +1,15 @@
+
+path-constant EXAMPLES_TOP : . ;
+
+project
+    :
+        build-dir build
+    ;
+
+use-project /particledb : ../ ;
+
+build-project Particle ;
+build-project RuntimeDB ;
+build-project xmldb ;
+build-project CrossSection ;
+build-project Interaction ;

@@ -1,10 +1,10 @@
 #ifndef PARTICLEDB_PHYSICAL_CALC_H
 #define PARTICLEDB_PHYSICAL_CALC_H
 
-#include "XMLDoc.h"
+#include <olson-tools/xml/XMLDoc.h>
 
-namespace particledb { namespace xml {
-    void prepareCalculator(const XMLDoc & doc);
-}} /* namespace particledb::xml */
+namespace particledb {
+    void prepareCalculator(const olson_tools::xml::XMLDoc & doc);
+} /* namespace particledb */
 
 #endif // PARTICLEDB_PHYSICAL_CALC_H

@@ -1,0 +1,40 @@
+# alias install : install-headers install-lib ;
+
+# install install-lib : particledb ;
+# 
+# install install-headers
+#     : [ glob-tree *.h : .svn ]
+#     ;
+# 
+
+
+project 
+    :
+        requirements <include>/home/olsonse/build/olson-tools/include
+                     <include>/usr/include/libxml2
+    :
+        usage-requirements <include>/home/olsonse/build/olson-tools/include
+                     <include>/usr/include/libxml2
+                     <include>src
+    :
+        build-dir build
+    ;
+
+lib db
+    :       Particle
+        src/ParticleDB.cpp
+            physical_calc
+            interaction/DATACrossSection
+            interaction/VHSInfo
+    :
+    :
+    :
+        <include>src
+    ;
+
+# Optimized compiling for any code that uses the boost::spirit grammar stuff
+# is REALLY REALLY slow--so turn it off.
+obj Particle                     : src/Particle.cpp                     : <optimization>off ;
+obj physical_calc                : src/physical_calc.cpp                : <optimization>off ;
+obj interaction/VHSInfo          : src/interaction/VHSInfo.cpp          : <optimization>off ;
+obj interaction/DATACrossSection : src/interaction/DATACrossSection.cpp : <optimization>off ;

@@ -1,15 +1,15 @@
 /** \file Simple test of particledb::Particle mechanics. */
 
-#include "Particle.h"
-#include "physical_calc.h"
+#include <Particle.h>
+#include <physical_calc.h>
 #include <iostream>
 #include <olson-tools/physical/physical.h>
 
 int main() {
-    using namespace particledb::xml;
+    using namespace olson_tools::xml;
 
     XMLDoc db("particledb.xml");
-    prepareCalculator(db);
+    particledb::prepareCalculator(db);
 
     XMLContext x = db.root_context.find("/ParticleDB//particles/Particle[@name='87Rb']");
     particledb::Particle::Properties p = particledb::Particle::Properties::load(x);

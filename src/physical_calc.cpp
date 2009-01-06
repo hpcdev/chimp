@@ -1,11 +1,12 @@
 #include "physical_calc.h"
 #include <olson-tools/physical/calc/infix.h>
 
-namespace particledb { namespace xml {
-    void prepareCalculator(const XMLDoc & doc) {
+namespace particledb {
+    void prepareCalculator(const olson_tools::xml::XMLDoc & doc) {
         /* prepare infix units calculator. */
         using physical::calc::InfixCalc;
         using physical::calc::symbol;
+        using olson_tools::xml::XMLContext;
         InfixCalc::base_calc & calc = InfixCalc::instance();
     
         /* clear the old symbols out */
@@ -20,4 +21,4 @@ namespace particledb { namespace xml {
             calc.exec(x.parse<std::string>());
         }
     }
-}} /* namespace particledb::xml */
+} /* namespace particledb */
