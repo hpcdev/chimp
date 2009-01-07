@@ -7,15 +7,24 @@
 #     ;
 # 
 
+import mpi ;
 
-project 
+local xml2-features = [ mpi.cmdline_to_features [ SHELL "printf '%s ' compiler `xml2-config --cflags --libs`" ] ] ;
+
+lib boost_regex : : <name>boost_regex ;
+
+lib olson-tools : : <search>/home/olsonse/build/olson-tools/lib ;
+
+project /particledb
     :
         requirements <include>/home/olsonse/build/olson-tools/include
-                     <include>/usr/include/libxml2
+                     $(xml2-features)
     :
         usage-requirements <include>/home/olsonse/build/olson-tools/include
-                     <include>/usr/include/libxml2
+                     $(xml2-features)
                      <include>src
+                     <library>boost_regex
+                     <library>olson-tools
     :
         build-dir build
     ;

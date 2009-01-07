@@ -1,14 +1,15 @@
 /** \file Simple test of particledb::Particle mechanics. */
 
-#include "../physical_calc.h"
-#include "VHSCrossSection.h"
-#include "DATACrossSection.h"
+#include <physical_calc.h>
+#include <interaction/VHSCrossSection.h>
+#include <interaction/DATACrossSection.h>
+
 #include <iostream>
 #include <fstream>
 #include <olson-tools/physical/physical.h>
 #include <stdexcept>
 
-using namespace particledb::xml;
+using namespace olson_tools::xml;
 using namespace physical::elements;
 using particledb::interaction::CrossSection;
 using particledb::interaction::VHSCrossSection;
@@ -33,10 +34,14 @@ const double v0 = 100*m/s;
 const double v1 = 10000000*m/s;
 const int N_points = 100;
 
+#ifndef   XML_FILENAME
+#  define XML_FILENAME  "particledb.xml"
+#endif
+
 int main() {
 
-    XMLDoc db("../particledb.xml");
-    prepareCalculator(db);
+    XMLDoc db(XML_FILENAME);
+    particledb::prepareCalculator(db);
 
     std::ofstream fvhs("vhs.dat");
     std::ofstream fdata("data.dat");

@@ -1,5 +1,1 @@
-exe testXML
-    :
-        testXML.cpp /particledb//db
-    :
-        <define>XML_FILENAME=\\\"$(EXAMPLES_TOP)/../data/particledb.xml\\\" ;
+exe testXML : testXML.cpp /particledb//db ;

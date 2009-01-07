@@ -1,8 +1,13 @@
 #include <iostream>
-#include "Interaction.h"
-#include "Set.h"
-#include "../ParticleDB.h"
-#include "../physical_calc.h"
+#include <interaction/Interaction.h>
+#include <interaction/Set.h>
+#include <ParticleDB.h>
+#include <physical_calc.h>
+
+#ifndef   XML_FILENAME
+#  define XML_FILENAME  "particledb.xml"
+#endif
+
 
 int main() {
     using particledb::xml::XMLContext;
@@ -19,14 +24,14 @@ int main() {
     string B = "Hg";
     Set set;
 
-    RuntimeDB<> db("../particledb.xml");
-    prepareCalculator(db.xmlDb);
+    RuntimeDB<> db(XML_FILENAME);
+    particledb::prepareCalculator(db.xmlDb);
 
     db.addParticleType(A);
     db.addParticleType(B);
 
-    set.lhs.A = db.findParticle(A);
-    set.lhs.B = db.findParticle(B);
+    set.lhs.A = db.findParticleIndx(A);
+    set.lhs.B = db.findParticleIndx(B);
 
     db.allowed_equations.insert('('+A+")+("+B+")->("+A+")+("+B+')');
 

@@ -1,16 +1,30 @@
 
-#include <iostream>
-#include <iterator>
-#include "ParticleDB.h"
-#include "physical_calc.h"
-#include "upper_triangle.h"
+#include "Particle.h"
+
+#include <ParticleDB.h>
+#include <physical_calc.h>
+
+#include <olson-tools/upper_triangle.h>
 #include <olson-tools/physical/physical.h>
 #include <olson-tools/Vector.h>
-#include <nsort/Particle.h>
-#include <nsort/snort.h>
-#include <nsort/nsort_maps.h>
+
+#include <olson-tools/nsort.h>
+#include <olson-tools/nsort_maps.h>
 
 
+#include <iostream>
+#include <iterator>
+
+
+using olson_tools::upper_triangle;
+using olson_tools::IteratorRange;
+using olson_tools::nsort;
+using olson_tools::type_map;
+
+
+#ifndef   XML_FILENAME
+#  define XML_FILENAME  "particledb.xml"
+#endif
 
 
 template <class ParticleIterator>
@@ -68,8 +82,8 @@ int main() {
     using physical::unit::s;
     using physical::unit::uK;
 
-    RuntimeDB<> db;
-    prepareCalculator(db.xmlDb);
+    RuntimeDB<> db(XML_FILENAME);
+    particledb::prepareCalculator(db.xmlDb);
 
     /* load information from XML file. */
     db.addParticleType("87Rb");
