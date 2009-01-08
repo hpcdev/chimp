@@ -1,8 +1,8 @@
 #include <iostream>
-#include <interaction/Interaction.h>
-#include <interaction/Set.h>
-#include <ParticleDB.h>
-#include <physical_calc.h>
+#include <particledb/interaction/Interaction.h>
+#include <particledb/interaction/Set.h>
+#include <particledb/ParticleDB.h>
+#include <particledb/physical_calc.h>
 
 #ifndef   XML_FILENAME
 #  define XML_FILENAME  "particledb.xml"

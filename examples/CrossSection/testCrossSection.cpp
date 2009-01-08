@@ -1,8 +1,8 @@
 /** \file Simple test of particledb::Particle mechanics. */
 
-#include <physical_calc.h>
-#include <interaction/VHSCrossSection.h>
-#include <interaction/DATACrossSection.h>
+#include <particledb/physical_calc.h>
+#include <particledb/interaction/VHSCrossSection.h>
+#include <particledb/interaction/DATACrossSection.h>
 
 #include <iostream>
 #include <fstream>

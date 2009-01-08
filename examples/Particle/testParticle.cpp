@@ -1,7 +1,7 @@
 /** \file Simple test of particledb::Particle mechanics. */
 
-#include <Particle.h>
-#include <physical_calc.h>
+#include <particledb/Particle.h>
+#include <particledb/physical_calc.h>
 #include <iostream>
 #include <olson-tools/physical/physical.h>
 

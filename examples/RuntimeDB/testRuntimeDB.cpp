@@ -1,8 +1,8 @@
 
 #include "Particle.h"
 
-#include <ParticleDB.h>
-#include <physical_calc.h>
+#include <particledb/ParticleDB.h>
+#include <particledb/physical_calc.h>
 
 #include <olson-tools/upper_triangle.h>
 #include <olson-tools/physical/physical.h>
