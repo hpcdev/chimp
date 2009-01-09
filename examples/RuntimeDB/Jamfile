@@ -1,1 +1,1 @@
-exe testRuntimeDB : testRuntimeDB.cpp /particledb//db ;
+exe testRuntimeDB : testRuntimeDB.cpp /particledb//particledb ;

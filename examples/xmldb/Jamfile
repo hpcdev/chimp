@@ -1,1 +1,3 @@
-exe testXML : testXML.cpp /particledb//db : <optimization>off ;
+exe testXML : testXML_obj /particledb//particledb  ;
+
+obj testXML_obj : testXML.cpp /particledb//particledb : <cflags>-O0 ;

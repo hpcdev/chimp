@@ -1,1 +1,1 @@
-exe testCrossSection : testCrossSection.cpp /particledb//db ;
+exe testCrossSection : testCrossSection.cpp /particledb//particledb ;

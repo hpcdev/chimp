@@ -1,1 +1,1 @@
-exe testParticle : testParticle.cpp /particledb//db ;
+exe testParticle : testParticle.cpp /particledb//particledb ;
