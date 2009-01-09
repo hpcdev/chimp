@@ -13,19 +13,18 @@ local xml2-features = [ mpi.cmdline_to_features [ SHELL "printf '%s ' compiler `
 
 lib boost_regex : : <name>boost_regex ;
 
-lib olson-tools : : <search>/home/olsonse/build/olson-tools/lib ;
+use-project /olson-tools : ../olson-tools ;
 
 project /particledb
     : requirements
-        <include>/home/olsonse/build/olson-tools/include
+        <library>/olson-tools//olson-tools
         $(xml2-features)
         <include>src/particledb
     : usage-requirements
-        <include>/home/olsonse/build/olson-tools/include
+        <library>/olson-tools//olson-tools
         $(xml2-features)
         <include>src
         <library>boost_regex
-        <library>olson-tools
     :
         build-dir build
     ;
@@ -36,6 +35,7 @@ lib db :
       physical_calc
       interaction/DATACrossSection
       interaction/VHSInfo
+    : <link>static
     ;
 
 # Optimized compiling for any code that uses the boost::spirit grammar stuff
