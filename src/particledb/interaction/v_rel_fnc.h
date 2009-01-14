@@ -1,7 +1,7 @@
 #ifndef PARTICLEDB_INTERACTION_V_REL_FNC_H
 #define PARTICLEDB_INTERACTION_V_REL_FNC_H
 
-#include <olson-tools/physical/physical.h>
+#include <physical/physical.h>
 
 namespace particledb { namespace interaction {
 

@@ -1,5 +1,5 @@
 #include "physical_calc.h"
-#include <olson-tools/physical/calc/infix.h>
+#include <physical/calc/infix.h>
 
 namespace particledb {
     void prepareCalculator(const olson_tools::xml::XMLDoc & doc) {

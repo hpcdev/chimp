@@ -16,7 +16,7 @@
 #include <olson-tools/random/random.h>
 #include <olson-tools/Distribution.h>
 #include <olson-tools/GenericBin.h>
-#include <olson-tools/physical/physical.h>
+#include <physical/physical.h>
 
 using physical::constant::amu;
 using physical::constant::K_B;

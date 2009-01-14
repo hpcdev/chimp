@@ -4,7 +4,7 @@
 #include "CrossSection.h"
 #include "VHSInfo.h"
 
-#include <olson-tools/physical/physical.h>
+#include <physical/physical.h>
 #include <olson-tools/power.h>
 
 #include <ostream>

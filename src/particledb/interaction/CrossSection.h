@@ -5,7 +5,7 @@
 #include <cmath>
 #include <vector>
 
-#include <olson-tools/physical/physical.h>
+#include <physical/physical.h>
 
 #include "v_rel_fnc.h"
 

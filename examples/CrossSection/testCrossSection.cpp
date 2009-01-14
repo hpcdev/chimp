@@ -6,7 +6,7 @@
 
 #include <iostream>
 #include <fstream>
-#include <olson-tools/physical/physical.h>
+#include <physical/physical.h>
 #include <stdexcept>
 
 using namespace olson_tools::xml;

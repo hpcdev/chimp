@@ -5,7 +5,7 @@
 #include <particledb/physical_calc.h>
 
 #include <olson-tools/upper_triangle.h>
-#include <olson-tools/physical/physical.h>
+#include <physical/physical.h>
 #include <olson-tools/Vector.h>
 
 #include <olson-tools/nsort.h>

@@ -3,7 +3,7 @@
 #include <particledb/Particle.h>
 #include <particledb/physical_calc.h>
 #include <iostream>
-#include <olson-tools/physical/physical.h>
+#include <physical/physical.h>
 
 #ifndef   XML_FILENAME
 #  define XML_FILENAME  "particledb.xml"
