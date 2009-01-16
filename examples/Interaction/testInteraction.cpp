@@ -4,8 +4,8 @@
 #include <particledb/ParticleDB.h>
 #include <particledb/physical_calc.h>
 
-#ifndef   XML_FILENAME
-#  define XML_FILENAME  "particledb.xml"
+#ifndef   PARTICLEDB_XML
+#  define PARTICLEDB_XML  "particledb.xml"
 #endif
 
 
@@ -24,7 +24,7 @@ int main() {
     string B = "Hg";
     Set set;
 
-    RuntimeDB<> db(XML_FILENAME);
+    RuntimeDB<> db(PARTICLEDB_XML);
     particledb::prepareCalculator(db.xmlDb);
 
     db.addParticleType(A);

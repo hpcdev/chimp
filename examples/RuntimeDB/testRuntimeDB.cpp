@@ -22,8 +22,8 @@ using olson_tools::nsort;
 using olson_tools::type_map;
 
 
-#ifndef   XML_FILENAME
-#  define XML_FILENAME  "particledb.xml"
+#ifndef   PARTICLEDB_XML
+#  define PARTICLEDB_XML  "particledb.xml"
 #endif
 
 
@@ -82,7 +82,7 @@ int main() {
     using physical::unit::s;
     using physical::unit::uK;
 
-    RuntimeDB<> db(XML_FILENAME);
+    RuntimeDB<> db(PARTICLEDB_XML);
     particledb::prepareCalculator(db.xmlDb);
 
     /* load information from XML file. */

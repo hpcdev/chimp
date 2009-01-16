@@ -131,7 +131,7 @@ class RuntimeDB {
 
     xml::XMLDoc xmlDb;
 
-    RuntimeDB(const std::string & xml_doc = "particledb.xml") : xmlDb(xml_doc) {}
+    RuntimeDB(const std::string & xml_doc = PARTICLEDB_XML) : xmlDb(xml_doc) {}
 
     /** Read-only access to the properties vector.
      *

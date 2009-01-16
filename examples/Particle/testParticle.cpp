@@ -5,14 +5,14 @@
 #include <iostream>
 #include <physical/physical.h>
 
-#ifndef   XML_FILENAME
-#  define XML_FILENAME  "particledb.xml"
+#ifndef   PARTICLEDB_XML
+#  define PARTICLEDB_XML  "particledb.xml"
 #endif
 
 int main() {
     using namespace olson_tools::xml;
 
-    XMLDoc db(XML_FILENAME);
+    XMLDoc db(PARTICLEDB_XML);
     particledb::prepareCalculator(db);
 
     XMLContext x = db.root_context.find("/ParticleDB//particles/Particle[@name='87Rb']");

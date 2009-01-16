@@ -34,13 +34,13 @@ const double v0 = 100*m/s;
 const double v1 = 10000000*m/s;
 const int N_points = 100;
 
-#ifndef   XML_FILENAME
-#  define XML_FILENAME  "particledb.xml"
+#ifndef   PARTICLEDB_XML
+#  define PARTICLEDB_XML  "particledb.xml"
 #endif
 
 int main() {
 
-    XMLDoc db(XML_FILENAME);
+    XMLDoc db(PARTICLEDB_XML);
     particledb::prepareCalculator(db);
 
     std::ofstream fvhs("vhs.dat");

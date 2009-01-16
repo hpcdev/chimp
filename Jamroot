@@ -7,6 +7,8 @@
 #     ;
 # 
 
+path-constant TOP : . ;
+
 import mpi ;
 
 local xml2-features = [ mpi.cmdline_to_features [ SHELL "printf '%s ' compiler `xml2-config --cflags --libs`" ] ] ;
@@ -20,11 +22,13 @@ project /particledb
         <library>/olson-tools//olson-tools
         $(xml2-features)
         <include>src/particledb
+        <define>PARTICLEDB_XML=\\\"$(TOP)/data/particledb.xml\\\"
     : usage-requirements
         <library>/olson-tools//olson-tools
         $(xml2-features)
         <include>src
         <library>boost_regex
+        <define>PARTICLEDB_XML=\\\"$(TOP)/data/particledb.xml\\\"
     :
         build-dir build
     ;
@@ -37,6 +41,8 @@ lib particledb :
       interaction/VHSInfo
     : <link>static
     ;
+
+
 
 # Optimized compiling for any code that uses the boost::spirit grammar stuff
 # is REALLY REALLY slow--so turn it off.

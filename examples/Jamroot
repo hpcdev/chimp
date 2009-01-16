@@ -1,11 +1,7 @@
 
 path-constant EXAMPLES_TOP : . ;
 
-project /particledb/examples
-    : build-dir build
-    : requirements
-        <define>XML_FILENAME=\\\"$(EXAMPLES_TOP)/../data/particledb.xml\\\"
-    ;
+project /particledb/examples : build-dir build ;
 
 use-project /particledb : ../ ;
 
