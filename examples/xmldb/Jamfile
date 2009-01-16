@@ -1,3 +1,3 @@
 exe testXML : testXML_obj /particledb//particledb  ;
 
-obj testXML_obj : testXML.cpp /particledb//particledb : <cflags>-O0 ;
+obj testXML_obj : from-olson-tools/testXML.cpp /particledb//particledb : <cflags>-O0 ;
