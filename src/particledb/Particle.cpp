@@ -1,9 +1,9 @@
 #include "Particle.h"
 #include <olson-tools/xml/physical_parse.h>
 
-namespace particledb { namespace Particle { namespace property { namespace PHYS {
+namespace particledb { namespace Particle { namespace property {
     template    <>     std::string null_val<std::string>::value = "";
-
+namespace PHYS {
     void parse_item(check<double,KG> & out, const xml::XMLContext & x) {
         using physical::Quantity;
         using physical::unit::kg;
@@ -15,4 +15,5 @@ namespace particledb { namespace Particle { namespace property { namespace PHYS 
         using physical::unit::m;
         out = x.parse<Quantity>().assertMatch(m).coeff;
     }
-}}}}/* namespace particledb */
+} /* namespace PHYS */
+}}}/* namespace particledb::Particle::property */
