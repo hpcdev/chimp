@@ -76,13 +76,12 @@ void doCollisions( const IteratorRangeContainer & iv, InteractionInfoVector & in
 int main() {
     const int N_part = 10;
 
-    using particledb::RuntimeDB;
     using particledb::interaction::stddev_v_rel;
     using physical::unit::m;
     using physical::unit::s;
     using physical::unit::uK;
 
-    RuntimeDB<> db(PARTICLEDB_XML);
+    using particledb::db;
     particledb::prepareCalculator(db.xmlDb);
 
     /* load information from XML file. */

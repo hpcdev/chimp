@@ -105,10 +105,10 @@ namespace particledb {
 
 
 /** Runtime database of properties pertinent to the current simulation. */
-template <class _Properties = Particle::Properties>
+template <class Properties = Particle::Properties>
 class RuntimeDB {
   public:
-    typedef _Properties prop_type;
+    typedef Properties prop_type;
     typedef std::vector<prop_type> prop_list;
     typedef olson_tools::upper_triangle<interaction::Set, olson_tools::SymmetryFix> InteractionMatrix;
 
@@ -258,7 +258,7 @@ class RuntimeDB {
     }
 
     struct props_comparator {
-        bool operator()(const _Properties & lhs, const _Properties & rhs) {
+        bool operator()(const Properties & lhs, const Properties & rhs) {
             using Particle::property::mass;
             return lhs.mass::value < rhs.mass::value;
         }
@@ -305,16 +305,20 @@ class RuntimeDB {
         }
     }
 
+#if 0
     /** Creates and returns a static instance of the RuntimeDB.  Note that
      * only during the first time this is called will the database become
      * instantiated/initialized.  Consecutive calls will simply return the
      * reference to the already-instantiated class.  */
     static RuntimeDB & instance() {
-        static RuntimeDB * db = new RuntimeDB;
+        static RuntimeDB * db = new RuntimeDB(PARTICLEDB_XML);
         return *db;
     }
+#endif
 
 };
+
+static RuntimeDB<> db = RuntimeDB<>(PARTICLEDB_XML);
 
 } /* namespace particledb */
 

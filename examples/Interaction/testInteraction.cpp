@@ -18,13 +18,12 @@ int main() {
     using particledb::interaction::Equation;
     using particledb::interaction::Set;
     using std::string;
-    using particledb::RuntimeDB;
 
     string A = "e^-";
     string B = "Hg";
     Set set;
 
-    RuntimeDB<> db(PARTICLEDB_XML);
+    using particledb::db;
     particledb::prepareCalculator(db.xmlDb);
 
     db.addParticleType(A);
