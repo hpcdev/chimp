@@ -34,6 +34,10 @@
             <mass>m_e</mass>
             <charge>-1</charge>
         </Particle>
+        <Particle name="e^+">
+            <mass>m_e</mass>
+            <charge>1</charge>
+        </Particle>
         <Particle name="Hg">
             <mass>element::Hg::mass</mass>
         </Particle>

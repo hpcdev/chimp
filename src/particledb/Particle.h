@@ -151,8 +151,8 @@ namespace particledb { namespace Particle {
         /** Representative size of this type of particle. */
         struct size {
             typedef size super;
-            int value;
-            size(const int & sz = 1) : value(sz) {}
+            double value;
+            size(const double & sz = 1) : value(sz) {}
             std::ostream & print(std::ostream & out,
                                  const std::string & sep) const {
                 return out << "size: " << value << sep;
