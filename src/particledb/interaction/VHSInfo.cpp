@@ -4,9 +4,9 @@
 
 namespace particledb { namespace interaction {
     void parse_item(VHSInfo & out, const xml::XMLContext & x) {
-        using physical::Quantity;
-        using physical::unit::K;
-        using physical::unit::m;
+        using runtime::physical::Quantity;
+        using runtime::physical::unit::K;
+        using runtime::physical::unit::m;
         out.cross_section   = x.query<Quantity>("value"         ).assertMatch(m*m).coeff;
         out.T_ref           = x.query<Quantity>("T_ref"         ).assertMatch(K).coeff;
         out.visc_T_law      = x.query<Quantity>("visc_T_law"    ).assertUnitless().coeff;

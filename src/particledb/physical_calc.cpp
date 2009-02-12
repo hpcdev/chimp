@@ -4,8 +4,8 @@
 namespace particledb {
     void prepareCalculator(const olson_tools::xml::XMLDoc & doc) {
         /* prepare infix units calculator. */
-        using physical::calc::InfixCalc;
-        using physical::calc::symbol;
+        using runtime::physical::calc::InfixCalc;
+        using runtime::physical::calc::symbol;
         using olson_tools::xml::XMLContext;
         InfixCalc::base_calc & calc = InfixCalc::instance();
     

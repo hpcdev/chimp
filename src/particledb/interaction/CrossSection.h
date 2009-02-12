@@ -55,12 +55,8 @@ namespace particledb { namespace interaction {
 
         /** Effective radius.  Required by octree::Octree and dsmc::ParticleNode. */
         inline double effective_radius(const double & v_relative) const {
-#ifndef PHYSICAL_QUANTITY_H
             using physical::unit::pi;
             return /*size * */ 0.5 * sqrt(cross_section(v_relative)/ pi);
-#else
-            throw std::logic_error("physical/quantity.h should NOT have been included at this point");
-#endif
         }
     };
 

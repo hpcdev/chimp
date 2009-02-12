@@ -6,7 +6,6 @@
 #include <vector>
 #include <ostream>
 
-#include <physical/physical.h>
 #include <olson-tools/random/random.h>
 #include <olson-tools/logger.h>
 

@@ -4,12 +4,12 @@
 
 namespace particledb { namespace interaction {
 
-using physical::Quantity;
-using physical::constant::eV;
-using physical::unit::m;
-using physical::unit::s;
-using physical::unit::kg;
-using namespace physical::math;
+using runtime::physical::Quantity;
+using runtime::physical::constant::eV;
+using runtime::physical::unit::m;
+using runtime::physical::unit::s;
+using runtime::physical::unit::kg;
+using namespace runtime::physical::math;
 
 typedef olson_tools::data_set<Quantity,Quantity> pqdata_set;
 
