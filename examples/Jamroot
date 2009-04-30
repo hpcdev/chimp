@@ -1,7 +1,9 @@
 
 path-constant EXAMPLES_TOP : . ;
 
-project /particledb/examples : build-dir build ;
+project /particledb/examples
+    #: build-dir build
+    ;
 
 use-project /particledb : ../ ;
 

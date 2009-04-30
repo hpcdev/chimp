@@ -29,8 +29,7 @@ project /particledb
         <include>src
         <library>boost_regex
         <define>PARTICLEDB_XML=\\\"$(TOP)/data/particledb.xml\\\"
-    :
-        build-dir build
+    #: build-dir build
     ;
 
 lib particledb :

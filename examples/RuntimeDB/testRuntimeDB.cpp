@@ -8,8 +8,8 @@
 #include <physical/physical.h>
 #include <olson-tools/Vector.h>
 
-#include <olson-tools/nsort.h>
-#include <olson-tools/nsort_maps.h>
+#include <olson-tools/nsort/NSort.h>
+#include <olson-tools/nsort/map/type.h>
 
 
 #include <iostream>
@@ -18,13 +18,38 @@
 
 using olson_tools::upper_triangle;
 using olson_tools::IteratorRange;
-using olson_tools::nsort;
-using olson_tools::type_map;
+using olson_tools::nsort::NSort;
+namespace map = olson_tools::nsort::map;
 
 
 #ifndef   PARTICLEDB_XML
 #  define PARTICLEDB_XML  "particledb.xml"
 #endif
+
+
+namespace {
+  /** Obtain iterators for type_map values.
+   * This version allows this function to be called from another map that
+   * sorts on type for it fastest index. */
+  template <class sorter, class Node>
+  inline void getTypeIterators(const int & b, const int & e, const sorter & s, Node & node) {
+      typedef typename Node::particle_iter_type Iter;
+      node.types.resize(e - b);
+      for (int i = b; i < e; i++) {
+          node.types[i] = IteratorRange<Iter>(
+              node.particles.begin() + s.begin(i),
+              node.particles.begin() + s.end(i)
+          );
+      }
+  }
+  
+  /** Obtain iterators for type_map values. */
+  template <class sorter, class Node>
+  inline void getTypeIterators(const sorter & s, Node & node) {
+      getTypeIterators(0, s.size(), s, node);
+  }
+}
+
 
 
 template <class ParticleIterator>
@@ -50,9 +75,9 @@ struct cell_info {
     }
 
     void sort_types(const int & n_types) {
-        nsort<type_map> pts(n_types);
+        NSort<map::type> pts(n_types);
         pts.sort(particles.begin(), particles.end());
-        type_map::getIterators(pts, (*this));
+        getTypeIterators(pts, (*this));
     }
 
     /* BEGIN STORAGE MEMBERS */

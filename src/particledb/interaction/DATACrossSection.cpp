@@ -26,12 +26,11 @@ DATACrossSection DATACrossSection::load(
         if (v.units == eV.units)
             v = sqrt(v / (mu*kg) );
 
-        cs.table.insert(
-            std::make_pair(
-                v.assertMatch(m_s).coeff,
-                i->second.assertMatch(m2).coeff
-            )
-        );
+        register double v_coeff, m2_coeff;
+        v.assertMatch(m_s).getCoeff(v_coeff);
+        i->second.assertMatch(m2).getCoeff(m2_coeff);
+
+        cs.table.insert( std::make_pair( v_coeff, m2_coeff) );
     }
 
     return cs;
