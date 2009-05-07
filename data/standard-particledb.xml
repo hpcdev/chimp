@@ -1,7 +1,8 @@
 <standard>
     <calc-commands>
-        <command>from physical::unit import *</command>
         <command>from physical::constant import *</command>
+        <command>from physical::unit import *</command>
+        <command>from physical import 'unit::pi'</command>
         <command>from physical import 'element::.*'</command>
     </calc-commands>
     <particles>
@@ -600,7 +601,7 @@
         <Interaction type="elastic">
             <Eq><In>(<P M="2">85Rb</P>)</In>-&gt;<Out>(<P M="2">85Rb</P>)</Out></Eq>
             <cross_section type="vhs/vss">
-                <value>8*pi*(100*a_0)^2 /radian</value>
+                <value>8*pi*(100*a_0)^2</value>
                 <T_ref>150*uK</T_ref>             <!-- We'll just guess this value -->
                 <visc_T_law>3.0/4.0</visc_T_law><!-- We'll just guess this value -->
                 <reference>Need reference for diameter and cross section--Almost common knowledge in the cold atom physics community.  The VHS/VSS data is just an educated guess.  </reference>
@@ -610,7 +611,7 @@
         <Interaction type="elastic">
             <Eq><In>(<P M="2">Ar</P>)</In>-&gt;<Out>(<P M="2">Ar</P>)</Out></Eq>
             <cross_section type="vhs/vss">
-                <value>pi*(0.417*nm)^2 /radian</value>
+                <value>pi*(0.417*nm)^2</value>
                 <T_ref>273*K</T_ref>
                 <visc_T_law>0.81</visc_T_law>
                 <vss_param_inv>1.0</vss_param_inv>
@@ -621,7 +622,7 @@
         <Interaction type="elastic">
             <Eq><In>(<P M="2">e^-</P>)</In>-&gt;<Out>(<P M="2">e^-</P>)</Out></Eq>
             <cross_section type="vhs/vss">
-                <value>pi*(0.417*nm)^2 /radian</value>
+                <value>pi*(0.417*nm)^2</value>
                 <T_ref>273*K</T_ref>
                 <visc_T_law>0.81</visc_T_law>
                 <vss_param_inv>1.0</vss_param_inv>
