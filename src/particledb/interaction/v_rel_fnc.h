@@ -3,6 +3,8 @@
 
 #include <physical/physical.h>
 
+#include <cmath>
+
 namespace particledb { namespace interaction {
 
     /** Calculate the average relative velocity for a set of thermalized
@@ -14,9 +16,9 @@ namespace particledb { namespace interaction {
      *     Reduced mass of particles in assumed ensemble.
      * */
     inline double avg_v_rel(const double & T, const double & reduced_mass) {
-        using physical::constant::K_B;
-        using physical::unit::pi;
-        return sqrt(4 * K_B * T / (pi * reduced_mass));
+        using physical::constant::si::K_B;
+        using physical::constant::si::pi;
+        return std::sqrt(4 * K_B * T / (pi * reduced_mass));
     }
     
     /** Calculate the standard deviation of relative velocity for a set of
@@ -28,9 +30,9 @@ namespace particledb { namespace interaction {
      *     Reduced mass of particles in assumed ensemble.
      * */
     inline double stddev_v_rel(const double & T, const double & reduced_mass) {
-        using physical::constant::K_B;
-        using physical::unit::pi;
-        return sqrt(1.5 * K_B * T / reduced_mass);
+        using physical::constant::si::K_B;
+        using physical::constant::si::pi;
+        return std::sqrt(1.5 * K_B * T / reduced_mass);
     }
 
 }}/* namespace particldb::interaction */

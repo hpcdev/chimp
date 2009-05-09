@@ -5,8 +5,9 @@
  *
  */
 
-#include "ParticleDB.h"
-#include <string.h>
+#include <particledb/ParticleDB.h>
+
+#include <cstring>
 
 
 namespace particledb {

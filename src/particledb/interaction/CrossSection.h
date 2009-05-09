@@ -2,12 +2,13 @@
 #ifndef PARTICLEDB_INTERACTION_CROSSSECTION_H
 #define PARTICLEDB_INTERACTION_CROSSSECTION_H
 
-#include <cmath>
-#include <vector>
+#include <particledb/interaction/v_rel_fnc.h>
 
 #include <physical/physical.h>
 
-#include "v_rel_fnc.h"
+#include <cmath>
+#include <vector>
+
 
 namespace particledb { namespace interaction {
 
@@ -55,7 +56,7 @@ namespace particledb { namespace interaction {
 
         /** Effective radius.  Required by octree::Octree and dsmc::ParticleNode. */
         inline double effective_radius(const double & v_relative) const {
-            using physical::unit::pi;
+            using physical::constant::si::pi;
             return /*size * */ 0.5 * sqrt(cross_section(v_relative)/ pi);
         }
     };

@@ -1,7 +1,8 @@
 #ifndef PARTICLEDB_INTERACTION_DATACROSSSECTION_H
 #define PARTICLEDB_INTERACTION_DATACROSSSECTION_H
 
-#include "CrossSection.h"
+#include <particledb/interaction/CrossSection.h>
+
 #include <olson-tools/xml/XMLDoc.h>
 #include <olson-tools/data_set.h>
 #include <olson-tools/power.h>

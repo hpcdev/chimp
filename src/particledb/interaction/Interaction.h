@@ -2,17 +2,18 @@
 #ifndef PARTICLEDB_INTERACTION_INTERACTION_H
 #define PARTICLEDB_INTERACTION_INTERACTION_H
 
-#include <vector>
+#include <particledb/interaction/CrossSection.h>
+#include <particledb/interaction/VHSCrossSection.h>
+#include <particledb/interaction/DATACrossSection.h>
+#include <particledb/interaction/v_rel_fnc.h> /* include to make available by default. */
+#include <particledb/Particle.h>
+
 #include <boost/shared_ptr.hpp>
+
+#include <vector>
 #include <ostream>
 #include <list>
 #include <string>
-
-#include "CrossSection.h"
-#include "VHSCrossSection.h"
-#include "DATACrossSection.h"
-#include "../Particle.h"
-#include "v_rel_fnc.h" /* include to make available by default. */
 
 
 namespace particledb { namespace interaction {

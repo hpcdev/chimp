@@ -1,6 +1,6 @@
-#include <olson-tools/xml/physical_parse.h>
+#include <particledb/interaction/VHSInfo.h>
 
-#include "VHSInfo.h"
+#include <olson-tools/xml/physical_parse.h>
 
 namespace particledb { namespace interaction {
     void parse_item(VHSInfo & out, const xml::XMLContext & x) {

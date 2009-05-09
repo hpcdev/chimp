@@ -1,10 +1,10 @@
 #ifndef PARTICLEDB_INTERACTION_VHSINFO_H
 #define PARTICLEDB_INTERACTION_VHSINFO_H
 
+#include <olson-tools/xml/XMLDoc.h>
+
 #include <math.h>
 #include <ostream>
-
-#include <olson-tools/xml/XMLDoc.h>
 
 #if (defined(PGCC) || __sun__ == 1)
 inline double tgamma(double x) {

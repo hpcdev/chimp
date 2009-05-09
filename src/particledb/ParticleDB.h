@@ -80,6 +80,14 @@
 #ifndef PARTICLEDB_PARTICLEDB_H
 #define PARTICLEDB_PARTICLEDB_H
 
+#  include <particledb/interaction/Interaction.h>
+#  include <particledb/interaction/Set.h>
+#  include <particledb/Particle.h>
+
+#  include <olson-tools/logger.h>
+#  include <olson-tools/upper_triangle.h>
+#  include <olson-tools/xml/XMLDoc.h>
+
 #  include <math.h>
 #  include <ostream>
 #  include <fstream>
@@ -89,14 +97,6 @@
 #  include <algorithm>
 
 
-#  include <olson-tools/logger.h>
-#  include <olson-tools/upper_triangle.h>
-#  include <olson-tools/xml/XMLDoc.h>
-
-
-#  include "interaction/Interaction.h"
-#  include "interaction/Set.h"
-#  include "Particle.h"
 
 namespace particledb {
 

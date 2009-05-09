@@ -1,8 +1,8 @@
 #ifndef PARTICLEDB_INTERACTION_VHSCROSSSECTION_H
 #define PARTICLEDB_INTERACTION_VHSCROSSSECTION_H
 
-#include "CrossSection.h"
-#include "VHSInfo.h"
+#include <particledb/interaction/CrossSection.h>
+#include <particledb/interaction/VHSInfo.h>
 
 #include <physical/physical.h>
 #include <olson-tools/power.h>
@@ -26,7 +26,7 @@ struct VHSCrossSection : CrossSection {
      *     The relative velocity between two particles.
      * */
     virtual inline double cross_section(const double & v_relative) const {
-        using physical::constant::K_B;
+        using physical::constant::si::K_B;
         using olson_tools::SQR;
         using olson_tools::fast_pow;
 

@@ -2,14 +2,14 @@
 #ifndef PARTICLEDB_INTERACTION_SET_H
 #define PARTICLEDB_INTERACTION_SET_H
 
-#include <cmath>
-#include <vector>
-#include <ostream>
+#include <particledb/interaction/Interaction.h>
 
 #include <olson-tools/random/random.h>
 #include <olson-tools/logger.h>
 
-#include "Interaction.h"
+#include <cmath>
+#include <vector>
+#include <ostream>
 
 namespace particledb { namespace interaction {
     struct Set {

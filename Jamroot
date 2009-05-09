@@ -21,7 +21,7 @@ project /particledb
     : requirements
         <library>/olson-tools//olson-tools
         $(xml2-features)
-        <include>src/particledb
+        <include>src
         <define>PARTICLEDB_XML=\\\"$(TOP)/data/particledb.xml\\\"
     : usage-requirements
         <library>/olson-tools//olson-tools

@@ -1,11 +1,11 @@
-#include <olson-tools/xml/physical_parse.h>
+#include <particledb/interaction/DATACrossSection.h>
 
-#include "DATACrossSection.h"
+#include <olson-tools/xml/physical_parse.h>
 
 namespace particledb { namespace interaction {
 
 using runtime::physical::Quantity;
-using runtime::physical::constant::eV;
+using runtime::physical::constant::si::eV;
 using runtime::physical::unit::m;
 using runtime::physical::unit::s;
 using runtime::physical::unit::kg;

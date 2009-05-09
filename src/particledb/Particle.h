@@ -3,9 +3,10 @@
 #define PARTICLEDB_PARTICLE_H
 
 
+#include <olson-tools/xml/XMLDoc.h>
+
 #include <string>
 
-#include <olson-tools/xml/XMLDoc.h>
 
 namespace particledb { namespace Particle {
     namespace property {

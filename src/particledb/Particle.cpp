@@ -1,4 +1,5 @@
-#include "Particle.h"
+#include <particledb/Particle.h>
+
 #include <olson-tools/xml/physical_parse.h>
 
 namespace particledb { namespace Particle { namespace property {
