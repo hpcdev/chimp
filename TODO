@@ -118,3 +118,11 @@ DONE
         </equation-filter>
     </Set>
 
+12. Add secondary and tertiary sorting rules:
+    a.  sort by charge (positive, then neutral, negative)(???)
+    b.  sort alphabetically
+
+    This needs to be done so that there is not an undefined sort order for
+    things that have the same mass.
+
+13. Add three-body interaction table and facilities to manage such.

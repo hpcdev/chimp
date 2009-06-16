@@ -35,8 +35,8 @@ int main() {
     db.allowed_equations.insert('('+A+")+("+B+")->("+A+")+("+B+')');
 
     std::cout << "finding all interactions ..." << std::endl;
-    XMLContext::set xl = find_all_interactions(db.xmlDb.root_context, A, B);
-    for (XMLContext::set::iterator i = xl.begin(); i != xl.end(); i++) {
+    XMLContext::list xl = find_all_interactions(db.xmlDb.root_context, A, B);
+    for (XMLContext::list::iterator i = xl.begin(); i != xl.end(); i++) {
         string Eq = i->query<string>("Eq");
 
         std::cout << Eq << std::endl;
@@ -45,9 +45,9 @@ int main() {
 
 
     std::cout << "testing interaction filter..." << std::endl;
-    xl = filter_interactions(xl, db.allowed_equations);
+    XMLContext::set xs = filter_interactions(xl, db.allowed_equations);
 
-    for (XMLContext::set::iterator i = xl.begin(); i != xl.end(); i++) {
+    for (XMLContext::set::iterator i = xs.begin(); i != xs.end(); i++) {
         string Eq = i->query<string>("Eq");
 
         std::cout << Eq << std::endl;

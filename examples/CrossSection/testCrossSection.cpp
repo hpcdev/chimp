@@ -48,8 +48,8 @@ int main() {
     std::ofstream fdata("data.dat");
 
     std::cout << "testing VHS..." << std::endl;
-    XMLContext::set xl = db.root_context.eval("//Interaction[cross_section/@type='vhs/vss']");
-    for (XMLContext::set::iterator i = xl.begin(); i!=xl.end(); i++) {
+    XMLContext::list xl = db.root_context.eval("//Interaction[cross_section/@type='vhs/vss']");
+    for (XMLContext::list::iterator i = xl.begin(); i!=xl.end(); i++) {
         std::string Eq = i->query<std::string>("Eq");
         std::cout << "Eq:  " << Eq << std::endl;
 
@@ -64,7 +64,7 @@ int main() {
 
     std::cout << "testing DATACrossSection..." << std::endl;
     xl = db.root_context.eval("//Interaction[cross_section/@type='data']");
-    for (XMLContext::set::iterator i = xl.begin(); i!=xl.end(); i++) {
+    for (XMLContext::list::iterator i = xl.begin(); i!=xl.end(); i++) {
         std::string Eq = i->query<std::string>("Eq");
         std::cout << "Eq:  " << Eq << std::endl;
 

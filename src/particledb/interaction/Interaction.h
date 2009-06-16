@@ -158,10 +158,10 @@ namespace particledb { namespace interaction {
             using Particle::property::mass;
 
             Equation retval;
-            XMLContext::set xl = x.eval("Eq/In/P");
+            XMLContext::list xl = x.eval("Eq/In/P");
 
             if (xl.size() == 2) {
-                XMLContext::set::iterator i = xl.begin();
+                XMLContext::list::iterator i = xl.begin();
                 retval.A = db.findParticleIndx(i->parse<string>());
                 retval.B = db.findParticleIndx((++i)->parse<string>());
                 if (retval.A == -1 || retval.B == -1)
@@ -182,7 +182,7 @@ namespace particledb { namespace interaction {
             /* now determine the output particles and their respective
              * multipliers. */
             xl = x.eval("Eq/Out/P");
-            for (XMLContext::set::iterator i = xl.begin(); i != xl.end(); i++) {
+            for (XMLContext::list::iterator i = xl.begin(); i != xl.end(); i++) {
                 Output::item it = {0, db.findParticleIndx(i->parse<string>())};
 
                 if (it.type == -1)
@@ -226,15 +226,18 @@ namespace particledb { namespace interaction {
         }
     };
 
+    /** Determine a unique set of interactions. */
+    template < typename XMLContextList_in >
     static inline xml::XMLContext::set filter_interactions(
-            const xml::XMLContext::set & xl_in,
+            const XMLContextList_in & xl_in,
             const std::set<std::string> & allowed_equations) {
+        typedef typename XMLContextList_in::const_iterator InCIter;
         using xml::XMLContext;
         using std::string;
 
         XMLContext::set xl_out;
-        for (XMLContext::set::const_iterator i = xl_in.begin(); i!= xl_in.end(); i++) {
-            if (allowed_equations.find(i->query<string>("Eq"))
+        for (InCIter i = xl_in.begin(); i!= xl_in.end(); i++) {
+            if (allowed_equations.find(i->template query<string>("Eq"))
                 != allowed_equations.end())
             xl_out.insert(*i);
         }
@@ -249,7 +252,7 @@ namespace particledb { namespace interaction {
      * B should be in order of mass, with mass(A) < mass(B).
      * This function does not reorder A and B.
      * */
-    static inline xml::XMLContext::set find_all_interactions(
+    static inline xml::XMLContext::list find_all_interactions(
             const xml::XMLContext & x,
             const std::string & A,
             const std::string & B) {
@@ -267,7 +270,7 @@ namespace particledb { namespace interaction {
      * B should be in order of mass, with mass(A) < mass(B).
      * This function does not reorder A and B.
      * */
-    static inline xml::XMLContext::set find_elastic_interactions(
+    static inline xml::XMLContext::list find_elastic_interactions(
             const xml::XMLContext & x,
             const std::string & A,
             const std::string & B) {

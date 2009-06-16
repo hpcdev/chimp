@@ -286,12 +286,12 @@ class RuntimeDB {
                 const string & n_B = props[B].name::value;
 
                 /* get a set of ALL interactions. */
-                XMLContext::set xl = find_all_interactions(xmlDb.root_context, n_A, n_B);
+                XMLContext::list xl = find_all_interactions(xmlDb.root_context, n_A, n_B);
                 /* filter by set of allowed equations. */
-                xl = filter_interactions(xl, allowed_equations);
+                XMLContext::set xs = filter_interactions(xl, allowed_equations);
                 /* Add in elastic interactions. */
-                XMLContext::set xe = find_elastic_interactions(xmlDb.root_context, n_A, n_B);
-                xl.insert(xe.begin(), xe.end());
+                XMLContext::list xe = find_elastic_interactions(xmlDb.root_context, n_A, n_B);
+                xs.insert(xe.begin(), xe.end());
 
 
                 /* first instantiate the (A,B)th interactions */
@@ -299,7 +299,7 @@ class RuntimeDB {
                 set.lhs.setInput(*this,A,B);
 
                 /* add each of the allowed interactions to the new set. */
-                for (XMLContext::set::iterator k = xl.begin(); k != xl.end(); k++)
+                for (XMLContext::set::iterator k = xs.begin(); k != xs.end(); k++)
                     set.rhs.push_back(Equation::load(*k,*this));
             }
         }
