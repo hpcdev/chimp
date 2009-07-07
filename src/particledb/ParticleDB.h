@@ -77,10 +77,13 @@
  *
  */
 
-#ifndef PARTICLEDB_PARTICLEDB_H
-#define PARTICLEDB_PARTICLEDB_H
+#ifndef particledb_ParticleDB_h
+#define particledb_ParticleDB_h
 
-#  include <particledb/interaction/Interaction.h>
+#  include <particledb/interaction/CrossSection.h>
+#  include <particledb/interaction/VHSCrossSection.h>
+#  include <particledb/interaction/DATACrossSection.h>
+#  include <particledb/interaction/Equation.h>
 #  include <particledb/interaction/Set.h>
 #  include <particledb/Particle.h>
 
@@ -100,17 +103,52 @@
 
 namespace particledb {
 
-    namespace xml = olson_tools::xml;
+  using boost::shared_ptr;
+  namespace xml = olson_tools::xml;
 
 
-
-/** Runtime database of properties pertinent to the current simulation. */
-template <class Properties = Particle::Properties>
-class RuntimeDB {
+  /** Runtime database of properties pertinent to the current simulation. */
+  template < class Properties = Particle::Properties >
+  class RuntimeDB {
+    /* TYPEDEFS */
   public:
     typedef Properties prop_type;
     typedef std::vector<prop_type> prop_list;
-    typedef olson_tools::upper_triangle<interaction::Set, olson_tools::SymmetryFix> InteractionMatrix;
+    typedef olson_tools::upper_triangle<
+      interaction::Set, olson_tools::SymmetryFix
+    > InteractionMatrix;
+
+  private:
+    /** Comparator used to sort particles first by mass and then by name. */
+    struct props_comparator {
+      bool operator() ( const Properties & lhs, const Properties & rhs ) {
+        using Particle::property::mass;
+        using Particle::property::name;
+        return lhs.mass::value < rhs.mass::value ||
+               ( lhs.mass::value == rhs.mass::value &&
+                 lhs.name::value < rhs.name::value );
+      }
+    };
+
+
+    /* MEMBER STORAGE */
+  public:
+    /** Set of interactions to allow.
+     * This set should be built before calling initInteractions.  When
+     * initInteractions is called, it will consult this set to filter out
+     * any equations that are not to be allowed.
+     * */
+    /* FIXME:  implement the filtering technology for the equations. */
+    std::set<std::string> allowed_equations;
+
+    /** XML document from which data is extracted.  */
+    xml::XMLDoc xmlDb;
+
+    /** Registry for cross section functor classes. */
+    std::map< std::string, shared_ptr<CrossSection> > cross_section_registry;
+
+    /** Registry for interaction functor classes. */
+    std::map< std::string, shared_ptr<CrossSection> > interaction_registry;
 
   private:
     /** Vector of particle properties.
@@ -121,17 +159,28 @@ class RuntimeDB {
     /** Initialized at time of initInteractions() call. */
     InteractionMatrix interactions;
 
+
+
+
+
+    /* MEMBER FUNCTIONS */
   public:
-    /** Set of interactions to allow.
-     * This set should be built before calling initInteractions.  When
-     * initInteractions is called, it will consult this set to filter out
-     * any equations that are not to be allowed.
-     * */
-    std::set<std::string> allowed_equations;
+    /** Constructor. */
+    RuntimeDB(const std::string & xml_doc = PARTICLEDB_XML) : xmlDb(xml_doc) {
+      /* register the library provided Functors. */
+      cross_section_registry["vhs"] =
+        shared_ptr<CrossSection>(new VHSCrossSection);
 
-    xml::XMLDoc xmlDb;
+      cross_section_registry["data"] =
+        shared_ptr<CrossSection>(new DataCrossSection);
 
-    RuntimeDB(const std::string & xml_doc = PARTICLEDB_XML) : xmlDb(xml_doc) {}
+
+      interaction_registry["elastic"] =
+        shared_ptr<Interaction>(new interaction::ElasticCollisionModel);
+
+      interaction_registry["vss_elastic"] =
+        shared_ptr<Interaction>(new interaction::VSSElasticCollisionModel);
+    }
 
     /** Read-only access to the properties vector.
      *
@@ -156,26 +205,26 @@ class RuntimeDB {
 
     /** return the set of single-species properties for the given species. */
     const prop_type & operator[](const std::string & n) const {
-        typename prop_list::const_iterator i = findParticle(n);
-        if (i == props.end())
-            throw std::runtime_error("particle type not loaded: '" + n + '\'');
-        return  *i;
+      typename prop_list::const_iterator i = findParticle(n);
+      if (i == props.end())
+        throw std::runtime_error("particle type not loaded: '" + n + '\'');
+      return  *i;
     }
     /** return the set of single-species properties for the given species. */
           prop_type & operator[](const std::string & n)       {
-        typename prop_list::iterator i = findParticle(n);
-        if (i == props.end())
-            throw std::runtime_error("particle type not loaded: '" + n + '\'');
-        return  *i;
+      typename prop_list::iterator i = findParticle(n);
+      if (i == props.end())
+        throw std::runtime_error("particle type not loaded: '" + n + '\'');
+      return  *i;
     }
 
     /** return the set of cross-species properties for the two given species. */
     const interaction::Set & operator()(const int & i, const int & j) const {
-        return interactions(i,j);
+      return interactions(i,j);
     }
     /** return the set of cross-species properties for the two given species. */
           interaction::Set & operator()(const int & i, const int & j)       {
-        return interactions(i,j);
+      return interactions(i,j);
     }
 
     /** Get the (const) iterator of the particle type with the specified name.
@@ -185,13 +234,13 @@ class RuntimeDB {
      * vector.
      */
     typename prop_list::const_iterator findParticle(const std::string & name) const {
-        typename prop_list::const_iterator i = props.begin();
-        for (; i != props.end(); i++) {
-            Particle::property::name n = (*i);
-            if (name == n.value)
-                break;
-        }
-        return i;
+      typename prop_list::const_iterator i = props.begin();
+      for (; i != props.end(); i++) {
+        Particle::property::name n = (*i);
+        if (name == n.value)
+          break;
+      }
+      return i;
     }
 
     /** Get the (non-const) iterator of the particle type with the specified name.
@@ -201,13 +250,13 @@ class RuntimeDB {
      * vector.
      */
     typename prop_list::iterator findParticle(const std::string & name) {
-        typename prop_list::iterator i = props.begin();
-        for (; i != props.end(); i++) {
-            Particle::property::name n = (*i);
-            if (name == n.value)
-                break;
-        }
-        return i;
+      typename prop_list::iterator i = props.begin();
+      for (; i != props.end(); i++) {
+        Particle::property::name n = (*i);
+        if (name == n.value)
+          break;
+      }
+      return i;
     }
 
     /** Get the index of the particle type with the specified name.
@@ -217,10 +266,10 @@ class RuntimeDB {
      * vector.
      */
     int findParticleIndx(const std::string & name) const {
-        typename prop_list::const_iterator i = findParticle(name);
-        if (i == props.end())
-            return -1;
-        return i - props.begin();
+      typename prop_list::const_iterator i = findParticle(name);
+      if (i == props.end())
+        return -1;
+      return i - props.begin();
     }
 
     /** Loads the particle information for the given particle name into the
@@ -230,8 +279,8 @@ class RuntimeDB {
      * initInteractions() should be called AFTER this.
      * */
     void addParticleType(const std::string & name) {
-        xml::XMLContext x = xmlDb.root_context.find("//Particle[@name=\"" + name + "\"]");
-        addParticleType(x);
+      xml::XMLContext x = xmlDb.root_context.find("//Particle[@name=\"" + name + "\"]");
+      addParticleType(x);
     }
 
     /** Loads the particle information from the given xml-context.
@@ -241,68 +290,62 @@ class RuntimeDB {
      * @see addParticleType(const std::string & name)
      * */
     void addParticleType(const xml::XMLContext & x) {
-        prop_type prop = prop_type::load(x);
-        addParticleType(prop);
+      prop_type prop = prop_type::load(x);
+      addParticleType(prop);
     }
 
     void addParticleType(const prop_type & prop) {
-        using Particle::property::name;
-        const std::string & n = prop.name::value;
+      using Particle::property::name;
+      const std::string & n = prop.name::value;
 
-        /* See if this particle type has already been
-         * loaded into the database (we don't want any duplicates). */
-        if (findParticle(n) != props.end())
-            olson_tools::logger::log_warning("particle type '%s' was previously loaded; will not reload", n.c_str());
-        else
-            props.push_back(prop);
+      /* See if this particle type has already been
+       * loaded into the database (we don't want any duplicates). */
+      if (findParticle(n) != props.end())
+        olson_tools::logger::log_warning("particle type '%s' was previously loaded; will not reload", n.c_str());
+      else
+        props.push_back(prop);
     }
 
-    struct props_comparator {
-        bool operator()(const Properties & lhs, const Properties & rhs) {
-            using Particle::property::mass;
-            return lhs.mass::value < rhs.mass::value;
-        }
-    };
-
     void initInteractions() {
-        using interaction::Input;
-        using interaction::Equation;
-        using interaction::Set;
-        using interaction::find_all_interactions;;
-        using interaction::find_elastic_interactions;;
-        using interaction::filter_interactions;;
-        using xml::XMLContext;
+      using interaction::Input;
+      using interaction::Equation;
+      using interaction::Set;
+      using interaction::find_all_interactions;;
+      using interaction::find_elastic_interactions;;
+      using interaction::filter_interactions;;
+      using xml::XMLContext;
 
-        /* first thing we do is to sort the particle property entries by mass. */
-        std::sort(props.begin(), props.end(), props_comparator());
+      /* first thing we do is to sort the particle property entries by mass and
+       * name. */
+      std::sort(props.begin(), props.end(), props_comparator());
 
-        interactions.resize(props.size());
+      interactions.resize(props.size());
 
-        for (unsigned int A = 0; A < props.size(); ++A) {
-            for (unsigned int B = A; B < props.size(); ++B) {
-                using std::string;
-                using Particle::property::name;
-                const string & n_A = props[A].name::value;
-                const string & n_B = props[B].name::value;
+      for (unsigned int A = 0; A < props.size(); ++A) {
+        for (unsigned int B = A; B < props.size(); ++B) {
+          using std::string;
+          using Particle::property::name;
+          const string & n_A = props[A].name::value;
+          const string & n_B = props[B].name::value;
 
-                /* get a set of ALL interactions. */
-                XMLContext::list xl = find_all_interactions(xmlDb.root_context, n_A, n_B);
-                /* filter by set of allowed equations. */
-                XMLContext::set xs = filter_interactions(xl, allowed_equations);
-                /* Add in elastic interactions. */
-                XMLContext::list xe = find_elastic_interactions(xmlDb.root_context, n_A, n_B);
-                xs.insert(xe.begin(), xe.end());
+          /* get a set of ALL interactions. */
+          XMLContext::list xl = find_all_interactions(xmlDb.root_context, n_A, n_B);
+          /* filter by set of allowed equations. */
+          XMLContext::set xs = filter_interactions(xl, allowed_equations);
+          /* Add in elastic interactions. */
+          XMLContext::list xe = find_elastic_interactions(xmlDb.root_context, n_A, n_B);
+          xs.insert(xe.begin(), xe.end());
 
 
-                /* first instantiate the (A,B)th interactions */
-                Set & set = interactions(A,B);
-                set.lhs.setInput(*this,A,B);
+          /* first instantiate the (A,B)th interactions */
+          Set & set = interactions(A,B);
+          set.lhs.setInput(*this,A,B);
 
-                /* add each of the allowed interactions to the new set. */
-                for (XMLContext::set::iterator k = xs.begin(); k != xs.end(); k++)
-                    set.rhs.push_back(Equation::load(*k,*this));
-            }
+          /* add each of the allowed interactions to the new set. */
+          for (XMLContext::set::iterator k = xs.begin(); k != xs.end(); k++)
+            set.rhs.push_back(Equation::load(*k,*this));
         }
+      }
     }
 
 #if 0
@@ -311,15 +354,15 @@ class RuntimeDB {
      * instantiated/initialized.  Consecutive calls will simply return the
      * reference to the already-instantiated class.  */
     static RuntimeDB & instance() {
-        static RuntimeDB * db = new RuntimeDB(PARTICLEDB_XML);
-        return *db;
+      static RuntimeDB * db = new RuntimeDB(PARTICLEDB_XML);
+      return *db;
     }
 #endif
 
-};
+  };
 
-static RuntimeDB<> db = RuntimeDB<>(PARTICLEDB_XML);
+  static RuntimeDB<> db = RuntimeDB<>(PARTICLEDB_XML);
 
 } /* namespace particledb */
 
-#endif // DSMC_PARTICLEDB_H
+#endif // particledb_ParticleDB_h

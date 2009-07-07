@@ -1,11 +1,12 @@
-#ifndef PARTICLEDB_INTERACTION_V_REL_FNC_H
-#define PARTICLEDB_INTERACTION_V_REL_FNC_H
+#ifndef particledb_interaction_v_rel_fnc_h
+#define particledb_interaction_v_rel_fnc_h
 
 #include <physical/physical.h>
 
 #include <cmath>
 
-namespace particledb { namespace interaction {
+namespace particledb {
+  namespace interaction {
 
     /** Calculate the average relative velocity for a set of thermalized
      * particles at a given temperature and reduced mass.
@@ -14,11 +15,12 @@ namespace particledb { namespace interaction {
      *     Temperature of assumed ensemble.
      * @param reduced_mass
      *     Reduced mass of particles in assumed ensemble.
+     * FIXME:  Check the coefficients inside the sqrt.
      * */
     inline double avg_v_rel(const double & T, const double & reduced_mass) {
-        using physical::constant::si::K_B;
-        using physical::constant::si::pi;
-        return std::sqrt(4 * K_B * T / (pi * reduced_mass));
+      using physical::constant::si::K_B;
+      using physical::constant::si::pi;
+      return std::sqrt(4 * K_B * T / (pi * reduced_mass));
     }
     
     /** Calculate the standard deviation of relative velocity for a set of
@@ -28,12 +30,14 @@ namespace particledb { namespace interaction {
      *     Temperature of assumed ensemble.
      * @param reduced_mass
      *     Reduced mass of particles in assumed ensemble.
+     * FIXME:  Check the coefficients inside the sqrt.
      * */
     inline double stddev_v_rel(const double & T, const double & reduced_mass) {
-        using physical::constant::si::K_B;
-        using physical::constant::si::pi;
-        return std::sqrt(1.5 * K_B * T / reduced_mass);
+      using physical::constant::si::K_B;
+      using physical::constant::si::pi;
+      return std::sqrt(1.5 * K_B * T / reduced_mass);
     }
 
-}}/* namespace particldb::interaction */
-#endif // PARTICLEDB_INTERACTION_V_REL_FNC_H
+  }/* namespace particldb::interaction */
+}/* namespace particldb */
+#endif // particledb_interaction_v_rel_fnc_h
