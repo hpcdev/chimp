@@ -45,9 +45,6 @@ namespace particledb {
        */
       double gamma_visc_inv;
 
-      /** The reciprocal of the VSS parameter. */
-      double vss_param_inv;
-
 
 
       /* MEMBER FUNCTIONS */
@@ -61,8 +58,7 @@ namespace particledb {
         out << "{cross-section: " << cross_section << ", "
                 "T-ref: " << T_ref << ", "
                 "visc-T-law: " << visc_T_law << ", "
-                "1/gamma(5/2- 'visc-T-law'): " << gamma_visc_inv << ", "
-                "1/'vss-param': " << vss_param_inv
+                "1/gamma(5/2- 'visc-T-law'): " << gamma_visc_inv
             << '}';
         return out;
       }

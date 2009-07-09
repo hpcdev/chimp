@@ -13,6 +13,8 @@
 #include <cmath>
 
 namespace particledb {
+  namespace xml = olson_tools::xml;
+
   namespace interaction {
 
     namespace detail {
@@ -94,6 +96,11 @@ namespace particledb {
         return retval;
       }
 
+      virtual DATACrossSection * new_load( xml::XMLContext & x,
+                                           const double & mu ) const {
+        return new DATACrossSection( load(x,mu) );
+      }
+
       /** Print the cross section data table. */
       std::ostream & print(std::ostream & out) const {
         out << table;
@@ -108,7 +115,7 @@ namespace particledb {
        * @param mu
        *     Reduced mass of particles in question.
        * */
-      static DATACrossSection load(olson_tools::xml::XMLContext & x, const double & mu);
+      static DATACrossSection load( xml::XMLContext & x, const double & mu );
     };
 
   } /* namespace particledb::interaction */

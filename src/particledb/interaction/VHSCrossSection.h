@@ -4,12 +4,16 @@
 #include <particledb/interaction/CrossSection.h>
 #include <particledb/interaction/VHSInfo.h>
 
-#include <physical/physical.h>
 #include <olson-tools/power.h>
+#include <olson-tools/xml/XMLDoc.h>
+
+#include <physical/physical.h>
 
 #include <ostream>
 
 namespace particledb {
+  namespace xml = olson_tools::xml;
+
   namespace interaction {
 
     struct VHSCrossSection : CrossSection {
@@ -56,6 +60,11 @@ namespace particledb {
         /* just return the product since the product is monotonically
          * increasing. */
         return cross_section(v_rel_max)*v_rel_max;
+      }
+
+      virtual VHSCrossSection * new_load( xml::XMLContext & x,
+                                          const double & mu ) const {
+        return new VHSCrossSection( load(x,mu) );
       }
 
       /** Print the VHS data cross section parameters. */

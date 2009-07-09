@@ -1,0 +1,13 @@
+# this Jamroot is mostly for helping build unit-tests while developing in the
+# source
+
+use-project /particledb : ../ ;
+
+project /particledb/unit-tests
+    : requirements
+        <library>/particledb//particledb
+        <library>/olson-tools//boost_unit_test_framework
+    ;
+
+# build all the unit tests...
+build-project particledb ;

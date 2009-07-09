@@ -49,8 +49,10 @@ namespace particledb {
         out << "{\n"
                "\tInput : "; lhs.print(out,db) << "\n";
 
-        for ( unsigned int i = 0; i < rhs.size(); ++i )
-          out << "\tOutput #" << i << ":  "; rhs[i].print(out,db) << '\n';
+        for ( unsigned int i = 0; i < rhs.size(); ++i ) {
+          out << "\tOutput #" << i << ":  ";
+          rhs[i].print(out,db) << '\n';
+        }
 
         return out << '}';
       }

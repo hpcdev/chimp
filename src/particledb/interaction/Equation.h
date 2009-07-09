@@ -5,19 +5,46 @@
 #include <particledb/interaction/Input.h>
 #include <particledb/interaction/Output.h>
 #include <particledb/interaction/CrossSection.h>
-#include <particledb/Particle.h>
+#include <particledb/property/name.h>
+#include <particledb/property/mass.h>
+#include <particledb/property/Comparator.h>
+
+#include <olson-tools/xml/XMLDoc.h>
 
 #include <vector>
 #include <ostream>
 #include <string>
+#include <map>
 
 
 namespace particledb {
+  namespace xml = olson_tools::xml;
+
   namespace interaction {
 
+    namespace detail {
+      /** Comparator used to sort particles first by mass and then by name. */
+      struct PropertyPtrComparator : particledb::property::Comparator {
+        typedef particledb::property::Comparator super;
+
+        template < typename Properties >
+        bool operator() ( const Properties * lhs, const Properties * rhs ) {
+          return super::operator()(*lhs,*rhs);
+        }
+      };
+    }
+
+    /** Detailed balanced equation. */
     struct Equation : Input, Output {
+      /* TYPEDEFS */
+      /** A vector of equations. */
       typedef std::vector<Equation> list;
 
+
+
+
+      /* MEMBER FUNCTIONS */
+      /** Print the full equation. */
       template <class RnDB>
       std::ostream & print( std::ostream & out, const RnDB & db ) const {
         Input::print(out,db) << "->";
@@ -25,48 +52,99 @@ namespace particledb {
         return out;
       }
 
+      /** Attempt to load an equation into an Equation instance based on the
+       * string representation. */
       template <class RnDB>
       static Equation load( const xml::XMLContext & x,
                             const std::string & Eq,
-                            const RnDB & db) {
+                            const RnDB & db ) {
         return
           Equation::load(x.find("//Interaction[string(Eq)='" + Eq + "']"), db);
       }
 
+      /** Attempt to load an equation from the (assumed) appropriate XML node in
+       * an XML document. */
       template <class RnDB>
       static Equation load( const xml::XMLContext & x, const RnDB & db ) {
         using xml::XMLContext;
         using xml::xml_error;
         using std::string;
-        using Particle::property::mass;
+        using property::mass;
+        using property::name;
+
+
+        typedef std::map<
+          const typename RnDB::Properties *,
+          int,
+          detail::PropertyPtrComparator
+        > equation_elements;
+        typedef typename equation_elements::iterator PIter;
+
+        equation_elements in, out;
+        int n_in = 0, n_out = 0;
+
+        XMLContext::list xl = x.eval("Eq/In/P");
+        for (XMLContext::list::iterator i = xl.begin(); i != xl.end(); ++i ) {
+          std::string particle_name = i->parse<string>();
+          int n;
+          try {
+            n = i->query<int>("@M");
+          } catch (xml::no_results) {
+            n = 1;
+          }
+          n_in += n;
+
+          const typename RnDB::Properties * p = &( db[particle_name] );
+
+          PIter j = in.find(p);
+          if ( j != in.end() )
+            j->second += n;
+          else
+            in.insert( std::make_pair(p, n) );
+        }
+
+        xl = x.eval("Eq/Out/P");
+        for (XMLContext::list::iterator i = xl.begin(); i != xl.end(); ++i) {
+          std::string particle_name = i->parse<string>();
+          int n;
+          try {
+            n = i->query<int>("@M");
+          } catch (xml::no_results) {
+            n = 1;
+          }
+          n_out += n;
+
+          const typename RnDB::Properties * p = &( db[particle_name] );
+
+          PIter j = out.find(p);
+          if ( j != out.end() )
+            j->second += n;
+          else
+            out.insert( std::make_pair(p, n) );
+        }
+
 
         Equation retval;
-        XMLContext::list xl = x.eval("Eq/In/P");
 
-        if (xl.size() == 2) {
-          XMLContext::list::iterator i = xl.begin();
-          retval.A = db.findParticleIndx(i->parse<string>());
-          retval.B = db.findParticleIndx((++i)->parse<string>());
-          if (retval.A == -1 || retval.B == -1)
-            throw xml_error(
-              "Cannot load equation with unknown inputs. "
-              "please add inputs to RuntimeDB instance first."
-            );
-        } else if (xl.size() == 1) {
-          /* single species elastic collision */
-          if (xl.begin()->query<int>("@M") != 2)
-            throw xml_error("(too few inputs) Binary interaction must have two inputs");
-          retval.A = retval.B = db.findParticleIndx(xl.begin()->parse<string>());
-        } else
-          throw xml_error("(too many inputs) Binary interaction must have two inputs");
+        if (n_in != 2) {
+          throw xml_error("Only interactions with binary inputs currently supported");
+        }
+
+        {
+          PIter i = in.begin();
+          int n = i->second;
+
+          retval.A = db.findParticleIndx( i->first->name::value );
+          if ( !(--n) )
+            ++i;
+          retval.B = db.findParticleIndx( i->first->name::value );
+        }
 
         retval.set_mu_AB(db);
 
-        /* now determine the output particles and their respective
-         * multipliers. */
-        xl = x.eval("Eq/Out/P");
-        for (XMLContext::list::iterator i = xl.begin(); i != xl.end(); i++) {
-          Output::item it = {0, db.findParticleIndx(i->parse<string>())};
+        /* set the output. */
+        for ( PIter i = out.begin(); i != out.end(); ++i ) {
+          Output::item it = {i->second, db.findParticleIndx(i->first->name::value)};
 
           if (it.type == -1)
             throw xml_error(
@@ -74,45 +152,52 @@ namespace particledb {
               "please add outputs to RuntimeDB instance first."
             );
 
-          try {
-            it.n = i->query<int>("@M");
-          } catch (xml::no_results) {/* ignored */}
-
           retval.items.push_back(it);
         }
 
-        /* now, instantiate the child CrossSection object with the correct
-         * type. */
-        XMLContext cs_x = x.find("cross_section");
-        string cs_type = cs_x.query<string>("@type");
+        {
+          /* Determine which type of interaction we are dealing with and
+           * instantiate the implementation of the interaction. */
+          string i_type = "inelastic";
+          if (in == out)
+            i_type = "elastic";
 
-        if ( db.cross_section_registry.find(cs_type) !=
-             db.cross_section_registry.end() ) {
-          retval.cs.reset(
-            db.cross_section_registry.[cs_type].clone( cs_x, retval.mu_AB )
-          );
-        } else {
-          string Eq = x.query<string>("Eq");
-          throw xml_error(
-            "cross section type '"+cs_type+
-            "' not found for interaction '" + Eq + '\'' );
+          i_type = x.query<string>( "@type", i_type );
+
+          typedef typename RnDB::InteractionRegistry::const_iterator IRIter;
+          IRIter i = db.cross_section_registry.find(cs_type);
+
+          if ( i != db.interaction_registry.end() ) {
+            retval.interaction.reset( i->second->new_load( x, retval, db ) );
+          } else {
+            string Eq = x.query<string>("Eq");
+            throw xml_error(
+              "Could not determine interaction type found for interaction '" + Eq + '\'' );
+          }
         }
 
 
-        /* now, instantiate the child Interaction object with the correct
-         * type. */
-        string i_type = x.query<string>("@type");
 
-        if ( db.interaction_registry.find(i_type) !=
-             db.interaction_registry.end() ) {
-          retval.interaction.reset(
-            db.interaction_registry.[i_type].clone( XXX, XXX )
-          );
-        } else {
-          string Eq = x.query<string>("Eq");
-          throw xml_error(
-            "Could not determine interaction type found for interaction '" + Eq + '\'' );
+        {
+          /* now, instantiate the child CrossSection object with the correct
+           * type. */
+          XMLContext cs_x = x.find("cross_section");
+          string cs_type = cs_x.query<string>("@type");
+
+          typedef typename RnDB::CrossSectionRegistry::const_iterator CSRIter;
+          CSRIter i = db.cross_section_registry.find(cs_type);
+
+          if ( i != db.cross_section_registry.end() ) {
+            retval.cs.reset( i->second->new_load( cs_x, retval.mu_AB ) );
+          } else {
+            string Eq = x.query<string>("Eq");
+            throw xml_error(
+              "cross section type '"+cs_type+
+              "' not found for interaction '" + Eq + '\'' );
+          }
         }
+
+
 
         return retval;
       }

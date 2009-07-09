@@ -2,8 +2,12 @@
 #ifndef particledb_interaction_Output_h
 #define particledb_interaction_Output_h
 
+#include <particledb/interaction/model/Base.h>
 #include <particledb/interaction/CrossSection.h>
-#include <particledb/Particle.h>
+#include <particledb/property/name.h>
+#include <particledb/property/mass.h>
+
+#include <boost/shared_ptr.hpp>
 
 #include <vector>
 #include <ostream>
@@ -11,6 +15,8 @@
 
 
 namespace particledb {
+  using boost::shared_ptr;
+
   namespace interaction {
 
     /** Output information of interactions. */
@@ -24,13 +30,14 @@ namespace particledb {
       item_list items;
 
       shared_ptr<CrossSection> cs;
+      shared_ptr<model::Base> interaction;
 
       struct name_mass {
-        const Particle::property::mass & mass;
-        const Particle::property::name & name;
+        const property::mass & mass;
+        const property::name & name;
 
-        name_mass( const Particle::property::mass & m,
-                   const Particle::property::name & n )
+        name_mass( const property::mass & m,
+                   const property::name & n )
           : mass(m), name(n) {}
 
         bool operator<(const name_mass & rhs) const {
@@ -43,15 +50,15 @@ namespace particledb {
       std::ostream & print(std::ostream & out, const RnDB & db) const {
         typedef item_list::const_iterator CIter;
         printset ps;
-        for ( CIter i = items.begin(); i!=items.end(); i++ ) {
-          const Particle::property::mass & m = db[i->type];
-          const Particle::property::name & n = db[i->type];
+        for ( CIter i = items.begin(); i!=items.end(); ++i ) {
+          const property::mass & m = db[i->type];
+          const property::name & n = db[i->type];
           ps.insert(name_mass(m,n));
         }
 
         const char * plus = "+";
         const char * sep = "";
-        for ( printset::iterator i = ps.begin(); i!=ps.end(); i++ ) {
+        for ( printset::iterator i = ps.begin(); i!=ps.end(); ++i ) {
           out << sep << '(' << i->name.value << ")";
           sep = plus;
         }

@@ -2,7 +2,8 @@
 #ifndef particledb_interaction_Input_h
 #define particledb_interaction_Input_h
 
-#include <particledb/Particle.h>
+#include <particledb/property/name.h>
+#include <particledb/property/mass.h>
 
 #include <ostream>
 #include <string>
@@ -36,7 +37,7 @@ namespace particledb {
 
       template <class RnDB>
       void set_mu_AB(const RnDB & db) {
-        using Particle::property::mass;
+        using property::mass;
         const double & m_A = db[A].mass::value;
         const double & m_B = db[B].mass::value;
         mu_AB = m_A * m_B / (m_A + m_B);
@@ -45,22 +46,25 @@ namespace particledb {
       template <class RnDB>
       std::ostream & print( std::ostream & out, const RnDB & db ) const {
         using std::string;
-        using Particle::property::mass;
-        using Particle::property::name;
+        using property::mass;
+        using property::name;
         const string & n_A = db[A].name::value;
         const string & n_B = db[B].name::value;
         const double & m_A = db[A].mass::value;
         const double & m_B = db[B].mass::value;
 
-        const string * n0 = &n_A;
-        const string * n1 = &n_B;
-        if (m_A > m_B) {
-          n0 = &n_B;
-          n1 = &n_A;
-        }
+        if ( A != B ) {
+          const string * n0 = &n_A;
+          const string * n1 = &n_B;
+          if (m_A > m_B) {
+            n0 = &n_B;
+            n1 = &n_A;
+          }
 
-        out << '(' << (*n0) << ")"
-              "+(" << (*n1) << ')';
+          out << '(' << (*n0) << ")"
+                "+(" << (*n1) << ')';
+        } else
+          out << '(' << n_A << ")";
 
         return out;
       }

@@ -80,12 +80,19 @@
 #ifndef particledb_ParticleDB_h
 #define particledb_ParticleDB_h
 
+#  include <particledb/interaction/Set.h>
+#  include <particledb/interaction/Equation.h>
+#  include <particledb/interaction/model/Base.h>
+#  include <particledb/interaction/model/Elastic.h>
+#  include <particledb/interaction/model/InElastic.h>
+#  include <particledb/interaction/model/VSSElastic.h>
 #  include <particledb/interaction/CrossSection.h>
+#  include <particledb/interaction/filter/basic.h>
 #  include <particledb/interaction/VHSCrossSection.h>
 #  include <particledb/interaction/DATACrossSection.h>
-#  include <particledb/interaction/Equation.h>
-#  include <particledb/interaction/Set.h>
-#  include <particledb/Particle.h>
+#  include <particledb/property/name.h>
+#  include <particledb/property/Comparator.h>
+#  include <particledb/property/DefaultSet.h>
 
 #  include <olson-tools/logger.h>
 #  include <olson-tools/upper_triangle.h>
@@ -108,27 +115,24 @@ namespace particledb {
 
 
   /** Runtime database of properties pertinent to the current simulation. */
-  template < class Properties = Particle::Properties >
+  template < class PropertiesT = property::DefaultSet >
   class RuntimeDB {
     /* TYPEDEFS */
   public:
-    typedef Properties prop_type;
-    typedef std::vector<prop_type> prop_list;
+    typedef PropertiesT Properties;
+    typedef std::vector<Properties> prop_list;
     typedef olson_tools::upper_triangle<
       interaction::Set, olson_tools::SymmetryFix
     > InteractionMatrix;
+    typedef std::map<
+      std::string,
+      shared_ptr<interaction::CrossSection>
+    > CrossSectionRegistry;
+    typedef std::map<
+      std::string,
+      shared_ptr<interaction::model::Base>
+    > InteractionRegistry;
 
-  private:
-    /** Comparator used to sort particles first by mass and then by name. */
-    struct props_comparator {
-      bool operator() ( const Properties & lhs, const Properties & rhs ) {
-        using Particle::property::mass;
-        using Particle::property::name;
-        return lhs.mass::value < rhs.mass::value ||
-               ( lhs.mass::value == rhs.mass::value &&
-                 lhs.name::value < rhs.name::value );
-      }
-    };
 
 
     /* MEMBER STORAGE */
@@ -145,10 +149,10 @@ namespace particledb {
     xml::XMLDoc xmlDb;
 
     /** Registry for cross section functor classes. */
-    std::map< std::string, shared_ptr<CrossSection> > cross_section_registry;
+    CrossSectionRegistry cross_section_registry;
 
     /** Registry for interaction functor classes. */
-    std::map< std::string, shared_ptr<CrossSection> > interaction_registry;
+    InteractionRegistry interaction_registry;
 
   private:
     /** Vector of particle properties.
@@ -168,18 +172,14 @@ namespace particledb {
     /** Constructor. */
     RuntimeDB(const std::string & xml_doc = PARTICLEDB_XML) : xmlDb(xml_doc) {
       /* register the library provided Functors. */
-      cross_section_registry["vhs"] =
-        shared_ptr<CrossSection>(new VHSCrossSection);
+      cross_section_registry["vhs"].reset(new interaction::VHSCrossSection);
 
-      cross_section_registry["data"] =
-        shared_ptr<CrossSection>(new DataCrossSection);
+      cross_section_registry["data"].reset(new interaction::DATACrossSection);
 
 
-      interaction_registry["elastic"] =
-        shared_ptr<Interaction>(new interaction::ElasticCollisionModel);
-
-      interaction_registry["vss_elastic"] =
-        shared_ptr<Interaction>(new interaction::VSSElasticCollisionModel);
+      interaction_registry["elastic"].reset(new interaction::model::Elastic);
+      interaction_registry["vss_elastic"].reset(new interaction::model::VSSElastic);
+      interaction_registry["inelastic"].reset(new interaction::model::InElastic);
     }
 
     /** Read-only access to the properties vector.
@@ -196,22 +196,22 @@ namespace particledb {
      * @see Note for getProps() concerning ill-determined order of properties
      * vector.
      * */
-    const prop_type & operator[](const int & i) const { return props[i]; }
+    const Properties & operator[](const int & i) const { return props[i]; }
     /** return the set of single-species properties for the given species.
      * @see Note for getProps() concerning ill-determined order of properties
      * vector.
      * */
-          prop_type & operator[](const int & i)       { return props[i]; }
+          Properties & operator[](const int & i)       { return props[i]; }
 
     /** return the set of single-species properties for the given species. */
-    const prop_type & operator[](const std::string & n) const {
+    const Properties & operator[](const std::string & n) const {
       typename prop_list::const_iterator i = findParticle(n);
       if (i == props.end())
         throw std::runtime_error("particle type not loaded: '" + n + '\'');
       return  *i;
     }
     /** return the set of single-species properties for the given species. */
-          prop_type & operator[](const std::string & n)       {
+          Properties & operator[](const std::string & n)       {
       typename prop_list::iterator i = findParticle(n);
       if (i == props.end())
         throw std::runtime_error("particle type not loaded: '" + n + '\'');
@@ -236,7 +236,7 @@ namespace particledb {
     typename prop_list::const_iterator findParticle(const std::string & name) const {
       typename prop_list::const_iterator i = props.begin();
       for (; i != props.end(); i++) {
-        Particle::property::name n = (*i);
+        property::name n = (*i);
         if (name == n.value)
           break;
       }
@@ -252,7 +252,7 @@ namespace particledb {
     typename prop_list::iterator findParticle(const std::string & name) {
       typename prop_list::iterator i = props.begin();
       for (; i != props.end(); i++) {
-        Particle::property::name n = (*i);
+        property::name n = (*i);
         if (name == n.value)
           break;
       }
@@ -274,7 +274,7 @@ namespace particledb {
 
     /** Loads the particle information for the given particle name into the
      * runtime database.  Note that only the information relevant to the
-     * templated prop_type class will get loaded. 
+     * templated Properties class will get loaded. 
      *
      * initInteractions() should be called AFTER this.
      * */
@@ -284,18 +284,18 @@ namespace particledb {
     }
 
     /** Loads the particle information from the given xml-context.
-     * Note that only the information relevant to the templated prop_type
+     * Note that only the information relevant to the templated Properties
      * class will get loaded. 
      *
      * @see addParticleType(const std::string & name)
      * */
     void addParticleType(const xml::XMLContext & x) {
-      prop_type prop = prop_type::load(x);
+      Properties prop = Properties::load(x);
       addParticleType(prop);
     }
 
-    void addParticleType(const prop_type & prop) {
-      using Particle::property::name;
+    void addParticleType(const Properties & prop) {
+      using property::name;
       const std::string & n = prop.name::value;
 
       /* See if this particle type has already been
@@ -317,14 +317,14 @@ namespace particledb {
 
       /* first thing we do is to sort the particle property entries by mass and
        * name. */
-      std::sort(props.begin(), props.end(), props_comparator());
+      std::sort(props.begin(), props.end(), property::Comparator());
 
       interactions.resize(props.size());
 
       for (unsigned int A = 0; A < props.size(); ++A) {
         for (unsigned int B = A; B < props.size(); ++B) {
           using std::string;
-          using Particle::property::name;
+          using property::name;
           const string & n_A = props[A].name::value;
           const string & n_B = props[B].name::value;
 
@@ -354,14 +354,14 @@ namespace particledb {
      * instantiated/initialized.  Consecutive calls will simply return the
      * reference to the already-instantiated class.  */
     static RuntimeDB & instance() {
-      static RuntimeDB * db = new RuntimeDB(PARTICLEDB_XML);
+      static RuntimeDB * db = new RuntimeDB();
       return *db;
     }
 #endif
 
   };
 
-  static RuntimeDB<> db = RuntimeDB<>(PARTICLEDB_XML);
+  static RuntimeDB<> db = RuntimeDB<>();
 
 } /* namespace particledb */
 

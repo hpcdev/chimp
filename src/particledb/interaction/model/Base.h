@@ -1,0 +1,43 @@
+// $Id$
+/*
+ * Copyright 2002-2007 Spencer Olson
+ * dsmc package.
+ *
+ */
+
+#ifndef particledb_interaction_model_Base_h
+#define particledb_interaction_model_Base_h
+
+#include <particledb/interaction/Input.h>
+
+#include <olson-tools/xml/XMLDoc.h>
+
+namespace particledb {
+  namespace xml = olson_tools::xml;
+
+  namespace interaction {
+    namespace model {
+
+      template < typename options >
+      struct Base {
+        /* TYPEDEFS */
+        typedef typename options::Particle Particle;
+
+        virtual ~Base() { }
+
+        /** Binary collision interface. */
+        virtual void interact( Particle & part1, Particle & part2 ) = 0;
+
+        /** load a new instance of the Interaction. */
+        template < typename RnDB >
+        virtual Base * new_load( xml::XMLContext & x,
+                                 const interaction::Input & input,
+                                 const RnDB & db ) const = 0;
+
+      };
+
+    } /* namespace particledb::interaction::model */
+  } /* namespace particledb::interaction */
+} /* namespace particledb */
+
+#endif // particledb_interaction_model_Base_h

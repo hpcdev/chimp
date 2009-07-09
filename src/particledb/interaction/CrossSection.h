@@ -4,6 +4,8 @@
 
 #include <particledb/interaction/v_rel_fnc.h>
 
+#include <olson-tools/xml/XMLDoc.h>
+
 #include <physical/physical.h>
 
 #include <cmath>
@@ -11,6 +13,8 @@
 
 
 namespace particledb {
+  namespace xml = olson_tools::xml;
+
   namespace interaction {
 
     /** Interface definition for cross section functor classes. */
@@ -52,24 +56,28 @@ namespace particledb {
        * */
       virtual double find_max_sigma_v_rel(const double & v_rel_max) const = 0;
 
+      /** Clone the CrossSection class. */
+      virtual CrossSection * new_load( xml::XMLContext & x,
+                                       const double & mu ) const = 0;
+
       /** Find the local maximum of cross-section*velocity assuming an
        * ensemble of particles with a given temperature.
        * */
       double find_max_sigma_v_rel_from_stddev_v(const double & stddev_v) const {
-          return find_max_sigma_v_rel(MAX_SPEED_FACTOR * stddev_v);
+        return find_max_sigma_v_rel(MAX_SPEED_FACTOR * stddev_v);
       }
 
       /** Find the local maximum of cross-section*velocity assuming an
        * ensemble of particles with a given temperature.
        * */
       double find_max_sigma_v_rel_from_T(const double & T) const {
-          return find_max_sigma_v_rel_from_stddev_v(stddev_v_rel(T, reduced_mass));
+        return find_max_sigma_v_rel_from_stddev_v(stddev_v_rel(T, reduced_mass));
       }
 
       /** Effective radius.  Required by octree::Octree and dsmc::ParticleNode. */
       double effective_radius(const double & v_relative) const {
-          using physical::constant::si::pi;
-          return /*size * */ 0.5 * sqrt(cross_section(v_relative)/ pi);
+        using physical::constant::si::pi;
+        return /*size * */ 0.5 * sqrt(cross_section(v_relative)/ pi);
       }
     };
 
