@@ -1,0 +1,1 @@
+exe testProperties : testProperties.cpp /particledb//particledb ;

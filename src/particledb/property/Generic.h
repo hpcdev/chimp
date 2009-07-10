@@ -34,7 +34,7 @@ namespace particledb {
       };
 
       template<class T, enum ID phys_id>
-      static void parse_item( check<T,id> & out,
+      static void parse_item( check<T,phys_id> & out,
                               const xml::XMLContext & x ) {
         out.value = x.parse<T>();
       }
@@ -64,26 +64,33 @@ namespace particledb {
                bool R /*required_on_load*/ = false,
                enum PHYS::ID phys_id = PHYS::NONE >
     struct Generic {
+      /* TYPEDEFS */
+      typedef T value_type;
+
+
       /* MEMBER STORAGE */
       T value;
 
 
       /* MEMBER FUNCTIONS */
-      /** Constructor. */
-      Generic(const T & val = default_val<T,id>::value) : value(val) {}
+      /** Default constructor sets value to default_val<T,id>::value. */
+      Generic() : value(default_val<T,id>::value) {}
+
+      /** Constructor which sets the value to the given parameter. */
+      Generic(const T & val) : value(val) {}
 
       /** Stream printer. */
       std::ostream & print(std::ostream & out, const std::string & sep) const {
-        return out << id::val << ": " << value << sep;
+        return out << id::label << ": " << value << sep;
       }
 
       /** Load function (loads from xml context. */
       static Generic load(const xml::XMLContext & x) {
         if (R)
-          return x.query< PHYS::check<T,id> >(id::val).value;
+          return x.query< PHYS::check<T,phys_id> >(id::label).value;
         else
-          return x.query< PHYS::check<T,id> >(
-            id::val, default_val<T,id>::value
+          return x.query< PHYS::check<T,phys_id> >(
+            id::label, default_val<T,id>::value
           ).value;
       }
     };

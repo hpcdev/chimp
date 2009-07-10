@@ -20,17 +20,14 @@ namespace particledb {
   namespace interaction {
 
     /** Output information of interactions. */
+    template < typename options >
     struct Output {
+      /* TYPEDEFS */
       struct item {
         int n;
         int type;
       };
       typedef std::vector<item> item_list;
-
-      item_list items;
-
-      shared_ptr<CrossSection> cs;
-      shared_ptr<model::Base> interaction;
 
       struct name_mass {
         const property::mass & mass;
@@ -46,9 +43,21 @@ namespace particledb {
       };
       typedef std::multiset<name_mass> printset;
 
+
+
+
+      /* MEMBER STORAGE */
+      item_list items;
+      shared_ptr<CrossSection> cs;
+      shared_ptr< model::Base<options> > interaction;
+
+
+
+      /* MEMBER FUNCTIONS */
+      /** Stream printer. */
       template <class RnDB>
       std::ostream & print(std::ostream & out, const RnDB & db) const {
-        typedef item_list::const_iterator CIter;
+        typedef typename item_list::const_iterator CIter;
         printset ps;
         for ( CIter i = items.begin(); i!=items.end(); ++i ) {
           const property::mass & m = db[i->type];
@@ -58,7 +67,7 @@ namespace particledb {
 
         const char * plus = "+";
         const char * sep = "";
-        for ( printset::iterator i = ps.begin(); i!=ps.end(); ++i ) {
+        for ( typename printset::iterator i = ps.begin(); i!=ps.end(); ++i ) {
           out << sep << '(' << i->name.value << ")";
           sep = plus;
         }

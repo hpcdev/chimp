@@ -10,6 +10,8 @@
 
 
 namespace particledb {
+  namespace xml = olson_tools::xml;
+
   namespace property {
 
     /** Representative size of this type of particle. */
@@ -21,11 +23,16 @@ namespace particledb {
       double value;
 
       /* MEMBER FUNCTIONS */
+      /** Constructor. */
       size(const double & sz = 1) : value(sz) {}
+
+      /** Stream printer. */
       std::ostream & print( std::ostream & out,
                             const std::string & sep ) const {
         return out << "size: " << value << sep;
       }
+
+      /** Load function (does not use xml; returns default size value. */
       static inline size load( const xml::XMLContext & x ) { return size(); }
     };
 

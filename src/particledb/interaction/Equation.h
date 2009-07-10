@@ -35,8 +35,11 @@ namespace particledb {
     }
 
     /** Detailed balanced equation. */
-    struct Equation : Input, Output {
+    template < typename options >
+    struct Equation : Input, interaction::Output<options> {
       /* TYPEDEFS */
+      typedef interaction::Output<options> Output;
+
       /** A vector of equations. */
       typedef std::vector<Equation> list;
 
@@ -144,7 +147,8 @@ namespace particledb {
 
         /* set the output. */
         for ( PIter i = out.begin(); i != out.end(); ++i ) {
-          Output::item it = {i->second, db.findParticleIndx(i->first->name::value)};
+          typename Output::item it =
+            {i->second, db.findParticleIndx(i->first->name::value)};
 
           if (it.type == -1)
             throw xml_error(
@@ -165,10 +169,12 @@ namespace particledb {
           i_type = x.query<string>( "@type", i_type );
 
           typedef typename RnDB::InteractionRegistry::const_iterator IRIter;
-          IRIter i = db.cross_section_registry.find(cs_type);
+          IRIter i = db.interaction_registry.find(i_type);
 
           if ( i != db.interaction_registry.end() ) {
-            retval.interaction.reset( i->second->new_load( x, retval, db ) );
+            retval.interaction.reset(
+              i->second->new_load( x, static_cast<const Input&>(retval), db )
+            );
           } else {
             string Eq = x.query<string>("Eq");
             throw xml_error(

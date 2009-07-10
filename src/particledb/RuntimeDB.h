@@ -77,11 +77,12 @@
  *
  */
 
-#ifndef particledb_ParticleDB_h
-#define particledb_ParticleDB_h
+#ifndef particledb_RuntimeDB_h
+#define particledb_RuntimeDB_h
 
+#  include <particledb/physical_calc.h>
+#  include <particledb/make_options.h>
 #  include <particledb/interaction/Set.h>
-#  include <particledb/interaction/Equation.h>
 #  include <particledb/interaction/model/Base.h>
 #  include <particledb/interaction/model/Elastic.h>
 #  include <particledb/interaction/model/InElastic.h>
@@ -92,7 +93,6 @@
 #  include <particledb/interaction/DATACrossSection.h>
 #  include <particledb/property/name.h>
 #  include <particledb/property/Comparator.h>
-#  include <particledb/property/DefaultSet.h>
 
 #  include <olson-tools/logger.h>
 #  include <olson-tools/upper_triangle.h>
@@ -115,22 +115,28 @@ namespace particledb {
 
 
   /** Runtime database of properties pertinent to the current simulation. */
-  template < class PropertiesT = property::DefaultSet >
+  template < typename _options = make_options<>::type >
   class RuntimeDB {
     /* TYPEDEFS */
   public:
-    typedef PropertiesT Properties;
+    typedef _options options;
+    typedef typename options::Properties Properties;
     typedef std::vector<Properties> prop_list;
+    typedef interaction::Set<options> Set;
+
     typedef olson_tools::upper_triangle<
-      interaction::Set, olson_tools::SymmetryFix
+      Set,
+      olson_tools::SymmetryFix
     > InteractionMatrix;
+
     typedef std::map<
       std::string,
       shared_ptr<interaction::CrossSection>
     > CrossSectionRegistry;
+
     typedef std::map<
       std::string,
-      shared_ptr<interaction::model::Base>
+      shared_ptr< interaction::model::Base<options> >
     > InteractionRegistry;
 
 
@@ -171,15 +177,25 @@ namespace particledb {
   public:
     /** Constructor. */
     RuntimeDB(const std::string & xml_doc = PARTICLEDB_XML) : xmlDb(xml_doc) {
-      /* register the library provided Functors. */
-      cross_section_registry["vhs"].reset(new interaction::VHSCrossSection);
+      /* Let's make sure that the calculator is prepared. */
+      prepareCalculator(xmlDb);
 
+
+      /* register the library-provided CrossSection functors. */
+      cross_section_registry["vhs"].reset(new interaction::VHSCrossSection);
       cross_section_registry["data"].reset(new interaction::DATACrossSection);
 
 
-      interaction_registry["elastic"].reset(new interaction::model::Elastic);
-      interaction_registry["vss_elastic"].reset(new interaction::model::VSSElastic);
-      interaction_registry["inelastic"].reset(new interaction::model::InElastic);
+      /* register the library-provided Interaction functors. */
+      interaction_registry["elastic"].reset(
+        new interaction::model::Elastic<options>
+      );
+      interaction_registry["vss_elastic"].reset(
+        new interaction::model::VSSElastic<options>
+      );
+      interaction_registry["inelastic"].reset(
+        new interaction::model::InElastic<options>
+      );
     }
 
     /** Read-only access to the properties vector.
@@ -219,11 +235,11 @@ namespace particledb {
     }
 
     /** return the set of cross-species properties for the two given species. */
-    const interaction::Set & operator()(const int & i, const int & j) const {
+    const Set & operator()(const int & i, const int & j) const {
       return interactions(i,j);
     }
     /** return the set of cross-species properties for the two given species. */
-          interaction::Set & operator()(const int & i, const int & j)       {
+          Set & operator()(const int & i, const int & j)       {
       return interactions(i,j);
     }
 
@@ -307,9 +323,6 @@ namespace particledb {
     }
 
     void initInteractions() {
-      using interaction::Input;
-      using interaction::Equation;
-      using interaction::Set;
       using interaction::find_all_interactions;;
       using interaction::find_elastic_interactions;;
       using interaction::filter_interactions;;
@@ -343,26 +356,13 @@ namespace particledb {
 
           /* add each of the allowed interactions to the new set. */
           for (XMLContext::set::iterator k = xs.begin(); k != xs.end(); k++)
-            set.rhs.push_back(Equation::load(*k,*this));
+            set.rhs.push_back(Set::Equation::load(*k,*this));
         }
       }
     }
 
-#if 0
-    /** Creates and returns a static instance of the RuntimeDB.  Note that
-     * only during the first time this is called will the database become
-     * instantiated/initialized.  Consecutive calls will simply return the
-     * reference to the already-instantiated class.  */
-    static RuntimeDB & instance() {
-      static RuntimeDB * db = new RuntimeDB();
-      return *db;
-    }
-#endif
-
-  };
-
-  static RuntimeDB<> db = RuntimeDB<>();
+  };/* RuntimeDB */
 
 } /* namespace particledb */
 
-#endif // particledb_ParticleDB_h
+#endif // particledb_RuntimeDB_h

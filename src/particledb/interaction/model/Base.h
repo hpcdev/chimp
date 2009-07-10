@@ -13,6 +13,8 @@
 #include <olson-tools/xml/XMLDoc.h>
 
 namespace particledb {
+  template < typename T > class RuntimeDB;
+
   namespace xml = olson_tools::xml;
 
   namespace interaction {
@@ -29,10 +31,9 @@ namespace particledb {
         virtual void interact( Particle & part1, Particle & part2 ) = 0;
 
         /** load a new instance of the Interaction. */
-        template < typename RnDB >
-        virtual Base * new_load( xml::XMLContext & x,
+        virtual Base * new_load( const xml::XMLContext & x,
                                  const interaction::Input & input,
-                                 const RnDB & db ) const = 0;
+                                 const RuntimeDB<options> & db ) const = 0;
 
       };
 

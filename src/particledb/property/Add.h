@@ -2,11 +2,14 @@
 #ifndef particledb_property_Add_h
 #define particledb_property_Add_h
 
+#include <particledb/property/Null.h>
+
 #include <ostream>
 
 namespace particledb {
   namespace property {
 
+    /** Aggregates several properties into one class. */
     template < typename P0,
                typename P1  = Null<0>,
                typename P2  = Null<1>,
@@ -20,7 +23,37 @@ namespace particledb {
                typename P10 = Null<9>,
                typename P11 = Null<10> >
     struct Add : P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11 {
-      inline std::ostream & print(std::ostream & out) const {
+
+      /** Constructor with default arguments for each aggregated type. */
+      Add( const P0  & p0  = P0(),
+           const P1  & p1  = P1(),
+           const P2  & p2  = P2(),
+           const P3  & p3  = P3(),
+           const P4  & p4  = P4(),
+           const P5  & p5  = P5(),
+           const P6  & p6  = P6(),
+           const P7  & p7  = P7(),
+           const P8  & p8  = P8(),
+           const P9  & p9  = P9(),
+           const P10 & p10 = P10(),
+           const P11 & p11 = P11() )
+        :
+          P0 (p0),
+          P1 (p1),
+          P2 (p2),
+          P3 (p3),
+          P4 (p4),
+          P5 (p5),
+          P6 (p6),
+          P7 (p7),
+          P8 (p8),
+          P9 (p9),
+          P10(p10),
+          P11(p11)
+      { }
+
+      /** Printer for aggregated properties. */
+      std::ostream & print(std::ostream & out) const {
         P0::super::print(out,", ");
         P1::super::print(out,", ");
         P2::super::print(out,", ");
@@ -36,6 +69,8 @@ namespace particledb {
         return out;
       }
 
+      /** Load properties from the particular node in the (xml)
+       * database/document. */
       template <class DBnode>
       static Add load(const DBnode & x) {
         Add t;

@@ -8,6 +8,7 @@
 #ifndef particledb_interaction_model_Elastic_h
 #define particledb_interaction_model_Elastic_h
 
+#include <particledb/RuntimeDB.h>
 #include <particledb/interaction/Input.h>
 #include <particledb/interaction/model/Base.h>
 #include <particledb/interaction/model/detail/ReducedMass.h>
@@ -41,7 +42,7 @@ namespace particledb {
         /** Constructor. */
         Elastic( const int & type0,
                  const int & type1,
-                 const PropertiesDB & db )
+                 const RuntimeDB<options> & db )
           : mu( db[type0].mass::value, db[type1].mass::value ) { }
 
         /** Virtual NO-OP destructor. */
@@ -96,10 +97,9 @@ namespace particledb {
         } // collide
 
         /** load a new instance of the Interaction. */
-        template < typename RnDB >
-        virtual Elastic * new_load( xml::XMLContext & x,
+        virtual Elastic * new_load( const xml::XMLContext & x,
                                     const interaction::Input & input,
-                                    const RnDB & db ) {
+                                    const RuntimeDB<options> & db ) const {
           return new Elastic( input.A, input.B, db );
         }
 

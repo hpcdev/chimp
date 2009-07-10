@@ -1,1 +1,0 @@
-exe testParticle : testParticle.cpp /particledb//particledb ;

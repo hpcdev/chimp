@@ -16,9 +16,12 @@ namespace particledb {
 
     /** A set of detailed balanced interaction equations that share a common
      * left-hand-side portion. */
+    template < typename options >
     struct Set {
       /* TYPEDEFS */
-      typedef Equation::list eq_list;
+      typedef interaction::Equation<options> Equation;
+
+      typedef typename Equation::list eq_list;
 
       /** Return type of calcualteOutPath.
        * OutPath.first:  the index of the output interaction.<br>
@@ -62,7 +65,8 @@ namespace particledb {
        * */
       inline double find_max_sigma_v_rel(const double & v_rel_max) const {
         double mx = 0.0;
-        for(eq_list::const_iterator i = rhs.begin(); i != rhs.end(); ++i) {
+        for ( typename eq_list::const_iterator i = rhs.begin();
+              i != rhs.end(); ++i ) {
           mx = std::max(mx, i->cs->find_max_sigma_v_rel(v_rel_max));
         }
         return mx;
@@ -101,7 +105,8 @@ namespace particledb {
         double cs_max = 0;
         std::vector<double> cs;
         cs.reserve(rhs.size());
-        for ( eq_list::const_iterator i = rhs.begin(); i != rhs.end(); ++i ) {
+        for ( typename eq_list::const_iterator i = rhs.begin();
+              i != rhs.end(); ++i ) {
           double csi = i->cross_section(v_relative);
           cs_tot += csi;
           cs.push_back(csi);

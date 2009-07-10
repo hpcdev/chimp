@@ -33,18 +33,10 @@ project /particledb
     ;
 
 lib particledb :
-      property/Generic
-      physical_calc
-      interaction/DATACrossSection
-      interaction/VHSInfo
+      src/particledb/property/Generic.cpp
+      src/particledb/physical_calc.cpp
+      src/particledb/interaction/DATACrossSection.cpp
+      src/particledb/interaction/VHSInfo.cpp
     : <link>static
     ;
 
-
-
-# Optimized compiling for any code that uses the boost::spirit grammar stuff
-# is REALLY REALLY slow--so turn it off.
-obj property/Generic             : src/particledb/property/Generic.cpp             : <cflags>-O0 ;
-obj physical_calc                : src/particledb/physical_calc.cpp                : <cflags>-O0 ;
-obj interaction/VHSInfo          : src/particledb/interaction/VHSInfo.cpp          : <cflags>-O0 ;
-obj interaction/DATACrossSection : src/particledb/interaction/DATACrossSection.cpp : <cflags>-O0 ;

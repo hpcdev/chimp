@@ -48,7 +48,7 @@ int main() {
     std::ofstream fdata("data.dat");
 
     std::cout << "testing VHS..." << std::endl;
-    XMLContext::list xl = db.root_context.eval("//Interaction[cross_section/@type='vhs/vss']");
+    XMLContext::list xl = db.root_context.eval("//Interaction[cross_section/@type='vhs']");
     for (XMLContext::list::iterator i = xl.begin(); i!=xl.end(); i++) {
         std::string Eq = i->query<std::string>("Eq");
         std::cout << "Eq:  " << Eq << std::endl;

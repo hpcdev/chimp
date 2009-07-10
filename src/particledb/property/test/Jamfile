@@ -1,0 +1,7 @@
+unit-test name : name.cpp ;
+unit-test mass : mass.cpp ;
+unit-test charge : charge.cpp ;
+unit-test size : size.cpp ;
+unit-test Add : Add.cpp ;
+unit-test DefaultSet : DefaultSet.cpp ;
+unit-test Comparator : Comparator.cpp ;

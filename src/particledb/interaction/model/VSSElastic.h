@@ -8,6 +8,7 @@
 #ifndef particledb_interaction_model_VSSElastic_h
 #define particledb_interaction_model_VSSElastic_h
 
+#include <particledb/RuntimeDB.h>
 #include <particledb/interaction/Input.h>
 #include <particledb/interaction/model/Base.h>
 #include <particledb/interaction/model/detail/ReducedMass.h>
@@ -17,7 +18,10 @@
 #include <olson-tools/Vector.h>
 #include <olson-tools/indices.h>
 #include <olson-tools/xml/XMLDoc.h>
+#include <olson-tools/xml/physical_parse.h>
 #include <olson-tools/random/random.h>
+
+#include <physical/quantity.h>
 
 #include <cmath>
 
@@ -47,7 +51,7 @@ namespace particledb {
         VSSElastic( const int & type0,
                     const int & type1,
                     const double & vss_param_inv,
-                    const PropertiesDB & db )
+                    const RuntimeDB<options> & db )
           : mu( db[type0].mass::value, db[type1].mass::value ),
             vss_param_inv(vss_param_inv) { }
 
@@ -112,15 +116,14 @@ namespace particledb {
         } // collide
 
         /** load a new instance of the Interaction. */
-        template < typename RnDB >
-        virtual VSSElastic * new_load( xml::XMLContext & x,
+        virtual VSSElastic * new_load( const xml::XMLContext & x,
                                        const interaction::Input & input,
-                                       const RnDB & db ) {
+                                       const RuntimeDB<options> & db ) const {
+          using runtime::physical::Quantity;
           double vss_param_inv = 
-            x.query<Quantity>("vss_param_inv").assertUnitless().getCoeff();
+            x.query<Quantity>("vss_param_inv").assertUnitless().getCoeff<double>();
           return new VSSElastic( input.A, input.B, vss_param_inv, db );
         }
-
       };
 
     } /* namespace particledb::interaction::model */

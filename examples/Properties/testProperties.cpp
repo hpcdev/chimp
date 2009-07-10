@@ -1,6 +1,6 @@
-/** \file Simple test of particledb::Particle mechanics. */
+/** \file Simple test of particledb::property mechanics. */
 
-#include <particledb/Particle.h>
+#include <particledb/property/DefaultSet.h>
 #include <particledb/physical_calc.h>
 #include <iostream>
 #include <physical/physical.h>
@@ -16,7 +16,7 @@ int main() {
     particledb::prepareCalculator(db);
 
     XMLContext x = db.root_context.find("/ParticleDB//particles/Particle[@name='87Rb']");
-    particledb::Particle::Properties p = particledb::Particle::Properties::load(x);
+    particledb::property::DefaultSet p = particledb::property::DefaultSet::load(x);
 
     std::cout << "p.name:  "   << p.name::value << std::endl;
     std::cout << "p.size:  "   << p.size::value << std::endl;
@@ -25,6 +25,5 @@ int main() {
 
     std::cout << '{' << p << '}' << std::endl;
 
-    double bob = 10*physical::unit::m;
     return 0;
 }

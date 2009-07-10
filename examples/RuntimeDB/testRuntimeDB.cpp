@@ -1,7 +1,7 @@
 
 #include "Particle.h"
 
-#include <particledb/ParticleDB.h>
+#include <particledb/RuntimeDB.h>
 #include <particledb/physical_calc.h>
 
 #include <olson-tools/upper_triangle.h>
@@ -106,7 +106,7 @@ int main() {
     using physical::unit::s;
     using physical::unit::uK;
 
-    using particledb::db;
+    particledb::RuntimeDB<> db;
     particledb::prepareCalculator(db.xmlDb);
 
     /* load information from XML file. */

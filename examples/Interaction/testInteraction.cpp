@@ -1,8 +1,6 @@
+
 #include <iostream>
-#include <particledb/interaction/Interaction.h>
-#include <particledb/interaction/Set.h>
-#include <particledb/ParticleDB.h>
-#include <particledb/physical_calc.h>
+#include <particledb/RuntimeDB.h>
 
 #ifndef   PARTICLEDB_XML
 #  define PARTICLEDB_XML  "particledb.xml"
@@ -14,17 +12,17 @@ int main() {
     using particledb::interaction::find_all_interactions;
     using particledb::interaction::find_elastic_interactions;
     using particledb::interaction::filter_interactions;
-    using particledb::interaction::Output;
-    using particledb::interaction::Equation;
-    using particledb::interaction::Set;
     using std::string;
+    typedef particledb::RuntimeDB<> DB;
+    typedef DB::Set Set;
+    typedef Set::Equation Equation;
+    typedef Set::Equation::Output Output;
 
     string A = "e^-";
     string B = "Hg";
-    Set set;
+    DB::Set set;
 
-    using particledb::db;
-    particledb::prepareCalculator(db.xmlDb);
+    particledb::RuntimeDB<> db;
 
     db.addParticleType(A);
     db.addParticleType(B);
@@ -64,7 +62,7 @@ int main() {
     set.rhs.clear();
     std::cout << "finding elastic interactions ..." << std::endl;
     xl = find_elastic_interactions(db.xmlDb.root_context, A, B);
-    for (XMLContext::set::iterator i = xl.begin(); i != xl.end(); i++) {
+    for (XMLContext::list::iterator i = xl.begin(); i != xl.end(); i++) {
         string Eq = i->query<string>("Eq");
 
         std::cout << Eq << std::endl;

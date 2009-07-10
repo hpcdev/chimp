@@ -8,6 +8,7 @@
 #ifndef particledb_interaction_model_InElastic_h
 #define particledb_interaction_model_InElastic_h
 
+#include <particledb/RuntimeDB.h>
 #include <particledb/interaction/Input.h>
 #include <particledb/interaction/model/Base.h>
 #include <particledb/interaction/model/detail/ReducedMass.h>
@@ -38,11 +39,10 @@ namespace particledb {
         } // interact
 
         /** load a new instance of the Interaction. */
-        template < typename RnDB >
-        virtual InElastic * new_load( xml::XMLContext & x,
+        virtual InElastic * new_load( const xml::XMLContext & x,
                                       const interaction::Input & input,
-                                      const RnDB & db ) {
-          return new InElastic( input.A, input.B, db );
+                                      const RuntimeDB<options> & db ) const {
+          return new InElastic/*( input.A, input.B, db )*/;
         }
 
       };
