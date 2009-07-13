@@ -1,0 +1,5 @@
+unit-test EqIO : EqIO.cpp ;
+unit-test Elastic : Elastic.cpp ;
+unit-test And : And.cpp ;
+unit-test Or : Or.cpp ;
+

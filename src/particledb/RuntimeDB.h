@@ -88,7 +88,7 @@
 #  include <particledb/interaction/model/InElastic.h>
 #  include <particledb/interaction/model/VSSElastic.h>
 #  include <particledb/interaction/CrossSection.h>
-#  include <particledb/interaction/filter/basic.h>
+#  include <particledb/interaction/filter/Base.h>
 #  include <particledb/interaction/VHSCrossSection.h>
 #  include <particledb/interaction/DATACrossSection.h>
 #  include <particledb/property/name.h>
@@ -159,6 +159,9 @@ namespace particledb {
 
     /** Registry for interaction functor classes. */
     InteractionRegistry interaction_registry;
+
+    /** Interaction Equation filter. */
+    shared_ptr<interaction::filter::Base> filter;
 
   private:
     /** Vector of particle properties.
@@ -320,6 +323,8 @@ namespace particledb {
         props.push_back(prop);
     }
 
+#if 0 
+need to fix filter use
     void initInteractions() {
       using interaction::find_all_interactions;;
       using interaction::find_elastic_interactions;;
@@ -358,6 +363,7 @@ namespace particledb {
         }
       }
     }
+#endif
 
   };/* RuntimeDB */
 

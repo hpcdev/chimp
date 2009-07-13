@@ -24,27 +24,27 @@ BOOST_AUTO_TEST_SUITE( property_Comparator ); // {
 
   BOOST_AUTO_TEST_CASE( comparisons ) {
     BOOST_CHECK_EQUAL(
-      Comparator()( Prop(std::string("H"), 1), Prop(std::string("H"), 1) ),
+      Comparator()( Prop("H", 1), Prop("H", 1) ),
       false
     );
 
     BOOST_CHECK_EQUAL(
-      Comparator()( Prop(std::string("H"), 1), Prop(std::string("He"), 1) ),
+      Comparator()( Prop("H", 1), Prop("He", 1) ),
       true
     );
 
     BOOST_CHECK_EQUAL(
-      Comparator()( Prop(std::string("He"), 1), Prop(std::string("H"), 10) ),
+      Comparator()( Prop("He", 1), Prop("H", 10) ),
       true
     );
 
     BOOST_CHECK_EQUAL(
-      Comparator()( Prop(std::string("He"), 1), Prop(std::string("H"), 1) ),
+      Comparator()( Prop("He", 1), Prop("H", 1) ),
       false
     );
 
     BOOST_CHECK_EQUAL(
-      Comparator()( Prop(std::string("He"), 10), Prop(std::string("H"), 1) ),
+      Comparator()( Prop("He", 10), Prop("H", 1) ),
       false
     );
   }

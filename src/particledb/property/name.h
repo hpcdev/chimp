@@ -24,6 +24,7 @@ namespace particledb {
       typedef name_t super;
 
       name(const name_t::value_type & n = name_t().value) : name_t(n) {}
+      name(const char * n) : name_t(n) {}
     };
 
   }/* namespace particledb::property */

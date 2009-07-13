@@ -18,7 +18,7 @@ BOOST_AUTO_TEST_SUITE( property_name ); // {
     }
 
     {
-      name n(std::string("hi there"));
+      name n("hi there");
       BOOST_CHECK_EQUAL(n.value,"hi there");
       BOOST_CHECK_EQUAL(n.name::value,"hi there");
     }

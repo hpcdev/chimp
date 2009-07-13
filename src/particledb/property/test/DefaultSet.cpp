@@ -25,7 +25,7 @@ BOOST_AUTO_TEST_SUITE( property_DefaultSet ); // {
     }
 
     {
-      DefaultSet p( std::string("bob"), 10, 1, 2 );
+      DefaultSet p( "bob", 10, 1, 2 );
       BOOST_CHECK_EQUAL(p.name::value, "bob");
       BOOST_CHECK_EQUAL(p.size::value, 10);
       BOOST_CHECK_EQUAL(p.mass::value, 1);
@@ -34,7 +34,7 @@ BOOST_AUTO_TEST_SUITE( property_DefaultSet ); // {
   }
 
   BOOST_AUTO_TEST_CASE( printing ) {
-    DefaultSet p(std::string("bob"), 10, 1, 2);
+    DefaultSet p("bob", 10, 1, 2);
 
     {
       std::ostringstream ostr;

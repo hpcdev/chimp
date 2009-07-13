@@ -28,14 +28,14 @@ BOOST_AUTO_TEST_SUITE( property_Add ); // {
     }
 
     {
-      Prop p( std::string("bob"), 10 );
+      Prop p( "bob", 10 );
       BOOST_CHECK_EQUAL(p.name::value,"bob");
       BOOST_CHECK_EQUAL(p.mass::value,10);
     }
   }
 
   BOOST_AUTO_TEST_CASE( printing ) {
-    Prop p(std::string("bob"), 10.0);
+    Prop p("bob", 10.0);
 
     {
       std::ostringstream ostr;

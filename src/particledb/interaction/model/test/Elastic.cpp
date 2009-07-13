@@ -59,7 +59,7 @@ BOOST_AUTO_TEST_SUITE( Elastic_tests ); // {
     {
       /* we'll now test a whole bunch and check them for conservation laws */
       const double eps = std::numeric_limits<double>::epsilon();
-      Vector<double,3> dP_tot(0.0);
+      Vector<double,3> dP(0.0), dP2(0.0);
       const int N = 100000;
 
       for (int i = 0; i < N; ++i ) {
@@ -99,13 +99,24 @@ BOOST_AUTO_TEST_SUITE( Elastic_tests ); // {
         BOOST_CHECK_EQUAL( max(abs(1-momentumi[1]/momentumf[1]), p_eps[1]), p_eps[1]);
         BOOST_CHECK_EQUAL( max(abs(1-momentumi[2]/momentumf[2]), p_eps[2]), p_eps[2]);
 
-        dP_tot += momentumf - momentumi;
+        {
+          Vector<double,3> d = (momentumf - momentumi) / db[part_i].mass::value;
+          dP += d;
+          dP2 += compMult(d,d);
+        }
 
       }
 
-      double p_eps = eps / std::sqrt(N);
-      dP_tot.save_fabs();
-      BOOST_CHECK_EQUAL( dP_tot <= V3(p_eps,p_eps,p_eps), true );
+      {
+        dP /= N;
+        dP2 /= N;
+
+        Vector <double,3> dP_mean_sigma =
+          (dP2 - compMult(dP,dP)).save_sqrt() / std::sqrt(N);
+
+        dP.save_fabs();
+        BOOST_CHECK_EQUAL( dP <= (2.*dP_mean_sigma), true );
+      }
     }
   }
 
