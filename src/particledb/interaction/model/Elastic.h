@@ -20,6 +20,7 @@
 #include <olson-tools/xml/XMLDoc.h>
 #include <olson-tools/random/random.h>
 
+#include <string>
 #include <cmath>
 
 namespace particledb {
@@ -31,7 +32,11 @@ namespace particledb {
         /* TYPEDEFS */
         typedef property::mass mass;
 
+        /* STATIC STORAGE */
+        static const std::string label;
+
         /* MEMBER STORAGE */
+        /** Reduced mass related ratios. */
         detail::ReducedMass mu;
 
 
@@ -48,52 +53,44 @@ namespace particledb {
         /** Virtual NO-OP destructor. */
         virtual ~Elastic() { }
 
+        /** Obtain the label of the model. */
+        virtual std::string getLabel() const {
+          return label;
+        }
+
         /** Binary elastic collision. */
         virtual void interact( Particle & part1, Particle & part2 ) {
           using olson_tools::SQR;
           using olson_tools::fast_pow;
           using olson_tools::Vector;
           using namespace olson_tools::indices;
-          Vector<double,3> VelCM; /* velocity of center of mass. */
-          Vector<double,3> VelRelPre; /* relative velocity prior to collision */
-          Vector<double,3> VelRelPost;/* relative velocity after collision */
-          double SpeedRel = 0;
 
           /*  first obtain the center of mass velocity components */
 
-          VelCM = (mu.over_m2 * part1.v)
-                + (mu.over_m1 * part2.v);
+          /* velocity of center of mass. */
+          Vector<double,3> VelCM = (mu.over_m2 * part1.v) +
+                                   (mu.over_m1 * part2.v);
 
-          // // or for similar particle types:
-          // VelCM = part1.v + part2.v; VelCM *= 0.5;
-
-          VelRelPre = part1.v - part2.v;
-          SpeedRel = VelRelPre.abs();
-
-
+          /* relative velocity prior to collision */
+          Vector<double,3> VelRelPre = part1.v - part2.v;
+          double SpeedRel = VelRelPre.abs();
 
           // use the VHS logic
           double B = 2.0 * MTRNGrand() - 1.0;
           // B is the cosine of a random elevation angle
           double A = std::sqrt( 1.0 - SQR(B) );
-          VelRelPost[X] = B * SpeedRel;
-          double C = 2.0 * M_PI * MTRNGrand();
           // C is a random azimuth angle
-          VelRelPost[Y] = A * std::cos(C) * SpeedRel;
-          VelRelPost[Z] = A * std::sin(C) * SpeedRel;
+          double C = 2.0 * M_PI * MTRNGrand();
 
-
-
+          /* relative velocity after collision */
+          Vector<double,3> VelRelPost =
+            V3( B * SpeedRel,
+                A * std::cos(C) * SpeedRel,
+                A * std::sin(C) * SpeedRel );
 
           // VelRelPost is the post-collision relative v.
           part1.v = VelCM + ( mu.over_m1 * VelRelPost );
           part2.v = VelCM - ( mu.over_m2 * VelRelPost );
-
-          // // or, for similar particles
-          // VelRelPost *= 0.5;
-          // part1.v = VelCM + ( VelRelPost );
-          // part2.v = VelCM - ( VelRelPost );
-
         } // collide
 
         /** load a new instance of the Interaction. */
@@ -104,6 +101,9 @@ namespace particledb {
         }
 
       };
+
+      template < typename options >
+      const std::string Elastic<options>::label = "elastic";
 
     } /* namespace particledb::interaction::model */
   } /* namespace particledb::interaction */

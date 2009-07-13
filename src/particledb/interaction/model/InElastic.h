@@ -19,6 +19,7 @@
 #include <olson-tools/xml/XMLDoc.h>
 #include <olson-tools/random/random.h>
 
+#include <string>
 #include <cmath>
 
 namespace particledb {
@@ -28,11 +29,19 @@ namespace particledb {
       template < typename options >
       struct InElastic : Base<options> {
 
+        /* STATIC STORAGE */
+        static const std::string label;
+
 
 
         /* MEMBER FUNCTIONS */
         /** Virtual NO-OP destructor. */
         virtual ~InElastic() { }
+
+        /** Obtain the label of the model. */
+        virtual std::string getLabel() const {
+          return label;
+        }
 
         /** Binary inelastic collision. */
         virtual void interact( Particle & part1, Particle & part2 ) {
@@ -46,6 +55,9 @@ namespace particledb {
         }
 
       };
+
+      template < typename options >
+      const std::string InElastic<options>::label = "inelastic";
 
     } /* namespace particledb::interaction::model */
   } /* namespace particledb::interaction */

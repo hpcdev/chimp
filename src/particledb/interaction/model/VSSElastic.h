@@ -23,6 +23,7 @@
 
 #include <physical/quantity.h>
 
+#include <string>
 #include <cmath>
 
 namespace particledb {
@@ -33,6 +34,9 @@ namespace particledb {
       struct VSSElastic : Base<options> {
         /* TYPEDEFS */
         typedef property::mass mass;
+
+        /* STATIC STORAGE */
+        static const std::string label;
 
         /* MEMBER STORAGE */
         /** Reduced mass related ratios. */
@@ -58,29 +62,27 @@ namespace particledb {
         /** Virtual NO-OP destructor. */
         virtual ~VSSElastic() { }
 
+        /** Obtain the label of the model. */
+        virtual std::string getLabel() const {
+          return label;
+        }
+
         /** Binary elastic collision of VHS and VSS models. */
         virtual void interact( Particle & part1, Particle & part2 ) {
           using olson_tools::SQR;
           using olson_tools::fast_pow;
           using olson_tools::Vector;
           using namespace olson_tools::indices;
-          Vector<double,3> VelCM; /* velocity of center of mass. */
-          Vector<double,3> VelRelPre; /* relative velocity prior to collision */
-          Vector<double,3> VelRelPost;/* relative velocity after collision */
-          double SpeedRel = 0;
 
           /*  first obtain the center of mass velocity components */
 
-          VelCM = (mu.over_m2 * part1.v)
-                + (mu.over_m1 * part2.v);
+          /* velocity of center of mass. */
+          Vector<double,3> VelCM = (mu.over_m2 * part1.v) +
+                                   (mu.over_m1 * part2.v);
 
-          // // or for similar particle types:
-          // VelCM = part1.v + part2.v; VelCM *= 0.5;
-
-          VelRelPre = part1.v - part2.v;
-          SpeedRel = VelRelPre.abs();
-
-
+          /* relative velocity prior to collision */
+          Vector<double,3> VelRelPre = part1.v - part2.v;
+          double SpeedRel = VelRelPre.abs();
 
           // use the VSS logic
           double B = 2.0 * fast_pow( MTRNGrand(), vss_param_inv ) - 1.0;
@@ -90,6 +92,7 @@ namespace particledb {
           double COSC = std::cos(C);
           double SINC = std::sin(C);
           double D = std::sqrt( SQR(VelRelPre[Y]) + SQR(VelRelPre[Z]) );
+          Vector<double,3> VelRelPost;
           if ( D > 1.0E-6 ) {
               VelRelPost[X] = B * VelRelPre[X] + A * SINC * D;
               VelRelPost[Y] = B * VelRelPre[Y] + A * (SpeedRel * VelRelPre[Z] * COSC - VelRelPre[X] * VelRelPre[Y] * SINC)/D;
@@ -125,6 +128,9 @@ namespace particledb {
           return new VSSElastic( input.A, input.B, vss_param_inv, db );
         }
       };
+
+      template < typename options >
+      const std::string VSSElastic<options>::label = "vss_elastic";
 
     } /* namespace particledb::interaction::model */
   } /* namespace particledb::interaction */

@@ -50,7 +50,7 @@ namespace particledb {
 
 
     /** Assign random values to the particle's x and v members. */
-    inline void randomize( Particle & p,
+    inline Particle & randomize( Particle & p,
                            const Vector<double,3> & dx = 100,
                            const Vector<double,3> & dv = 100 ) {
       /* random values */
@@ -61,6 +61,8 @@ namespace particledb {
       p.v[0] = dv[0] * ( MTRNGrand() - .5 );
       p.v[1] = dv[1] * ( MTRNGrand() - .5 );
       p.v[2] = dv[2] * ( MTRNGrand() - .5 );
+
+      return p;
     }
     
     /** Compute the distance between a Particle and a point. */
@@ -82,6 +84,12 @@ namespace particledb {
     /** Read in the six position and velocity values into Particle class. */
     inline std::istream & operator>> ( std::istream & input, Particle & p ) {
       return input >> p.x >> p.v;
+    }
+
+    /** Read in the six position and velocity values into Particle class. */
+    inline bool operator== ( const Particle & lhs, const Particle & rhs ) {
+      return lhs.x == rhs.x &&
+             lhs.v == rhs.v;
     }
 
   }/* namespace particledb::interaction */

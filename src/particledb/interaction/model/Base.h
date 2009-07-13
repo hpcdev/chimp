@@ -25,7 +25,11 @@ namespace particledb {
         /* TYPEDEFS */
         typedef typename options::Particle Particle;
 
+        /** Virtual NO-OP destructor. */
         virtual ~Base() { }
+
+        /** Obtain the label of the model. */
+        virtual std::string getLabel() const = 0;
 
         /** Binary collision interface. */
         virtual void interact( Particle & part1, Particle & part2 ) = 0;

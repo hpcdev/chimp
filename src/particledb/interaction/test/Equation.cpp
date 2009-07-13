@@ -22,6 +22,8 @@ BOOST_AUTO_TEST_SUITE( Equation_tests ); // {
     typedef particledb::interaction::Equation<options> Equation;
     Equation eq = Equation::load(db.xmlDb.root_context, "(87Rb)->(87Rb)", db);
 
+    BOOST_CHECK_EQUAL( eq.interaction->getLabel(), "elastic" );
+
     std::ostringstream sstr;
     BOOST_CHECK_EQUAL( static_cast<std::ostringstream&>(eq.print(sstr, db)).str(), "(87Rb)->(87Rb)");
   }

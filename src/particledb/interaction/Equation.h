@@ -5,6 +5,8 @@
 #include <particledb/interaction/Input.h>
 #include <particledb/interaction/Output.h>
 #include <particledb/interaction/CrossSection.h>
+#include <particledb/interaction/model/Elastic.h>
+#include <particledb/interaction/model/InElastic.h>
 #include <particledb/property/name.h>
 #include <particledb/property/mass.h>
 #include <particledb/property/Comparator.h>
@@ -162,9 +164,13 @@ namespace particledb {
         {
           /* Determine which type of interaction we are dealing with and
            * instantiate the implementation of the interaction. */
-          string i_type = "inelastic";
+
+          typedef interaction::model::Elastic<options> elastic;
+          typedef interaction::model::InElastic<options> inelastic;
+
+          string i_type = inelastic::label;
           if (in == out)
-            i_type = "elastic";
+            i_type = elastic::label;
 
           i_type = x.query<string>( "@type", i_type );
 

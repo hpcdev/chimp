@@ -187,15 +187,13 @@ namespace particledb {
 
 
       /* register the library-provided Interaction functors. */
-      interaction_registry["elastic"].reset(
-        new interaction::model::Elastic<options>
-      );
-      interaction_registry["vss_elastic"].reset(
-        new interaction::model::VSSElastic<options>
-      );
-      interaction_registry["inelastic"].reset(
-        new interaction::model::InElastic<options>
-      );
+      typedef interaction::model::Elastic<options> elastic;
+      typedef interaction::model::VSSElastic<options> vsselastic;
+      typedef interaction::model::InElastic<options> inelastic;
+
+      interaction_registry[elastic::label].reset( new elastic);
+      interaction_registry[vsselastic::label].reset( new vsselastic);
+      interaction_registry[inelastic::label].reset( new inelastic);
     }
 
     /** Read-only access to the properties vector.
