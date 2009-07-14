@@ -4,6 +4,8 @@
 
 #include <particledb/interaction/filter/Base.h>
 
+#include <boost/shared_ptr.hpp>
+
 #include <algorithm>
 
 namespace particledb {
@@ -14,25 +16,26 @@ namespace particledb {
 
       struct Not : filter::Base {
         /* MEMBER STORAGE */
-        shared_ptr<filter::Base> f;
-        set not_complement;
+        shared_ptr<filter::Base> pos, neg;
 
         /* MEMBER FUNCTIONS */
         /** Constructor */
-        Not( const shared_ptr<filter::Base> & f,
-             const set & not_complement = set() )
-          : f(f), not_complement(not_complement) { }
+        Not( const shared_ptr<filter::Base> & pos,
+             const shared_ptr<filter::Base> & neg )
+          : pos(pos), neg(neg) { }
 
         /** Virtual NO-OP destructor. */
-        virtual ~Base() {}
+        virtual ~Not() {}
+
         /** Virtual filter operation. */
         virtual set filter(const set & in) {
-          set fset = f->filter(in);
+          set pset = pos->filter(in);
+          set nset = neg->filter(in);
 
           set retval;
-          std::set_union( fset.begin(), fset.end(),
-                          not_complement.begin(), not_complement.end(),
-                          inserter(retval, retval.begin()) );
+          std::set_difference( pset.begin(), pset.end(),
+                               nset.begin(), nset.end(),
+                               inserter(retval, retval.begin()) );
           return retval;
         }
       };

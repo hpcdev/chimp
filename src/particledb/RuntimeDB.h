@@ -89,6 +89,8 @@
 #  include <particledb/interaction/model/VSSElastic.h>
 #  include <particledb/interaction/CrossSection.h>
 #  include <particledb/interaction/filter/Base.h>
+#  include <particledb/interaction/filter/EqIO.h>
+#  include <particledb/interaction/filter/Elastic.h>
 #  include <particledb/interaction/VHSCrossSection.h>
 #  include <particledb/interaction/DATACrossSection.h>
 #  include <particledb/property/name.h>
@@ -143,14 +145,6 @@ namespace particledb {
 
     /* MEMBER STORAGE */
   public:
-    /** Set of interactions to allow.
-     * This set should be built before calling initInteractions.  When
-     * initInteractions is called, it will consult this set to filter out
-     * any equations that are not to be allowed.
-     * */
-    /* FIXME:  implement the filtering technology for the equations. */
-    std::set<std::string> allowed_equations;
-
     /** XML document from which data is extracted.  */
     xml::XMLDoc xmlDb;
 
@@ -160,16 +154,21 @@ namespace particledb {
     /** Registry for interaction functor classes. */
     InteractionRegistry interaction_registry;
 
-    /** Interaction Equation filter. */
+    /** Interaction Equation filter.  This filter is used to determine the
+     * interactions that are allowed in each cell of the interaction table.
+     * This filter will be executed separately for each cell in the table and
+     * hence will have an implicit Input filter based on the input elements for
+     * the interaction table cell.  The default filter will allow ONLY elastic
+     * collisions. */
     shared_ptr<interaction::filter::Base> filter;
 
   private:
     /** Vector of particle properties.
      * Note that the order of the entries in the properties vector is NOT well
-     * determined, until AFTER initInteractions() has been called.  */
+     * determined, until AFTER initBinaryInteractions() has been called.  */
     prop_list props;
 
-    /** Initialized at time of initInteractions() call. */
+    /** Initialized at time of initBinaryInteractions() call. */
     InteractionMatrix interactions;
 
 
@@ -197,12 +196,15 @@ namespace particledb {
       interaction_registry[elastic::label].reset( new elastic);
       interaction_registry[vsselastic::label].reset( new vsselastic);
       interaction_registry[inelastic::label].reset( new inelastic);
+
+      /* set up the default interaction filter. */
+      filter.reset( new interaction::filter::Elastic );
     }
 
     /** Read-only access to the properties vector.
      *
      * NOTE:  The order of the entries in the properties vector is <b>NOT</b>
-     * well determined, until <b>AFTER</b> initInteractions() has been called.
+     * well determined, until <b>AFTER</b> initBinaryInteractions() has been called.
      * */
     const prop_list & getProps() const { return props; }
 
@@ -293,7 +295,7 @@ namespace particledb {
      * runtime database.  Note that only the information relevant to the
      * templated Properties class will get loaded. 
      *
-     * initInteractions() should be called AFTER this.
+     * initBinaryInteractions() should be called AFTER this.
      * */
     void addParticleType(const std::string & name) {
       xml::XMLContext x = xmlDb.root_context.find("//Particle[@name=\"" + name + "\"]");
@@ -323,12 +325,8 @@ namespace particledb {
         props.push_back(prop);
     }
 
-#if 0 
-need to fix filter use
-    void initInteractions() {
-      using interaction::find_all_interactions;;
-      using interaction::find_elastic_interactions;;
-      using interaction::filter_interactions;;
+    /** Set up the interaction table. */
+    void initBinaryInteractions() {
       using xml::XMLContext;
 
       /* first thing we do is to sort the particle property entries by mass and
@@ -344,14 +342,23 @@ need to fix filter use
           const string & n_A = props[A].name::value;
           const string & n_B = props[B].name::value;
 
-          /* get a set of ALL interactions. */
-          XMLContext::list xl = find_all_interactions(xmlDb.root_context, n_A, n_B);
-          /* filter by set of allowed equations. */
-          XMLContext::set xs = filter_interactions(xl, allowed_equations);
-          /* Add in elastic interactions. */
-          XMLContext::list xe = find_elastic_interactions(xmlDb.root_context, n_A, n_B);
-          xs.insert(xe.begin(), xe.end());
+          using interaction::filter::EqTerm;
+          using interaction::filter::EqTermSet;
+          EqTermSet in_eq_set;
+          if ( A == B ) {
+            in_eq_set.insert( EqTerm(n_A,2) );
+          } else {
+            in_eq_set.insert( EqTerm(n_A,1) );
+            in_eq_set.insert( EqTerm(n_B,1) );
+          }
 
+          /* get the set of all interactions with the correct inputs. */
+          XMLContext::list xl = xmlDb.eval(
+            "//Interaction/" + get_xpath_query("In", in_eq_set) );
+          XMLContext::set  xs( xl.begin(), xl.end() );
+
+          /* now filter the interactions to get the desired subset. */
+          xs = filter->filter( xs );
 
           /* first instantiate the (A,B)th interactions */
           Set & set = interactions(A,B);
@@ -363,7 +370,6 @@ need to fix filter use
         }
       }
     }
-#endif
 
   };/* RuntimeDB */
 

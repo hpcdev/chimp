@@ -29,7 +29,6 @@ project /particledb
         <include>src
         <library>boost_regex
         <define>PARTICLEDB_XML=\\\"$(TOP)/data/particledb.xml\\\"
-    #: build-dir build
     ;
 
 lib particledb :
@@ -37,6 +36,7 @@ lib particledb :
       src/particledb/physical_calc.cpp
       src/particledb/interaction/DATACrossSection.cpp
       src/particledb/interaction/VHSInfo.cpp
+      src/particledb/interaction/model/VSSElastic.cpp
     : <link>static
     ;
 

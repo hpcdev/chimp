@@ -2,4 +2,7 @@ unit-test EqIO : EqIO.cpp ;
 unit-test Elastic : Elastic.cpp ;
 unit-test And : And.cpp ;
 unit-test Or : Or.cpp ;
+unit-test Not : Not.cpp ;
+unit-test Null : Null.cpp ;
+unit-test Section : Section.cpp ;
 

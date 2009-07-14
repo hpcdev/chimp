@@ -1,4 +1,4 @@
-build-project test ;
-build-project model ;
 build-project filter ;
+build-project model ;
+build-project test ;
 

@@ -8,8 +8,11 @@ namespace particledb {
   namespace property {
 
     namespace prop_id {
+      template < unsigned int i = 0>
       struct charge { static const char * label; };
-      const char * charge::label = "charge";
+
+      template < unsigned int i >
+      const char * charge<i>::label = "charge";
     }
 
     /** Struct defs for charge property.  We do this in
@@ -17,7 +20,7 @@ namespace particledb {
      * properties by their name, such as:
      * name::value, mass::value, etc.  Otherwise, the user would have
      * to reference the values by P0::value, P1::value, etc. */
-    typedef Generic<int, prop_id::charge> charge_t;
+    typedef Generic<int, prop_id::charge<> > charge_t;
     struct charge : charge_t {
       typedef charge_t super;
 

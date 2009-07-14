@@ -1,3 +1,4 @@
-build-project interaction ;
 build-project property ;
+build-project interaction ;
+build-project test ;
 

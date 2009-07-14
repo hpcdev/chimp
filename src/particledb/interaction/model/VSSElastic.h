@@ -18,10 +18,7 @@
 #include <olson-tools/Vector.h>
 #include <olson-tools/indices.h>
 #include <olson-tools/xml/XMLDoc.h>
-#include <olson-tools/xml/physical_parse.h>
 #include <olson-tools/random/random.h>
-
-#include <physical/quantity.h>
 
 #include <string>
 #include <cmath>
@@ -29,6 +26,12 @@
 namespace particledb {
   namespace interaction {
     namespace model {
+
+      namespace detail {
+        /** load a new instance of the Interaction. */
+        double load_vss_param( const xml::XMLContext & x );
+      } /* namespace particledb::interaction::model::detail */
+
 
       template < typename options >
       struct VSSElastic : Base<options> {
@@ -122,9 +125,7 @@ namespace particledb {
         virtual VSSElastic * new_load( const xml::XMLContext & x,
                                        const interaction::Input & input,
                                        const RuntimeDB<options> & db ) const {
-          using runtime::physical::Quantity;
-          double vss_param_inv = 
-            x.query<Quantity>("vss_param_inv").assertUnitless().getCoeff<double>();
+          double vss_param_inv = detail::load_vss_param( x );
           return new VSSElastic( input.A, input.B, vss_param_inv, db );
         }
       };

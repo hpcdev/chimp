@@ -71,6 +71,7 @@ DONE
 
 9.  If an equation specified in the "allowed_equations" set cannot be not
     used, then issue a warning. 
+NOT SURE THIS APPLIES WITH THE NEW FILTER MECHANISM.
 
 10. Create a generalized filter approach to establishing the set of all
     usable equations for a particular input pair.  
@@ -96,6 +97,7 @@ DONE
     to give precedence to the equation "<eq>" as defined in the Olson
     sub-tree, e.g. in
     "/ParticleDB/Olson/Interactions/Interaction[string(Eq)='<eq>']"
+DONE
 
 11. Add a new section in the database for a predefined set of data that might
     be useful to import together.
@@ -107,14 +109,19 @@ DONE
 
     <Set name="air">
         <particles>
+            <P>e^-</P>
             <P>O2</P>
+            <P>O2(rot)</P>
             <P>N2</P>
         </particles>
         <equation-filter>
-            <Allow type="equation">(O2)->(O2)</Allow>
-            <Allow type="equation">(N2)->(N2)</Allow>
-            <Allow type="equation">(O2)+(N2)->(O2)+(N2)</Allow>
-            <Deny type="interaction_type">attachment</Deny>
+            <Or>
+                <Elastic/>
+                <And>
+                    <EqIO dir="In"><P>e^-</P><P>02</P></EqIO>
+                    <EqIO dir="Out"><P>e^-</P><P>02(rot)</P></EqIO>
+                </And>
+            </Or>
         </equation-filter>
     </Set>
 
@@ -124,6 +131,7 @@ DONE
 
     This needs to be done so that there is not an undefined sort order for
     things that have the same mass.
+DONE (alphabetically at least, charge not yet)
 
 13. Add three-body interaction table and facilities to manage such.
 
