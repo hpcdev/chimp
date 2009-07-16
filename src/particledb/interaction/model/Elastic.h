@@ -9,6 +9,7 @@
 #define particledb_interaction_model_Elastic_h
 
 #include <particledb/RuntimeDB.h>
+#include <particledb/interaction/Term.h>
 #include <particledb/interaction/Input.h>
 #include <particledb/interaction/model/Base.h>
 #include <particledb/interaction/model/detail/ReducedMass.h>
@@ -45,10 +46,10 @@ namespace particledb {
         Elastic() : mu() { }
 
         /** Constructor. */
-        Elastic( const int & type0,
-                 const int & type1,
+        Elastic( const Term & t0,
+                 const Term & t1,
                  const RuntimeDB<options> & db )
-          : mu( db[type0].mass::value, db[type1].mass::value ) { }
+          : mu( db[t0.type].mass::value, db[t1.type].mass::value ) { }
 
         /** Virtual NO-OP destructor. */
         virtual ~Elastic() { }

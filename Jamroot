@@ -17,18 +17,20 @@ lib boost_regex : : <name>boost_regex ;
 
 use-project /olson-tools : ../olson-tools ;
 
+path-constant PARTICLEDB_XML : $(TOP)/data/particledb.xml ;
+
 project /particledb
     : requirements
         <library>/olson-tools//olson-tools
         $(xml2-features)
         <include>src
-        <define>PARTICLEDB_XML=\\\"$(TOP)/data/particledb.xml\\\"
+        <define>PARTICLEDB_XML=\\\"$(PARTICLEDB_XML)\\\"
     : usage-requirements
         <library>/olson-tools//olson-tools
         $(xml2-features)
         <include>src
         <library>boost_regex
-        <define>PARTICLEDB_XML=\\\"$(TOP)/data/particledb.xml\\\"
+        <define>PARTICLEDB_XML=\\\"$(PARTICLEDB_XML)\\\"
     ;
 
 lib particledb :

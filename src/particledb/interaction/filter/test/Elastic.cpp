@@ -23,9 +23,9 @@ BOOST_AUTO_TEST_SUITE( Elastic_tests ); // {
     typedef xml::XMLContext::set set;
     xml::XMLContext::list xl = xmlDb.eval(
       "//Interaction"
-      "/Eq[count(In/P) = 2]/In"
-      "/P[text()='Hg' and (number(@M)=1 or string(@M)='')]/.."
-      "/P[text()='e^-' and (number(@M)=1 or string(@M)='')]/.."
+      "/Eq[count(In/T) = 2]/In"
+      "/T[string(P)='Hg' and (number(n)=1 or string(n)='')]/.."
+      "/T[string(P)='e^-' and (number(n)=1 or string(n)='')]/.."
       "/../.."
     );
     set xset(xl.begin(), xl.end());
@@ -33,7 +33,7 @@ BOOST_AUTO_TEST_SUITE( Elastic_tests ); // {
     set ans = f.filter(xset);
 
     const char * filter_ans = 
-      "(e^-)+(Hg)->(e^-)+(Hg)\n";
+      "e^- + Hg  -->  e^- + Hg\n";
      
     std::ostringstream af;
     for ( set::iterator i = ans.begin(); i != ans.end(); ++i ) {

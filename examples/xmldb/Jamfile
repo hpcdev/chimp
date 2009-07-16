@@ -1,3 +1,4 @@
-exe testXML : testXML_obj /particledb//particledb  ;
+path-constant PARTICLEDB_XML : $(EXAMPLES_TOP)/../data/particledb.xml ;
 
-obj testXML_obj : from-olson-tools/testXML.cpp /particledb//particledb : <cflags>-O0 ;
+exe testXML : from-olson-tools/testXML.cpp /particledb//particledb :
+  <define>XML_FILENAME=\\\"$(PARTICLEDB_XML)\\\" ;

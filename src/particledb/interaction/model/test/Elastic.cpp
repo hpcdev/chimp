@@ -5,6 +5,7 @@
 
 
 #include <particledb/RuntimeDB.h>
+#include <particledb/interaction/Term.h>
 #include <particledb/interaction/Input.h>
 #include <particledb/interaction/Particle.h>
 #include <particledb/interaction/model/Elastic.h>
@@ -22,6 +23,7 @@
 namespace {
   using boost::shared_ptr;
   using particledb::interaction::Particle;
+  using particledb::interaction::Term;
   using namespace particledb::interaction::model::test;
   namespace xml = olson_tools::xml;
 }
@@ -37,7 +39,8 @@ BOOST_AUTO_TEST_SUITE( Elastic_tests ); // {
     MTRNGseedV1(&seed);
 
     typedef particledb::interaction::model::Elastic<DB::options> Elastic;
-    particledb::interaction::Input input(part_i,part_i);
+    Term t0(part_i);
+    particledb::interaction::Input input( t0, t0 );
     shared_ptr<Elastic> el( Elastic().new_load(xml::XMLContext(), input, db) );
 
     BOOST_CHECK_EQUAL( el->getLabel(), "elastic" );

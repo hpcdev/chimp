@@ -45,18 +45,18 @@ namespace particledb {
       inline std::string get_xpath_query( const std::string & EqIO,
                                           const EqTermSet & set ) {
         std::ostringstream query;
-        query << "Eq[count("<<EqIO<<"/P) = " << set.size() << "]/" << EqIO;
+        query << "Eq[count("<<EqIO<<"/T) = " << set.size() << "]/" << EqIO;
 
         for ( EqTermSet::const_iterator i = set.begin(); i != set.end(); ++i ) {
           if ( i->n == 0 )
             continue;
 
-          query << "/P[text()='"<<i->name<<"' and ";
+          query << "/T[string(P)='"<<i->name<<"' and ";
 
           if ( i->n == 1 )
-            query << "(number(@M)=1 or string(@M)='')]/..";
+            query << "(number(n)=1 or string(n)='')]/..";
           else
-            query << "number(@M)="<<i->n<<"]/..";
+            query << "number(n)="<<i->n<<"]/..";
         }
 
         query << "/../..";

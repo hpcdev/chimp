@@ -31,7 +31,7 @@ BOOST_AUTO_TEST_SUITE( RuntimeDB_tests ); // {
         BOOST_CHECK_EQUAL( i->interaction->getLabel(), "elastic" );
       }
 
-      BOOST_CHECK_EQUAL( estr.str(), "(87Rb)->(87Rb)\n" );
+      BOOST_CHECK_EQUAL( estr.str(), "2 87Rb  -->  2 87Rb\n" );
     }
   }
 
@@ -59,7 +59,7 @@ BOOST_AUTO_TEST_SUITE( RuntimeDB_tests ); // {
           BOOST_CHECK_EQUAL( i->interaction->getLabel(), "elastic" );
         }
 
-        BOOST_CHECK_EQUAL( estr.str(), "(87Rb)->(87Rb)\n" );
+        BOOST_CHECK_EQUAL( estr.str(), "2 87Rb  -->  2 87Rb\n" );
       }
     }/* 87Rb * 87Rb */
 
@@ -77,7 +77,7 @@ BOOST_AUTO_TEST_SUITE( RuntimeDB_tests ); // {
           BOOST_CHECK_EQUAL( i->interaction->getLabel(), "elastic" );
         }
 
-        BOOST_CHECK_EQUAL( estr.str(), "(85Rb)->(85Rb)\n" );
+        BOOST_CHECK_EQUAL( estr.str(), "2 85Rb  -->  2 85Rb\n" );
       }
     }/* 85Rb * 85Rb */
 

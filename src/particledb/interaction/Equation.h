@@ -52,7 +52,7 @@ namespace particledb {
       /** Print the full equation. */
       template <class RnDB>
       std::ostream & print( std::ostream & out, const RnDB & db ) const {
-        Input::print(out,db) << "->";
+        Input::print(out,db) << "  -->  ";
         Output::print(out,db);
         return out;
       }
@@ -88,15 +88,11 @@ namespace particledb {
         equation_elements in, out;
         int n_in = 0, n_out = 0;
 
-        XMLContext::list xl = x.eval("Eq/In/P");
+        XMLContext::list xl = x.eval("Eq/In/T");
         for (XMLContext::list::iterator i = xl.begin(); i != xl.end(); ++i ) {
-          std::string particle_name = i->parse<string>();
-          int n;
-          try {
-            n = i->query<int>("@M");
-          } catch (xml::no_results) {
-            n = 1;
-          }
+          std::string particle_name = i->query<string>("P");
+          int n = i->query<int>("n",1);
+
           n_in += n;
 
           const typename RnDB::Properties * p = &( db[particle_name] );
@@ -108,15 +104,11 @@ namespace particledb {
             in.insert( std::make_pair(p, n) );
         }
 
-        xl = x.eval("Eq/Out/P");
+        xl = x.eval("Eq/Out/T");
         for (XMLContext::list::iterator i = xl.begin(); i != xl.end(); ++i) {
-          std::string particle_name = i->parse<string>();
-          int n;
-          try {
-            n = i->query<int>("@M");
-          } catch (xml::no_results) {
-            n = 1;
-          }
+          std::string particle_name = i->query<string>("P");
+          int n = i->query<int>("n", 1);
+
           n_out += n;
 
           const typename RnDB::Properties * p = &( db[particle_name] );
@@ -139,18 +131,17 @@ namespace particledb {
           PIter i = in.begin();
           int n = i->second;
 
-          retval.A = db.findParticleIndx( i->first->name::value );
+          retval.A = Term(db.findParticleIndx( i->first->name::value ));
           if ( !(--n) )
             ++i;
-          retval.B = db.findParticleIndx( i->first->name::value );
+          retval.B = Term(db.findParticleIndx( i->first->name::value ));
         }
 
         retval.set_mu_AB(db);
 
         /* set the output. */
         for ( PIter i = out.begin(); i != out.end(); ++i ) {
-          typename Output::item it =
-            {i->second, db.findParticleIndx(i->first->name::value)};
+          Term it( db.findParticleIndx(i->first->name::value), i->second );
 
           if (it.type == -1)
             throw xml_error(

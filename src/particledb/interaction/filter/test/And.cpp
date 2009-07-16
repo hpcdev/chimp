@@ -30,7 +30,7 @@ BOOST_AUTO_TEST_SUITE( And_tests ); // {
     set ans = f.filter(xset);
 
     const char * filter_ans = 
-      "(e^-)+(Hg)->(e^-)+(Hg(6-3P0))\n";
+      "e^- + Hg  -->  e^- + Hg(6-3P0)\n";
      
     std::ostringstream af;
     for ( set::iterator i = ans.begin(); i != ans.end(); ++i ) {

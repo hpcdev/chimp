@@ -2,6 +2,7 @@
 #ifndef particledb_interaction_Input_h
 #define particledb_interaction_Input_h
 
+#include <particledb/interaction/Term.h>
 #include <particledb/property/name.h>
 #include <particledb/property/mass.h>
 
@@ -14,22 +15,22 @@ namespace particledb {
 
     /** Input data type indices. */
     struct Input {
-      int A;
-      int B;
+      Term A;
+      Term B;
       double mu_AB;
 
-      Input( const int & A = 0,
-             const int & B = 0,
+      Input( const Term & A = Term(),
+             const Term & B = Term(),
              const double & mu_AB = 0.0 ) :
         A(A), B(B), mu_AB(mu_AB) {}
 
       template <class RnDB>
-      Input( const RnDB & db, const int & A = 0, const int & B = 0 ) {
+      Input( const RnDB & db, const Term & A, const int & B ) {
         setInput(db,A,B);
       }
 
       template <class RnDB>
-      void setInput( const RnDB & db, const int & A = 0, const int & B = 0 ) {
+      void setInput( const RnDB & db, const Term & A, const Term & B ) {
         this->A = A;
         this->B = B;
         set_mu_AB(db);
@@ -38,35 +39,21 @@ namespace particledb {
       template <class RnDB>
       void set_mu_AB(const RnDB & db) {
         using property::mass;
-        const double & m_A = db[A].mass::value;
-        const double & m_B = db[B].mass::value;
+        const double & m_A = db[A.type].mass::value;
+        const double & m_B = db[B.type].mass::value;
         mu_AB = m_A * m_B / (m_A + m_B);
       }
 
       template <class RnDB>
       std::ostream & print( std::ostream & out, const RnDB & db ) const {
-        using std::string;
-        using property::mass;
-        using property::name;
-        const string & n_A = db[A].name::value;
-        const string & n_B = db[B].name::value;
-        const double & m_A = db[A].mass::value;
-        const double & m_B = db[B].mass::value;
+        Term::printset ps;
 
-        if ( A != B ) {
-          const string * n0 = &n_A;
-          const string * n1 = &n_B;
-          if (m_A > m_B) {
-            n0 = &n_B;
-            n1 = &n_A;
-          }
-
-          out << '(' << (*n0) << ")"
-                "+(" << (*n1) << ')';
-        } else
-          out << '(' << n_A << ")";
-
-        return out;
+        if ( A.type == B.type )
+          ps.add( Term(A.type, 2), db );
+        else
+          ps.add(A, db);
+          ps.add(B, db);
+        return ps.print(out, db);
       }
     };
 

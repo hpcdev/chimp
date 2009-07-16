@@ -9,6 +9,7 @@
 #define particledb_interaction_model_VSSElastic_h
 
 #include <particledb/RuntimeDB.h>
+#include <particledb/interaction/Term.h>
 #include <particledb/interaction/Input.h>
 #include <particledb/interaction/model/Base.h>
 #include <particledb/interaction/model/detail/ReducedMass.h>
@@ -55,11 +56,11 @@ namespace particledb {
         VSSElastic() : mu() { }
 
         /** Constructor. */
-        VSSElastic( const int & type0,
-                    const int & type1,
+        VSSElastic( const Term & t0,
+                    const Term & t1,
                     const double & vss_param_inv,
                     const RuntimeDB<options> & db )
-          : mu( db[type0].mass::value, db[type1].mass::value ),
+          : mu( db[t0.type].mass::value, db[t1.type].mass::value ),
             vss_param_inv(vss_param_inv) { }
 
         /** Virtual NO-OP destructor. */

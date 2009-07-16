@@ -86,7 +86,7 @@ BOOST_AUTO_TEST_SUITE( Section_tests ); // {
 
     {
       const char * filter_ans = 
-        "(e^-)+(Hg)->(e^-)+(Hg)\n";
+        "e^- + Hg  -->  e^- + Hg\n";
        
       std::ostringstream af;
       for ( set::iterator i = set_out.begin(); i != set_out.end(); ++i ) {

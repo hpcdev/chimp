@@ -2,6 +2,7 @@
 #ifndef particledb_interaction_Output_h
 #define particledb_interaction_Output_h
 
+#include <particledb/interaction/Term.h>
 #include <particledb/interaction/model/Base.h>
 #include <particledb/interaction/CrossSection.h>
 #include <particledb/property/name.h>
@@ -23,55 +24,25 @@ namespace particledb {
     template < typename options >
     struct Output {
       /* TYPEDEFS */
-      struct item {
-        int n;
-        int type;
-      };
-      typedef std::vector<item> item_list;
-
-      struct name_mass {
-        const property::mass & mass;
-        const property::name & name;
-
-        name_mass( const property::mass & m,
-                   const property::name & n )
-          : mass(m), name(n) {}
-
-        bool operator<(const name_mass & rhs) const {
-          return this->mass.value < rhs.mass.value;
-        }
-      };
-      typedef std::multiset<name_mass> printset;
-
-
+      typedef std::vector<Term> term_list;
 
 
       /* MEMBER STORAGE */
-      item_list items;
+      term_list items;
       shared_ptr<CrossSection> cs;
       shared_ptr< model::Base<options> > interaction;
-
 
 
       /* MEMBER FUNCTIONS */
       /** Stream printer. */
       template <class RnDB>
       std::ostream & print(std::ostream & out, const RnDB & db) const {
-        typedef typename item_list::const_iterator CIter;
-        printset ps;
-        for ( CIter i = items.begin(); i!=items.end(); ++i ) {
-          const property::mass & m = db[i->type];
-          const property::name & n = db[i->type];
-          ps.insert(name_mass(m,n));
-        }
+        typedef typename term_list::const_iterator CIter;
+        Term::printset ps;
+        for ( CIter i = items.begin(); i!=items.end(); ++i )
+          ps.add(*i, db);
 
-        const char * plus = "+";
-        const char * sep = "";
-        for ( typename printset::iterator i = ps.begin(); i!=ps.end(); ++i ) {
-          out << sep << '(' << i->name.value << ")";
-          sep = plus;
-        }
-        return out;
+        return ps.print(out, db);
       }
 
       /** Compute the cross section.
