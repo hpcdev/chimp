@@ -21,7 +21,9 @@ namespace particledb {
         const char * elastic_parms<i>::xpath_query = "Eq[string(In) = string(Out)]/..";
       }
 
-      inline bool is_elastic( const xml::XMLContext & x ) {
+      /** Determine whether the equation that is assumed to be represented at
+       * the given XML context is an elastic interaction. */
+      inline bool is_elastic( const xml::Context & x ) {
         using std::string;
         string query = string(detail::elastic_parms<>::xpath_query) + "/Eq";
 
@@ -31,6 +33,8 @@ namespace particledb {
           return false;
       }
 
+      /** Filters out all inelastic interactions (only elastic interactions make
+       * it through). */
       struct Elastic : Base {
         /* MEMBER FUNCTIONS */
         Elastic() {

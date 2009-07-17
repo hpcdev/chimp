@@ -10,12 +10,12 @@
 #endif
 
 int main() {
-    using namespace olson_tools::xml;
+    namespace xml = olson_tools::xml;
 
-    XMLDoc db(PARTICLEDB_XML);
+    xml::Doc db(PARTICLEDB_XML);
     particledb::prepareCalculator(db);
 
-    XMLContext x = db.root_context.find("/ParticleDB//particles/Particle[@name='87Rb']");
+    xml::Context x = db.root_context.find("/ParticleDB//particles/Particle[@name='87Rb']");
     particledb::property::DefaultSet p = particledb::property::DefaultSet::load(x);
 
     std::cout << "p.name:  "   << p.name::value << std::endl;

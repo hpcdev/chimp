@@ -41,7 +41,7 @@ BOOST_AUTO_TEST_SUITE( Elastic_tests ); // {
     typedef particledb::interaction::model::Elastic<DB::options> Elastic;
     Term t0(part_i);
     particledb::interaction::Input input( t0, t0 );
-    shared_ptr<Elastic> el( Elastic().new_load(xml::XMLContext(), input, db) );
+    shared_ptr<Elastic> el( Elastic().new_load(xml::Context(), input, db) );
 
     BOOST_CHECK_EQUAL( el->getLabel(), "elastic" );
 

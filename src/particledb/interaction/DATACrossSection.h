@@ -3,7 +3,7 @@
 
 #include <particledb/interaction/CrossSection.h>
 
-#include <olson-tools/xml/XMLDoc.h>
+#include <olson-tools/xml/Doc.h>
 #include <olson-tools/data_set.h>
 #include <olson-tools/power.h>
 
@@ -96,7 +96,7 @@ namespace particledb {
         return retval;
       }
 
-      virtual DATACrossSection * new_load( xml::XMLContext & x,
+      virtual DATACrossSection * new_load( xml::Context & x,
                                            const double & mu ) const {
         return new DATACrossSection( load(x,mu) );
       }
@@ -115,7 +115,7 @@ namespace particledb {
        * @param mu
        *     Reduced mass of particles in question.
        * */
-      static DATACrossSection load( xml::XMLContext & x, const double & mu );
+      static DATACrossSection load( xml::Context & x, const double & mu );
     };
 
   } /* namespace particledb::interaction */

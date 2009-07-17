@@ -4,7 +4,7 @@
 
 #include <particledb/interaction/v_rel_fnc.h>
 
-#include <olson-tools/xml/XMLDoc.h>
+#include <olson-tools/xml/Doc.h>
 
 #include <physical/physical.h>
 
@@ -57,7 +57,7 @@ namespace particledb {
       virtual double find_max_sigma_v_rel(const double & v_rel_max) const = 0;
 
       /** Clone the CrossSection class. */
-      virtual CrossSection * new_load( xml::XMLContext & x,
+      virtual CrossSection * new_load( xml::Context & x,
                                        const double & mu ) const = 0;
 
       /** Find the local maximum of cross-section*velocity assuming an

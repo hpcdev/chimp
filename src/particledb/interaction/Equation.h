@@ -11,7 +11,7 @@
 #include <particledb/property/mass.h>
 #include <particledb/property/Comparator.h>
 
-#include <olson-tools/xml/XMLDoc.h>
+#include <olson-tools/xml/Doc.h>
 
 #include <vector>
 #include <ostream>
@@ -60,7 +60,7 @@ namespace particledb {
       /** Attempt to load an equation into an Equation instance based on the
        * string representation. */
       template <class RnDB>
-      static Equation load( const xml::XMLContext & x,
+      static Equation load( const xml::Context & x,
                             const std::string & Eq,
                             const RnDB & db ) {
         return
@@ -70,9 +70,7 @@ namespace particledb {
       /** Attempt to load an equation from the (assumed) appropriate XML node in
        * an XML document. */
       template <class RnDB>
-      static Equation load( const xml::XMLContext & x, const RnDB & db ) {
-        using xml::XMLContext;
-        using xml::xml_error;
+      static Equation load( const xml::Context & x, const RnDB & db ) {
         using std::string;
         using property::mass;
         using property::name;
@@ -88,8 +86,8 @@ namespace particledb {
         equation_elements in, out;
         int n_in = 0, n_out = 0;
 
-        XMLContext::list xl = x.eval("Eq/In/T");
-        for (XMLContext::list::iterator i = xl.begin(); i != xl.end(); ++i ) {
+        xml::Context::list xl = x.eval("Eq/In/T");
+        for (xml::Context::list::iterator i = xl.begin(); i != xl.end(); ++i ) {
           std::string particle_name = i->query<string>("P");
           int n = i->query<int>("n",1);
 
@@ -105,7 +103,7 @@ namespace particledb {
         }
 
         xl = x.eval("Eq/Out/T");
-        for (XMLContext::list::iterator i = xl.begin(); i != xl.end(); ++i) {
+        for (xml::Context::list::iterator i = xl.begin(); i != xl.end(); ++i) {
           std::string particle_name = i->query<string>("P");
           int n = i->query<int>("n", 1);
 
@@ -124,7 +122,7 @@ namespace particledb {
         Equation retval;
 
         if (n_in != 2) {
-          throw xml_error("Only interactions with binary inputs currently supported");
+          throw xml::error("Only interactions with binary inputs currently supported");
         }
 
         {
@@ -144,7 +142,7 @@ namespace particledb {
           Term it( db.findParticleIndx(i->first->name::value), i->second );
 
           if (it.type == -1)
-            throw xml_error(
+            throw xml::error(
               "Cannot load equation with unknown outputs. "
               "please add outputs to RuntimeDB instance first."
             );
@@ -174,7 +172,7 @@ namespace particledb {
             );
           } else {
             string Eq = x.query<string>("Eq");
-            throw xml_error(
+            throw xml::error(
               "Could not determine interaction type found for interaction '" + Eq + '\'' );
           }
         }
@@ -184,7 +182,7 @@ namespace particledb {
         {
           /* now, instantiate the child CrossSection object with the correct
            * type. */
-          XMLContext cs_x = x.find("cross_section");
+          xml::Context cs_x = x.find("cross_section");
           string cs_type = cs_x.query<string>("@type");
 
           typedef typename RnDB::CrossSectionRegistry::const_iterator CSRIter;
@@ -194,7 +192,7 @@ namespace particledb {
             retval.cs.reset( i->second->new_load( cs_x, retval.mu_AB ) );
           } else {
             string Eq = x.query<string>("Eq");
-            throw xml_error(
+            throw xml::error(
               "cross section type '"+cs_type+
               "' not found for interaction '" + Eq + '\'' );
           }

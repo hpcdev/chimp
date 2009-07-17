@@ -14,6 +14,7 @@ namespace particledb {
 
       using boost::shared_ptr;
 
+      /** Filter union operation. */
       struct Or : filter::Base {
         /* MEMBER STORAGE */
         shared_ptr<filter::Base> l, r;

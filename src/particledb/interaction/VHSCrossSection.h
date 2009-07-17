@@ -5,7 +5,7 @@
 #include <particledb/interaction/VHSInfo.h>
 
 #include <olson-tools/power.h>
-#include <olson-tools/xml/XMLDoc.h>
+#include <olson-tools/xml/Doc.h>
 
 #include <physical/physical.h>
 
@@ -62,7 +62,7 @@ namespace particledb {
         return cross_section(v_rel_max)*v_rel_max;
       }
 
-      virtual VHSCrossSection * new_load( xml::XMLContext & x,
+      virtual VHSCrossSection * new_load( xml::Context & x,
                                           const double & mu ) const {
         return new VHSCrossSection( load(x,mu) );
       }
@@ -77,7 +77,7 @@ namespace particledb {
 
       /** Load the information into this properties node.
        * */
-      static VHSCrossSection load(xml::XMLContext & x, const double & mu) {
+      static VHSCrossSection load(xml::Context & x, const double & mu) {
         VHSCrossSection cs(mu);
         cs.vhs = VHSInfo::load(x);
         return cs;

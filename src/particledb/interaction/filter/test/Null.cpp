@@ -18,10 +18,10 @@ BOOST_AUTO_TEST_SUITE( Null_tests ); // {
     Null f;
 
     namespace xml = olson_tools::xml;
-    xml::XMLDoc xmlDb(PARTICLEDB_XML);
+    xml::Doc xmlDb(PARTICLEDB_XML);
 
-    typedef xml::XMLContext::set set;
-    xml::XMLContext::list xl = xmlDb.eval("//Interaction");
+    typedef xml::Context::set set;
+    xml::Context::list xl = xmlDb.eval("//Interaction");
     set set_in(xl.begin(), xl.end());
 
     set set_out = f.filter(set_in);

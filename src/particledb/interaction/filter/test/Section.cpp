@@ -20,10 +20,10 @@ BOOST_AUTO_TEST_SUITE( Section_tests ); // {
     Section f;
 
     namespace xml = olson_tools::xml;
-    xml::XMLDoc xmlDb(PARTICLEDB_XML);
+    xml::Doc xmlDb(PARTICLEDB_XML);
 
-    typedef xml::XMLContext::set set;
-    xml::XMLContext::list xl = xmlDb.eval("/ParticleDB/standard//Interaction");
+    typedef xml::Context::set set;
+    xml::Context::list xl = xmlDb.eval("/ParticleDB/standard//Interaction");
     set set_in(xl.begin(), xl.end());
 
     set set_out = f.filter(set_in);
@@ -37,10 +37,10 @@ BOOST_AUTO_TEST_SUITE( Section_tests ); // {
     Section f("unstandard");
 
     namespace xml = olson_tools::xml;
-    xml::XMLDoc xmlDb(PARTICLEDB_XML);
+    xml::Doc xmlDb(PARTICLEDB_XML);
 
-    typedef xml::XMLContext::set set;
-    xml::XMLContext::list xl = xmlDb.eval("/ParticleDB/standard//Interaction");
+    typedef xml::Context::set set;
+    xml::Context::list xl = xmlDb.eval("/ParticleDB/standard//Interaction");
     set set_in(xl.begin(), xl.end());
 
     set set_out = f.filter(set_in);
@@ -54,10 +54,10 @@ BOOST_AUTO_TEST_SUITE( Section_tests ); // {
     Section f("unstandard", Section::REQUIRED);
 
     namespace xml = olson_tools::xml;
-    xml::XMLDoc xmlDb(PARTICLEDB_XML);
+    xml::Doc xmlDb(PARTICLEDB_XML);
 
-    typedef xml::XMLContext::set set;
-    xml::XMLContext::list xl = xmlDb.eval("/ParticleDB/standard//Interaction");
+    typedef xml::Context::set set;
+    xml::Context::list xl = xmlDb.eval("/ParticleDB/standard//Interaction");
     set set_in(xl.begin(), xl.end());
 
     set set_out = f.filter(set_in);
@@ -76,10 +76,10 @@ BOOST_AUTO_TEST_SUITE( Section_tests ); // {
              );
 
     namespace xml = olson_tools::xml;
-    xml::XMLDoc xmlDb(PARTICLEDB_XML);
+    xml::Doc xmlDb(PARTICLEDB_XML);
 
-    typedef xml::XMLContext::set set;
-    xml::XMLContext::list xl = xmlDb.eval("/ParticleDB/standard//Interaction");
+    typedef xml::Context::set set;
+    xml::Context::list xl = xmlDb.eval("/ParticleDB/standard//Interaction");
     set set_in(xl.begin(), xl.end());
 
     set set_out = f.filter(set_in);

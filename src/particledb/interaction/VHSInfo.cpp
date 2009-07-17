@@ -5,7 +5,7 @@
 namespace particledb {
   namespace interaction {
 
-    void parse_item( VHSInfo & out, const xml::XMLContext & x ) {
+    void parse_item( VHSInfo & out, const xml::Context & x ) {
       using runtime::physical::Quantity;
       using runtime::physical::unit::K;
       using runtime::physical::unit::m;
@@ -15,7 +15,7 @@ namespace particledb {
       out.compute_gamma_visc_inv();
     }
 
-    VHSInfo VHSInfo::load(xml::XMLContext & x) {
+    VHSInfo VHSInfo::load(xml::Context & x) {
       return x.parse<VHSInfo>();
     }
 

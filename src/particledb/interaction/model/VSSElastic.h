@@ -18,7 +18,7 @@
 #include <olson-tools/power.h>
 #include <olson-tools/Vector.h>
 #include <olson-tools/indices.h>
-#include <olson-tools/xml/XMLDoc.h>
+#include <olson-tools/xml/Doc.h>
 #include <olson-tools/random/random.h>
 
 #include <string>
@@ -30,7 +30,7 @@ namespace particledb {
 
       namespace detail {
         /** load a new instance of the Interaction. */
-        double load_vss_param( const xml::XMLContext & x );
+        double load_vss_param( const xml::Context & x );
       } /* namespace particledb::interaction::model::detail */
 
 
@@ -123,7 +123,7 @@ namespace particledb {
         } // collide
 
         /** load a new instance of the Interaction. */
-        virtual VSSElastic * new_load( const xml::XMLContext & x,
+        virtual VSSElastic * new_load( const xml::Context & x,
                                        const interaction::Input & input,
                                        const RuntimeDB<options> & db ) const {
           double vss_param_inv = detail::load_vss_param( x );

@@ -20,7 +20,7 @@ namespace particledb {
       namespace detail {
 
         /** load a new instance of the Interaction. */
-        double load_vss_param( const xml::XMLContext & x ) {
+        double load_vss_param( const xml::Context & x ) {
           using runtime::physical::Quantity;
           return x.query<Quantity>("vss_param_inv")
                   .assertUnitless().getCoeff<double>();

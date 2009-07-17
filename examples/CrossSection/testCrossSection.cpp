@@ -9,7 +9,7 @@
 #include <physical/physical.h>
 #include <stdexcept>
 
-using namespace olson_tools::xml;
+namespace xml = olson_tools::xml;
 using namespace physical::elements;
 using particledb::interaction::CrossSection;
 using particledb::interaction::VHSCrossSection;
@@ -41,19 +41,19 @@ const int N_points = 100;
 
 int main() {
 
-    XMLDoc db(PARTICLEDB_XML);
+    xml::Doc db(PARTICLEDB_XML);
     particledb::prepareCalculator(db);
 
     std::ofstream fvhs("vhs.dat");
     std::ofstream fdata("data.dat");
 
     std::cout << "testing VHS..." << std::endl;
-    XMLContext::list xl = db.root_context.eval("//Interaction[cross_section/@type='vhs']");
-    for (XMLContext::list::iterator i = xl.begin(); i!=xl.end(); i++) {
+    xml::Context::list xl = db.root_context.eval("//Interaction[cross_section/@type='vhs']");
+    for (xml::Context::list::iterator i = xl.begin(); i!=xl.end(); i++) {
         std::string Eq = i->query<std::string>("Eq");
         std::cout << "Eq:  " << Eq << std::endl;
 
-        XMLContext x = i->find("cross_section");
+        xml::Context x = i->find("cross_section");
         VHSCrossSection cs = VHSCrossSection::load(x,0.5*87*amu);
         //cs.print(std::cout) << std::endl;
 
@@ -64,11 +64,11 @@ int main() {
 
     std::cout << "testing DATACrossSection..." << std::endl;
     xl = db.root_context.eval("//Interaction[cross_section/@type='data']");
-    for (XMLContext::list::iterator i = xl.begin(); i!=xl.end(); i++) {
+    for (xml::Context::list::iterator i = xl.begin(); i!=xl.end(); i++) {
         std::string Eq = i->query<std::string>("Eq");
         std::cout << "Eq:  " << Eq << std::endl;
 
-        XMLContext x = i->find("cross_section");
+        xml::Context x = i->find("cross_section");
         try {
             DATACrossSection cs = DATACrossSection::load(x,m_e*Hg::mass / (m_e + Hg::mass));
             //cs.print(std::cout) << std::endl;

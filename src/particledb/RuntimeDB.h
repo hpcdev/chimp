@@ -98,7 +98,7 @@
 
 #  include <olson-tools/logger.h>
 #  include <olson-tools/upper_triangle.h>
-#  include <olson-tools/xml/XMLDoc.h>
+#  include <olson-tools/xml/Doc.h>
 
 #  include <math.h>
 #  include <ostream>
@@ -146,7 +146,7 @@ namespace particledb {
     /* MEMBER STORAGE */
   public:
     /** XML document from which data is extracted.  */
-    xml::XMLDoc xmlDb;
+    xml::Doc xmlDb;
 
     /** Registry for cross section functor classes. */
     CrossSectionRegistry cross_section_registry;
@@ -298,7 +298,7 @@ namespace particledb {
      * initBinaryInteractions() should be called AFTER this.
      * */
     void addParticleType(const std::string & name) {
-      xml::XMLContext x = xmlDb.root_context.find("//Particle[@name=\"" + name + "\"]");
+      xml::Context x = xmlDb.root_context.find("//Particle[@name=\"" + name + "\"]");
       addParticleType(x);
     }
 
@@ -308,7 +308,7 @@ namespace particledb {
      *
      * @see addParticleType(const std::string & name)
      * */
-    void addParticleType(const xml::XMLContext & x) {
+    void addParticleType(const xml::Context & x) {
       Properties prop = Properties::load(x);
       addParticleType(prop);
     }
@@ -327,8 +327,6 @@ namespace particledb {
 
     /** Set up the interaction table. */
     void initBinaryInteractions() {
-      using xml::XMLContext;
-
       /* first thing we do is to sort the particle property entries by mass and
        * name. */
       std::sort(props.begin(), props.end(), property::Comparator());
@@ -353,9 +351,9 @@ namespace particledb {
           }
 
           /* get the set of all interactions with the correct inputs. */
-          XMLContext::list xl = xmlDb.eval(
+          xml::Context::list xl = xmlDb.eval(
             "//Interaction/" + get_xpath_query("In", in_eq_set) );
-          XMLContext::set  xs( xl.begin(), xl.end() );
+          xml::Context::set  xs( xl.begin(), xl.end() );
 
           /* now filter the interactions to get the desired subset. */
           xs = filter->filter( xs );
@@ -365,7 +363,7 @@ namespace particledb {
           set.lhs.setInput(*this,A,B);
 
           /* add each of the allowed interactions to the new set. */
-          for (XMLContext::set::iterator k = xs.begin(); k != xs.end(); k++)
+          for (xml::Context::set::iterator k = xs.begin(); k != xs.end(); k++)
             set.rhs.push_back(Set::Equation::load(*k,*this));
         }
       }

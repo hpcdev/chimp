@@ -14,6 +14,7 @@ namespace particledb {
 
       using boost::shared_ptr;
 
+      /** Filters by performing a set difference (pos - neg). */
       struct Not : filter::Base {
         /* MEMBER STORAGE */
         shared_ptr<filter::Base> pos, neg;

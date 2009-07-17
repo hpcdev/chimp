@@ -3,7 +3,7 @@
 #define particledb_property_size_h
 
 
-#include <olson-tools/xml/XMLDoc.h>
+#include <olson-tools/xml/Doc.h>
 
 #include <string>
 #include <ostream>
@@ -33,7 +33,7 @@ namespace particledb {
       }
 
       /** Load function (does not use xml; returns default size value. */
-      static inline size load( const xml::XMLContext & x ) { return size(); }
+      static inline size load( const xml::Context & x ) { return size(); }
     };
 
   }/* namespace particledb::property */

@@ -18,10 +18,10 @@ BOOST_AUTO_TEST_SUITE( Elastic_tests ); // {
     Elastic f;
 
     namespace xml = olson_tools::xml;
-    xml::XMLDoc xmlDb(PARTICLEDB_XML);
+    xml::Doc xmlDb(PARTICLEDB_XML);
 
-    typedef xml::XMLContext::set set;
-    xml::XMLContext::list xl = xmlDb.eval(
+    typedef xml::Context::set set;
+    xml::Context::list xl = xmlDb.eval(
       "//Interaction"
       "/Eq[count(In/T) = 2]/In"
       "/T[string(P)='Hg' and (number(n)=1 or string(n)='')]/.."

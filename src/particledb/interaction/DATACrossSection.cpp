@@ -14,9 +14,8 @@ namespace particledb {
 
     typedef olson_tools::data_set<Quantity,Quantity> pqdata_set;
 
-    DATACrossSection DATACrossSection::load(
-                  olson_tools::xml::XMLContext & x,
-                  const double & mu ) {
+    DATACrossSection DATACrossSection::load( xml::Context & x,
+                                             const double & mu ) {
       const Quantity m_s = m/s;
       const Quantity m2  = m*m;
       DATACrossSection cs(mu);

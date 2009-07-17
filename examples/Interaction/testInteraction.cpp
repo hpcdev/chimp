@@ -8,7 +8,7 @@
 
 
 int main() {
-    using particledb::xml::XMLContext;
+    namespace xml = particledb::xml;
     using particledb::interaction::find_all_interactions;
     using particledb::interaction::find_elastic_interactions;
     using particledb::interaction::filter_interactions;
@@ -33,8 +33,8 @@ int main() {
     db.allowed_equations.insert('('+A+")+("+B+")->("+A+")+("+B+')');
 
     std::cout << "finding all interactions ..." << std::endl;
-    XMLContext::list xl = find_all_interactions(db.xmlDb.root_context, A, B);
-    for (XMLContext::list::iterator i = xl.begin(); i != xl.end(); i++) {
+    xml::Context::list xl = find_all_interactions(db.xmlDb.root_context, A, B);
+    for (xml::Context::list::iterator i = xl.begin(); i != xl.end(); i++) {
         string Eq = i->query<string>("Eq");
 
         std::cout << Eq << std::endl;
@@ -43,9 +43,9 @@ int main() {
 
 
     std::cout << "testing interaction filter..." << std::endl;
-    XMLContext::set xs = filter_interactions(xl, db.allowed_equations);
+    xml::Context::set xs = filter_interactions(xl, db.allowed_equations);
 
-    for (XMLContext::set::iterator i = xs.begin(); i != xs.end(); i++) {
+    for (xml::Context::set::iterator i = xs.begin(); i != xs.end(); i++) {
         string Eq = i->query<string>("Eq");
 
         std::cout << Eq << std::endl;
@@ -62,7 +62,7 @@ int main() {
     set.rhs.clear();
     std::cout << "finding elastic interactions ..." << std::endl;
     xl = find_elastic_interactions(db.xmlDb.root_context, A, B);
-    for (XMLContext::list::iterator i = xl.begin(); i != xl.end(); i++) {
+    for (xml::Context::list::iterator i = xl.begin(); i != xl.end(); i++) {
         string Eq = i->query<string>("Eq");
 
         std::cout << Eq << std::endl;

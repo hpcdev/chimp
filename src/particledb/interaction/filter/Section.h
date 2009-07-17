@@ -19,12 +19,12 @@ namespace particledb {
       namespace detail {
 
         struct EqPair
-        : std::pair< const xml::XMLContext *, const xml::XMLContext *> {
-          typedef std::pair< const xml::XMLContext *,
-                             const xml::XMLContext *> super;
+        : std::pair< const xml::Context *, const xml::Context *> {
+          typedef std::pair< const xml::Context *,
+                             const xml::Context *> super;
 
-          EqPair( const xml::XMLContext * matched = NULL,
-                  const xml::XMLContext * unmatched = NULL )
+          EqPair( const xml::Context * matched = NULL,
+                  const xml::Context * unmatched = NULL )
             : super(matched, unmatched) { }
         };
 

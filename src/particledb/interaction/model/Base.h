@@ -10,7 +10,7 @@
 
 #include <particledb/interaction/Input.h>
 
-#include <olson-tools/xml/XMLDoc.h>
+#include <olson-tools/xml/Doc.h>
 
 namespace particledb {
   template < typename T > class RuntimeDB;
@@ -35,7 +35,7 @@ namespace particledb {
         virtual void interact( Particle & part1, Particle & part2 ) = 0;
 
         /** load a new instance of the Interaction. */
-        virtual Base * new_load( const xml::XMLContext & x,
+        virtual Base * new_load( const xml::Context & x,
                                  const interaction::Input & input,
                                  const RuntimeDB<options> & db ) const = 0;
 

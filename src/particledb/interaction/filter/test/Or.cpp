@@ -21,10 +21,10 @@ BOOST_AUTO_TEST_SUITE( Or_tests ); // {
           shared_ptr<EqIO>(new EqIO(EqIO::OUT, "e^-", "Kr")) );
 
     namespace xml = olson_tools::xml;
-    xml::XMLDoc xmlDb(PARTICLEDB_XML);
+    xml::Doc xmlDb(PARTICLEDB_XML);
 
-    typedef xml::XMLContext::set set;
-    xml::XMLContext::list xl = xmlDb.eval("//Interaction");
+    typedef xml::Context::set set;
+    xml::Context::list xl = xmlDb.eval("//Interaction");
     set xset(xl.begin(), xl.end());
 
     set ans = f.filter(xset);

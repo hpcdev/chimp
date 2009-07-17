@@ -3,7 +3,7 @@
 #define particledb_property_Generic_h
 
 
-#include <olson-tools/xml/XMLDoc.h>
+#include <olson-tools/xml/Doc.h>
 
 #include <string>
 
@@ -35,14 +35,14 @@ namespace particledb {
 
       template<class T, enum ID phys_id>
       static void parse_item( check<T,phys_id> & out,
-                              const xml::XMLContext & x ) {
+                              const xml::Context & x ) {
         out.value = x.parse<T>();
       }
 
       extern void parse_item( check<double,KG> & out,
-                              const xml::XMLContext & x );
+                              const xml::Context & x );
       extern void parse_item( check<double,M>  & out,
-                              const xml::XMLContext & x );
+                              const xml::Context & x );
     }/* namespace particledb::property::PHYS */
 
 
@@ -85,7 +85,7 @@ namespace particledb {
       }
 
       /** Load function (loads from xml context. */
-      static Generic load(const xml::XMLContext & x) {
+      static Generic load(const xml::Context & x) {
         if (R)
           return x.query< PHYS::check<T,phys_id> >(id::label).value;
         else

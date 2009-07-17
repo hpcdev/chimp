@@ -66,7 +66,7 @@ namespace particledb {
 
 
 
-      /** Equation IO filter to filter based on Input/Output terms. */
+      /** Filters an Equation based on a set of Input/Output terms. */
       class EqIO : public Base {
         /* TYPEDEFS */
       public:

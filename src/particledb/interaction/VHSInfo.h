@@ -1,7 +1,7 @@
 #ifndef particledb_interaction_VHSInfo_h
 #define particledb_interaction_VHSInfo_h
 
-#include <olson-tools/xml/XMLDoc.h>
+#include <olson-tools/xml/Doc.h>
 
 #include <ostream>
 #include <cmath>
@@ -67,7 +67,7 @@ namespace particledb {
        *
        * @see DSMCInfo::load().
        * */
-      static VHSInfo load(xml::XMLContext & x);
+      static VHSInfo load(xml::Context & x);
     };
 
   } /* namespace particledb::interaction */
