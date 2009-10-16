@@ -64,6 +64,7 @@ namespace particledb {
           using olson_tools::SQR;
           using olson_tools::fast_pow;
           using olson_tools::Vector;
+          using olson_tools::V3;
           using namespace olson_tools::indices;
 
           /*  first obtain the center of mass velocity components */

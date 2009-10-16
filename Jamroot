@@ -13,23 +13,23 @@ import mpi ;
 
 local xml2-features = [ mpi.cmdline_to_features [ SHELL "printf '%s ' compiler `xml2-config --cflags --libs`" ] ] ;
 
-lib boost_regex : : <name>boost_regex ;
-
 use-project /olson-tools : ../olson-tools ;
+use-project /boost : ../boost ;
 
 path-constant PARTICLEDB_XML : $(TOP)/data/particledb.xml ;
 
 project /particledb
     : requirements
-        <library>/olson-tools//olson-tools
+        <library>/olson-tools//headers
         $(xml2-features)
         <include>src
         <define>PARTICLEDB_XML=\\\"$(PARTICLEDB_XML)\\\"
     : usage-requirements
-        <library>/olson-tools//olson-tools
+        <library>/olson-tools//misc
+        <library>/olson-tools//random
         $(xml2-features)
         <include>src
-        <library>boost_regex
+        <library>/boost//regex
         <define>PARTICLEDB_XML=\\\"$(PARTICLEDB_XML)\\\"
     ;
 

@@ -25,6 +25,7 @@ namespace {
   using particledb::interaction::Particle;
   using particledb::interaction::Term;
   using namespace particledb::interaction::model::test;
+  using olson_tools::V3;
   namespace xml = olson_tools::xml;
 }
 
