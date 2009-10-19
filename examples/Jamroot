@@ -7,8 +7,9 @@ project /particledb/examples
 
 use-project /particledb : ../ ;
 
-build-project Particle ;
-build-project RuntimeDB ;
-build-project xmldb ;
 build-project CrossSection ;
 build-project Interaction ;
+build-project Properties ;
+build-project RuntimeDB ;
+#build-project Particle ;
+#build-project xmldb ;
