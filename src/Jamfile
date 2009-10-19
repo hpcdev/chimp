@@ -6,7 +6,7 @@ use-project /particledb : ../ ;
 project /particledb/unit-tests
     : requirements
         <library>/particledb//particledb
-        <library>/boost//unit_test_framework
+        <library>/boost//unit_test_framework/<link>static
     ;
 
 # build all the unit tests...
