@@ -4571,7 +4571,7 @@
             <threshold_energy>4.900*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>Ne(3P2)</P></T></In>  --&gt;  <Out><T><n>2</n> <P>e^-</P></T> + <T><P>Ne^+</P></T></Out></Eq>
             <reference>From Bolsig+ IONIZATION; stepwise ionization from metastable</reference>
-            <cross_section type="data" xscale="eV" yscale="???*m^2">
+            <cross_section type="data" xscale="eV" yscale="1.E-20*m^2">
                 <val x="4.900" y="0."/>
                 <val x="6.760" y="3.2"/>
                 <val x="7.946" y="4.4"/>
