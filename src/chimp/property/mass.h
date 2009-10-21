@@ -23,7 +23,7 @@ namespace chimp {
      * properties by their name, such as:
      * name::value, mass::value, etc.  Otherwise, the user would have
      * to reference the values by P0::value, P1::value, etc. */
-    typedef Generic<double, prop_tag::mass<>, false, PHYS::KG> mass_t;
+    typedef Generic<double, prop_tag::mass<>, false, PHYS::MASS> mass_t;
     struct mass : mass_t {
       /** Typedef of derivative of Generic class--required by property::Add. */
       typedef mass_t super;

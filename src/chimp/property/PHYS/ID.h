@@ -8,8 +8,9 @@ namespace chimp {
 
       enum ID {
         NONE,
-        KG,
-        M
+        MASS,
+        LENGTH,
+        CHARGE
       };
 
     }/* namespace chimp::property::PHYS */

@@ -31,18 +31,24 @@ namespace chimp {
          * values which are checked to ensure mass units.  This code is called by
          * the xml::Context::query and xml::Context::parse functions and does not
          * need to be called by a user.
-         * TODO:  put this and the check<T,ID> class into a detail namespace.
          */
-        extern void parse_item( check<double,KG> & out,
+        extern void parse_item( check<double,MASS> & out,
                                 const xml::Context & x );
 
         /** parse_item implementation used for reading in physical::Quantity
          * values which are checked to ensure length units.  This code is called by
          * the xml::Context::query and xml::Context::parse functions and does not
          * need to be called by a user.
-         * TODO:  put this and the check<T,ID> class into a detail namespace.
          */
-        extern void parse_item( check<double,M>  & out,
+        extern void parse_item( check<double,LENGTH> & out,
+                                const xml::Context & x );
+
+        /** parse_item implementation used for reading in physical::Quantity
+         * values which are checked to ensure length units.  This code is called by
+         * the xml::Context::query and xml::Context::parse functions and does not
+         * need to be called by a user.
+         */
+        extern void parse_item( check<double,CHARGE> & out,
                                 const xml::Context & x );
 
       }/* namespace chimp::property::PHYS::detail */
