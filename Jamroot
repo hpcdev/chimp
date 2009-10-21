@@ -34,7 +34,7 @@ project /chimp
     ;
 
 lib particledb :
-      src/chimp/property/Generic.cpp
+      src/chimp/property/PHYS/detail/check.cpp
       src/chimp/physical_calc.cpp
       src/chimp/interaction/DATACrossSection.cpp
       src/chimp/interaction/VHSInfo.cpp

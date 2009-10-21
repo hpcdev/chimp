@@ -9,7 +9,10 @@
 namespace chimp {
   namespace property {
 
-    namespace prop_id {
+    /** Namespace for the properties tag classes that provide the xpath/xml
+     * labels/queries. */
+    namespace prop_tag {
+      /** The tag class for name. */
       template < unsigned int i = 0 >
       struct name { static const char * label; };
 
@@ -22,11 +25,16 @@ namespace chimp {
      * properties by their name, such as:
      * name::value, mass::value, etc.  Otherwise, the user would have
      * to reference the values by P0::value, P1::value, etc. */
-    typedef Generic<std::string, prop_id::name<>, true> name_t;
+    typedef Generic<std::string, prop_tag::name<>, true> name_t;
     struct name : name_t {
+      /** Typedef of derivative of Generic class--required by property::Add. */
       typedef name_t super;
 
+      /** Name property constructor.  By default, this sets name to '' (empty
+       * string).  */
       name(const name_t::value_type & n = name_t().value) : name_t(n) {}
+      /** Name property constructor where the name is taken from the given
+       * <code>char*</code>. */
       name(const char * n) : name_t(n) {}
     };
 

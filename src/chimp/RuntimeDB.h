@@ -109,20 +109,28 @@ namespace chimp {
   namespace xml = olson_tools::xml;
 
 
-  /** Runtime database of properties pertinent to the current simulation. */
+  /** Runtime database of properties pertinent to the current simulation.
+   * @param _options
+   *    Policy configuration changes the behavior of the RuntimeDB class.  This
+   *    class sets, for instance, the set of particle properties that are loaded
+   *    from the xml dataset.  <br>
+   *    [ Default:  make_options<>::type ]
+   *
+   * @see make_options
+   */
   template < typename _options = make_options<>::type >
   class RuntimeDB {
     /* TYPEDEFS */
   public:
+    /** The options of the RuntimeDB class.  This is a typedef copy of the
+     * _options template parameter. */
     typedef _options options;
-    typedef typename options::Properties Properties;
-    typedef std::vector<Properties> prop_list;
-    typedef interaction::Set<options> Set;
 
-    typedef olson_tools::upper_triangle<
-      Set,
-      olson_tools::SymmetryFix
-    > InteractionMatrix;
+    /** Particle Properties that are loaded from the xml file. */
+    typedef typename options::Properties Properties;
+
+    /** Set of interactions equations that share the same inputs. */
+    typedef interaction::Set<options> Set;
 
     typedef std::map<
       std::string,
@@ -133,6 +141,15 @@ namespace chimp {
       std::string,
       shared_ptr< interaction::model::Base<options> >
     > InteractionRegistry;
+
+  private:
+    /** Data type for the Interaction table.  This is really just a wrapper
+     * around the std::vector class such that using operator()(i,j) works easily
+     * and correctly. */
+    typedef olson_tools::upper_triangle<
+      Set,
+      olson_tools::SymmetryFix
+    > InteractionMatrix;
 
 
 
@@ -159,7 +176,7 @@ namespace chimp {
     /** Vector of particle properties.
      * Note that the order of the entries in the properties vector is NOT well
      * determined, until AFTER initBinaryInteractions() has been called.  */
-    prop_list props;
+    std::vector<Properties> props;
 
     /** Initialized at time of initBinaryInteractions() call. */
     InteractionMatrix interactions;
@@ -202,10 +219,10 @@ namespace chimp {
      * well determined, until <b>AFTER</b> initBinaryInteractions() has been
      * called.
      */
-    const prop_list & getProps() const { return props; }
+    const std::vector<Properties> & getProps() const { return props; }
 
     /** Read-only access to the interactions matrix. */
-    const InteractionMatrix & getInteractions() const { return interactions; }
+    const std::vector<Set> & getInteractions() const { return interactions; }
 
     /** return the set of single-species properties for the given species.
      * @see Note for getProps() concerning ill-determined order of properties
@@ -229,6 +246,14 @@ namespace chimp {
 
     /** return the set of cross-species properties for the two given species. */
     inline       Set & operator()(const int & i, const int & j);
+
+    /** return the set of cross-species properties for the two given species. */
+    inline
+    const  Set & operator()(const std::string & i, const std::string & j) const;
+
+    /** return the set of cross-species properties for the two given species. */
+    inline Set & operator()(const std::string & i, const std::string & j);
+
 
     /** Get the (const) iterator of the particle type with the specified name.
      * @return Iterator of particle type or getProps().end() if not found.

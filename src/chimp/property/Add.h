@@ -9,7 +9,12 @@
 namespace chimp {
   namespace property {
 
-    /** Aggregates several properties into one class. */
+    /** Aggregates several properties into one class by inheritance.
+     * The template parameters are particle properties to aggregated together so
+     * that each is loaded from the xml data set at the appropriate time. <br>
+     * Except, for P0, each of the parameters has a default value of
+     * chimp::property::Null which is essentially a NO-OP class.
+     */
     template < typename P0,
                typename P1  = Null<0>,
                typename P2  = Null<1>,
@@ -90,6 +95,7 @@ namespace chimp {
       }
     };
 
+    /** Insertion operation for the aggregate particle properties type. */
     template < typename P0, typename P1, typename P2, typename P3,
                typename P4, typename P5, typename P6, typename P7,
                typename P8, typename P9, typename P10,typename P11 >

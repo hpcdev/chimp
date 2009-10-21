@@ -96,7 +96,8 @@ namespace chimp {
   template < typename T >
   inline typename std::vector<typename RuntimeDB<T>::Properties>::const_iterator
   RuntimeDB<T>::findParticle(const std::string & name) const {
-    typename prop_list::const_iterator i = props.begin();
+    typedef typename std::vector<Properties>::const_iterator CIter;
+    CIter i = props.begin();
     for (; i != props.end(); i++) {
       property::name n = (*i);
       if (name == n.value)
@@ -109,7 +110,8 @@ namespace chimp {
   template < typename T >
   inline typename std::vector<typename RuntimeDB<T>::Properties>::iterator
   RuntimeDB<T>::findParticle(const std::string & name) {
-    typename prop_list::iterator i = props.begin();
+    typedef typename std::vector<Properties>::iterator Iter;
+    Iter i = props.begin();
     for (; i != props.end(); i++) {
       property::name n = (*i);
       if (name == n.value)
@@ -121,7 +123,8 @@ namespace chimp {
 
   template < typename T >
   inline int RuntimeDB<T>::findParticleIndx(const std::string & name) const {
-    typename prop_list::const_iterator i = findParticle(name);
+    typedef typename std::vector<Properties>::const_iterator CIter;
+    CIter i = findParticle(name);
     if (i == props.end())
       return -1;
     return i - props.begin();
@@ -162,7 +165,8 @@ namespace chimp {
   template < typename T >
   inline const typename RuntimeDB<T>::Properties &
   RuntimeDB<T>::operator[] ( const std::string & n ) const {
-    typename prop_list::const_iterator i = findParticle(n);
+    typedef typename std::vector<Properties>::const_iterator CIter;
+    CIter i = findParticle(n);
     if (i == props.end())
       throw std::runtime_error("particle type not loaded: '" + n + '\'');
     return  *i;
@@ -172,7 +176,8 @@ namespace chimp {
   template < typename T >
   inline typename RuntimeDB<T>::Properties &
   RuntimeDB<T>::operator[] ( const std::string & n ) {
-    typename prop_list::iterator i = findParticle(n);
+    typedef typename std::vector<Properties>::iterator Iter;
+    Iter i = findParticle(n);
     if (i == props.end())
       throw std::runtime_error("particle type not loaded: '" + n + '\'');
     return  *i;
@@ -190,6 +195,36 @@ namespace chimp {
   inline typename RuntimeDB<T>::Set &
   RuntimeDB<T>::operator() ( const int & i, const int & j ) {
     return interactions(i,j);
+  }
+
+
+  template < typename T >
+  inline const typename RuntimeDB<T>::Set &
+  RuntimeDB<T>::operator() ( const std::string & i_name,
+                             const std::string & j_name ) const {
+    int i = findParticleIndx(i_name);
+    int j = findParticleIndx(j_name);
+    if (i == -1)
+      throw std::runtime_error("particle type not loaded: '" + i_name + '\'');
+    if (j == -1)
+      throw std::runtime_error("particle type not loaded: '" + j_name + '\'');
+
+    return  interactions(i,j);
+  }
+
+
+  template < typename T >
+  inline typename RuntimeDB<T>::Set &
+  RuntimeDB<T>::operator() ( const std::string & i_name,
+                             const std::string & j_name ) {
+    int i = findParticleIndx(i_name);
+    int j = findParticleIndx(j_name);
+    if (i == -1)
+      throw std::runtime_error("particle type not loaded: '" + i_name + '\'');
+    if (j == -1)
+      throw std::runtime_error("particle type not loaded: '" + j_name + '\'');
+
+    return  interactions(i,j);
   }
 
 } /* namespace chimp */

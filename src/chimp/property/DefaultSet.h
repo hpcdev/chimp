@@ -13,7 +13,8 @@
 namespace chimp {
   namespace property {
 
-    /** Default set of properties. */
+    /** The default set of particle properties includes:  name, size, mass, and
+     * charge. */
     typedef Add<
       property::name,
       property::size,

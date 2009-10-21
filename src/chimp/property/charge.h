@@ -7,7 +7,7 @@
 namespace chimp {
   namespace property {
 
-    namespace prop_id {
+    namespace prop_tag {
       template < unsigned int i = 0>
       struct charge { static const char * label; };
 
@@ -20,7 +20,7 @@ namespace chimp {
      * properties by their name, such as:
      * name::value, mass::value, etc.  Otherwise, the user would have
      * to reference the values by P0::value, P1::value, etc. */
-    typedef Generic<int, prop_id::charge<> > charge_t;
+    typedef Generic<int, prop_tag::charge<> > charge_t;
     struct charge : charge_t {
       typedef charge_t super;
 

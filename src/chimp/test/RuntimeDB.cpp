@@ -120,10 +120,17 @@ BOOST_AUTO_TEST_SUITE( RuntimeDB_tests ); // {
       number_interactions += i->rhs.size();
     }
 
-    // NOTE:  if we add e- + e-, or Hg+Hg, or Hg+ + Hg+ type of collisions data,
-    // we will have to change this number
-    BOOST_CHECK_EQUAL( number_interactions, 3u );
+    // NOTE:  if we add new collisions data, we will have to change these:
+    BOOST_CHECK_EQUAL( number_interactions, 2u );
 
+    BOOST_CHECK_EQUAL( db("e^-", "e^-" ).rhs.size(), 1u );
+    BOOST_CHECK_EQUAL( db("e^-", "Hg"  ).rhs.size(), 1u );
+    BOOST_CHECK_EQUAL( db("e^-", "Hg^+").rhs.size(), 0u );
+
+    BOOST_CHECK_EQUAL( db("Hg",  "Hg"  ).rhs.size(), 0u );
+    BOOST_CHECK_EQUAL( db("Hg",  "Hg^+").rhs.size(), 0u );
+
+    BOOST_CHECK_EQUAL( db("Hg^+","Hg^+").rhs.size(), 0u );
   }
 
 BOOST_AUTO_TEST_SUITE_END(); // }
