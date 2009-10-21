@@ -1,11 +1,11 @@
 
 path-constant EXAMPLES_TOP : . ;
 
-project /particledb/examples
+project /chimp/examples
     #: build-dir build
     ;
 
-use-project /particledb : ../ ;
+use-project /chimp : ../ ;
 
 build-project CrossSection ;
 build-project Interaction ;

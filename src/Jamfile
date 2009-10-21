@@ -1,13 +1,13 @@
 # this Jamroot is mostly for helping build unit-tests while developing in the
 # source
 
-use-project /particledb : ../ ;
+use-project /chimp : ../ ;
 
-project /particledb/unit-tests
+project /chimp/unit-tests
     : requirements
-        <library>/particledb//particledb
+        <library>/chimp//particledb
         <library>/boost//unit_test_framework/<link>static
     ;
 
 # build all the unit tests...
-build-project particledb ;
+build-project chimp ;

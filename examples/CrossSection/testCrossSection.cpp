@@ -1,19 +1,20 @@
-/** \file Simple test of particledb::Particle mechanics. */
+/** \file Simple test of chimp::Particle mechanics. */
 
-#include <particledb/physical_calc.h>
-#include <particledb/interaction/VHSCrossSection.h>
-#include <particledb/interaction/DATACrossSection.h>
+#include <chimp/physical_calc.h>
+#include <chimp/interaction/VHSCrossSection.h>
+#include <chimp/interaction/DATACrossSection.h>
+
+#include <physical/physical.h>
 
 #include <iostream>
 #include <fstream>
-#include <physical/physical.h>
 #include <stdexcept>
 
 namespace xml = olson_tools::xml;
 using namespace physical::elements;
-using particledb::interaction::CrossSection;
-using particledb::interaction::VHSCrossSection;
-using particledb::interaction::DATACrossSection;
+using chimp::interaction::CrossSection;
+using chimp::interaction::VHSCrossSection;
+using chimp::interaction::DATACrossSection;
 using physical::system::si;
 const double amu = physical::constant::amu<si>::value;
 const double m_e = physical::constant::m_e<si>::value;
@@ -42,7 +43,7 @@ const int N_points = 100;
 int main() {
 
     xml::Doc db(PARTICLEDB_XML);
-    particledb::prepareCalculator(db);
+    chimp::prepareCalculator(db);
 
     std::ofstream fvhs("vhs.dat");
     std::ofstream fdata("data.dat");

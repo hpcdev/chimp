@@ -18,7 +18,7 @@ use-project /boost : ../boost ;
 
 path-constant PARTICLEDB_XML : $(TOP)/data/particledb.xml ;
 
-project /particledb
+project /chimp
     : requirements
         <library>/olson-tools//headers
         $(xml2-features)
@@ -34,11 +34,11 @@ project /particledb
     ;
 
 lib particledb :
-      src/particledb/property/Generic.cpp
-      src/particledb/physical_calc.cpp
-      src/particledb/interaction/DATACrossSection.cpp
-      src/particledb/interaction/VHSInfo.cpp
-      src/particledb/interaction/model/VSSElastic.cpp
+      src/chimp/property/Generic.cpp
+      src/chimp/physical_calc.cpp
+      src/chimp/interaction/DATACrossSection.cpp
+      src/chimp/interaction/VHSInfo.cpp
+      src/chimp/interaction/model/VSSElastic.cpp
     : <link>static
     ;
 

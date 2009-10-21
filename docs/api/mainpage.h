@@ -1,8 +1,8 @@
-/** \mainpage Particle Database/API Documentation
+/** \mainpage Chemical Interactions, Materials and Particles Database/API Documentation
 
 
         <h3>Technical Reference</h3>
-    - This is the beginning documentation for the ParticleDB package.
+    - This is the beginning documentation for the Chimp package.
 
 
   For reference, please also see the following sections:

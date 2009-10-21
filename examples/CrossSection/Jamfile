@@ -1,1 +1,1 @@
-exe testCrossSection : testCrossSection.cpp /particledb//particledb ;
+exe testCrossSection : testCrossSection.cpp /chimp//particledb ;

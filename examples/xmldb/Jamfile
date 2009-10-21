@@ -1,4 +1,4 @@
 path-constant PARTICLEDB_XML : $(EXAMPLES_TOP)/../data/particledb.xml ;
 
-exe testXML : from-olson-tools/testXML.cpp /particledb//particledb :
+exe testXML : from-olson-tools/testXML.cpp /chimp//particledb :
   <define>XML_FILENAME=\\\"$(PARTICLEDB_XML)\\\" ;

@@ -1,6 +1,7 @@
 
+#include <chimp/RuntimeDB.h>
+
 #include <iostream>
-#include <particledb/RuntimeDB.h>
 
 #ifndef   PARTICLEDB_XML
 #  define PARTICLEDB_XML  "particledb.xml"
@@ -8,12 +9,12 @@
 
 
 int main() {
-    namespace xml = particledb::xml;
-    using particledb::interaction::find_all_interactions;
-    using particledb::interaction::find_elastic_interactions;
-    using particledb::interaction::filter_interactions;
+    namespace xml = chimp::xml;
+    using chimp::interaction::find_all_interactions;
+    using chimp::interaction::find_elastic_interactions;
+    using chimp::interaction::filter_interactions;
     using std::string;
-    typedef particledb::RuntimeDB<> DB;
+    typedef chimp::RuntimeDB<> DB;
     typedef DB::Set Set;
     typedef Set::Equation Equation;
     typedef Set::Equation::Output Output;
@@ -22,7 +23,7 @@ int main() {
     string B = "Hg";
     DB::Set set;
 
-    particledb::RuntimeDB<> db;
+    chimp::RuntimeDB<> db;
 
     db.addParticleType(A);
     db.addParticleType(B);

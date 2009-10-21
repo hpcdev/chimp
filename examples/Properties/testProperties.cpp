@@ -1,7 +1,7 @@
-/** \file Simple test of particledb::property mechanics. */
+/** \file Simple test of chimp::property mechanics. */
 
-#include <particledb/property/DefaultSet.h>
-#include <particledb/physical_calc.h>
+#include <chimp/property/DefaultSet.h>
+#include <chimp/physical_calc.h>
 #include <iostream>
 #include <physical/physical.h>
 
@@ -13,10 +13,10 @@ int main() {
     namespace xml = olson_tools::xml;
 
     xml::Doc db(PARTICLEDB_XML);
-    particledb::prepareCalculator(db);
+    chimp::prepareCalculator(db);
 
     xml::Context x = db.root_context.find("/ParticleDB//particles/Particle[@name='87Rb']");
-    particledb::property::DefaultSet p = particledb::property::DefaultSet::load(x);
+    chimp::property::DefaultSet p = chimp::property::DefaultSet::load(x);
 
     std::cout << "p.name:  "   << p.name::value << std::endl;
     std::cout << "p.size:  "   << p.size::value << std::endl;

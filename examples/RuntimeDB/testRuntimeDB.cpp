@@ -1,8 +1,8 @@
 
 #include "Particle.h"
 
-#include <particledb/RuntimeDB.h>
-#include <particledb/physical_calc.h>
+#include <chimp/RuntimeDB.h>
+#include <chimp/physical_calc.h>
 
 #include <olson-tools/upper_triangle.h>
 #include <physical/physical.h>
@@ -101,13 +101,13 @@ void doCollisions( const IteratorRangeContainer & iv, InteractionInfoVector & in
 int main() {
     const int N_part = 10;
 
-    using particledb::interaction::stddev_v_rel;
+    using chimp::interaction::stddev_v_rel;
     using physical::unit::m;
     using physical::unit::s;
     using physical::unit::uK;
 
-    particledb::RuntimeDB<> db;
-    particledb::prepareCalculator(db.xmlDb);
+    chimp::RuntimeDB<> db;
+    chimp::prepareCalculator(db.xmlDb);
 
     /* load information from XML file. */
     db.addParticleType("87Rb");
@@ -159,7 +159,7 @@ int main() {
         /* This method of moving through the interaction items should prove to
          * faster than the method where we index the items at each reference.
          * */
-        using particledb::interaction::Set;
+        using chimp::interaction::Set;
         typedef upper_triangle<cell_t::interact_info>::iterator iIter;
         typedef upper_triangle<Set>::const_iterator sIter;
         iIter ii = cell.interaction_info.begin();
@@ -204,7 +204,7 @@ int main() {
     for (unsigned int i = 0; i < db.getProps().size(); i++) {
         std::cout << '\n' << db[i].name::value << '\t';
         for (unsigned int j = 0; j < db.getProps().size(); j++) {
-            using particledb::interaction::Set;
+            using chimp::interaction::Set;
             Set & set = db(i,j);
             set.lhs.print(std::cout << '{' << i << ':' << set.lhs.A << ',' << j << ':' << set.lhs.B << "} ", db) << '\t';
         }
@@ -216,7 +216,7 @@ int main() {
     std::cout << "\n\nAll known interactions and a small calculateOutPath test:\n";
 #if 1
     {
-    using particledb::interaction::Set;
+    using chimp::interaction::Set;
     typedef upper_triangle<Set>::const_iterator sIter;
     sIter di = db.getInteractions().begin();
     for (; di != db.getInteractions().end(); ++di) {
@@ -262,7 +262,7 @@ int main() {
 #elif 1
     for (unsigned int i = 0; i < db.getProps().size(); i++)
         for (unsigned int j = i; j < db.getProps().size(); j++) {
-            using particledb::interaction::Set;
+            using chimp::interaction::Set;
             using physical::unit::nm;
             using olson_tools::SQR;
             Set & set = db(i,j);
