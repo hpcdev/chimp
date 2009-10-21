@@ -1,0 +1,19 @@
+Chimp:  a library for Chemical Interactions and Materials/Particles Properties
+    - Copyright 2008-2009 Air Force Research Lab (U.S. Governement).
+
+
+This software is released under the LGPL license.
+
+
+components:
+Jamroot         Overall Boost.Jam build file.
+AUTHORS         A list of those who have contributed with contact info
+ChangeLog       Brief descriptions of changes made between major revisions
+COPYING         Copy of the license used for this package
+INSTALL         Description of how one can install this package
+README          Brief description of this package
+TODO            Things that we hope to implement someday
+data            The xml data set including the standard set of distributed data
+docs            documentation, including doxygen generated api documentation
+src             source code
+examples        Examples to demonstrate the use and capability of the package
