@@ -80,19 +80,11 @@
 #ifndef chimp_RuntimeDB_h
 #define chimp_RuntimeDB_h
 
-#  include <chimp/physical_calc.h>
 #  include <chimp/make_options.h>
 #  include <chimp/interaction/Set.h>
 #  include <chimp/interaction/model/Base.h>
-#  include <chimp/interaction/model/Elastic.h>
-#  include <chimp/interaction/model/InElastic.h>
-#  include <chimp/interaction/model/VSSElastic.h>
 #  include <chimp/interaction/CrossSection.h>
 #  include <chimp/interaction/filter/Base.h>
-#  include <chimp/interaction/filter/EqIO.h>
-#  include <chimp/interaction/filter/Elastic.h>
-#  include <chimp/interaction/VHSCrossSection.h>
-#  include <chimp/interaction/DATACrossSection.h>
 #  include <chimp/property/name.h>
 #  include <chimp/property/Comparator.h>
 
@@ -106,6 +98,7 @@
 #  include <cfloat>
 #  include <set>
 #  include <string>
+#  include <vector>
 #  include <algorithm>
 
 
@@ -177,35 +170,38 @@ namespace chimp {
 
     /* MEMBER FUNCTIONS */
   public:
-    /** Constructor. */
-    RuntimeDB(const std::string & xml_doc = PARTICLEDB_XML) : xmlDb(xml_doc) {
-      /* Let's make sure that the calculator is prepared. */
-      prepareCalculator(xmlDb);
+    /** Constructor opens up the PARTICLE_XML xml file, prepares the units
+     * calculator and registers the default models.
+     */
+    RuntimeDB(const std::string & xml_doc = PARTICLEDB_XML);
 
+    /** Loads the particle information for the given particle name into the
+     * runtime database.  Note that only the information relevant to the
+     * templated Properties class will get loaded. 
+     *
+     * initBinaryInteractions() should be called AFTER this.
+     * */
+    inline void addParticleType(const std::string & name);
 
-      /* register the library-provided CrossSection functors. */
-      cross_section_registry["vhs"].reset(new interaction::VHSCrossSection);
-      cross_section_registry["data"].reset(new interaction::DATACrossSection);
+    /** Loads the particle information from the given xml-context.
+     * Note that only the information relevant to the templated Properties
+     * class will get loaded. 
+     *
+     * @see addParticleType(const std::string & name)
+     * */
+    inline void addParticleType(const xml::Context & x);
 
+    /** Adds an already loaded Properties class into the particle properties
+     * array only if it doesn't already exist. */
+    inline void addParticleType(const Properties & prop);
 
-      /* register the library-provided Interaction functors. */
-      typedef interaction::model::Elastic<options> elastic;
-      typedef interaction::model::VSSElastic<options> vsselastic;
-      typedef interaction::model::InElastic<options> inelastic;
-
-      interaction_registry[elastic::label].reset( new elastic);
-      interaction_registry[vsselastic::label].reset( new vsselastic);
-      interaction_registry[inelastic::label].reset( new inelastic);
-
-      /* set up the default interaction filter. */
-      filter.reset( new interaction::filter::Elastic );
-    }
 
     /** Read-only access to the properties vector.
      *
      * NOTE:  The order of the entries in the properties vector is <b>NOT</b>
-     * well determined, until <b>AFTER</b> initBinaryInteractions() has been called.
-     * */
+     * well determined, until <b>AFTER</b> initBinaryInteractions() has been
+     * called.
+     */
     const prop_list & getProps() const { return props; }
 
     /** Read-only access to the interactions matrix. */
@@ -223,28 +219,16 @@ namespace chimp {
           Properties & operator[](const int & i)       { return props[i]; }
 
     /** return the set of single-species properties for the given species. */
-    const Properties & operator[](const std::string & n) const {
-      typename prop_list::const_iterator i = findParticle(n);
-      if (i == props.end())
-        throw std::runtime_error("particle type not loaded: '" + n + '\'');
-      return  *i;
-    }
+    inline const Properties & operator[](const std::string & n) const;
+
     /** return the set of single-species properties for the given species. */
-          Properties & operator[](const std::string & n)       {
-      typename prop_list::iterator i = findParticle(n);
-      if (i == props.end())
-        throw std::runtime_error("particle type not loaded: '" + n + '\'');
-      return  *i;
-    }
+    inline       Properties & operator[](const std::string & n);
 
     /** return the set of cross-species properties for the two given species. */
-    const Set & operator()(const int & i, const int & j) const {
-      return interactions(i,j);
-    }
+    inline const Set & operator()(const int & i, const int & j) const;
+
     /** return the set of cross-species properties for the two given species. */
-          Set & operator()(const int & i, const int & j)       {
-      return interactions(i,j);
-    }
+    inline       Set & operator()(const int & i, const int & j);
 
     /** Get the (const) iterator of the particle type with the specified name.
      * @return Iterator of particle type or getProps().end() if not found.
@@ -252,15 +236,8 @@ namespace chimp {
      * @see Note for getProps() concerning ill-determined order of properties
      * vector.
      */
-    typename prop_list::const_iterator findParticle(const std::string & name) const {
-      typename prop_list::const_iterator i = props.begin();
-      for (; i != props.end(); i++) {
-        property::name n = (*i);
-        if (name == n.value)
-          break;
-      }
-      return i;
-    }
+    inline typename std::vector<Properties>::const_iterator
+    findParticle(const std::string & name) const;
 
     /** Get the (non-const) iterator of the particle type with the specified name.
      * @return Iterator of particle type or getProps().end() if not found.
@@ -268,15 +245,8 @@ namespace chimp {
      * @see Note for getProps() concerning ill-determined order of properties
      * vector.
      */
-    typename prop_list::iterator findParticle(const std::string & name) {
-      typename prop_list::iterator i = props.begin();
-      for (; i != props.end(); i++) {
-        property::name n = (*i);
-        if (name == n.value)
-          break;
-      }
-      return i;
-    }
+    inline typename std::vector<Properties>::iterator
+    findParticle(const std::string & name);
 
     /** Get the index of the particle type with the specified name.
      * @return Index of particle type or -1 if not found.
@@ -284,93 +254,15 @@ namespace chimp {
      * @see Note for getProps() concerning ill-determined order of properties
      * vector.
      */
-    int findParticleIndx(const std::string & name) const {
-      typename prop_list::const_iterator i = findParticle(name);
-      if (i == props.end())
-        return -1;
-      return i - props.begin();
-    }
+    inline int findParticleIndx(const std::string & name) const;
 
-    /** Loads the particle information for the given particle name into the
-     * runtime database.  Note that only the information relevant to the
-     * templated Properties class will get loaded. 
-     *
-     * initBinaryInteractions() should be called AFTER this.
-     * */
-    void addParticleType(const std::string & name) {
-      xml::Context x = xmlDb.root_context.find("//Particle[@name=\"" + name + "\"]");
-      addParticleType(x);
-    }
-
-    /** Loads the particle information from the given xml-context.
-     * Note that only the information relevant to the templated Properties
-     * class will get loaded. 
-     *
-     * @see addParticleType(const std::string & name)
-     * */
-    void addParticleType(const xml::Context & x) {
-      Properties prop = Properties::load(x);
-      addParticleType(prop);
-    }
-
-    void addParticleType(const Properties & prop) {
-      using property::name;
-      const std::string & n = prop.name::value;
-
-      /* See if this particle type has already been
-       * loaded into the database (we don't want any duplicates). */
-      if (findParticle(n) != props.end())
-        olson_tools::logger::log_warning("particle type '%s' was previously loaded; will not reload", n.c_str());
-      else
-        props.push_back(prop);
-    }
-
-    /** Set up the interaction table. */
-    void initBinaryInteractions() {
-      /* first thing we do is to sort the particle property entries by mass and
-       * name. */
-      std::sort(props.begin(), props.end(), property::Comparator());
-
-      interactions.resize(props.size());
-
-      for (unsigned int A = 0; A < props.size(); ++A) {
-        for (unsigned int B = A; B < props.size(); ++B) {
-          using std::string;
-          using property::name;
-          const string & n_A = props[A].name::value;
-          const string & n_B = props[B].name::value;
-
-          using interaction::filter::EqTerm;
-          using interaction::filter::EqTermSet;
-          EqTermSet in_eq_set;
-          if ( A == B ) {
-            in_eq_set.insert( EqTerm(n_A,2) );
-          } else {
-            in_eq_set.insert( EqTerm(n_A,1) );
-            in_eq_set.insert( EqTerm(n_B,1) );
-          }
-
-          /* get the set of all interactions with the correct inputs. */
-          xml::Context::list xl = xmlDb.eval(
-            "//Interaction/" + get_xpath_query("In", in_eq_set) );
-          xml::Context::set  xs( xl.begin(), xl.end() );
-
-          /* now filter the interactions to get the desired subset. */
-          xs = filter->filter( xs );
-
-          /* first instantiate the (A,B)th interactions */
-          Set & set = interactions(A,B);
-          set.lhs.setInput(*this,A,B);
-
-          /* add each of the allowed interactions to the new set. */
-          for (xml::Context::set::iterator k = xs.begin(); k != xs.end(); k++)
-            set.rhs.push_back(Set::Equation::load(*k,*this));
-        }
-      }
-    }
+    /** Set up the table for interactions with binary inputs. */
+    void initBinaryInteractions();
 
   };/* RuntimeDB */
 
 } /* namespace chimp */
+
+#include <chimp/RuntimeDB.cpp>
 
 #endif // chimp_RuntimeDB_h

@@ -656,12 +656,12 @@
             </cross_section>
         </Interaction>
 
-        <Interaction>
+        <Interaction type="excitation">
             <Eq><In><T><P>photon</P></T> + <T><P>87Rb |1,m&gt;</P></T></In>  --&gt;  <Out><T><P>photon</P></T> + <T><P>87Rb |2,m&gt;</P></T></Out></Eq>
             <todo>Need to import all data from Fredrik's calucated tables.</todo>
         </Interaction>
 
-        <Interaction>
+        <Interaction type="excitation">
             <Eq><In><T><P>photon</P></T> + <T><P>85Rb |2,m&gt;</P></T></In>  --&gt;  <Out><T><P>photon</P></T> + <T><P>85Rb |3,m&gt;</P></T></Out></Eq>
             <todo>Need to import all data from Fredrik's calucated tables.</todo>
         </Interaction>

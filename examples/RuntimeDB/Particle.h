@@ -31,12 +31,12 @@ void initPVector(Particle::list & pv, const int & n, const int & n_type) {
     srand(SEED);
     pv.resize(n);
     for (int i = 0; i < n; i++) {
-        Vector<double,3> x = V3(
+        Vector<double,3> x = olson_tools::V3(
                             100.0*rand()/((double)RAND_MAX) - 50.0,
                             100.0*rand()/((double)RAND_MAX) - 50.0,
                             100.0*rand()/((double)RAND_MAX) - 50.0
                          ),
-                         v = V3(
+                         v = olson_tools::V3(
                             100.0*rand()/((double)RAND_MAX) - 50.0,
                             100.0*rand()/((double)RAND_MAX) - 50.0,
                             100.0*rand()/((double)RAND_MAX) - 50.0

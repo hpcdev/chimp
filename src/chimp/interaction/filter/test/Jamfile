@@ -5,4 +5,4 @@ unit-test Or : Or.cpp ;
 unit-test Not : Not.cpp ;
 unit-test Null : Null.cpp ;
 unit-test Section : Section.cpp ;
-
+unit-test Label : Label.cpp ;

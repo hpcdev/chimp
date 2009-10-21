@@ -1,6 +1,6 @@
 
-#ifndef chimp_interaction_filter_Input_h
-#define chimp_interaction_filter_Input_h
+#ifndef chimp_interaction_filter_EqIO_h
+#define chimp_interaction_filter_EqIO_h
 
 #include <chimp/interaction/filter/Base.h>
 
@@ -131,4 +131,4 @@ namespace chimp {
   }/* namespace particldb::interaction */
 }/* namespace particldb */
 
-#endif // chimp_interaction_filter_Input_h
+#endif // chimp_interaction_filter_EqIO_h
