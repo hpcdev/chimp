@@ -1,3 +1,6 @@
+/** \file
+ * Base cross section provider class.
+ * */
 
 #ifndef chimp_interaction_CrossSection_h
 #define chimp_interaction_CrossSection_h
@@ -49,7 +52,7 @@ namespace chimp {
        * @param v_relative
        *     The relative velocity of the two particles in question.
        * */
-      virtual double cross_section(const double & v_relative) const  = 0;
+      virtual double operator() (const double & v_relative) const  = 0;
 
       /** Find the local maximum of cross-section*velocity (within a given
        * range of velocity space.
@@ -77,7 +80,7 @@ namespace chimp {
       /** Effective radius.  Required by octree::Octree and dsmc::ParticleNode. */
       double effective_radius(const double & v_relative) const {
         using physical::constant::si::pi;
-        return /*size * */ 0.5 * sqrt(cross_section(v_relative)/ pi);
+        return /*size * */ 0.5 * sqrt( operator()(v_relative) / pi );
       }
     };
 

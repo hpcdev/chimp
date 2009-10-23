@@ -52,7 +52,7 @@ namespace chimp {
        * @param v_relative
        *     The relative velocity between two particles.
        * */
-      virtual double cross_section(const double & v_relative) const {
+      inline virtual double operator() (const double & v_relative) const {
         using olson_tools::SQR;
 
         /* find the first entry not less that v_relative */

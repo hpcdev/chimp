@@ -47,17 +47,15 @@ namespace chimp {
     filter.reset( new interaction::filter::Elastic );
   }
 
-
   template < typename T >
-  void RuntimeDB<T>::initBinaryInteractions() {
-    /* first thing we do is to sort the particle property entries by mass and
-     * name. */
-    std::sort(props.begin(), props.end(), property::Comparator());
-
-    interactions.resize(props.size());
+  typename RuntimeDB<T>::LHSRelatedInteractionCtx
+  RuntimeDB<T>::findAllLHSRelatedInteractionCtx() {
+    LHSRelatedInteractionCtx retval;
 
     for (unsigned int A = 0; A < props.size(); ++A) {
       for (unsigned int B = A; B < props.size(); ++B) {
+        interaction::Input in(*this, A, B);
+
         using std::string;
         using property::name;
         const string & n_A = props[A].name::value;
@@ -76,27 +74,73 @@ namespace chimp {
         /* get the set of all interactions with the correct inputs. */
         xml::Context::list xl = xmlDb.eval(
           "//Interaction/" + get_xpath_query("In", in_eq_set) );
-        xml::Context::set  xs( xl.begin(), xl.end() );
+        retval[in] = filter->filter( xml::Context::set( xl.begin(), xl.end() ) );
+      }
+    }
 
-        /* now filter the interactions to get the desired subset. */
-        xs = filter->filter( xs );
+    /* now filter the interactions to get the desired subset. */
+    return retval;
+  }
 
-        /* first instantiate the (A,B)th interactions */
-        Set & set = interactions(A,B);
-        set.lhs.setInput(*this,A,B);
 
-        /* add each of the allowed interactions to the new set. */
-        for (xml::Context::set::iterator k = xs.begin(); k != xs.end(); k++)
-          set.rhs.push_back(Set::Equation::load(*k,*this));
+  template < typename T >
+  void RuntimeDB<T>::initBinaryInteractions() {
+    /* first thing we do is to sort the particle property entries by mass and
+     * name. */
+    std::sort(props.begin(), props.end(), property::Comparator());
+
+    /* We need to get the set of all particle names to do extra filtering */
+    std::set< std::string > particles;
+    typedef typename PropertiesVector::iterator PIter;
+    for ( PIter i = props.begin(); i != props.end(); ++i ) {
+      using property::name;
+      particles.insert( i->name::value );
+    }
+
+    /* make sure that the side-length of the matrix is set correctly. */
+    interactions.resize(props.size());
+
+    /* Get all LHS  related interaction contexts. */
+    LHSRelatedInteractionCtx lhs_ctxs = findAllLHSRelatedInteractionCtx();
+    typedef LHSRelatedInteractionCtx::const_iterator LHSCtxIter;
+
+    for (LHSCtxIter lhs_i = lhs_ctxs.begin(); lhs_i != lhs_ctxs.end(); ++lhs_i) {
+      interaction::Input const & in = lhs_i->first;
+
+      /* first instantiate the (A,B)th interactions */
+      Set & set = interactions( in.A.type, in.B.type );
+      set.lhs = in;
+
+      xml::Context::set const & xs = lhs_i->second;
+      /* add each of the allowed interactions to the new set. */
+      for (xml::Context::set::iterator k = xs.begin(); k != xs.end(); ++k) {
+        /* This is a hack until we can figure out how to write an xpath query
+         * to make sure that the outputs all come from the particles set.
+         * Such an xpath query may end up being impossible. */
+        bool equation_is_valid = true;
+        xml::Context::list xl = k->eval("Eq/Out/T/P");
+        for (xml::Context::list::iterator i = xl.begin(); i != xl.end(); ++i ) {
+          std::string particle_name = i->parse<std::string>();
+          if ( particles.find( particle_name ) == particles.end() ) {
+            equation_is_valid = false;
+            break;
+          }
+        }
+        if ( !equation_is_valid )
+          /* equation does not have inputs that are already added to props. */
+          continue;
+
+        /* Finally load the Equation fully and push it into the Output stack. */
+        set.rhs.push_back(Set::Equation::load(*k,*this));
       }
     }
   }
 
 
   template < typename T >
-  inline typename std::vector<typename RuntimeDB<T>::Properties>::const_iterator
+  inline typename RuntimeDB<T>::PropertiesVector::const_iterator
   RuntimeDB<T>::findParticle(const std::string & name) const {
-    typedef typename std::vector<Properties>::const_iterator CIter;
+    typedef typename PropertiesVector::const_iterator CIter;
     CIter i = props.begin();
     for (; i != props.end(); i++) {
       property::name n = (*i);
@@ -108,9 +152,9 @@ namespace chimp {
 
 
   template < typename T >
-  inline typename std::vector<typename RuntimeDB<T>::Properties>::iterator
+  inline typename RuntimeDB<T>::PropertiesVector::iterator
   RuntimeDB<T>::findParticle(const std::string & name) {
-    typedef typename std::vector<Properties>::iterator Iter;
+    typedef typename PropertiesVector::iterator Iter;
     Iter i = props.begin();
     for (; i != props.end(); i++) {
       property::name n = (*i);
@@ -123,7 +167,7 @@ namespace chimp {
 
   template < typename T >
   inline int RuntimeDB<T>::findParticleIndx(const std::string & name) const {
-    typedef typename std::vector<Properties>::const_iterator CIter;
+    typedef typename PropertiesVector::const_iterator CIter;
     CIter i = findParticle(name);
     if (i == props.end())
       return -1;
@@ -136,6 +180,14 @@ namespace chimp {
     using xml::Context;
     Context x = xmlDb.root_context.find("//Particle[@name=\"" + name + "\"]");
     addParticleType(x);
+  }
+
+
+  template < typename T >
+  template < typename Iter >
+  inline void RuntimeDB<T>::addParticleType(Iter begin, const Iter & end) {
+    for ( ; begin != end; ++begin )
+      addParticleType( *begin );
   }
 
 
@@ -165,7 +217,7 @@ namespace chimp {
   template < typename T >
   inline const typename RuntimeDB<T>::Properties &
   RuntimeDB<T>::operator[] ( const std::string & n ) const {
-    typedef typename std::vector<Properties>::const_iterator CIter;
+    typedef typename PropertiesVector::const_iterator CIter;
     CIter i = findParticle(n);
     if (i == props.end())
       throw std::runtime_error("particle type not loaded: '" + n + '\'');
@@ -176,7 +228,7 @@ namespace chimp {
   template < typename T >
   inline typename RuntimeDB<T>::Properties &
   RuntimeDB<T>::operator[] ( const std::string & n ) {
-    typedef typename std::vector<Properties>::iterator Iter;
+    typedef typename PropertiesVector::iterator Iter;
     Iter i = findParticle(n);
     if (i == props.end())
       throw std::runtime_error("particle type not loaded: '" + n + '\'');
@@ -225,6 +277,35 @@ namespace chimp {
       throw std::runtime_error("particle type not loaded: '" + j_name + '\'');
 
     return  interactions(i,j);
+  }
+
+
+  template < typename LHSCtxs >
+  inline std::set<std::string> findAllRHSParticles( const LHSCtxs & lhs_ctxs ) {
+    std::set<std::string> retval;
+
+    typedef typename LHSCtxs::const_iterator LHSCtxIter;
+
+    for(LHSCtxIter lhs_i = lhs_ctxs.begin(); lhs_i != lhs_ctxs.end(); ++lhs_i) {
+      xml::Context::set const & xs = lhs_i->second;
+      /* add each of the allowed interactions to the new set. */
+      for (xml::Context::set::iterator k = xs.begin(); k != xs.end(); ++k) {
+        /* This is a hack until we can figure out how to write an xpath query
+         * to make sure that the outputs all come from the particles set.
+         * Such an xpath query may end up being impossible. */
+        xml::Context::list xl = k->eval("Eq/Out/T/P");
+        for (xml::Context::list::iterator i = xl.begin(); i != xl.end(); ++i ) {
+          retval.insert( i->parse<std::string>() );
+        }
+      }
+    }
+
+    return retval;
+  }
+
+
+  inline xml::Context::list getAllParticlesCtx( const xml::Doc & xmlDb ) {
+    return xmlDb.eval("//Particle");
   }
 
 } /* namespace chimp */

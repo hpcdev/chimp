@@ -88,7 +88,7 @@ namespace chimp {
 
         xml::Context::list xl = x.eval("Eq/In/T");
         for (xml::Context::list::iterator i = xl.begin(); i != xl.end(); ++i ) {
-          std::string particle_name = i->query<string>("P");
+          string particle_name = i->query<string>("P");
           int n = i->query<int>("n",1);
 
           n_in += n;
@@ -104,7 +104,7 @@ namespace chimp {
 
         xl = x.eval("Eq/Out/T");
         for (xml::Context::list::iterator i = xl.begin(); i != xl.end(); ++i) {
-          std::string particle_name = i->query<string>("P");
+          string particle_name = i->query<string>("P");
           int n = i->query<int>("n", 1);
 
           n_out += n;

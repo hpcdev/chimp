@@ -1,3 +1,7 @@
+/** \file
+ * Implementation of DATACrossSection xml load function.
+ * */
+
 #include <chimp/interaction/DATACrossSection.h>
 
 #include <olson-tools/xml/physical_parse.h>

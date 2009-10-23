@@ -1,1 +1,3 @@
-exe testCrossSection : testCrossSection.cpp /chimp//particledb ;
+build-project single-input-equation ;
+build-project all ;
+build-project xpath-access ;

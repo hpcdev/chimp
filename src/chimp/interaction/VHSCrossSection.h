@@ -1,3 +1,7 @@
+/** \file
+ * Cross section definition using the variable hard sphere (VHS) model.
+ * */
+
 #ifndef chimp_interaction_VHSCrossSection_h
 #define chimp_interaction_VHSCrossSection_h
 
@@ -16,6 +20,7 @@ namespace chimp {
 
   namespace interaction {
 
+    /** Variable hard sphere implementation of the CrossSection class. */
     struct VHSCrossSection : CrossSection {
       /* MEMBER STORAGE */
       /** The vhs information for this particular interaction. */
@@ -38,7 +43,7 @@ namespace chimp {
        * @param v_relative
        *     The relative velocity between two particles.
        * */
-      virtual inline double cross_section(const double & v_relative) const {
+      inline virtual double operator() (const double & v_relative) const {
         using physical::constant::si::K_B;
         using olson_tools::SQR;
         using olson_tools::fast_pow;
@@ -59,7 +64,7 @@ namespace chimp {
       virtual double find_max_sigma_v_rel(const double & v_rel_max) const {
         /* just return the product since the product is monotonically
          * increasing. */
-        return cross_section(v_rel_max)*v_rel_max;
+        return operator()(v_rel_max) * v_rel_max;
       }
 
       virtual VHSCrossSection * new_load( xml::Context & x,

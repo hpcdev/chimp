@@ -165,3 +165,6 @@ DONE (alphabetically at least, charge not yet)
         1.  Internal quantum state
         2.  charge
 
+15. Change the CrossSection::cross_section function into the operator()
+    function.
+DONE

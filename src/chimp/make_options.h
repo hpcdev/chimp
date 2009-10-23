@@ -1,9 +1,6 @@
-// -*- c++ -*-
-// $Id$
-/*
- * Copyright 2004 Spencer Olson
- *
- */
+/** \file
+ * Template options for the RuntimeDB class.
+ * */
 
 #ifndef chimp_make_options_h
 #define chimp_make_options_h
@@ -14,11 +11,11 @@
 namespace chimp {
 
   /** Metafunction to generate the chimp::options class.
-   * @param _Particle
+   * @tparam _Particle
    *   Class that is used for the collision/interaction functions. <br>
    *   [Default:  chimp::interaction::Particle]
    *
-   * @param _Properties
+   * @tparam _Properties
    *   Aggregate class of all particle properties that will be loaded from the
    *   xml file.  <br>
    *   [Default:  chimp::property::DefaultSet]

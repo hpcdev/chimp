@@ -1,7 +1,8 @@
 // -*- c++ -*-
 // $Id: Particle.h,v 1.3 2005/06/07 10:00:14 olsonse Exp $
 
-/** \file A generic particle database to provide data for collisions and such.  
+/** \file RuntimeDB.h
+ * A generic particle database to provide data for collisions and such.  
  *
  * Copyright 2000-2008 Spencer Olson
  *
@@ -132,24 +133,37 @@ namespace chimp {
     /** Set of interactions equations that share the same inputs. */
     typedef interaction::Set<options> Set;
 
+    /** Map of cross section "name" to model. */
     typedef std::map<
       std::string,
       shared_ptr<interaction::CrossSection>
     > CrossSectionRegistry;
 
+    /** Map of interaction "name" to model. */
     typedef std::map<
       std::string,
       shared_ptr< interaction::model::Base<options> >
     > InteractionRegistry;
 
-  private:
     /** Data type for the Interaction table.  This is really just a wrapper
      * around the std::vector class such that using operator()(i,j) works easily
      * and correctly. */
     typedef olson_tools::upper_triangle<
       Set,
       olson_tools::SymmetryFix
-    > InteractionMatrix;
+    > InteractionTable;
+
+    /** Vector type used to store all loaded particle properties. */
+    typedef std::vector<Properties> PropertiesVector;
+
+    /** Map of interaction Input to xml::Context::set instances for all
+     * interactions that match the input.
+     * @see findAllLHSRelatedInteractionCtx
+     */
+    typedef std::map<
+      interaction::Input,
+      xml::Context::set
+    > LHSRelatedInteractionCtx;
 
 
 
@@ -176,10 +190,10 @@ namespace chimp {
     /** Vector of particle properties.
      * Note that the order of the entries in the properties vector is NOT well
      * determined, until AFTER initBinaryInteractions() has been called.  */
-    std::vector<Properties> props;
+    PropertiesVector props;
 
     /** Initialized at time of initBinaryInteractions() call. */
-    InteractionMatrix interactions;
+    InteractionTable interactions;
 
 
 
@@ -200,6 +214,15 @@ namespace chimp {
      * */
     inline void addParticleType(const std::string & name);
 
+    /** Loads the particle information for the each of the given particles
+     * from the iterator range into the runtime database.  Note that only the
+     * information relevant to the templated Properties class will get loaded. 
+     *
+     * initBinaryInteractions() should be called AFTER this.
+     * */
+    template < typename Iter >
+    inline void addParticleType(Iter begin, const Iter & end);
+
     /** Loads the particle information from the given xml-context.
      * Note that only the information relevant to the templated Properties
      * class will get loaded. 
@@ -219,10 +242,10 @@ namespace chimp {
      * well determined, until <b>AFTER</b> initBinaryInteractions() has been
      * called.
      */
-    const std::vector<Properties> & getProps() const { return props; }
+    const PropertiesVector & getProps() const { return props; }
 
     /** Read-only access to the interactions matrix. */
-    const std::vector<Set> & getInteractions() const { return interactions; }
+    const InteractionTable & getInteractions() const { return interactions; }
 
     /** return the set of single-species properties for the given species.
      * @see Note for getProps() concerning ill-determined order of properties
@@ -261,7 +284,7 @@ namespace chimp {
      * @see Note for getProps() concerning ill-determined order of properties
      * vector.
      */
-    inline typename std::vector<Properties>::const_iterator
+    inline typename PropertiesVector::const_iterator
     findParticle(const std::string & name) const;
 
     /** Get the (non-const) iterator of the particle type with the specified name.
@@ -270,7 +293,7 @@ namespace chimp {
      * @see Note for getProps() concerning ill-determined order of properties
      * vector.
      */
-    inline typename std::vector<Properties>::iterator
+    inline typename PropertiesVector::iterator
     findParticle(const std::string & name);
 
     /** Get the index of the particle type with the specified name.
@@ -284,7 +307,29 @@ namespace chimp {
     /** Set up the table for interactions with binary inputs. */
     void initBinaryInteractions();
 
+    /** Create the set of all interaction equations that match the left hand
+     * side given the current set of load particles. */
+    LHSRelatedInteractionCtx findAllLHSRelatedInteractionCtx();
+
   };/* RuntimeDB */
+
+
+  /** Create a set of all particles that result from interactions that relate to
+   * the given left-hand-side portions of the equation.
+   *
+   * @return A set of all particle names resulting from equations in the form of
+   * a <code>std::set< std::string ></code>.
+   *
+   * @see findAllLHSRelatedInteractionCtx for obtaining a map of
+   * interaction::Input to a list of interactions xml::Context nodes comprising
+   * an xml::Context::set.
+   */
+  template < typename LHSCtxs >
+  inline std::set<std::string> findAllRHSParticles( const LHSCtxs & lhs_ctxs );
+
+  /** Create a list of xml::Context intances for each particle in the xml
+   * database. */
+  inline xml::Context::list getAllParticlesCtx( const xml::Doc & xmlDb );
 
 } /* namespace chimp */
 

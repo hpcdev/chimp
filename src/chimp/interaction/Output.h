@@ -50,7 +50,7 @@ namespace chimp {
        *     The relative velocity of the two particles in question.
        * */
       double cross_section(const double & v_relative) const {
-        return cs->cross_section(v_relative);
+        return cs->operator()(v_relative);
       }
 
       /** Effective radius.  Required by octree::Octree and dsmc::ParticleNode. */

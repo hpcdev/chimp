@@ -14,7 +14,12 @@ namespace chimp {
 
       /** Specification of a single term in an equation. */
       struct EqTerm {
+        /** The name of the particle for this term. */
         std::string name;
+
+        /** The multiplicity of this term.
+         * \f$ n < 0 \f$ is treated like a wildcard for multiplicity. 
+         */
         int n;
 
         EqTerm( const std::string & name, const int & n = 1 )
@@ -29,21 +34,24 @@ namespace chimp {
        * The side-effect of this comparator is obviously that any subsequent
        * insertion of an EqTerm will override a previous entry with the same
        * name. */
-      struct EqTermComparator {
-        bool operator()( const EqTerm & lhs, const EqTerm & rhs ) {
-          return lhs.name < rhs.name;
-        }
-      };
+      inline bool operator< ( const EqTerm & lhs, const EqTerm & rhs ) {
+        return lhs.name < rhs.name;
+      }
 
       /** Set of EqTerm instances using the EqTermComparator. */
-      typedef std::set<EqTerm, EqTermComparator> EqTermSet;
+      typedef std::set<EqTerm> EqTermSet;
 
       /** Translate a set of Equation terms into xpath query.  This function
        * assumes the context is at the Interaction level.  The context returned
        * by this query is also at the Interaction level.
+       *
+       * @returns "" if the EqTermSet was empty.
        */
       inline std::string get_xpath_query( const std::string & EqIO,
                                           const EqTermSet & set ) {
+        if ( set.size() == 0u )
+          return "";
+
         std::ostringstream query;
         query << "Eq[count("<<EqIO<<"/T) = " << set.size() << "]/" << EqIO;
 
@@ -51,12 +59,14 @@ namespace chimp {
           if ( i->n == 0 )
             continue;
 
-          query << "/T[string(P)='"<<i->name<<"' and ";
+          query << "/T[string(P)='"<<i->name<<'\'';
 
           if ( i->n == 1 )
-            query << "(number(n)=1 or string(n)='')]/..";
-          else
-            query << "number(n)="<<i->n<<"]/..";
+            query << " and (number(n)=1 or string(n)='')]/..";
+          else if ( i->n > 1 )
+            query << " and number(n)="<<i->n<<"]/..";
+          else /* if (i->n < 0):  match all terms regardless of multiplicity. */
+            query << "]/..";
         }
 
         query << "/../..";
@@ -67,7 +77,7 @@ namespace chimp {
 
 
       /** Filters an Equation based on a set of Input/Output terms. */
-      class EqIO : public Base {
+      class EqIO : public filter::Base {
         /* TYPEDEFS */
       public:
         enum EqIOId {
@@ -86,8 +96,13 @@ namespace chimp {
 
         /* MEMBER FUNCTIONS */
       public:
-        /** Default constructor does not initialize the xpath filter string. */
-        EqIO( const EqIOId & id ) : terms() { setIOId(id); }
+        /** Constructor to specify the EqIOId and optionally the EqTerm set.
+         * The xpath_query is set according to the supplied EqTermSet.  */
+        EqIO( const EqIOId & id, const EqTermSet & terms = EqTermSet() )
+        : terms(terms.begin(), terms.end()) {
+          setIOId(id);
+          set_xpath_query();
+        }
 
         /** Constructor with up to three input terms specified. */
         EqIO( const EqIOId & id,
@@ -108,17 +123,14 @@ namespace chimp {
           set_xpath_query();
         }
 
-        /** Constructor with the set of terms. */
-        EqIO( const std::set<EqTerm> & terms )
-          : terms(terms.begin(),terms.end()) {
-          set_xpath_query();
-        }
-
         const EqIOId & getIOId() const { return m_id; }
 
         void setIOId( const EqIOId & id ) {
           m_id = id;
           m_id_name = id == EqIO::IN ? "In" : "Out";
+
+          /* Now make sure that the xpath_query is correct. */
+          set_xpath_query();
         }
 
         /** set the xpath query to validate the nodes. */

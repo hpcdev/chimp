@@ -1,3 +1,10 @@
+/** \file
+ * Information required for variable hard sphere (VHS) cross section
+ * calculations.
+ *
+ * @see VHSCrossSection.
+ * */
+
 #ifndef chimp_interaction_VHSInfo_h
 #define chimp_interaction_VHSInfo_h
 
@@ -36,8 +43,8 @@ namespace chimp {
       double T_ref;
 
       /** Viscosity-temperature power law.
-       * @see Graham Bird's \underline{Molecular Gas Dynamics and the Direct
-       * Simulation of Gas Flows.}
+       * @see Graham Bird's <b>Molecular Gas Dynamics and the Direct
+       * Simulation of Gas Flows</b>.
        */
       double visc_T_law;
 
@@ -63,6 +70,9 @@ namespace chimp {
         return out;
       }
 
+
+
+      /* STATIC FUNCTIONS */
       /** Load the information into this properties node.
        *
        * @see DSMCInfo::load().

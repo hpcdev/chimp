@@ -1,4 +1,14 @@
+echo "" ;
+echo "" ;
+echo "After building testXML, do  './testXML xpath-query'" ;
+echo "" ;
+echo "" ;
+echo "" ;
+
 path-constant PARTICLEDB_XML : $(EXAMPLES_TOP)/../data/particledb.xml ;
 
-exe testXML : from-olson-tools/testXML.cpp /chimp//particledb :
-  <define>XML_FILENAME=\\\"$(PARTICLEDB_XML)\\\" ;
+exe testXML
+    : $(EXAMPLES_TOP)/../../olson-tools/examples/xml/testXML.cpp
+      /olson-tools//xml
+    : <define>XML_FILENAME=\\\"$(PARTICLEDB_XML)\\\"
+    ;

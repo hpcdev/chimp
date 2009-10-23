@@ -22,14 +22,18 @@ using physical::unit::m;
 using physical::unit::nm;
 using physical::unit::s;
 
-std::ostream & print(std::ostream & out, CrossSection * cs, const double & v0, const double & v1, const int & N_points) {
-    double dv = (v1-v0) / N_points;
-    const double nm2 = nm*nm;
-    for (double v = v0 + 0.5*dv; v <= v1; v += dv) {
-        out << v << '\t' << (cs->cross_section(v)/nm2) << '\n';
-    }
+std::ostream & print( std::ostream & out,
+                      CrossSection & cs,
+                      const double & v0,
+                      const double & v1,
+                      const int & N_points ) {
+  double dv = (v1-v0) / N_points;
+  const double nm2 = nm*nm;
+  for (double v = v0 + 0.5*dv; v <= v1; v += dv) {
+      out << v << '\t' << ( cs(v) / nm2 ) << '\n';
+  }
 
-    return out;
+  return out;
 }
 
 const double v0 = 100*m/s;
@@ -59,7 +63,7 @@ int main() {
         //cs.print(std::cout) << std::endl;
 
         fvhs << "# Eq:  " << Eq << '\n';
-        print(fvhs, &cs, v0, v1, N_points) << "\n\n";
+        print(fvhs, cs, v0, v1, N_points) << "\n\n";
     }
 
 
@@ -75,7 +79,7 @@ int main() {
             //cs.print(std::cout) << std::endl;
 
             fdata << "# Eq:  " << Eq << '\n';
-            print(fdata, &cs, v0, v1, N_points) << "\n\n";
+            print(fdata, cs, v0, v1, N_points) << "\n\n";
         } catch (std::runtime_error & e) {
             std::cout << e.what();
         }
