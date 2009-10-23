@@ -14,6 +14,7 @@
 #  include <math.h>
 #  include <ostream>
 #  include <fstream>
+#  include <sstream>
 #  include <cfloat>
 #  include <set>
 #  include <string>
@@ -49,7 +50,7 @@ namespace chimp {
 
   template < typename T >
   typename RuntimeDB<T>::LHSRelatedInteractionCtx
-  RuntimeDB<T>::findAllLHSRelatedInteractionCtx() {
+  RuntimeDB<T>::findAllLHSRelatedInteractionCtx( const std::string & xpath_extra ) {
     LHSRelatedInteractionCtx retval;
 
     for (unsigned int A = 0; A < props.size(); ++A) {
@@ -73,7 +74,9 @@ namespace chimp {
 
         /* get the set of all interactions with the correct inputs. */
         xml::Context::list xl = xmlDb.eval(
-          "//Interaction/" + get_xpath_query("In", in_eq_set) );
+          "//Interaction/" + get_xpath_query("In", in_eq_set)
+          + ( xpath_extra.size() > 0 ? '/' + xpath_extra : "" )
+        );
         retval[in] = filter->filter( xml::Context::set( xl.begin(), xl.end() ) );
       }
     }
@@ -90,18 +93,29 @@ namespace chimp {
     std::sort(props.begin(), props.end(), property::Comparator());
 
     /* We need to get the set of all particle names to do extra filtering */
-    std::set< std::string > particles;
-    typedef typename PropertiesVector::iterator PIter;
-    for ( PIter i = props.begin(); i != props.end(); ++i ) {
-      using property::name;
-      particles.insert( i->name::value );
+    std::string particles_output_filter;
+    {
+      std::ostringstream istr;
+      typedef typename PropertiesVector::iterator PIter;
+      for ( PIter i = props.begin(); i != props.end(); ++i ) {
+        using property::name;
+        istr << ':' << i->name::value << ':';
+      }
+
+      particles_output_filter =
+        "Eq/Out["
+          "T/P[     contains('" + istr.str() + "', concat(':',text(),':'))]"
+        "][not("
+          "T/P[not( contains('" + istr.str() + "', concat(':',text(),':')))]"
+        ")]/../..";
     }
 
     /* make sure that the side-length of the matrix is set correctly. */
     interactions.resize(props.size());
 
     /* Get all LHS  related interaction contexts. */
-    LHSRelatedInteractionCtx lhs_ctxs = findAllLHSRelatedInteractionCtx();
+    LHSRelatedInteractionCtx lhs_ctxs =
+      findAllLHSRelatedInteractionCtx( particles_output_filter );
     typedef LHSRelatedInteractionCtx::const_iterator LHSCtxIter;
 
     for (LHSCtxIter lhs_i = lhs_ctxs.begin(); lhs_i != lhs_ctxs.end(); ++lhs_i) {
@@ -114,22 +128,6 @@ namespace chimp {
       xml::Context::set const & xs = lhs_i->second;
       /* add each of the allowed interactions to the new set. */
       for (xml::Context::set::iterator k = xs.begin(); k != xs.end(); ++k) {
-        /* This is a hack until we can figure out how to write an xpath query
-         * to make sure that the outputs all come from the particles set.
-         * Such an xpath query may end up being impossible. */
-        bool equation_is_valid = true;
-        xml::Context::list xl = k->eval("Eq/Out/T/P");
-        for (xml::Context::list::iterator i = xl.begin(); i != xl.end(); ++i ) {
-          std::string particle_name = i->parse<std::string>();
-          if ( particles.find( particle_name ) == particles.end() ) {
-            equation_is_valid = false;
-            break;
-          }
-        }
-        if ( !equation_is_valid )
-          /* equation does not have inputs that are already added to props. */
-          continue;
-
         /* Finally load the Equation fully and push it into the Output stack. */
         set.rhs.push_back(Set::Equation::load(*k,*this));
       }

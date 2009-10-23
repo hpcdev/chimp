@@ -308,8 +308,15 @@ namespace chimp {
     void initBinaryInteractions();
 
     /** Create the set of all interaction equations that match the left hand
-     * side given the current set of load particles. */
-    LHSRelatedInteractionCtx findAllLHSRelatedInteractionCtx();
+     * side given the current set of load particles.
+     *
+     * @param xpath_extra
+     *    An optional xpath query to limit the equations that are returned.
+     *    This optional xapth predicate begins at the Interaction context and
+     *    must return back to the Interaction context.
+     */
+    LHSRelatedInteractionCtx
+    findAllLHSRelatedInteractionCtx( const std::string & xpath_extra = "" );
 
   };/* RuntimeDB */
 
