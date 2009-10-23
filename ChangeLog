@@ -1,0 +1,564 @@
+commit 0034b982a7a0cd5480a8e80485e886b23afb5eba
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Fri Oct 23 11:38:45 2009 -0600
+
+    added Walker's fancy xpath query for limiting returned equations
+
+commit 6d971e105460e6de5343d432b5868a503ce10875
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Fri Oct 23 10:54:46 2009 -0600
+
+    Lots of changes:
+    
+    Improved documentation
+    Improved/updated examples/CrossSection/*
+    CrossSection::cross_section changed to CrossSection::operator()
+    Removed obsolete examples/Interaction/testInteraction.cpp
+    Fixed build of examples/xmldb/*
+    Added some few utility functions for gathering xml::Context info without
+        requiring the user to understand XPath.
+    Replaced std::vector<*> with in-class typedefs (in RuntimeDB) following
+        discussion with Walker and Will.
+    interaction::filter::EqIO/EqTerm filter now can use wild card multiplicity
+        factor (if n< 0).
+
+commit 227a804a6887d42496e66622957470983e17086e
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Wed Oct 21 17:25:44 2009 -0600
+
+    added some files typical in distributed code
+
+commit 6b6ba97d4f83d94741380c73d95d086d2d8b016d
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Wed Oct 21 17:07:42 2009 -0600
+
+    added a parse_item<check> instance
+    
+    ... For charge for when we make charge be stored with units in the database
+
+commit 3177ab9dd95696682cefdc4384951702cd388fc8
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Wed Oct 21 17:02:33 2009 -0600
+
+    forgot to update docs in property::charge
+
+commit 2fefcee3206fe5e2a1cf824d5da270a990d44f21
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Wed Oct 21 16:59:06 2009 -0600
+
+    improved documentation, simplified source files and some interfaces (for RuntimeDB)
+
+commit 397556a62c39cee2e12c5085edd974ac79446d3e
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Wed Oct 21 00:00:04 2009 -0600
+
+    Added Label filter and unit test.
+    
+    Split implementations from RuntimeDB.h into .cpp file.
+    Added another unit test module for RuntimeDB.
+
+commit d31e56725d022bd645002a29dd8a16b5e0743156
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Tue Oct 20 21:00:20 2009 -0600
+
+    renamed particledb namespace to chimp
+
+commit df224edbbb3be8b06f36bffea31fefb9234b11bd
+Author: Spencer Olson <olsonse@asok.hpmi.afrl.af.mil>
+Date:   Tue Oct 20 14:59:49 2009 -0600
+
+    added some bibtex entries for data references
+
+commit a507a8738356cb9642884c297f3d884ca494c190
+Merge: 1bd3fb6 b60aaae
+Author: Spencer Olson <olsonse@asok.hpmi.afrl.af.mil>
+Date:   Tue Oct 20 14:14:08 2009 -0600
+
+    Merge branch 'master' of /home/olsonse/src/chimplib
+
+commit b60aaae7ecffba72355936e40ddc08b6a9ed93fb
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Tue Oct 20 14:11:51 2009 -0600
+
+    tweaked api docs build
+
+commit 1bd3fb6c7aaecfe7a374b81e5fb6925f66f2a03b
+Merge: 17fcffc 972ef30
+Author: Shane Stafford <shane@ted.afrl.kirtland.af.mil>
+Date:   Mon Oct 19 16:48:19 2009 -0600
+
+    Merge branch 'master' of /usr14/github/chimplib
+
+commit 17fcffc5651a5adc219fa4d588d8bc3d29be22d0
+Author: Shane Stafford <shane@ted.afrl.kirtland.af.mil>
+Date:   Mon Oct 19 16:35:53 2009 -0600
+
+    Found reference for ionization of Ne(3P2) to corroborate (and scale) Bolsig omission. The correct cross sectional area should be near 6e-20 m2 at 15 eV. This means the scaling is 1.0e-22 m^2. Corroborating reference is Advances in Atomic, Molecular, and Optical Physics, Vol. 57, pg 105, Academic Press, 2009.
+
+commit 972ef3008aa0adff7cda71ea8ddcd2d15a0948cd
+Author: Spencer Olson <olsonse@ted.afrl.kirtland.af.mil>
+Date:   Mon Oct 19 15:45:48 2009 -0600
+
+    /boost//unit_test_framework now statically linked
+
+commit a974e5d7a9e8c11cd10e7d9a02c4ffcdb16ca5a4
+Author: Shane Stafford <shane@ted.afrl.kirtland.af.mil>
+Date:   Mon Oct 19 15:17:36 2009 -0600
+
+    Fixed jamfile for particledb/examples and added some files that were previously not part of the repo (but should have been).
+
+commit 1e56dcb81a3182c364512831a6a89cfbf445fe0f
+Author: Shane Stafford <shane@ted.afrl.kirtland.af.mil>
+Date:   Fri Oct 16 14:44:11 2009 -0600
+
+    Changes to make build work: updated use of olson-tools V3
+
+commit 7748ad900f100de3368627272618ec7ca610ff81
+Author: olsonse <olsonse@e877f351-6dfb-0310-a246-97bd42f90100>
+Date:   Fri Jul 17 05:56:17 2009 +0000
+
+    many changes, mostly related to a reorganization of the olson_tools::xml package.
+    
+    git-svn-id: file:///home/olsonse/src/svn-repository/trunk/particledb@791 e877f351-6dfb-0310-a246-97bd42f90100
+
+commit 4863129c98136511b8f909dc7128340dd1c13fdf
+Author: olsonse <olsonse@e877f351-6dfb-0310-a246-97bd42f90100>
+Date:   Thu Jul 16 22:00:47 2009 +0000
+
+    changed equation format in database to more unique when extracting string values
+    
+    git-svn-id: file:///home/olsonse/src/svn-repository/trunk/particledb@789 e877f351-6dfb-0310-a246-97bd42f90100
+
+commit eb1db19dcdac957ce6b3a3639ac7aab2fcdd40ea
+Author: olsonse <olsonse@e877f351-6dfb-0310-a246-97bd42f90100>
+Date:   Tue Jul 14 20:11:04 2009 +0000
+
+    Lots of good changes.  The library now rapidly approaches usefulness.
+    
+    unit test cases added (all work):
+      to test new filters:
+        particledb/interaction/filter/test/Null
+        particledb/interaction/filter/test/Not
+        particledb/interaction/filter/test/Section
+    
+      a slightly larger integration test for most of the library components.
+        particledb/test/RuntimeDB
+    
+    
+    
+    git-svn-id: file:///home/olsonse/src/svn-repository/trunk/particledb@787 e877f351-6dfb-0310-a246-97bd42f90100
+
+commit 7df7fe9345ba881695123a6eea2510da569057a5
+Author: olsonse <olsonse@e877f351-6dfb-0310-a246-97bd42f90100>
+Date:   Mon Jul 13 23:24:35 2009 +0000
+
+    added interaction filter classes and unit tests for these (still have to do unit test for filter::Not).
+    
+    git-svn-id: file:///home/olsonse/src/svn-repository/trunk/particledb@786 e877f351-6dfb-0310-a246-97bd42f90100
+
+commit f5e1a923d99c5e9e7cdd27bcd7a7dd6cd7ad99e1
+Author: olsonse <olsonse@e877f351-6dfb-0310-a246-97bd42f90100>
+Date:   Mon Jul 13 13:32:36 2009 +0000
+
+    Added labels to interaction models.
+    
+    unit test for Elastic model works.
+    
+    
+    
+    git-svn-id: file:///home/olsonse/src/svn-repository/trunk/particledb@785 e877f351-6dfb-0310-a246-97bd42f90100
+
+commit c36b69ce123cdc872ba32e026f7f3f11681f1094
+Author: olsonse <olsonse@e877f351-6dfb-0310-a246-97bd42f90100>
+Date:   Fri Jul 10 22:03:13 2009 +0000
+
+    many more changes for particledb.  Most test cases and examples now compile and execute correctly
+    
+    git-svn-id: file:///home/olsonse/src/svn-repository/trunk/particledb@782 e877f351-6dfb-0310-a246-97bd42f90100
+
+commit b92aa1278396367fedc39b889c5eb0291dad6497
+Author: olsonse <olsonse@e877f351-6dfb-0310-a246-97bd42f90100>
+Date:   Fri Jul 10 15:26:31 2009 +0000
+
+    removed particledb/src/particledb/detail directory
+    
+    git-svn-id: file:///home/olsonse/src/svn-repository/trunk/particledb@781 e877f351-6dfb-0310-a246-97bd42f90100
+
+commit 6d6105b1cc5f230986b21025cf839f64ac15fb4d
+Author: olsonse <olsonse@e877f351-6dfb-0310-a246-97bd42f90100>
+Date:   Thu Jul 9 22:08:37 2009 +0000
+
+    this commit will not compile;  many major changes and restructuring.
+    
+    git-svn-id: file:///home/olsonse/src/svn-repository/trunk/particledb@780 e877f351-6dfb-0310-a246-97bd42f90100
+
+commit 38d544558fd9b7f45eeb5e6afe94cd4db6cfeaad
+Author: olsonse <olsonse@e877f351-6dfb-0310-a246-97bd42f90100>
+Date:   Tue Jul 7 23:05:07 2009 +0000
+
+    restructuring of particledb and beginning of introduction of registries for cross section and interaction functors.
+    
+    git-svn-id: file:///home/olsonse/src/svn-repository/trunk/particledb@778 e877f351-6dfb-0310-a246-97bd42f90100
+
+commit c89d2b4ae001b39c9d5e5167851e7e5faa2a3d99
+Author: olsonse <olsonse@e877f351-6dfb-0310-a246-97bd42f90100>
+Date:   Tue Jun 16 22:32:05 2009 +0000
+
+    changed results from set to list to help maintain original order
+    
+    git-svn-id: file:///home/olsonse/src/svn-repository/trunk/particledb@770 e877f351-6dfb-0310-a246-97bd42f90100
+
+commit 879fe166fcb9f0cd2e1fdf1336348150ff231fee
+Author: olsonse <olsonse@e877f351-6dfb-0310-a246-97bd42f90100>
+Date:   Sat May 9 03:13:05 2009 +0000
+
+    removed local relative includes in favor of <...> library includes even for local files.  Updated to work with new physical lib.
+    
+    git-svn-id: file:///home/olsonse/src/svn-repository/trunk/particledb@760 e877f351-6dfb-0310-a246-97bd42f90100
+
+commit 3e111b6fa8f46c061c7744dd00a4dfca7c5bf418
+Author: olsonse <olsonse@e877f351-6dfb-0310-a246-97bd42f90100>
+Date:   Thu May 7 20:25:56 2009 +0000
+
+    changed parser import commands to import constant::pi and not physical::unit::pi as pi.  Removed spurious (radians) from places as a result.
+    
+    git-svn-id: file:///home/olsonse/src/svn-repository/trunk/particledb@758 e877f351-6dfb-0310-a246-97bd42f90100
+
+commit 188b181fe884735f3dad396bcec8c49a25ea479c
+Author: olsonse <olsonse@e877f351-6dfb-0310-a246-97bd42f90100>
+Date:   Thu Apr 30 17:40:09 2009 +0000
+
+    Fixed particledb to work with new olson_tools::Nsort and complex types in physical package.
+    
+    git-svn-id: file:///home/olsonse/src/svn-repository/trunk/particledb@749 e877f351-6dfb-0310-a246-97bd42f90100
+
+commit ac24031f13f1c8c3ec5726d91d2a7d83c6821aed
+Author: olsonse <olsonse@e877f351-6dfb-0310-a246-97bd42f90100>
+Date:   Thu Apr 2 16:32:23 2009 +0000
+
+    changed link to olson-tools to trunk
+    
+    git-svn-id: file:///home/olsonse/src/svn-repository/trunk/particledb@740 e877f351-6dfb-0310-a246-97bd42f90100
+
+commit 223b20be073a474a9f3185363e3878b30755e329
+Author: olsonse <olsonse@e877f351-6dfb-0310-a246-97bd42f90100>
+Date:   Thu Feb 12 19:07:46 2009 +0000
+
+    added runtime:: prefix when using runtime::physical from quantity.h
+    
+    git-svn-id: file:///home/olsonse/src/svn-repository/trunk/particledb@701 e877f351-6dfb-0310-a246-97bd42f90100
+
+commit 62d35c689b8c868b00c609e7fd503a445d3fa3ee
+Author: olsonse <olsonse@e877f351-6dfb-0310-a246-97bd42f90100>
+Date:   Sun Feb 8 04:43:10 2009 +0000
+
+    Change particle::property::size to double instead of integer; Added API/Doxygen documentation; added e^+ to particle datafile
+    
+    git-svn-id: file:///home/olsonse/src/svn-repository/trunk/particledb@691 e877f351-6dfb-0310-a246-97bd42f90100
+
+commit a165ad346993531a208544d5cb02a59ea897d7ad
+Author: olsonse <olsonse@e877f351-6dfb-0310-a246-97bd42f90100>
+Date:   Tue Jan 20 21:28:48 2009 +0000
+
+    commented out RuntimeDB::instance() and created global variable 'db'
+    
+    git-svn-id: file:///home/olsonse/src/svn-repository/trunk/particledb@687 e877f351-6dfb-0310-a246-97bd42f90100
+
+commit a21bf9749a8646dde3b4d4853427dbe14288bb4b
+Author: olsonse <olsonse@e877f351-6dfb-0310-a246-97bd42f90100>
+Date:   Fri Jan 16 23:39:27 2009 +0000
+
+    fixed incorrect code found by using intel compiler
+    
+    git-svn-id: file:///home/olsonse/src/svn-repository/trunk/particledb@686 e877f351-6dfb-0310-a246-97bd42f90100
+
+commit 31293842bf04fc4999e51e0d180fb9f93df2c35b
+Author: olsonse <olsonse@e877f351-6dfb-0310-a246-97bd42f90100>
+Date:   Fri Jan 16 22:15:09 2009 +0000
+
+    moving examples/xmldb external to pulll from branch
+    
+    git-svn-id: file:///home/olsonse/src/svn-repository/trunk/particledb@684 e877f351-6dfb-0310-a246-97bd42f90100
+
+commit 4ef1d000f099b505019652b77cd78b30dbfc3b48
+Author: olsonse <olsonse@e877f351-6dfb-0310-a246-97bd42f90100>
+Date:   Fri Jan 16 22:14:14 2009 +0000
+
+    moving examples/xmldb external to pulll from branch
+    
+    git-svn-id: file:///home/olsonse/src/svn-repository/trunk/particledb@683 e877f351-6dfb-0310-a246-97bd42f90100
+
+commit 8e1b1ce3dc8358a23bf8f5c5086907952f406151
+Author: olsonse <olsonse@e877f351-6dfb-0310-a246-97bd42f90100>
+Date:   Fri Jan 16 21:56:49 2009 +0000
+
+    Many changes to get things to compile.
+    Fixed most of Octree examples (except where a dependence on DSMC exists).
+    
+    Added octree::Walker::walk and octree::Walker::recursive_walk functions to
+    aide in optimized octree walking.
+    
+    Added PARTICLEDB_XML define (path to particledb.xml) to usage-requirements
+    
+    
+    
+    git-svn-id: file:///home/olsonse/src/svn-repository/trunk/particledb@680 e877f351-6dfb-0310-a246-97bd42f90100
+
+commit d7abcac242536953454c2826d29703596d43cbb5
+Author: olsonse <olsonse@e877f351-6dfb-0310-a246-97bd42f90100>
+Date:   Wed Jan 14 05:54:22 2009 +0000
+
+    finished tweaking 'physical' package. began updating the dsmc package
+    
+    git-svn-id: file:///home/olsonse/src/svn-repository/trunk/particledb@675 e877f351-6dfb-0310-a246-97bd42f90100
+
+commit 58b35a49beed9f9db2466199856e7f0024a6a9f6
+Author: olsonse <olsonse@e877f351-6dfb-0310-a246-97bd42f90100>
+Date:   Fri Jan 9 23:19:23 2009 +0000
+
+    tweaking build sys to build olson-tools by bjam
+    
+    git-svn-id: file:///home/olsonse/src/svn-repository/trunk/particledb@668 e877f351-6dfb-0310-a246-97bd42f90100
+
+commit 5e2f9b87b4275d18db0cd7c11b2e73a2305b2662
+Author: olsonse <olsonse@e877f351-6dfb-0310-a246-97bd42f90100>
+Date:   Fri Jan 9 05:59:49 2009 +0000
+
+    made particledb-project compilable
+    
+    git-svn-id: file:///home/olsonse/src/svn-repository/trunk/particledb@661 e877f351-6dfb-0310-a246-97bd42f90100
+
+commit c83bdb9401e3876fc5432b3772612e79fa82467e
+Author: olsonse <olsonse@e877f351-6dfb-0310-a246-97bd42f90100>
+Date:   Thu Jan 8 05:17:39 2009 +0000
+
+    restructuring particledb and tweaking examples to work accordingly
+    
+    git-svn-id: file:///home/olsonse/src/svn-repository/trunk/particledb@657 e877f351-6dfb-0310-a246-97bd42f90100
+
+commit f39eba062fff658a827ac655b9cb78066ec738e5
+Author: olsonse <olsonse@e877f351-6dfb-0310-a246-97bd42f90100>
+Date:   Thu Jan 8 05:06:59 2009 +0000
+
+    restructuring particledb
+    
+    git-svn-id: file:///home/olsonse/src/svn-repository/trunk/particledb@656 e877f351-6dfb-0310-a246-97bd42f90100
+
+commit 4c90c715dabad114bd90a9bc3cf0da52781ec68a
+Author: olsonse <olsonse@e877f351-6dfb-0310-a246-97bd42f90100>
+Date:   Thu Jan 8 05:06:37 2009 +0000
+
+    restructuring particledb
+    
+    git-svn-id: file:///home/olsonse/src/svn-repository/trunk/particledb@655 e877f351-6dfb-0310-a246-97bd42f90100
+
+commit 2cfed6856ac782ce788a990cdabbe8ee6a2a9b0c
+Author: olsonse <olsonse@e877f351-6dfb-0310-a246-97bd42f90100>
+Date:   Wed Jan 7 20:30:42 2009 +0000
+
+    Moving branches/dsmc/new-dsmc/particledb sub-package into main trunk/ as its
+    own package.
+    
+    
+    git-svn-id: file:///home/olsonse/src/svn-repository/trunk/particledb@652 e877f351-6dfb-0310-a246-97bd42f90100
+
+commit 843c9dd19c2e5d7bd4a5eca7ab1e13830c1c2c00
+Author: olsonse <olsonse@e877f351-6dfb-0310-a246-97bd42f90100>
+Date:   Wed Jan 7 20:09:12 2009 +0000
+
+    restructuring repository
+    
+    git-svn-id: file:///home/olsonse/src/svn-repository/branches/dsmc/new-dsmc/particledb@651 e877f351-6dfb-0310-a246-97bd42f90100
+
+commit ed300bcd7f74172a26ccb809ecada08a9f1ff1a3
+Author: olsonse <olsonse@e877f351-6dfb-0310-a246-97bd42f90100>
+Date:   Wed Jan 7 19:18:10 2009 +0000
+
+    added tiny particle implementation to RuntimeDB example
+    
+    git-svn-id: file:///home/olsonse/src/svn-repository/dsmc/branches/new-dsmc/particledb@641 e877f351-6dfb-0310-a246-97bd42f90100
+
+commit ecc5dd75843cf8aaf0fd9225d9097643e385367a
+Author: olsonse <olsonse@e877f351-6dfb-0310-a246-97bd42f90100>
+Date:   Wed Jan 7 18:36:10 2009 +0000
+
+    tweaked testcases to work in new build system and layout
+    
+    git-svn-id: file:///home/olsonse/src/svn-repository/dsmc/branches/new-dsmc/particledb@639 e877f351-6dfb-0310-a246-97bd42f90100
+
+commit dfef83cc681e7311e0a675320e5ec1fb56f7379b
+Author: olsonse <olsonse@e877f351-6dfb-0310-a246-97bd42f90100>
+Date:   Tue Jan 6 06:34:38 2009 +0000
+
+    Major reorganization for using the (new-to-me) Boost.build system (bjam).
+    
+    
+    
+    git-svn-id: file:///home/olsonse/src/svn-repository/dsmc/branches/new-dsmc/particledb@637 e877f351-6dfb-0310-a246-97bd42f90100
+
+commit 37509b52cb1b6da23b9b24871a074ef6ae3cf036
+Author: olsonse <olsonse@e877f351-6dfb-0310-a246-97bd42f90100>
+Date:   Mon Dec 22 20:23:12 2008 +0000
+
+    cleaning up/realigning the new particledb package
+    
+    git-svn-id: file:///home/olsonse/src/svn-repository/dsmc/branches/new-dsmc/particledb@635 e877f351-6dfb-0310-a246-97bd42f90100
+
+commit 96916b11c1140943f92f552fbfded192a0dd2300
+Author: olsonse <olsonse@e877f351-6dfb-0310-a246-97bd42f90100>
+Date:   Mon Dec 22 18:11:13 2008 +0000
+
+    moving the ParticleDB into its own package
+    
+    git-svn-id: file:///home/olsonse/src/svn-repository/dsmc/branches/new-dsmc/particledb@634 e877f351-6dfb-0310-a246-97bd42f90100
+
+commit 5709ed3df5c52203b303a29bf67491ca7fb7e8dc
+Author: olsonse <olsonse@e877f351-6dfb-0310-a246-97bd42f90100>
+Date:   Mon Dec 22 18:05:18 2008 +0000
+
+    moving to new-dsmc subdir so I can move particledb into its own sub-dir.
+    
+    
+    git-svn-id: file:///home/olsonse/src/svn-repository/dsmc/branches/new-dsmc/dsmc/src/particledb@633 e877f351-6dfb-0310-a246-97bd42f90100
+
+commit 9a1e31b63bef247c652940fed3aa55ef1957aec2
+Author: olsonse <olsonse@e877f351-6dfb-0310-a246-97bd42f90100>
+Date:   Mon Dec 22 17:58:13 2008 +0000
+
+    added small comment
+    
+    git-svn-id: file:///home/olsonse/src/svn-repository/dsmc/branches/plasma-fieldsolve/src/particledb@629 e877f351-6dfb-0310-a246-97bd42f90100
+
+commit dcfee67994a8181968a842ff3c3b1ebcf332404e
+Author: olsonse <olsonse@e877f351-6dfb-0310-a246-97bd42f90100>
+Date:   Thu Dec 18 23:44:19 2008 +0000
+
+    xml::XInclude is now used to allow the main XML doc to actually be something
+    of a dictionary to lookup and then include several sets of data.
+    
+    Added several TODO items as a result of feedback from Keith, Nate, and Matt.
+    
+    Lots of small changes.
+    
+    
+    
+    git-svn-id: file:///home/olsonse/src/svn-repository/dsmc/branches/plasma-fieldsolve/src/particledb@627 e877f351-6dfb-0310-a246-97bd42f90100
+
+commit 157c06a5ebaa06e7d9f7e534052bd53af9ee6105
+Author: olsonse <olsonse@e877f351-6dfb-0310-a246-97bd42f90100>
+Date:   Tue Dec 16 23:48:39 2008 +0000
+
+    Added a new upper_triangle class to handle sparse matrices where only the
+    upper half of the square matrix is used.
+    
+    Changed the RuntimeDB::interactions matrix into an upper_triangle instance.
+    This instance uses the symmetry fixing.
+    
+    Using the upper_triangle class, it is trivial to use an iterator to iterate
+    through the various elements in the half-full upper triangular matrix.
+    
+    RuntimeDB::props (particle properties vector) is now sorted at the time of
+    initInteractions().  The order is by mass, lowest to highest.  Added several
+    notes and small changes to underline the fact that the order of particle
+    properties is ill-determined until AFTER initInteractions() is called.
+    
+    
+    
+    git-svn-id: file:///home/olsonse/src/svn-repository/dsmc/branches/plasma-fieldsolve/src/particledb@626 e877f351-6dfb-0310-a246-97bd42f90100
+
+commit 153bbd390509274053d9376d36aefa5e1765441d
+Author: olsonse <olsonse@e877f351-6dfb-0310-a246-97bd42f90100>
+Date:   Tue Dec 16 17:55:47 2008 +0000
+
+    First working tests for
+        RuntimDB::*
+        interaction::Set::calculateOutPath
+    
+    Added some simple utility functions in v_rel_fnc.h for computing e.g. average
+    velocity and standard deviation of velocity for a given temperature.
+    
+    Added functions in CrossSection.h and interaction/Set for determining an
+    initial guess of max(sigma * v_rel).
+    
+    Several other small clean-ups.
+    
+    
+    
+    git-svn-id: file:///home/olsonse/src/svn-repository/dsmc/branches/plasma-fieldsolve/src/particledb@625 e877f351-6dfb-0310-a246-97bd42f90100
+
+commit 91f059ed2298d607f0a5787be7f62cba9664c85e
+Author: olsonse <olsonse@e877f351-6dfb-0310-a246-97bd42f90100>
+Date:   Fri Dec 5 23:54:47 2008 +0000
+
+    Finished testing a good portion of RuntimeDB now.
+    
+    Changed XMLContext::list (std::list) to XMLContext::set (std::set).  There
+    really is no need to have a non-unique collection of XMLContext nodes.  I had
+    to define my own comparator for this, but it was easy enough.
+    
+    Added find_max_sigma_v_rel(...) function to cross-section providers.
+    
+    Added lots of particle entries in particledb.xml
+    
+    
+    
+    git-svn-id: file:///home/olsonse/src/svn-repository/dsmc/branches/plasma-fieldsolve/src/particledb@624 e877f351-6dfb-0310-a246-97bd42f90100
+
+commit 8f20bf3dfca701225fb817d405d5c9d93fd24d24
+Author: olsonse <olsonse@e877f351-6dfb-0310-a246-97bd42f90100>
+Date:   Fri Dec 5 13:48:57 2008 +0000
+
+    Continuing work on particledb sub-package:
+    moved interaction namespace items into interaction subdirectory.
+    finished testing most portions of the interaction namespace.
+    Began testing the ParticlDB.RuntimeDB class.
+    
+    
+    
+    git-svn-id: file:///home/olsonse/src/svn-repository/dsmc/branches/plasma-fieldsolve/src/particledb@623 e877f351-6dfb-0310-a246-97bd42f90100
+
+commit 4a3dcccb8a5e4b9ad4ca4efa095fc0d26e4ee273
+Author: olsonse <olsonse@e877f351-6dfb-0310-a246-97bd42f90100>
+Date:   Tue Dec 2 00:07:53 2008 +0000
+
+    M    src/octree/operators/ElectroStaticFieldSolve.h
+    A    src/ArrayND.h:
+    A    src/testArrayND.h
+        moved Array3D to ArrayND.h in top src directory.
+    
+    M    src/particledb/testXML.C
+    AM + src/particledb/VHSCrossSection.h
+    D    src/particledb/VHSInteraction.h
+    A    src/particledb/DATACrossSection.C
+    M    src/particledb/physical_parse.h
+    M    src/particledb/VHSInfo.C
+    A    src/particledb/DATACrossSection.h
+    M    src/particledb/ParticleDB.h
+    M    src/particledb/Interaction.h
+    A    src/particledb/data_set.h
+    M    src/particledb/XMLDoc.h
+        lots of other changes for the particle database as it continues to change
+        shape.
+    
+    
+    
+    git-svn-id: file:///home/olsonse/src/svn-repository/dsmc/branches/plasma-fieldsolve/src/particledb@621 e877f351-6dfb-0310-a246-97bd42f90100
+
+commit 0d36b85717f599e9aa9ac763fd30c1e624f652e8
+Author: olsonse <olsonse@e877f351-6dfb-0310-a246-97bd42f90100>
+Date:   Wed Nov 26 23:26:33 2008 +0000
+
+    Many, many changes.
+    
+    1.  Creation of particledb sub-library
+    2.  Changing much of DSMC/Octree code from using double[] array types to
+        statically type-sized Vector<double,.> classes.
+        This simplifies and cleans up a lot of code.
+    3.  Some more work for electrostatic treesolve code.  Still needs to be
+        compiled/tested.
+    4.  Added particledb.xml database file with current bolsig/ZDPlasKin data
+        included.
+    
+    
+    
+    git-svn-id: file:///home/olsonse/src/svn-repository/dsmc/branches/plasma-fieldsolve/src/particledb@620 e877f351-6dfb-0310-a246-97bd42f90100

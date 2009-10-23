@@ -4,6 +4,9 @@
 
 namespace chimp {
   namespace property {
+
+    /** Supporting enum and processing code for chimp::property::Generic
+     * properties. */
     namespace PHYS {
 
       enum ID {

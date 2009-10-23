@@ -47,7 +47,7 @@ namespace chimp {
        *
        * @returns "" if the EqTermSet was empty.
        */
-      inline std::string get_xpath_query( const std::string & EqIO,
+      inline std::string getXpathQuery( const std::string & EqIO,
                                           const EqTermSet & set ) {
         if ( set.size() == 0u )
           return "";
@@ -135,7 +135,7 @@ namespace chimp {
 
         /** set the xpath query to validate the nodes. */
         void set_xpath_query() {
-          xpath_query = get_xpath_query(m_id_name, terms);
+          xpath_query = getXpathQuery(m_id_name, terms);
         }
       };
 

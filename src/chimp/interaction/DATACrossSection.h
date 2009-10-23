@@ -81,7 +81,7 @@ namespace chimp {
 
       /** Determine by inspection the maximum value of the product v_rel *
        * cross_section given a specific maximum v_rel to include in the search. */
-      virtual double find_max_sigma_v_rel(const double & v_rel_max) const {
+      virtual double findMaxSigmaVProduct(const double & v_rel_max) const {
         /* search through the data within the range [0:v_rel_max) to find
          * maximum product. */
         double retval = 0;

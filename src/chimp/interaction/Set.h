@@ -63,27 +63,13 @@ namespace chimp {
       /** Find the local maximum of cross-section*velocity (within a given
        * range of velocity space.
        * */
-      inline double find_max_sigma_v_rel(const double & v_rel_max) const {
+      inline double findMaxSigmaVProduct(const double & v_rel_max) const {
         double mx = 0.0;
         for ( typename eq_list::const_iterator i = rhs.begin();
               i != rhs.end(); ++i ) {
-          mx = std::max(mx, i->cs->find_max_sigma_v_rel(v_rel_max));
+          mx = std::max(mx, i->cs->findMaxSigmaVProduct(v_rel_max));
         }
         return mx;
-      }
-
-      /** Find the local maximum of cross-section*velocity assuming an
-       * ensemble of particles with a given temperature.
-       * */
-      inline double find_max_sigma_v_rel_from_stddev_v(const double & stddev_v) const {
-        return find_max_sigma_v_rel(CrossSection::MAX_SPEED_FACTOR * stddev_v);
-      }
-
-      /** Find the local maximum of cross-section*velocity assuming an
-       * ensemble of particles with a given temperature.
-       * */
-      inline double find_max_sigma_v_rel_from_T(const double & T) const {
-        return find_max_sigma_v_rel_from_stddev_v(stddev_v_rel(T, lhs.mu_AB));
       }
 
       /** Chooses an interaction path to traverse dependent on the incident
@@ -107,7 +93,7 @@ namespace chimp {
         cs.reserve(rhs.size());
         for ( typename eq_list::const_iterator i = rhs.begin();
               i != rhs.end(); ++i ) {
-          double csi = i->cross_section(v_relative);
+          double csi = i->cs->operator()(v_relative);
           cs_tot += csi;
           cs.push_back(csi);
 

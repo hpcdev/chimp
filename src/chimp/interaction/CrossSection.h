@@ -22,19 +22,6 @@ namespace chimp {
 
     /** Interface definition for cross section functor classes. */
     struct CrossSection {
-
-      /* STATIC STORAGE */
-      /** The factor to determine the assumed maximum relative speed of an
-       * ensemble of particles based upon the standard deviation of the
-       * velocity distribution.  For example, if
-       * <code>MAX_SPEED_FACTOR = 3</code>, more than 9?% of all particles
-       * will have a velocity lower than MAX_SPEED_FACTOR*stddev_v_rel.
-       * FIXME:  calculate this number again and put it here.
-       * */
-      static const double MAX_SPEED_FACTOR = 3.0;
-
-
-
       /* MEMBER STORAGE */
       /** Reduced mass for the input particles. */
       double reduced_mass;
@@ -55,34 +42,23 @@ namespace chimp {
       virtual double operator() (const double & v_relative) const  = 0;
 
       /** Find the local maximum of cross-section*velocity (within a given
-       * range of velocity space.
+       * range of velocity space.  The actual implementation of this function is
+       * done by the specific cross section model. 
        * */
-      virtual double find_max_sigma_v_rel(const double & v_rel_max) const = 0;
+      virtual double findMaxSigmaVProduct(const double & v_rel_max) const = 0;
 
       /** Clone the CrossSection class. */
       virtual CrossSection * new_load( xml::Context & x,
                                        const double & mu ) const = 0;
-
-      /** Find the local maximum of cross-section*velocity assuming an
-       * ensemble of particles with a given temperature.
-       * */
-      double find_max_sigma_v_rel_from_stddev_v(const double & stddev_v) const {
-        return find_max_sigma_v_rel(MAX_SPEED_FACTOR * stddev_v);
-      }
-
-      /** Find the local maximum of cross-section*velocity assuming an
-       * ensemble of particles with a given temperature.
-       * */
-      double find_max_sigma_v_rel_from_T(const double & T) const {
-        return find_max_sigma_v_rel_from_stddev_v(stddev_v_rel(T, reduced_mass));
-      }
-
-      /** Effective radius.  Required by octree::Octree and dsmc::ParticleNode. */
-      double effective_radius(const double & v_relative) const {
-        using physical::constant::si::pi;
-        return /*size * */ 0.5 * sqrt( operator()(v_relative) / pi );
-      }
     };
+
+
+    /** Effective radius.  Required by octree::Octree and dsmc::ParticleNode. */
+    double inline effectiveRadius( const CrossSection & cs,
+                                   const double & v_relative ) {
+      using physical::constant::si::pi;
+      return /*size * */ 0.5 * sqrt( cs(v_relative) / pi );
+    }
 
   }/* namespace particldb::interaction */
 }/* namespace particldb */

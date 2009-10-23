@@ -16,14 +16,14 @@ BOOST_AUTO_TEST_SUITE( EqIO_tests ); // {
     using chimp::interaction::filter::EqIO;
     EqIO f(EqIO::IN, "e^-", "Hg");
 
-    BOOST_CHECK_EQUAL( get_xpath_query("In",f.terms),
+    BOOST_CHECK_EQUAL( getXpathQuery("In",f.terms),
       "Eq[count(In/T) = 2]/In"
       "/T[string(P)='Hg' and (number(n)=1 or string(n)='')]/.."
       "/T[string(P)='e^-' and (number(n)=1 or string(n)='')]/.."
       "/../.."
     );
 
-    BOOST_CHECK_EQUAL( get_xpath_query("Out",f.terms),
+    BOOST_CHECK_EQUAL( getXpathQuery("Out",f.terms),
       "Eq[count(Out/T) = 2]/Out"
       "/T[string(P)='Hg' and (number(n)=1 or string(n)='')]/.."
       "/T[string(P)='e^-' and (number(n)=1 or string(n)='')]/.."

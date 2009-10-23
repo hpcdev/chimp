@@ -22,8 +22,12 @@ namespace chimp {
       }
 
       /** Determine whether the equation that is assumed to be represented at
-       * the given XML context is an elastic interaction. */
-      inline bool is_elastic( const xml::Context & x ) {
+       * the given XML context is an elastic interaction.
+       *
+       * @param x
+       *    The xml::Context of an Interaction.
+       */
+      inline bool isElastic( const xml::Context & x ) {
         using std::string;
         string query = string(detail::elastic_parms<>::xpath_query) + "/Eq";
 

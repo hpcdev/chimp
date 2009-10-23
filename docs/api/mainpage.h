@@ -6,47 +6,46 @@
 
 
   For reference, please also see the following sections:
-  - \subpage terms
+  - \subpage license
   - \subpage readme
   - \subpage install
-  - \subpage history
+  - \subpage changelog
+  - \subpage authors
 */
 
 
 
 //-----------------------------------------------------------
-/** \page terms TERMS
-    \verbatim
-    You can use this based on some terms.
-    \endverbatim
+/** \page license Licence
+    \verbinclude COPYING
 */
 
 
 
 //-----------------------------------------------------------
 /** \page readme README
-    \verbatim
-    Someday I'll have a readme.
-    \endverbatim
+    \verbinclude README
 */
 
 
 
 //-----------------------------------------------------------
 /** \page install INSTALL
-    \verbatim
-    Maybe I should describe how to "install" this.
-    \endverbatim
+    \verbinclude INSTALL
 */
 
 
 
 //-----------------------------------------------------------
-/** \page history HISTORY
-    \verbatim
-    In the beginning...
-    \endverbatim
+/** \page changelog ChangeLog
+    \verbinclude ChangeLog
 */
 
+
+
+//-----------------------------------------------------------
+/** \page authors AUTHORS
+    \verbinclude AUTHORS
+*/
 
 

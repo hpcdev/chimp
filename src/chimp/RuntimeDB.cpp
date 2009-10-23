@@ -74,7 +74,7 @@ namespace chimp {
 
         /* get the set of all interactions with the correct inputs. */
         xml::Context::list xl = xmlDb.eval(
-          "//Interaction/" + get_xpath_query("In", in_eq_set)
+          "//Interaction/" + getXpathQuery("In", in_eq_set)
           + ( xpath_extra.size() > 0 ? '/' + xpath_extra : "" )
         );
         retval[in] = filter->filter( xml::Context::set( xl.begin(), xl.end() ) );

@@ -61,7 +61,7 @@ namespace chimp {
           * vhs.gamma_visc_inv;
       }
 
-      virtual double find_max_sigma_v_rel(const double & v_rel_max) const {
+      virtual double findMaxSigmaVProduct(const double & v_rel_max) const {
         /* just return the product since the product is monotonically
          * increasing. */
         return operator()(v_rel_max) * v_rel_max;

@@ -44,19 +44,6 @@ namespace chimp {
 
         return ps.print(out, db);
       }
-
-      /** Compute the cross section.
-       * @param v_relative
-       *     The relative velocity of the two particles in question.
-       * */
-      double cross_section(const double & v_relative) const {
-        return cs->operator()(v_relative);
-      }
-
-      /** Effective radius.  Required by octree::Octree and dsmc::ParticleNode. */
-      double effective_radius(const double & v_relative) const {
-        return cs->effective_radius(v_relative);
-      }
     };
 
   }/* namespace particldb::interaction */
