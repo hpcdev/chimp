@@ -31,6 +31,7 @@ namespace chimp {
       } /* namespace chimp::interaction::model::detail */
 
 
+      /** Implementation of a variable-soft-sphere elastic interaction model. */
       template < typename options >
       struct VSSElastic : Base<options> {
         /* TYPEDEFS */

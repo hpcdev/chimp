@@ -17,6 +17,7 @@ namespace chimp {
   namespace interaction {
     namespace model {
 
+      /** The base class for interaction models.  */
       template < typename options >
       struct Base {
         /* TYPEDEFS */

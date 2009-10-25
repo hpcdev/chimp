@@ -28,13 +28,12 @@ namespace chimp {
      * properties by their name, such as:
      * name::value, mass::value, etc.  Otherwise, the user would have
      * to reference the values by P0::value, P1::value, etc. */
-    typedef Generic<double, tag::mass<>, false, dim::mass<si> > mass_t;
-    struct mass : mass_t {
+    struct mass : Generic<double, tag::mass<>, false, dim::mass<si> > {
       /** Typedef of derivative of Generic class--required by property::Add. */
-      typedef mass_t super;
+      typedef Generic< double, tag::mass<>, false, dim::mass<si> > super;
 
       /** Mass property constructor.  By default, this sets mass to 'zero'.  */
-      mass(const mass_t::value_type & m = mass_t().value) : mass_t(m) {}
+      mass(const super::value_type & m = super().value) : super(m) {}
     };
 
   }/* namespace chimp::property */

@@ -6,7 +6,7 @@
 #define chimp_interaction_VHSCrossSection_h
 
 #include <chimp/interaction/CrossSection.h>
-#include <chimp/interaction/VHSInfo.h>
+#include <chimp/interaction/detail/VHSInfo.h>
 
 #include <olson-tools/power.h>
 #include <olson-tools/xml/Doc.h>
@@ -24,7 +24,7 @@ namespace chimp {
     struct VHSCrossSection : CrossSection {
       /* MEMBER STORAGE */
       /** The vhs information for this particular interaction. */
-      VHSInfo vhs;
+      detail::VHSInfo vhs;
 
 
 
@@ -84,7 +84,7 @@ namespace chimp {
        * */
       static VHSCrossSection load(xml::Context & x, const double & mu) {
         VHSCrossSection cs(mu);
-        cs.vhs = VHSInfo::load(x);
+        cs.vhs = detail::VHSInfo::load(x);
         return cs;
       }
     };

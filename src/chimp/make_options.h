@@ -25,6 +25,7 @@ namespace chimp {
     typename _Properties = chimp::property::DefaultSet
   >
   struct make_options {
+    /** The result of the chimp::make_options template metafunction. */
     struct type {
       /** The type of particle that can be used for the collision/interaction
        * functions. */

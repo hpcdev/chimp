@@ -25,6 +25,7 @@ namespace chimp {
   namespace interaction {
     namespace model {
 
+      /** Implementation of an elastic interaction model. */
       template < typename options >
       struct Elastic : Base<options> {
         /* TYPEDEFS */

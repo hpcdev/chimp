@@ -1,3 +1,7 @@
+/** \file
+ * The main documentation page for doxygen. 
+ */
+
 /** \mainpage Chemical Interactions, Materials and Particles Database/API Documentation
 
 

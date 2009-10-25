@@ -29,10 +29,14 @@ namespace chimp {
       }
     }
 
-    /** FIXME:  get the scaling right.
-     * for right now, this is an arbitrary scaling. */
+    /** Scaling constant used for extrapolating data using a ln(E)/E scaling.
+     * \todo get the scaling right.
+     * for right now, this is an arbitrary scaling.
+     */
     const double lne_e_scaling = olson_tools::SQR(2500.0/3e8);
 
+    /** Emperical data cross section provider.
+     * */
     struct DATACrossSection : CrossSection {
       /* TYPEDEFS */
       typedef olson_tools::data_set<double,double> table_t;

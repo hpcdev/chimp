@@ -23,6 +23,7 @@ namespace chimp {
   namespace interaction {
     namespace model {
 
+      /** Implementation of an <b>in</b>elastic interaction model. */
       template < typename options >
       struct InElastic : Base<options> {
 
