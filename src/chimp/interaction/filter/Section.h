@@ -1,3 +1,6 @@
+/** \file
+ * Declaration of filter::Section class. 
+ */
 
 #ifndef chimp_interaction_filter_Section_h
 #define chimp_interaction_filter_Section_h

@@ -1,15 +1,20 @@
+/** \file
+ * Definition of mass property. 
+ */
 
 #ifndef chimp_property_mass_h
 #define chimp_property_mass_h
 
 #include <chimp/property/Generic.h>
 
+#include <physical/physical.h>
+
 namespace chimp {
   namespace property {
 
     /** Namespace for the properties tag classes that provide the xpath/xml
      * labels/queries. */
-    namespace prop_tag {
+    namespace tag {
       /** The tag class for mass. */
       template < unsigned int i = 0 >
       struct mass { static const char * label; };
@@ -23,7 +28,7 @@ namespace chimp {
      * properties by their name, such as:
      * name::value, mass::value, etc.  Otherwise, the user would have
      * to reference the values by P0::value, P1::value, etc. */
-    typedef Generic<double, prop_tag::mass<>, false, PHYS::MASS> mass_t;
+    typedef Generic<double, tag::mass<>, false, dim::mass<si> > mass_t;
     struct mass : mass_t {
       /** Typedef of derivative of Generic class--required by property::Add. */
       typedef mass_t super;

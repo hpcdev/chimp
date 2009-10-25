@@ -1,3 +1,6 @@
+/** \file
+ * Comparison operation on Properties which orders by mass and then by name.
+ */
 
 #ifndef chimp_property_Comparator_h
 #define chimp_property_Comparator_h

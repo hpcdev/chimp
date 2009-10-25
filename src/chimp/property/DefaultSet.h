@@ -1,3 +1,6 @@
+/** \file
+ * Definition of the default set of properties to load from database.
+ */
 
 #ifndef chimp_property_DefaultSet_h
 #define chimp_property_DefaultSet_h

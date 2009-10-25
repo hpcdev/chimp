@@ -1,3 +1,6 @@
+/** \file
+ * Definition of charge property. 
+ */
 
 #ifndef chimp_property_charge_h
 #define chimp_property_charge_h
@@ -9,7 +12,7 @@ namespace chimp {
 
     /** Namespace for the properties tag classes that provide the xpath/xml
      * labels/queries. */
-    namespace prop_tag {
+    namespace tag {
       /** The tag class for charge. */
       template < unsigned int i = 0>
       struct charge { static const char * label; };
@@ -23,7 +26,7 @@ namespace chimp {
      * properties by their name, such as:
      * name::value, mass::value, etc.  Otherwise, the user would have
      * to reference the values by P0::value, P1::value, etc. */
-    typedef Generic<int, prop_tag::charge<> > charge_t;
+    typedef Generic<int, tag::charge<> > charge_t;
     struct charge : charge_t {
       /** Typedef of derivative of Generic class--required by property::Add. */
       typedef charge_t super;

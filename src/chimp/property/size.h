@@ -1,3 +1,6 @@
+/** \file
+ * Definition of size property. 
+ */
 
 #ifndef chimp_property_size_h
 #define chimp_property_size_h

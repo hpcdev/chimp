@@ -1,3 +1,7 @@
+/** \file
+ * Emperical data cross section provider class.
+ * */
+
 #ifndef chimp_interaction_DATACrossSection_h
 #define chimp_interaction_DATACrossSection_h
 

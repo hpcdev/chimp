@@ -1,3 +1,6 @@
+/** \file
+ * Declaration of filter::Label class. 
+ */
 
 #ifndef chimp_interaction_filter_Label_h
 #define chimp_interaction_filter_Label_h

@@ -1,3 +1,6 @@
+/** \file
+ * Definition of the equation set where each Equation has the same Input.
+ * */
 
 #ifndef chimp_interaction_Set_h
 #define chimp_interaction_Set_h

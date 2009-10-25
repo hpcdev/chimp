@@ -1,3 +1,6 @@
+/** \file
+ * Declaration of filter::Not class. 
+ */
 
 #ifndef chimp_interaction_filter_Not_h
 #define chimp_interaction_filter_Not_h

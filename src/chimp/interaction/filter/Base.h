@@ -1,3 +1,6 @@
+/** \file
+ * Declaration of filter::Base class. 
+ */
 
 #ifndef chimp_interaction_filter_Base_h
 #define chimp_interaction_filter_Base_h

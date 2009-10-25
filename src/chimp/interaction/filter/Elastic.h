@@ -1,3 +1,6 @@
+/** \file
+ * Declaration of filter::Elastic class. 
+ */
 
 #ifndef chimp_interaction_filter_Elastic_h
 #define chimp_interaction_filter_Elastic_h

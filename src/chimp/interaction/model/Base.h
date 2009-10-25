@@ -1,8 +1,5 @@
-// $Id$
-/*
- * Copyright 2002-2007 Spencer Olson
- * dsmc package.
- *
+/** \file
+ * Declaration of interaction::model::Base class.
  */
 
 #ifndef chimp_interaction_model_Base_h

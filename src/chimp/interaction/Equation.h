@@ -1,3 +1,6 @@
+/** \file
+ * Declaration of interaction::Equation class.
+ * */
 
 #ifndef chimp_interaction_Equation_h
 #define chimp_interaction_Equation_h

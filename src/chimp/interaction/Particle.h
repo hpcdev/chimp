@@ -1,3 +1,7 @@
+/** \file
+ * Very basic particle class for use with interaction::model classes.
+ * */
+
 // -*- c++ -*-
 // $Id: Particle.h,v 1.3 2005/06/07 10:00:14 olsonse Exp $
 /*

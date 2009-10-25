@@ -1,3 +1,6 @@
+/** \file
+ * Declaration of filter::Or class. 
+ */
 
 #ifndef chimp_interaction_filter_Or_h
 #define chimp_interaction_filter_Or_h

@@ -1,3 +1,6 @@
+/** \file
+ * Declaration of filter::Add template meta function. 
+ */
 
 #ifndef chimp_interaction_filter_And_h
 #define chimp_interaction_filter_And_h

@@ -1,3 +1,7 @@
+/** \file
+ * Dummy file for documenting some of the general namespaces. 
+ */
+
 #ifndef chimp___namespace___h
 #define chimp___namespace___h
 

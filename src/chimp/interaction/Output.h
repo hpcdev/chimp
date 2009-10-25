@@ -1,3 +1,6 @@
+/** \file
+ * Definition of the right-hand-side of interaction equations.
+ * */
 
 #ifndef chimp_interaction_Output_h
 #define chimp_interaction_Output_h

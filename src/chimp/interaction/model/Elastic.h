@@ -1,8 +1,5 @@
-// $Id$
-/*
- * Copyright 2002-2007 Spencer Olson
- * dsmc package.
- *
+/** \file
+ * Declaration of interaction::model::Elastic class.
  */
 
 #ifndef chimp_interaction_model_Elastic_h

@@ -1,9 +1,11 @@
+/** \file
+ * Implementation of a generic property class.
+ */
 
 #ifndef chimp_property_Generic_h
 #define chimp_property_Generic_h
 
-#include <chimp/property/PHYS/ID.h>
-#include <chimp/property/PHYS/detail/check.h>
+#include <chimp/property/detail/check.h>
 
 #include <olson-tools/xml/Doc.h>
 
@@ -12,6 +14,10 @@
 namespace chimp {
   namespace property {
     namespace xml = olson_tools::xml;
+
+      using runtime::physical::system::si;
+      namespace dim = runtime::physical::dimension;
+
 
     /** A structure which provides the default value of a parameter that has a
      * value type T and the specified properties tag. */
@@ -45,23 +51,23 @@ namespace chimp {
      *   A class with a <code>label</code> (char* or std::string) member that
      *   describes the xpath/xml name of the child/text node used to query the
      *   actual value of the property.  This should typcially be relative to a
-     *   Particle xml node.  For an example, see property::prop_tag::mass which
+     *   Particle xml node.  For an example, see property::tag::mass which
      *   is used to specify the xpath query for the mass value relative to a
      *   Particle xml node.  
      * @param R
      *   Indicates whether the property is required to load successfully.  If
      *   this parameter is false (default), it will be assigned the default.<br>
      *   [Default:  false]
-     * @param phys_id
+     * @param dimension_tag
      *   The physical id of the units that will be expected.  Generally, the
      *   enum value will represent the SI units that will be compared to the
      *   physical::Quantity read in from xml.  <br>
-     *   [Default:  PHYS::NONE]
+     *   [Default:  detail::NullDimension]
      * */
     template < typename T,
                typename tag,
                bool R /*required_on_load*/ = false,
-               enum PHYS::ID phys_id = PHYS::NONE >
+               typename dimension_tag = detail::NullDimension >
     struct Generic {
       /* TYPEDEFS */
       typedef T value_type;
@@ -86,9 +92,9 @@ namespace chimp {
       /** Load function (loads from xml context. */
       static Generic load(const xml::Context & x) {
         if (R)
-          return x.query< PHYS::detail::check<T,phys_id> >(tag::label).value;
+          return x.query< detail::check<T,dimension_tag> >(tag::label).value;
         else
-          return x.query< PHYS::detail::check<T,phys_id> >(
+          return x.query< detail::check<T,dimension_tag> >(
             tag::label, default_val<T,tag>::value
           ).value;
       }

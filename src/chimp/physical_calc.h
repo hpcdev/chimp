@@ -1,3 +1,6 @@
+/** \file
+ * Prototype for physical::calculator preparation function.
+ */
 #ifndef chimp_physical_calc_h
 #define chimp_physical_calc_h
 

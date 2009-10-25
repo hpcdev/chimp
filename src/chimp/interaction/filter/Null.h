@@ -1,3 +1,6 @@
+/** \file
+ * Declaration of filter::Null class. 
+ */
 
 #ifndef chimp_interaction_filter_Null_h
 #define chimp_interaction_filter_Null_h

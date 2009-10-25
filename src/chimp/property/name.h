@@ -1,3 +1,6 @@
+/** \file
+ * Definition of name property. 
+ */
 
 #ifndef chimp_property_name_h
 #define chimp_property_name_h
@@ -11,7 +14,7 @@ namespace chimp {
 
     /** Namespace for the properties tag classes that provide the xpath/xml
      * labels/queries. */
-    namespace prop_tag {
+    namespace tag {
       /** The tag class for name. */
       template < unsigned int i = 0 >
       struct name { static const char * label; };
@@ -25,7 +28,7 @@ namespace chimp {
      * properties by their name, such as:
      * name::value, mass::value, etc.  Otherwise, the user would have
      * to reference the values by P0::value, P1::value, etc. */
-    typedef Generic<std::string, prop_tag::name<>, true> name_t;
+    typedef Generic<std::string, tag::name<>, true> name_t;
     struct name : name_t {
       /** Typedef of derivative of Generic class--required by property::Add. */
       typedef name_t super;

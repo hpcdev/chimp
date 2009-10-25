@@ -1,3 +1,6 @@
+/** \file
+ * Definition of Null property (represents no real property). 
+ */
 
 #ifndef chimp_property_Null_h
 #define chimp_property_Null_h

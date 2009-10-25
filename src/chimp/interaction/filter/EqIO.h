@@ -1,3 +1,6 @@
+/** \file
+ * Declaration of filter::EqIO class. 
+ */
 
 #ifndef chimp_interaction_filter_EqIO_h
 #define chimp_interaction_filter_EqIO_h

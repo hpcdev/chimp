@@ -1,3 +1,6 @@
+/** \file
+ * Definition of property Add template meta-function.
+ */
 
 #ifndef chimp_property_Add_h
 #define chimp_property_Add_h
