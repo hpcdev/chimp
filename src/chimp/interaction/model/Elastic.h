@@ -14,7 +14,6 @@
 
 #include <olson-tools/power.h>
 #include <olson-tools/Vector.h>
-#include <olson-tools/indices.h>
 #include <olson-tools/xml/Doc.h>
 #include <olson-tools/random/random.h>
 
@@ -63,7 +62,7 @@ namespace chimp {
           using olson_tools::fast_pow;
           using olson_tools::Vector;
           using olson_tools::V3;
-          using namespace olson_tools::indices;
+          using olson_tools::random::MTRNGrand;
 
           /*  first obtain the center of mass velocity components */
 

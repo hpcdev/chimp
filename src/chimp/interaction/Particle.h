@@ -57,6 +57,7 @@ namespace chimp {
     inline Particle & randomize( Particle & p,
                            const Vector<double,3> & dx = 100,
                            const Vector<double,3> & dv = 100 ) {
+      using olson_tools::random::MTRNGrand;
       /* random values */
       p.x[0] = dx[0] * ( MTRNGrand() - .5 );
       p.x[1] = dx[1] * ( MTRNGrand() - .5 );

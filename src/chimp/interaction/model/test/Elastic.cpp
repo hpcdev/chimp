@@ -24,8 +24,9 @@ namespace {
   using boost::shared_ptr;
   using chimp::interaction::Particle;
   using chimp::interaction::Term;
-  using namespace chimp::interaction::model::test;
+  namespace test = chimp::interaction::model::test;
   using olson_tools::V3;
+  using olson_tools::Vector;
   namespace xml = olson_tools::xml;
 }
 
@@ -37,7 +38,7 @@ BOOST_AUTO_TEST_SUITE( Elastic_tests ); // {
     db.addParticleType("87Rb");
     int part_i = db.findParticleIndx("87Rb");
     uint32 seed = 1;
-    MTRNGseedV1(&seed);
+    olson_tools::random::MTRNGseedV1(&seed);
 
     typedef chimp::interaction::model::Elastic<DB::options> Elastic;
     Term t0(part_i);
@@ -56,8 +57,8 @@ BOOST_AUTO_TEST_SUITE( Elastic_tests ); // {
 
       el->interact(p0i,p1i);
 
-      BOOST_CHECK_EQUAL( (p0i.v-p0f.v).abs() <= 2.3186794142094168e-05, true);
-      BOOST_CHECK_EQUAL( (p1i.v-p1f.v).abs() <= 4.9346339874592464e-05, true);
+      BOOST_CHECK_LE( (p0i.v-p0f.v).abs(), 2.3186794143e-05);
+      BOOST_CHECK_LE( (p1i.v-p1f.v).abs(), 4.9346339875e-05);
     }
 
     {
@@ -71,11 +72,11 @@ BOOST_AUTO_TEST_SUITE( Elastic_tests ); // {
         randomize(p0);
         randomize(p1);
 
-        double energyi = energy(p0, part_i, db) +
-                         energy(p1, part_i, db);
+        double energyi = test::energy(p0, part_i, db) +
+                         test::energy(p1, part_i, db);
         Vector<double,3> momentumi =
-                         momentum(p0, part_i, db) +
-                         momentum(p1, part_i, db);
+                         test::momentum(p0, part_i, db) +
+                         test::momentum(p1, part_i, db);
         double vrel = (p0.v - p1.v).abs();
         Vector<double,3> vcm  = 0.5*(p0.v + p1.v);
         vcm.save_fabs();
@@ -89,11 +90,11 @@ BOOST_AUTO_TEST_SUITE( Elastic_tests ); // {
         
         el->interact(p0,p1);
 
-        double energyf = energy(p0, part_i, db) +
-                         energy(p1, part_i, db);
+        double energyf = test::energy(p0, part_i, db) +
+                         test::energy(p1, part_i, db);
         Vector<double,3> momentumf =
-                         momentum(p0, part_i, db) +
-                         momentum(p1, part_i, db);
+                         test::momentum(p0, part_i, db) +
+                         test::momentum(p1, part_i, db);
         using std::abs;
         using std::max;
 
@@ -119,7 +120,7 @@ BOOST_AUTO_TEST_SUITE( Elastic_tests ); // {
           (dP2 - compMult(dP,dP)).save_sqrt() / std::sqrt(N);
 
         dP.save_fabs();
-        BOOST_CHECK_EQUAL( dP <= (2.*dP_mean_sigma), true );
+        BOOST_CHECK_LE( dP, (2.*dP_mean_sigma) );
       }
     }
   }

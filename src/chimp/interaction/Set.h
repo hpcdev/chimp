@@ -106,6 +106,7 @@ namespace chimp {
 
         /* now evaluate whether any of these interactions should even
          * happen. */
+        using olson_tools::random::MTRNGrand;
         if ( (MTRNGrand() * max_sigma_relspeed) > (cs_tot*v_relative) )
           return std::make_pair(-1,0); /* no interaction!!! */
 

@@ -12,7 +12,6 @@
 
 #include <olson-tools/power.h>
 #include <olson-tools/Vector.h>
-#include <olson-tools/indices.h>
 #include <olson-tools/xml/Doc.h>
 #include <olson-tools/random/random.h>
 
