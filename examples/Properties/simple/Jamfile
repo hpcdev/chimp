@@ -1,0 +1,1 @@
+exe getProperties : getProperties.cpp /chimp//particledb ;

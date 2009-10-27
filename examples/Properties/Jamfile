@@ -1,1 +1,2 @@
-exe testProperties : testProperties.cpp /chimp//particledb ;
+build-project simple ;
+build-project xpath-access ;
