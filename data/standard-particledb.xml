@@ -1611,10 +1611,18 @@
             b) the 1.6, 8.4 and 10 eV energy losses is somewhat different, partly due to extrapolation.
         </cross_section_comment>
 
+        <!-- The following nodes that are labeled as
+        'momentum' are all the momentum transfer cross section
+        data that was imported from Bolsig++.  It would likely be useful for
+        someone in the future to have this information, but we also need some
+        regular total cross section data.  I've renamed their cross_section data
+        to momentum_cross_section and when we get the total cross section data
+        for these interactions, we should re-insert some cross_section xml
+        nodes.  -->
         <Interaction type="momentum">
             <e_mass_ratio>0.1700E-04</e_mass_ratio>
             <Eq><In><T><P>e^-</P></T> + <T><P>O2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>O2</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <momentum_cross_section type="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ MOMENTUM; JILA report, Phelps, 1985</reference>
                 <val x="0.000" y="0.3500E-20"/>
                 <val x="0.1000E-02" y="0.3500E-20"/>
@@ -1670,7 +1678,7 @@
                 <val x="50.00" y="0.7700E-19"/>
                 <val x="75.00" y="0.6800E-19"/>
                 <val x="100.0" y="0.6500E-19"/>
-            </cross_section>
+            </momentum_cross_section>
         </Interaction>
 
         <Interaction type="attachment">
@@ -2215,7 +2223,7 @@
         <Interaction type="momentum">
             <e_mass_ratio>0.2720E-03</e_mass_ratio>
             <Eq><In><T><P>e^-</P></T> + <T><P>H2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>H2</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <momentum_cross_section type="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ MOMENTUM;</reference>
                 <val x="0.000" y="0.6400E-19"/>
                 <val x="0.1000E-02" y="0.6400E-19"/>
@@ -2277,7 +2285,7 @@
                 <val x="500.0" y="0.9200E-20"/>
                 <val x="700.0" y="0.7200E-20"/>
                 <val x="1000." y="0.5400E-20"/>
-            </cross_section>
+            </momentum_cross_section>
         </Interaction>
 
         <Interaction type="excitation">
@@ -2694,7 +2702,7 @@
         <Interaction type="momentum">
             <e_mass_ratio>0.7680E-05</e_mass_ratio>
             <Eq><In><T><P>e^-</P></T> + <T><P>Cl2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>Cl2</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <momentum_cross_section type="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ MOMENTUM;</reference>
                 <val x="0.000" y="0.2500E-19"/>
                 <val x="0.1500" y="0.2500E-19"/>
@@ -2705,7 +2713,7 @@
                 <val x="10.00" y="0.1600E-18"/>
                 <val x="20.00" y="0.1300E-18"/>
                 <val x="100.0" y="0.1300E-18"/>
-            </cross_section>
+            </momentum_cross_section>
         </Interaction>
 
 
@@ -2905,7 +2913,7 @@
         <Interaction type="momentum">
             <e_mass_ratio>0.1430E-04</e_mass_ratio>
             <Eq><In><T><P>e^-</P></T> + <T><P>F2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>F2</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <momentum_cross_section type="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ MOMENTUM;</reference>
                 <val x="0.000" y="1.6e-18"/>
                 <val x="0.1000E-01" y="0.888e-18"/>
@@ -2935,7 +2943,7 @@
                 <val x="218.0" y="0.118E-19"/>
                 <val x="379.3" y="0.074E-19"/>
                 <val x="952.7" y="0.034E-19"/>
-            </cross_section>
+            </momentum_cross_section>
         </Interaction>
 
 
@@ -3329,7 +3337,7 @@
         <Interaction type="momentum">
             <e_mass_ratio>0.1500E-04</e_mass_ratio>
             <Eq><In><T><P>e^-</P></T> + <T><P>HCl</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>HCl</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <momentum_cross_section type="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ MOMENTUM;</reference>
                 <val x="0.000" y="0.1342E-16"/>
                 <val x="0.1000E-01" y="0.1342E-16"/>
@@ -3360,7 +3368,7 @@
                 <val x="25.00" y="0.2860E-18"/>
                 <val x="40.00" y="0.3300E-18"/>
                 <val x="100.0" y="0.3850E-18"/>
-            </cross_section>
+            </momentum_cross_section>
         </Interaction>
 
 
@@ -3975,7 +3983,7 @@
         <Interaction type="momentum">
             <e_mass_ratio>0.3700E-05</e_mass_ratio>
             <Eq><In><T><P>e^-</P></T> + <T><P>SF6</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>SF6</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <momentum_cross_section type="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ MOMENTUM;</reference>
                 <val x="0.000" y="0.2700E-16"/>
                 <val x="0.1000E-02" y="0.2600E-16"/>
@@ -4037,7 +4045,7 @@
                 <val x="500.0" y="0.5000E-19"/>
                 <val x="700.0" y="0.4200E-19"/>
                 <val x="1000." y="0.3500E-19"/>
-            </cross_section>
+            </momentum_cross_section>
         </Interaction>
 
 
@@ -4262,7 +4270,7 @@
         <Interaction type="momentum">
             <e_mass_ratio>0.1360E-03</e_mass_ratio>
             <Eq><In><T><P>e^-</P></T> + <T><P>He</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>He</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="1.e-20*m^2">
+            <momentum_cross_section type="data" xscale="eV" yscale="1.e-20*m^2">
                 <reference>From Bolsig+ MOMENTUM; momentum TRANSFER - FROM CROMPTON ET AL AT LOW ENERGY, HAYASHI AT HIGH ENERGIES</reference>
                 <val x="0.0000E+00" y="0.4960E+01"/>
                 <val x="0.1000E-02" y="0.4980E+01"/>
@@ -4324,8 +4332,9 @@
                 <val x="0.5000E+03" y="0.3000E+00"/>
                 <val x="0.7500E+03" y="0.2350E+00"/>
                 <val x="0.1000E+04" y="0.1700E+00"/>
-            </cross_section>
+            </momentum_cross_section>
         </Interaction>
+
         <Interaction type="excitation">
             <threshold_energy>19.82*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>He</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>He(19.82eV)</P></T></Out></Eq>
@@ -4673,7 +4682,7 @@
         <Interaction type="momentum">
             <e_mass_ratio>0.1360E-04</e_mass_ratio>
             <Eq><In><T><P>e^-</P></T> + <T><P>Ar</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>Ar</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <momentum_cross_section type="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ MOMENTUM; EFFECTIVE MOM-TRANSFER CROSS SECTION</reference>
                 <val x="0" y="7.5E-20"/>
                 <val x="1E-3" y="7.5E-20"/>
@@ -4741,7 +4750,7 @@
                 <val x="5000" y="3.1E-21"/>
                 <val x="7000" y="2.3E-21"/>
                 <val x="10000" y="1.75E-21"/>
-            </cross_section>
+            </momentum_cross_section>
         </Interaction>
 
 

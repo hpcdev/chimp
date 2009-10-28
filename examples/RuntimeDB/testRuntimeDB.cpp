@@ -1,307 +1,142 @@
 
-#include "Particle.h"
-
 #include <chimp/RuntimeDB.h>
-#include <chimp/physical_calc.h>
+#include <chimp/interaction/filter/Or.h>
+#include <chimp/interaction/filter/Elastic.h>
+#include <chimp/interaction/filter/Label.h>
+#include <chimp/interaction/v_rel_fnc.h>
 
 #include <olson-tools/upper_triangle.h>
+#include <olson-tools/Distribution.h>
+
 #include <physical/physical.h>
-#include <olson-tools/Vector.h>
-
-#include <olson-tools/nsort/NSort.h>
-#include <olson-tools/nsort/map/type.h>
-
 
 #include <iostream>
 #include <iterator>
+#include <cmath>
+#include <cassert>
 
 
-using olson_tools::upper_triangle;
-using olson_tools::IteratorRange;
-using olson_tools::nsort::NSort;
-namespace map = olson_tools::nsort::map;
+using physical::unit::nm;      /**< nanometer */
+using physical::unit::K;       /**< Kelvin */
+using physical::constant::si::K_B; /**< Boltzmann constant */
+static const double nm2 = nm*nm;
 
+/** The temperature of the entire population. */
+const static double temperature = 100 * K;
 
-#ifndef   PARTICLEDB_XML
-#  define PARTICLEDB_XML  "particledb.xml"
-#endif
-
-
-namespace {
-  /** Obtain iterators for type_map values.
-   * This version allows this function to be called from another map that
-   * sorts on type for it fastest index. */
-  template <class sorter, class Node>
-  inline void getTypeIterators(const int & b, const int & e, const sorter & s, Node & node) {
-      typedef typename Node::particle_iter_type Iter;
-      node.types.resize(e - b);
-      for (int i = b; i < e; i++) {
-          node.types[i] = IteratorRange<Iter>(
-              node.particles.begin() + s.begin(i),
-              node.particles.begin() + s.end(i)
-          );
-      }
-  }
-  
-  /** Obtain iterators for type_map values. */
-  template <class sorter, class Node>
-  inline void getTypeIterators(const sorter & s, Node & node) {
-      getTypeIterators(0, s.size(), s, node);
-  }
-}
-
-
-
-template <class ParticleIterator>
-struct cell_info {
-    typedef ParticleIterator particle_iter_type;
-
-    struct data_t {
-        data_t (const double & vav = 0, const double & v2 = 0) : vav(vav), v2(v2) {}
-        double vav;
-        double v2;
-    };
-
-    struct interact_info {
-        interact_info(const double & m = 0) : max_sigma_v_rel(m) {}
-        double max_sigma_v_rel;
-    };
-
-
-    cell_info (const int & n =  0) {
-        interaction_info.resize(n); /* actually : n*(n+1)/2 */
-        types.resize(n);
-        data.resize(n);
-    }
-
-    void sort_types(const int & n_types) {
-        NSort<map::type> pts(n_types);
-        pts.sort(particles.begin(), particles.end());
-        getTypeIterators(pts, (*this));
-    }
-
-    /* BEGIN STORAGE MEMBERS */
-    IteratorRange<ParticleIterator> particles;
-    std::vector< IteratorRange<ParticleIterator> > types; /* size : n */
-    std::vector< data_t > data;                           /* size : n */
-    upper_triangle<interact_info> interaction_info;  /* size : n*(n+1)/2 */
-    /* END STORAGE MEMBERS */
-};
-
-
-
-
-
-template <class IteratorRangeContainer, class InteractionInfoVector>
-void doCollisions( const IteratorRangeContainer & iv, InteractionInfoVector & intv ) {
-    typedef typename IteratorRangeContainer::value_type IteratorRange;
-    typedef typename IteratorRange::iter_type Iter;
-}
 
 int main() {
-    const int N_part = 10;
+  namespace filter = chimp::interaction::filter;
+  typedef boost::shared_ptr<filter::Base> SP;
+  typedef chimp::RuntimeDB<> DB;
 
-    using chimp::interaction::stddev_v_rel;
-    using physical::unit::m;
-    using physical::unit::s;
-    using physical::unit::uK;
+  DB db;
 
-    chimp::RuntimeDB<> db;
-    chimp::prepareCalculator(db.xmlDb);
+  /* load information from XML file. */
+  db.addParticleType("87Rb");
+  db.addParticleType("Ar"  );
+  db.addParticleType("e^-" );
+  db.addParticleType("Hg"  );
+  db.addParticleType("Hg^+");
 
-    /* load information from XML file. */
-    db.addParticleType("87Rb");
-    db.addParticleType("Ar"  );
-    db.addParticleType("e^-" );
-    db.addParticleType("Hg"  );
-    db.addParticleType("Hg^+");
+  db.filter = SP(
+                new filter::Or( SP(new filter::Elastic),
+                                SP(new filter::Label("inelastic")) )
+              );
 
-    db.allowed_equations.insert("(Ar)+(87Rb)->(Ar)+(87Rb)");
-    db.allowed_equations.insert("(e^-)+(Hg)->(e^-)+(Hg^+)");
-
-    /* set up the the runtime database */
-    db.initInteractions();
-    /* close the xml-file and free associated resources. */
-    db.xmlDb.close();
+  /* set up the the runtime database */
+  db.initBinaryInteractions();
+  /* close the xml-file and free associated resources. */
+  db.xmlDb.close();
 
 
-    /* ***** BEGIN MAKE PARTICLES AND CELL ***** */
-    Particle::list particles;
-    initPVector(particles, N_part, db.getProps().size());
+  /* *** BEGIN Set up data (single and cross species). ***
+   * The velocity and maxSigmaVelProduct containers here are just intended to
+   * demonstrate the kind of information that would be required for extensive
+   * use of the chimp library and information that would typically be required
+   * per cell in a gridded type of simulation. */
+  /** velocity distributions. */
+  std::vector< olson_tools::Distribution > velocity;
+  /** max(sigma * v_rel). */
+  olson_tools::upper_triangle<double> maxSigmaVelProduct;
+  {
+    typedef olson_tools::Distribution D;
+    typedef olson_tools::GaussianDistrib G;
+    typedef DB::PropertiesVector::const_iterator PIter;
+    using chimp::property::mass;
+    using chimp::interaction::estMaxVFromStdV;
+    using chimp::interaction::calcStdVFromT;
 
-    typedef cell_info<Particle::list::iterator> cell_t;
-    cell_t cell(db.getProps().size());
+    PIter end = db.getProps().end();
+    for ( PIter i  = db.getProps().begin(); i != end; ++i ) {
 
-    /* initialize single-species velocity data */
-    cell.data[db.findParticleIndx("87Rb")] = cell_t::data_t(0, stddev_v_rel(100*uK, 0.5*db["87Rb"].mass::value));
-    cell.data[db.findParticleIndx("Ar"  )] = cell_t::data_t(0, stddev_v_rel(100*uK, 0.5*db["Ar"  ].mass::value));
-    cell.data[db.findParticleIndx("e^-" )] = cell_t::data_t(0, stddev_v_rel(100*uK, 0.5*db["e^-" ].mass::value));
-    cell.data[db.findParticleIndx("Hg"  )] = cell_t::data_t(0, stddev_v_rel(100*uK, 0.5*db["Hg"  ].mass::value));
-    cell.data[db.findParticleIndx("Hg^+")] = cell_t::data_t(0, stddev_v_rel(100*uK, 0.5*db["Hg^+"].mass::value));
+      /* set the velocity distribution for this particle type using the global
+       * temperature. */
+      double beta = 0.5 * i->mass::value / (K_B * temperature);
+      double sigma = std::sqrt( 0.5 / beta );
+      velocity.push_back( D( G(beta), -4*sigma, 4*sigma ) );
 
-    /* initialize cross-species data */
-#if 0
-    /* depending on your point of view, this method of moving through the
-     * interaction items might be easier to read, but it should prove to be
-     * slower than the method below. */
-    for (unsigned int i = 0; i < cell.data.size(); i++)
-        for (unsigned int j = i; j < cell.data.size(); j++) {
-            double stddev_v = sqrt(cell.data[i].v2 + cell.data[j].v2);
-            /* loop over all possible outputs and obtain the aggregate max. */
-            cell.interaction_info(i,j).max_sigma_v_rel =
-                db(i,j).find_max_sigma_v_rel_from_stddev_v(stddev_v);
-            if (&db(i,j) != &db(j,i))
-                std::cout << "************** DIFFERENCES ********** " << std::endl;
-        }
-
-#else
-    {
-        /* This method of moving through the interaction items should prove to
-         * faster than the method where we index the items at each reference.
-         * */
-        using chimp::interaction::Set;
-        typedef upper_triangle<cell_t::interact_info>::iterator iIter;
-        typedef upper_triangle<Set>::const_iterator sIter;
-        iIter ii = cell.interaction_info.begin();
-        sIter di = db.getInteractions().begin();
-        for (; ii != cell.interaction_info.end(); ++ii, ++di) {
-            double stddev_v = sqrt(  cell.data[di->lhs.A].v2
-                                   + cell.data[di->lhs.B].v2
-                              );
-            /* loop over all possible outputs and obtain the aggregate max. */
-            ii->max_sigma_v_rel = di->find_max_sigma_v_rel_from_stddev_v(stddev_v);
-        }
-    }
-#endif
-
-
-    /* add particles and sort by type */
-    cell.particles = IteratorRange<Particle::list::iterator>(particles.begin(), particles.end());
-    cell.sort_types(db.getProps().size());
-    std::cout << "\nsorted by nsort(type):\n";
-    std::copy(cell.particles.begin(), cell.particles.end(), std::ostream_iterator<Particle>(std::cout, "\n"));
-    std::cout << std::endl;
-
-
-    std::cout << "\tall particles of type(2):\n";
-    std::copy(cell.types[2].begin(), cell.types[2].end(), std::ostream_iterator<Particle>(std::cout, "\n"));
-    std::cout << std::endl;
-
-
-    /* ***** END MAKE PARTICLES AND CELL ***** */
-
-
-    /* spit out short info on all known particle types */
-    std::cout << "All particles: " << '\n';
-    for (unsigned int i = 0; i < db.getProps().size(); i++)
-        std::cout << i << ":  " << db[i] << std::endl;
-
-    std::cout << "All Interaction Inputs: " << '\n';
-    std::cout << '\t';
-    for (unsigned int i = 0; i < db.getProps().size(); i++)
-        std::cout << "      " << db[i].name::value << "\t         ";
-    /* spit out table of interactions inputs */
-    for (unsigned int i = 0; i < db.getProps().size(); i++) {
-        std::cout << '\n' << db[i].name::value << '\t';
-        for (unsigned int j = 0; j < db.getProps().size(); j++) {
-            using chimp::interaction::Set;
-            Set & set = db(i,j);
-            set.lhs.print(std::cout << '{' << i << ':' << set.lhs.A << ',' << j << ':' << set.lhs.B << "} ", db) << '\t';
-        }
+      /* now set cross species data for i */
+      for ( PIter j  = i; j != end; ++j ) {
+        double reduced_mass = i->mass::value * j->mass::value
+                            / ( i->mass::value + j->mass::value);
+        maxSigmaVelProduct.push_back(
+          estMaxVFromStdV( calcStdVFromT( temperature, reduced_mass ) )
+        );
+      }
     }
 
+    int n = db.getProps().size();
+    assert( maxSigmaVelProduct.size() == static_cast<unsigned int>(n*(n+1)/2) );
+    maxSigmaVelProduct.resize(n);
+    assert( maxSigmaVelProduct.edge_size() == n );
+  }
+  /* *** END   Set up data (single and cross species). *** */
 
 
-    /* spit out known interactions and attempt execution */
-    std::cout << "\n\nAll known interactions and a small calculateOutPath test:\n";
-#if 1
-    {
-    using chimp::interaction::Set;
-    typedef upper_triangle<Set>::const_iterator sIter;
-    sIter di = db.getInteractions().begin();
-    for (; di != db.getInteractions().end(); ++di) {
-        using physical::unit::nm;
-        using olson_tools::SQR;
-        const Set & set = (*di);
-        const int & A = set.lhs.A;
-        const int & B = set.lhs.B;
+  /* spit out known interactions and attempt execution */
+  std::cout << "\n\nSmall calculateOutPath test for each interaction set "
+               "known to the runtime database:\n";
+  typedef DB::InteractionTable::const_iterator CIter;
+  for ( CIter i  = db.getInteractions().begin();
+              i != db.getInteractions().end(); ++i ) {
+    const int & A = i->lhs.A.type;
+    const int & B = i->lhs.B.type;
 
-        if (set.rhs.size() == 0)
-            continue;
+    if (i->rhs.size() == 0)
+        continue;
 
-        set.print(std::cout, db) << '\n';
+    /* for this test, we'll just pick the velocity randomly from the Maxwellian
+     * distribution. */
+    double v_rel = std::abs( velocity[A]() - velocity[B]() );
 
-        /* now let's try and pick a mock collision pair for this
-         * interaction. */
-        if ((A == B && cell.types[A].size() < 2) ||
-            (cell.types[A].size() == 0 || cell.types[B].size() == 0))
-            continue;
+    double & m_s_v = maxSigmaVelProduct(A,B);
 
-        Particle::list::iterator pi =
-            cell.types[A].begin() + int(cell.types[A].size()*MTRNGrand()*0.99999999);
-        Particle::list::iterator pj = pi;
-        while(pi == pj)
-            pj =
-            cell.types[B].begin() + int(cell.types[B].size()*MTRNGrand()*0.99999999);
+    /* This calculates the proper output path, observing both absolute
+     * probability that any interaction occurs as well as relative probabilities
+     * for when an interaction does occur.  
+     *
+     * The .first<int> component is the interaction index, such as
+     * i->rhs[path.first] to obtain the Equation instance for the interaction
+     * that should occur.  
+     * The .second<double> component is the cross section value of this
+     * particular interaction for the given relative velocity.   */
+    std::pair<int,double> path = i->calculateOutPath(m_s_v, v_rel);
 
-        double v_rel = (pi->v - pj->v).abs();
+    i->print(std::cout << "Performing test interactions for:", db) << '\n';
+    if ( path.first < 0 )
+      std::cout << "\tNo interaction occurred\n";
+    else {
+        i->rhs[path.first].print(
+            std::cout << "Interaction occurred on path:  ", db ) << "\n"
+                         "-----\tmax_sigma_v  :  " << m_s_v << "\n"
+                         "-----\tv_rel        :  " << v_rel << "\n"
+                         "-----\tcross section:  " << (path.second/nm2) << " nm^2\n";
 
-        double & m_s_v = cell.interaction_info(A,B).max_sigma_v_rel;
-        std::pair<int,double> path = set.calculateOutPath(m_s_v, v_rel);
-        if (path.first < 0)
-            std::cout << "\tno out path\n";
-        else
-            set.rhs[path.first].print(
-                std::cout << "-----\tinputs = {" << (*pi) << ',' << (*pj) << "}\n"
-                          << "-----\tmax_sigma_v  :  " << m_s_v << "\n"
-                          << "-----\tv_rel        :  " << v_rel << "\n"
-                          << "-----\tout path     :  ", db) << "\n"
-                             "-----\tcross section:  " << (path.second/SQR(nm)) << " nm^2\n";
     }
-    }
-#elif 1
-    for (unsigned int i = 0; i < db.getProps().size(); i++)
-        for (unsigned int j = i; j < db.getProps().size(); j++) {
-            using chimp::interaction::Set;
-            using physical::unit::nm;
-            using olson_tools::SQR;
-            Set & set = db(i,j);
+  }
 
-            if (set.rhs.size() == 0)
-                continue;
+  std::cout << std::endl;
 
-            set.print(std::cout << '{' << i << ':' << set.lhs.A << ',' << j << ':' << set.lhs.B << '}', db) << '\n';
-
-            /* now let's try and pick a mock collision pair for this
-             * interaction. */
-            if ((i == j && cell.types[i].size() < 2) ||
-                (cell.types[i].size() == 0 || cell.types[j].size() == 0))
-                continue;
-
-            Particle::list::iterator pi =
-                cell.types[i].begin() + int(cell.types[i].size()*MTRNGrand()*0.99999999);
-            Particle::list::iterator pj = pi;
-            while(pi == pj)
-                pj =
-                cell.types[j].begin() + int(cell.types[j].size()*MTRNGrand()*0.99999999);
-
-            double v_rel = (pi->v - pj->v).abs();
-
-            double & m_s_v = cell.interaction_info(i,j).max_sigma_v_rel;
-            std::pair<int,double> path = set.calculateOutPath(m_s_v, v_rel);
-            if (path.first < 0)
-                std::cout << "\tno out path\n";
-            else
-                set.rhs[path.first].print(
-                    std::cout << "-----\tinputs = {" << (*pi) << ',' << (*pj) << "}\n"
-                              << "-----\tmax_sigma_v  :  " << m_s_v << "\n"
-                              << "-----\tv_rel        :  " << v_rel << "\n"
-                              << "-----\tout path     :  ", db) << "\n"
-                                 "-----\tcross section:  " << (path.second/SQR(nm)) << " nm^2\n";
-        }
-#endif
-
-    std::cout << std::endl;
-
-    return 0;
+  return 0;
 }

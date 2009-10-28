@@ -72,9 +72,10 @@ namespace chimp {
           in_eq_set.insert( EqTerm(n_B,1) );
         }
 
-        /* get the set of all interactions with the correct inputs. */
+        /* We search for all Interactions that have total cross_section data AND
+         * all interactions with the correct inputs. */
         xml::Context::list xl = xmlDb.eval(
-          "//Interaction/" + getXpathQuery("In", in_eq_set)
+          "//Interaction/cross_section/../" + getXpathQuery("In", in_eq_set)
           + ( xpath_extra.size() > 0 ? '/' + xpath_extra : "" )
         );
         retval[in] = filter->filter( xml::Context::set( xl.begin(), xl.end() ) );
