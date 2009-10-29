@@ -46,8 +46,6 @@ int main() {
 
   /* set up the the runtime database */
   db.initBinaryInteractions();
-  /* close the xml-file and free associated resources. */
-  db.xmlDb.close();
 
 
   /* *** BEGIN Set up data (single and cross species). ***
@@ -104,7 +102,8 @@ int main() {
     const int & B = i->lhs.B.type;
 
     if (i->rhs.size() == 0)
-        continue;
+      /* no interactions for these inputs. */
+      continue;
 
     /* for this test, we'll just pick the velocity randomly from the Maxwellian
      * distribution. */
