@@ -42,3 +42,5 @@ lib particledb :
     : <link>static
     ;
 
+install stage : particledb ;
+
