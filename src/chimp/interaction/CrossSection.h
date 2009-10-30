@@ -50,6 +50,10 @@ namespace chimp {
       /** Clone the CrossSection class. */
       virtual CrossSection * new_load( xml::Context & x,
                                        const double & mu ) const = 0;
+
+      /** Obtain the label of the model. */
+      virtual std::string getLabel() const = 0;
+
     };
 
 

@@ -22,6 +22,10 @@ namespace chimp {
 
     /** Variable hard sphere implementation of the CrossSection class. */
     struct VHSCrossSection : CrossSection {
+      /* STATIC STORAGE */
+      static const std::string label;
+
+
       /* MEMBER STORAGE */
       /** The vhs information for this particular interaction. */
       detail::VHSInfo vhs;
@@ -70,6 +74,11 @@ namespace chimp {
       virtual VHSCrossSection * new_load( xml::Context & x,
                                           const double & mu ) const {
         return new VHSCrossSection( load(x,mu) );
+      }
+
+      /** Obtain the label of the model. */
+      virtual std::string getLabel() const {
+        return label;
       }
 
       /** Print the VHS data cross section parameters. */

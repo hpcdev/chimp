@@ -40,5 +40,7 @@ namespace chimp {
       return cs;
     }
 
+    const std::string DATACrossSection::label = "data";
+
   } /* namespace chimp::interaction */
 } /* namespace chimp */

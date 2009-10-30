@@ -31,18 +31,20 @@ namespace chimp {
 
 
     /* register the library-provided CrossSection functors. */
-    cross_section_registry["vhs"].reset(new interaction::VHSCrossSection);
-    cross_section_registry["data"].reset(new interaction::DATACrossSection);
+    typedef interaction::VHSCrosssection vhs;
+    typedef interaction::DATACrosssection data;
+    cross_section_registry[vhs::label ].reset(new vhs);
+    cross_section_registry[data::label].reset(new data);
 
 
     /* register the library-provided Interaction functors. */
     typedef interaction::model::Elastic<options> elastic;
-    typedef interaction::model::VSSElastic<options> vsselastic;
     typedef interaction::model::InElastic<options> inelastic;
+    typedef interaction::model::VSSElastic<options> vsselastic;
 
-    interaction_registry[elastic::label].reset( new elastic);
+    interaction_registry[elastic::label   ].reset( new elastic);
+    interaction_registry[inelastic::label ].reset( new inelastic);
     interaction_registry[vsselastic::label].reset( new vsselastic);
-    interaction_registry[inelastic::label].reset( new inelastic);
 
     /* set up the default interaction filter. */
     filter.reset( new interaction::filter::Elastic );

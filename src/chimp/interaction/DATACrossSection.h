@@ -42,6 +42,10 @@ namespace chimp {
       typedef olson_tools::data_set<double,double> table_t;
 
 
+      /* STATIC STORAGE */
+      static const std::string label;
+
+
       /* MEMBER STORAGE */
       /** Table of cross-section data. */
       table_t table;
@@ -107,6 +111,11 @@ namespace chimp {
       virtual DATACrossSection * new_load( xml::Context & x,
                                            const double & mu ) const {
         return new DATACrossSection( load(x,mu) );
+      }
+
+      /** Obtain the label of the model. */
+      virtual std::string getLabel() const {
+        return label;
       }
 
       /** Print the cross section data table. */
