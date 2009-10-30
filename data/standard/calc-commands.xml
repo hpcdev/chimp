@@ -1,0 +1,8 @@
+<standard>
+    <calc-commands>
+        <command>from physical::constant import *</command>
+        <command>from physical::unit import *</command>
+        <command>from physical import 'unit::pi'</command>
+        <command>from physical import 'element::.*'</command>
+    </calc-commands>
+</standard>

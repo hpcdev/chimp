@@ -1,4 +1,6 @@
 <?xml version="1.0"?>
 <ParticleDB xmlns:xi="http://www.w3.org/2001/XInclude">
-    <xi:include href="standard-particledb.xml"/>
+    <xi:include href="standard/calc-commands.xml"/>
+    <xi:include href="standard/particles.xml"/>
+    <xi:include href="standard/interactions.xml"/>
 </ParticleDB>
