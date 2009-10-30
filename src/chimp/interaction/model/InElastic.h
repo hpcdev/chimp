@@ -10,9 +10,13 @@
 #include <chimp/interaction/model/Base.h>
 #include <chimp/interaction/model/detail/ReducedMass.h>
 
+#include <olson-tools/power.h>
+#include <olson-tools/Vector.h>
 #include <olson-tools/xml/Doc.h>
+#include <olson-tools/random/random.h>
 
 #include <string>
+#include <cmath>
 
 namespace chimp {
   namespace interaction {
@@ -37,12 +41,15 @@ namespace chimp {
         }
 
         /** Binary inelastic collision. */
-        virtual inline void interact( Particle & part1, Particle & part2 );
+        virtual void interact( Particle & part1, Particle & part2 ) {
+        } // interact
 
         /** load a new instance of the Interaction. */
-        virtual inline InElastic * new_load( const xml::Context & x,
-                                             const interaction::Input & input,
-                                             const RuntimeDB<options> & db ) const;
+        virtual InElastic * new_load( const xml::Context & x,
+                                      const interaction::Input & input,
+                                      const RuntimeDB<options> & db ) const {
+          return new InElastic/*( input.A, input.B, db )*/;
+        }
 
       };
 
@@ -52,7 +59,5 @@ namespace chimp {
     } /* namespace chimp::interaction::model */
   } /* namespace chimp::interaction */
 } /* namespace chimp */
-
-#include <chimp/interaction/model/InElastic.cpp>
 
 #endif // chimp_interaction_model_InElastic_h
