@@ -10,7 +10,9 @@
         the contributing/resulting  constituents. 
 
         The standard format for the Eq node is that the particles on each side
-        should be ordered according to their mass, from lowest to highest.
+        should be ordered according to:
+            1.  Their mass, from lowest to highest.
+            2.  Their lexigraphically compared names.
         </comment>
 
         <Interaction model="elastic">
@@ -1110,7 +1112,7 @@
         </Interaction>
 
         <Interaction model="attachment">
-            <Eq><In><T><P>e^-</P></T> + <T><n>2</n> <P>O2</P></T></In>  --&gt;  <Out><T><P>O2^-</P></T> + <T><P>O2</P></T></Out></Eq>
+            <Eq><In><T><P>e^-</P></T> + <T><n>2</n> <P>O2</P></T></In>  --&gt;  <Out><T><P>O2</P></T> + <T><P>O2^-</P></T></Out></Eq>
             <cross_section model="data" xscale="eV" yscale="1.e-20*m^2">
                 <reference>From Bolsig+ ATTACHMENT; 3-body attachment : DO NOT MULTIPLY BY NEUTRAL DENSITY</reference>
                 <val x="0.580000E-01" y="0.00000"/>
@@ -1152,7 +1154,7 @@
         </Interaction>
 
         <Interaction model="attachment">
-            <Eq><In><T><P>e^-</P></T> + <T><P>O2</P></T></In>  --&gt;  <Out><T><P>O^-</P></T> + <T><P>O</P></T></Out></Eq>
+            <Eq><In><T><P>e^-</P></T> + <T><P>O2</P></T></In>  --&gt;  <Out><T><P>O</P></T> + <T><P>O^-</P></T></Out></Eq>
             <cross_section model="data" xscale="eV" yscale="1.e-20*m^2">  
                 <reference>From Bolsig+ ATTACHMENT; 2-body attachment</reference>
                 <val x="4.40000" y="0.00000"/>
@@ -2233,7 +2235,7 @@
         </Interaction>
 
         <Interaction model="attachment">
-            <Eq><In><T><P>e^-</P></T> + <T><P>Cl2</P></T></In>  --&gt;  <Out><T><P>Cl^-</P></T> + <T><P>Cl</P></T></Out></Eq>
+            <Eq><In><T><P>e^-</P></T> + <T><P>Cl2</P></T></In>  --&gt;  <Out><T><P>Cl</P></T> + <T><P>Cl^-</P></T></Out></Eq>
             <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ ATTACHMENT;</reference>
                 <val x="0.000" y="0.2016E-19"/>
@@ -2690,7 +2692,7 @@
 
 
         <Interaction model="attachment">
-            <Eq><In><T><P>e^-</P></T> + <T><P>F2</P></T></In>  --&gt;  <Out><T><P>F^-</P></T> + <T><P>F</P></T></Out></Eq>
+            <Eq><In><T><P>e^-</P></T> + <T><P>F2</P></T></In>  --&gt;  <Out><T><P>F</P></T> + <T><P>F^-</P></T></Out></Eq>
             <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ ATTACHMENT; attachment.  large at zero energy.</reference>
                 <val x="0.000" y="0.8000E-18"/>
@@ -3076,7 +3078,7 @@
 
 
         <Interaction model="attachment">
-            <Eq><In><T><P>e^-</P></T> + <T><P>CF4</P></T></In>  --&gt;  <Out><T><P>CF2^-</P></T> + <T><P>F2</P></T></Out></Eq>
+            <Eq><In><T><P>e^-</P></T> + <T><P>CF4</P></T></In>  --&gt;  <Out><T><P>F2</P></T> + <T><P>CF2^-</P></T></Out></Eq>
             <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ ATTACHMENT;</reference>
                 <val x="6.420" y="0.000"/>
@@ -3117,7 +3119,7 @@
 
         <Interaction model="excitation">
             <threshold_energy>12.70*eV</threshold_energy>
-            <Eq><In><T><P>e^-</P></T> + <T><P>CF4</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>CF2</P></T> + <T><P>F2</P></T></Out></Eq>
+            <Eq><In><T><P>e^-</P></T> + <T><P>CF4</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>F2</P></T> + <T><P>CF2</P></T></Out></Eq>
             <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; dissociative excitation</reference>
                 <val x="12.70" y="0.000"/>
@@ -3355,7 +3357,7 @@
 
 
         <Interaction model="attachment">
-            <Eq><In><T><P>e^-</P></T> + <T><P>SiH4</P></T></In>  --&gt;  <Out><T><P>SiH2^-</P></T> + <T><P>H2</P></T></Out></Eq>
+            <Eq><In><T><P>e^-</P></T> + <T><P>SiH4</P></T></In>  --&gt;  <Out><T><P>H2</P></T> + <T><P>SiH2^-</P></T></Out></Eq>
             <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ ATTACHMENT; diossociative attachment</reference>
                 <val x="0.000" y="0.0"/>
@@ -3635,7 +3637,7 @@
 
 
         <Interaction model="attachment">
-            <Eq><In><T><P>e^-</P></T> + <T><P>SF6</P></T></In>  --&gt;  <Out><T><P>SF5^-</P></T> + <T><P>F</P></T></Out></Eq>
+            <Eq><In><T><P>e^-</P></T> + <T><P>SF6</P></T></In>  --&gt;  <Out><T><P>F</P></T> + <T><P>SF5^-</P></T></Out></Eq>
             <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ ATTACHMENT; attachment forming SF5-</reference>
                 <val x="0.000" y="0.2275E-19"/>
@@ -3657,7 +3659,7 @@
 
 
         <Interaction model="attachment">
-            <Eq><In><T><P>e^-</P></T> + <T><P>SF6</P></T></In>  --&gt;  <Out><T><P>SF4^-</P></T> + <T><P>F2</P></T></Out></Eq>
+            <Eq><In><T><P>e^-</P></T> + <T><P>SF6</P></T></In>  --&gt;  <Out><T><P>F2</P></T> + <T><P>SF4^-</P></T></Out></Eq>
             <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ ATTACHMENT; attachment to form F-, F2-, and SF4-</reference>
                 <val x="1.300" y="0.000"/>
@@ -5073,7 +5075,7 @@
 
 
         <Interaction model="attachment">
-            <Eq><In><T><P>e^-</P></T> + <T><P>CO2</P></T></In>  --&gt;  <Out><T><P>CO</P></T> + <T><P>O^-</P></T></Out></Eq>
+            <Eq><In><T><P>e^-</P></T> + <T><P>CO2</P></T></In>  --&gt;  <Out><T><P>O^-</P></T> + <T><P>CO</P></T></Out></Eq>
             <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ ATTACHMENT; dissociative attachment</reference>
                 <val x="3.850" y="0.000"/>
