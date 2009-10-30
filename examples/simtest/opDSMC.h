@@ -4,6 +4,8 @@
 namespace chimp {
   namespace interaction {
 
+    /** Unity transform of integer value.  The compiler should be able to
+     * optimize this class away. */
     struct UnityTransform {
       const int & operator[] ( const int & i ) const { return i; }
     };
