@@ -19,6 +19,7 @@
 
 #include <string>
 #include <cmath>
+#include <cassert>
 
 namespace chimp {
   namespace interaction {
@@ -46,7 +47,7 @@ namespace chimp {
         Elastic( const Term & t0,
                  const Term & t1,
                  const RuntimeDB<options> & db )
-          : mu( db[t0.type].mass::value, db[t1.type].mass::value ) { }
+          : mu( db[t0.species].mass::value, db[t1.species].mass::value ) { }
 
         /** Virtual NO-OP destructor. */
         virtual ~Elastic() { }
@@ -54,6 +55,18 @@ namespace chimp {
         /** Obtain the label of the model. */
         virtual std::string getLabel() const {
           return label;
+        }
+
+        virtual void interact( const std::vector< const Particle* > & reactants,
+                               std::vector< ParticleParam > & products ) {
+          assert( reactants.size() == 2u );
+
+          products.resize( 2u );
+          products[0].is_set = true;
+          products[1].is_set = true;
+
+          interact( products[0].particle = *reactants[0],
+                    products[1].particle = *reactants[1] );
         }
 
         /** Binary elastic collision. */

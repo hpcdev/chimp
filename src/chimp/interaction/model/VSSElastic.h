@@ -57,7 +57,7 @@ namespace chimp {
                     const Term & t1,
                     const double & vss_param_inv,
                     const RuntimeDB<options> & db )
-          : mu( db[t0.type].mass::value, db[t1.type].mass::value ),
+          : mu( db[t0.species].mass::value, db[t1.species].mass::value ),
             vss_param_inv(vss_param_inv) { }
 
         /** Virtual NO-OP destructor. */

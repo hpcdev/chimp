@@ -13,9 +13,9 @@
         should be ordered according to their mass, from lowest to highest.
         </comment>
 
-        <Interaction type="elastic">
+        <Interaction model="elastic">
             <Eq><In><T><n>2</n> <P>87Rb</P></T></In>  --&gt;  <Out><T><n>2</n> <P>87Rb</P></T></Out></Eq>
-            <cross_section type="vhs">
+            <cross_section model="vhs">
                 <value uncertainty="130 * nm^2">540 * nm^2</value>
                 <T_ref>25*uK</T_ref>
                 <!--
@@ -42,9 +42,9 @@
             </cross_section>
         </Interaction>
 
-        <Interaction type="elastic">
+        <Interaction model="elastic">
             <Eq><In><T><n>2</n> <P>85Rb</P></T></In>  --&gt;  <Out><T><n>2</n> <P>85Rb</P></T></Out></Eq>
-            <cross_section type="vhs">
+            <cross_section model="vhs">
                 <value>8*pi*(100*a_0)^2</value>
                 <T_ref>150*uK</T_ref>             <!-- We'll just guess this value -->
                 <visc_T_law>3.0/4.0</visc_T_law><!-- We'll just guess this value -->
@@ -52,9 +52,9 @@
             </cross_section>
         </Interaction>
 
-        <Interaction type="elastic">
+        <Interaction model="elastic">
             <Eq><In><T><n>2</n> <P>Ar</P></T></In>  --&gt;  <Out><T><n>2</n> <P>Ar</P></T></Out></Eq>
-            <cross_section type="vhs">
+            <cross_section model="vhs">
                 <value>pi*(0.417*nm)^2</value>
                 <T_ref>273*K</T_ref>
                 <visc_T_law>0.81</visc_T_law>
@@ -73,10 +73,10 @@
             </cross_section>
         </Interaction>
 
-        <Interaction type="vss_elastic">
+        <Interaction model="vss_elastic">
             <Eq><In><T><n>2</n> <P>e^-</P></T></In>  --&gt;  <Out><T><n>2</n> <P>e^-</P></T></Out></Eq>
             <vss_param_inv>1.0</vss_param_inv>
-            <cross_section type="vhs">
+            <cross_section model="vhs">
                 <value>pi*(0.417*nm)^2</value>
                 <T_ref>273*K</T_ref>
                 <visc_T_law>0.81</visc_T_law>
@@ -84,19 +84,19 @@
             </cross_section>
         </Interaction>
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <Eq><In><T><P>photon</P></T> + <T><P>87Rb |1,m&gt;</P></T></In>  --&gt;  <Out><T><P>photon</P></T> + <T><P>87Rb |2,m&gt;</P></T></Out></Eq>
             <todo>Need to import all data from Fredrik's calucated tables.</todo>
         </Interaction>
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <Eq><In><T><P>photon</P></T> + <T><P>85Rb |2,m&gt;</P></T></In>  --&gt;  <Out><T><P>photon</P></T> + <T><P>85Rb |3,m&gt;</P></T></Out></Eq>
             <todo>Need to import all data from Fredrik's calucated tables.</todo>
         </Interaction>
 
-        <Interaction type="ionization">
+        <Interaction model="ionization">
             <Eq><In><T><P>e^-</P></T> + <T><P>O3P</P></T></In>  --&gt;  <Out><T><n>2</n> <P>e^-</P></T> + <T><P>O3P+</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="1.0e-20*m*m">
+            <cross_section model="data" xscale="eV" yscale="1.0e-20*m*m">
                 <val x="13.610000" y="0.000000"/>
                 <val x="14.000000" y="0.026000"/>
                 <val x="16.000000" y="0.163000"/>
@@ -116,9 +116,9 @@
             </cross_section>
         </Interaction>
 
-        <Interaction type="elastic">
+        <Interaction model="elastic">
             <Eq><In><T><P>e^-</P></T> + <T><P>O3P</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>O3P</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="1.0e-20*m^2">
+            <cross_section model="data" xscale="eV" yscale="1.0e-20*m^2">
                 <val x="0.000000" y="1.717300"/>
                 <val x="0.075314" y="1.717300"/>
                 <val x="0.142260" y="2.004200"/>
@@ -248,10 +248,10 @@
             JILA Information Center Report No. 26, University of Colorado (May 1, 1985).
         </cross_section_comment>
 
-        <Interaction type="elastic">
+        <Interaction model="elastic">
             <e_mass_ratio>0.1950E-04</e_mass_ratio>
             <Eq><In><T><P>e^-</P></T> + <T><P>N2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>N2</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="1.*m^2">
+            <cross_section model="data" xscale="eV" yscale="1.*m^2">
                 <reference>From Bolsig+ ELASTIC;</reference>
                 <val x="0.000" y="0.1100E-19"/>
                 <val x="0.1000E-01" y="0.2190E-19"/>
@@ -310,10 +310,10 @@
             </cross_section>
         </Interaction>
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>0.2000E-01*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>N2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>N2(rot)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; N2 ROTATIONAL excitation</reference>
                 <val x="0.2000E-01" y="0.000"/>
                 <val x="0.3000E-01" y="0.2500E-21"/>
@@ -345,10 +345,10 @@
             </cross_section>
         </Interaction>
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>0.2900*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>N2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>N2(v1res)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; N2 VIBRATIONAL (V=1), input as two separate tables</reference>
                 <val x="0.2900" y="0.000"/>
                 <val x="0.3000" y="0.1000E-22"/>
@@ -382,10 +382,10 @@
             </cross_section>
         </Interaction>
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>0.2910*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>N2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>N2(v1)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; N2 VIBRATIONAL (V=1), input as two separate tables</reference>
                 <val x="0.2910" y="0.000"/>
                 <val x="1.600" y="0.000"/>
@@ -417,10 +417,10 @@
             </cross_section>
         </Interaction>
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>0.5900*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>N2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>N2(v2)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; N2 VIBRATIONAL (V=2)</reference>
                 <val x="0.5900" y="0.000"/>
                 <val x="1.700" y="0.000"/>
@@ -448,10 +448,10 @@
             </cross_section>
         </Interaction>
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>0.8800*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>N2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>N2(v3)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; N2 VIBRATIONAL (V=3)</reference>
                 <val x="0.8800" y="0.000"/>
                 <val x="1.900" y="0.000"/>
@@ -475,10 +475,10 @@
             </cross_section>
         </Interaction>
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>1.170*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>N2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>N2(v4)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; N2 VIBRATIONAL (V=4)</reference>
                 <val x="1.170" y="0.000"/>
                 <val x="2.000" y="0.000"/>
@@ -500,10 +500,10 @@
             </cross_section>
         </Interaction>
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>1.470*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>N2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>N2(v5)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; N2 VIBRATIONAL (V=5)</reference>
                 <val x="1.470" y="0.000"/>
                 <val x="2.100" y="0.000"/>
@@ -525,10 +525,10 @@
             </cross_section>
         </Interaction>
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>1.760*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>N2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>N2(v6)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; N2 VIBRATIONAL (V=6)</reference>
                 <val x="1.760" y="0.000"/>
                 <val x="2.200" y="0.000"/>
@@ -548,10 +548,10 @@
             </cross_section>
         </Interaction>
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>2.060*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>N2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>N2(v7)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; N2 VIBRATIONAL (V=7)</reference>
                 <val x="2.060" y="0.000"/>
                 <val x="2.300" y="0.000"/>
@@ -573,10 +573,10 @@
             </cross_section>
         </Interaction>
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>2.350*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>N2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>N2(v8)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; N2 VIBRATIONAL (V=8)</reference>
                 <val x="2.350" y="0.000"/>
                 <val x="2.500" y="0.000"/>
@@ -596,10 +596,10 @@
             </cross_section>
         </Interaction>
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>6.170*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>N2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>N2(A3,v0-4)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; N2 ELECTRONIC (A3 V=0-4)</reference>
                 <val x="6.170" y="0.000"/>
                 <val x="7.000" y="0.1000E-22"/>
@@ -629,10 +629,10 @@
             </cross_section>
         </Interaction>
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>7.000*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>N2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>N2(A3,v5-9)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; N2 ELECTRONIC (A3 V=5-9)</reference>
                 <val x="7.000" y="0.000"/>
                 <val x="7.300" y="0.2000E-22"/>
@@ -662,10 +662,10 @@
             </cross_section>
         </Interaction>
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>7.350*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>N2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>N2(B3)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; N2 ELECTRONIC (B3)</reference>
                 <val x="7.350" y="0.000"/>
                 <val x="8.000" y="0.3620E-21"/>
@@ -693,10 +693,10 @@
             </cross_section>
         </Interaction>
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>7.360*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>N2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>N2(W3)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; N2 ELECTRONIC (W3)</reference>
                 <val x="7.360" y="0.000"/>
                 <val x="8.000" y="0.1800E-22"/>
@@ -726,10 +726,10 @@
             </cross_section>
         </Interaction>
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>7.800*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>N2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>N2(A3,v10-)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; N2 ELECTRONIC (A3 V=10-)</reference>
                 <val x="7.800" y="0.000"/>
                 <val x="8.100" y="0.1500E-22"/>
@@ -759,10 +759,10 @@
             </cross_section>
         </Interaction>
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>8.160*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>N2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>N2(B-3)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; N2 ELECTRONIC (B'3)</reference>
                 <val x="8.160" y="0.000"/>
                 <val x="9.000" y="0.1070E-21"/>
@@ -790,10 +790,10 @@
             </cross_section>
         </Interaction>
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>8.400*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>N2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>N2(a-1)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; N2 ELECTRONIC (a'1)</reference>
                 <val x="8.400" y="0.000"/>
                 <val x="9.000" y="0.6700E-22"/>
@@ -817,10 +817,10 @@
             </cross_section>
         </Interaction>
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>8.550*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>N2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>N2(a1)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; N2 ELECTRONIC (a1)</reference>
                 <val x="8.550" y="0.000"/>
                 <val x="9.000" y="0.1270E-21"/>
@@ -848,10 +848,10 @@
             </cross_section>
         </Interaction>
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>8.890*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>N2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>N2(w1)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; N2 ELECTRONIC (w1)</reference>
                 <val x="8.890" y="0.000"/>
                 <val x="9.000" y="0.1300E-22"/>
@@ -875,10 +875,10 @@
             </cross_section>
         </Interaction>
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>11.03*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>N2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>N2(C3)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; N2 ELECTRONIC (C3)</reference>
                 <val x="11.03" y="0.000"/>
                 <val x="11.50" y="0.4050E-21"/>
@@ -912,10 +912,10 @@
             </cross_section>
         </Interaction>
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>11.87*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>N2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>N2(E3)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; N2 ELECTRONIC (E3)</reference>
                 <val x="11.87" y="0.000"/>
                 <val x="12.92" y="0.4960E-21"/>
@@ -937,10 +937,10 @@
             </cross_section>
         </Interaction>
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>12.25*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>N2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>N2(a--1)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; N2 ELECTRONIC (a"1)</reference>
                 <val x="12.25" y="0.000"/>
                 <val x="13.00" y="0.5400E-22"/>
@@ -968,10 +968,10 @@
             </cross_section>
         </Interaction>
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>13.00*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>N2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>N2(SUM_OF_SINGLET_STATES)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; N2 SUM OF SINGLET STATES</reference>
                 <val x="13.00" y="0.000"/>
                 <val x="14.00" y="0.8100E-21"/>
@@ -997,10 +997,10 @@
             </cross_section>
         </Interaction>
 
-        <Interaction type="ionization">
+        <Interaction model="ionization">
             <threshold_energy>15.60*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>N2</P></T></In>  --&gt;  <Out><T><n>2</n> <P>e^-</P></T> + <T><P>N2^+</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ IONIZATION;</reference>
                 <val x="15.60" y="0.000"/>
                 <val x="16.00" y="0.2100E-21"/>
@@ -1047,10 +1047,10 @@
         to momentum_cross_section and when we get the total cross section data
         for these interactions, we should re-insert some cross_section xml
         nodes.  -->
-        <Interaction type="momentum">
+        <Interaction model="momentum">
             <e_mass_ratio>0.1700E-04</e_mass_ratio>
             <Eq><In><T><P>e^-</P></T> + <T><P>O2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>O2</P></T></Out></Eq>
-            <momentum_cross_section type="data" xscale="eV" yscale="m^2">
+            <momentum_cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ MOMENTUM; JILA report, Phelps, 1985</reference>
                 <val x="0.000" y="0.3500E-20"/>
                 <val x="0.1000E-02" y="0.3500E-20"/>
@@ -1109,9 +1109,9 @@
             </momentum_cross_section>
         </Interaction>
 
-        <Interaction type="attachment">
+        <Interaction model="attachment">
             <Eq><In><T><P>e^-</P></T> + <T><n>2</n> <P>O2</P></T></In>  --&gt;  <Out><T><P>O2^-</P></T> + <T><P>O2</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="1.e-20*m^2">
+            <cross_section model="data" xscale="eV" yscale="1.e-20*m^2">
                 <reference>From Bolsig+ ATTACHMENT; 3-body attachment : DO NOT MULTIPLY BY NEUTRAL DENSITY</reference>
                 <val x="0.580000E-01" y="0.00000"/>
                 <val x="0.730000E-01" y="0.560000E-20"/>
@@ -1151,9 +1151,9 @@
             </cross_section>
         </Interaction>
 
-        <Interaction type="attachment">
+        <Interaction model="attachment">
             <Eq><In><T><P>e^-</P></T> + <T><P>O2</P></T></In>  --&gt;  <Out><T><P>O^-</P></T> + <T><P>O</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="1.e-20*m^2">  
+            <cross_section model="data" xscale="eV" yscale="1.e-20*m^2">  
                 <reference>From Bolsig+ ATTACHMENT; 2-body attachment</reference>
                 <val x="4.40000" y="0.00000"/>
                 <val x="4.90000" y="0.00000"/>
@@ -1177,10 +1177,10 @@
             </cross_section>
         </Interaction>
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>0.2000E-01*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>O2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>O2(rot)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; O2 single level approximation to peaked rotational. T=300K</reference>
                 <val x="0.7000E-01" y="0.000"/>
                 <val x="0.8000E-01" y="0.5400E-22"/>
@@ -1230,10 +1230,10 @@
             </cross_section>
         </Interaction>
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>0.1900*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>O2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>O2(v1res)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; O2 v=1, 0.19V resonance ,energy loss =0.190 eV</reference>
                 <val x="4.000" y="0.000"/>
                 <val x="5.000" y="0.4200E-21"/>
@@ -1252,10 +1252,10 @@
             </cross_section>
         </Interaction>
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>0.1900*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>O2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>O2(v1)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; O2 v=1, with split peak, energy loss =0.19 eV</reference>
                 <val x="0.1900" y="0.000"/>
                 <val x="0.2000" y="0.1000E-22"/>
@@ -1303,10 +1303,10 @@
             </cross_section>
         </Interaction>
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>0.3800*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>O2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>O2(v2)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; O2 v=2 energy loss =0.380 eV</reference>
                 <val x="0.5600" y="0.000"/>
                 <val x="0.5700" y="0.1400E-20"/>
@@ -1344,10 +1344,10 @@
             </cross_section>
         </Interaction>
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>0.3800*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>O2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>O2(v2res)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; O2 v=2 9V resonnance,energy loss =0.380eV</reference>
                 <val x="4.000" y="0.000"/>
                 <val x="5.000" y="0.2800E-21"/>
@@ -1366,10 +1366,10 @@
             </cross_section>
         </Interaction>
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>0.5700*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>O2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>O2(v3)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; O2 v=3;  with 9eV resonance ,energy loss = 0.570 eV</reference>
                 <val x="0.6800" y="0.000"/>
                 <val x="0.6900" y="0.3700E-22"/>
@@ -1418,10 +1418,10 @@
             </cross_section>
         </Interaction>
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>0.7500*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>O2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>O2(v4)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; O2 v=4 with 9eV resonance energy loss =0.750 eV</reference>
                 <val x="0.7900" y="0.000"/>
                 <val x="0.8000" y="0.1500E-22"/>
@@ -1463,10 +1463,10 @@
             </cross_section>
         </Interaction>
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>0.9770*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>O2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>O2(a1)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; O2  singlet delta metastable level</reference>
                 <val x="0.9770" y="0.000"/>
                 <val x="1.500" y="0.5800E-22"/>
@@ -1496,10 +1496,10 @@
             </cross_section>
         </Interaction>
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>1.627*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>O2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>O2(b1)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; O2 B singlet sigma</reference>
                 <val x="1.627" y="0.000"/>
                 <val x="2.000" y="0.2600E-22"/>
@@ -1528,10 +1528,10 @@
             </cross_section>
         </Interaction>
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>4.500*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>O2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>O2(4.5eV)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; O2  4.5 ev energy loss</reference>
                 <val x="4.500" y="0.000"/>
                 <val x="4.800" y="0.3000E-22"/>
@@ -1551,10 +1551,10 @@
             </cross_section>
         </Interaction>
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>6.000*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>O2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>O2(6.0eV)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; O2  6.0 ev energy loss</reference>
                 <val x="6.000" y="0.000"/>
                 <val x="7.000" y="0.1500E-20"/>
@@ -1570,10 +1570,10 @@
             </cross_section>
         </Interaction>
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>8.400*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>O2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>O2(8.4eV)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; O2  8.4 ev energy loss</reference>
                 <val x="8.400" y="0.000"/>
                 <val x="9.400" y="0.1000E-19"/>
@@ -1589,10 +1589,10 @@
             </cross_section>
         </Interaction>
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>9.970*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>O2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>O2(9.97eV)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; O2  9.97 ev energy loss</reference>
                 <val x="9.970" y="0.000"/>
                 <val x="20.00" y="0.1300E-21"/>
@@ -1614,10 +1614,10 @@
             </cross_section>
         </Interaction>
 
-        <Interaction type="ionization">
+        <Interaction model="ionization">
             <threshold_energy>12.06*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>O2</P></T></In>  --&gt;  <Out><T><n>2</n> <P>e^-</P></T> + <T><P>O2^+</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ IONIZATION;</reference>
                 <val x="12.06" y="0.000"/>
                 <val x="13.00" y="0.2500E-21"/>
@@ -1648,10 +1648,10 @@
                 references : S.J. Buckman and A.V. Phelps, JILA Information Center Report No. 27, 
         </cross_section_comment>
 
-        <Interaction type="momentum">
+        <Interaction model="momentum">
             <e_mass_ratio>0.2720E-03</e_mass_ratio>
             <Eq><In><T><P>e^-</P></T> + <T><P>H2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>H2</P></T></Out></Eq>
-            <momentum_cross_section type="data" xscale="eV" yscale="m^2">
+            <momentum_cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ MOMENTUM;</reference>
                 <val x="0.000" y="0.6400E-19"/>
                 <val x="0.1000E-02" y="0.6400E-19"/>
@@ -1716,10 +1716,10 @@
             </momentum_cross_section>
         </Interaction>
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>0.4400E-01*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>H2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>H2(j0-2)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; Qrot  H2 J=0 -J=2 CROMPTON ET AL (1969), HENRY-LAN(1969)</reference>
                 <val x="0.044" y="0"/>
                 <val x="0.047" y="1.8630E-22"/>
@@ -1752,10 +1752,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>0.7300E-01*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>H2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>H2(j1-3)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; Qrot H2 J=1-J=3 GIBSON (1970),HEAPS AND GREEN (1975),CALD. (1976)</reference>
                 <val x="0.073" y="0"/>
                 <val x="0.075" y="1.0125E-22"/>
@@ -1790,10 +1790,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>0.5160*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>H2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>H2(v1)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; V=1 EHRHARDT ET AL 1968 EXCPT CROMPTON THRESHOLD</reference>
                 <val x="0.5160" y="0.000"/>
                 <val x="0.7000" y="0.2000E-21"/>
@@ -1822,10 +1822,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>1.000*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>H2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>H2(v2)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; V=2 EHRHARDT ET AL 1968</reference>
                 <val x="1.000" y="0.000"/>
                 <val x="1.300" y="0.000"/>
@@ -1846,10 +1846,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>1.500*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>H2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>H2(v3)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; V=3 EHRHARDT ET AL 1968</reference>
                 <val x="1.500" y="0.000"/>
                 <val x="1.800" y="0.3000E-22"/>
@@ -1871,10 +1871,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>8.900*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>H2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>H2(b3)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; (B3SIG) excitation -84/07/06</reference>
                 <val x="8.900" y="0.000"/>
                 <val x="10.00" y="0.1322E-20"/>
@@ -1893,10 +1893,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>11.30*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>H2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>H2(B1)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; (B1SIG) excitation 84/07/06</reference>
                 <val x="11.30" y="0.000"/>
                 <val x="11.70" y="0.1000E-20"/>
@@ -1919,10 +1919,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>11.75*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>H2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>H2(c3)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; (C3PI) excitation 84/07/06</reference>
                 <val x="11.75" y="0.000"/>
                 <val x="11.88" y="0.8000E-21"/>
@@ -1945,10 +1945,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>11.80*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>H2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>H2(a3)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; (A3SIG) excitation 84/05/25</reference>
                 <val x="11.80" y="0.000"/>
                 <val x="13.00" y="0.1100E-20"/>
@@ -1966,10 +1966,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>12.40*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>H2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>H2(C1)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; (C1PI) excitation 84/05/25</reference>
                 <val x="12.40" y="0.000"/>
                 <val x="13.00" y="0.3000E-21"/>
@@ -1992,10 +1992,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>14.00*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>H2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>H2(d3)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; (D3PI)   excitation  84/05/25</reference>
                 <val x="14.00" y="0.000"/>
                 <val x="15.60" y="0.4100E-21"/>
@@ -2012,10 +2012,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>15.00*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>H2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>H</P></T> + <T><P>H(n=2)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; dissociative excitation of n=2 states</reference>
                 <val x="15.00" y="0.000"/>
                 <val x="17.00" y="0.000"/>
@@ -2038,10 +2038,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>15.20*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>H2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>H2(SUM_OF_RYDBERG_STATES)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; sum of excitation to rydberg levels</reference>
                 <val x="15.20" y="0.000"/>
                 <val x="16.00" y="0.000"/>
@@ -2064,10 +2064,10 @@
         </Interaction>
 
 
-        <Interaction type="ionization">
+        <Interaction model="ionization">
             <threshold_energy>15.40*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>H2</P></T></In>  --&gt;  <Out><T><n>2</n> <P>e^-</P></T> + <T><P>H2^+</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ IONIZATION; ionization rapp and englanden-golden (1965)</reference>
                 <val x="15.40" y="0.000"/>
                 <val x="19.50" y="0.2490E-20"/>
@@ -2089,10 +2089,10 @@
             </cross_section>
         </Interaction>
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>16.60*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>H2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>H</P></T> + <T><P>H(n=3)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; H2 DISSOCIATIVE EXcit TO N = 3 (BALMER ALPHA)</reference>
                 <val x="16.6" y="0"/>
                 <val x="18" y="4.5E-23"/>
@@ -2127,10 +2127,10 @@
         </cross_section_comment>
 
 
-        <Interaction type="momentum">
+        <Interaction model="momentum">
             <e_mass_ratio>0.7680E-05</e_mass_ratio>
             <Eq><In><T><P>e^-</P></T> + <T><P>Cl2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>Cl2</P></T></Out></Eq>
-            <momentum_cross_section type="data" xscale="eV" yscale="m^2">
+            <momentum_cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ MOMENTUM;</reference>
                 <val x="0.000" y="0.2500E-19"/>
                 <val x="0.1500" y="0.2500E-19"/>
@@ -2145,10 +2145,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>0.6900E-01*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>Cl2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>Cl2(vib)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; Vibrational excitation</reference>
                 <val x="0.6900E-01" y="0.000"/>
                 <val x="0.6910E-01" y="0.1100E-21"/>
@@ -2170,10 +2170,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>2.500*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>Cl2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>Cl2(B3)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; electronic excitation       B[3]pi</reference>
                 <val x="2.500" y="0.000"/>
                 <val x="2.700" y="0.4800E-20"/>
@@ -2191,10 +2191,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>3.120*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>Cl2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>Cl2(C1)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; electronic excitation      C[1]pi</reference>
                 <val x="3.120" y="0.000"/>
                 <val x="4.200" y="0.3450E-20"/>
@@ -2215,10 +2215,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>9.250*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>Cl2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>Cl2(b1-c1)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; electronic excitation      B[1]pi + C[1]pi</reference>
                 <val x="9.250" y="0.000"/>
                 <val x="13.00" y="0.3000E-20"/>
@@ -2232,9 +2232,9 @@
             </cross_section>
         </Interaction>
 
-        <Interaction type="attachment">
+        <Interaction model="attachment">
             <Eq><In><T><P>e^-</P></T> + <T><P>Cl2</P></T></In>  --&gt;  <Out><T><P>Cl^-</P></T> + <T><P>Cl</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ ATTACHMENT;</reference>
                 <val x="0.000" y="0.2016E-19"/>
                 <val x="0.1000" y="0.8000E-20"/>
@@ -2289,10 +2289,10 @@
             </cross_section>
         </Interaction>
 
-        <Interaction type="ionization">
+        <Interaction model="ionization">
             <threshold_energy>11.48*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>Cl2</P></T></In>  --&gt;  <Out><T><n>2</n> <P>e^-</P></T> + <T><P>Cl2^+</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ IONIZATION;</reference>
                 <val x="11.49" y="0.000"/>
                 <val x="11.60" y="0.5000E-21"/>
@@ -2338,10 +2338,10 @@
             W.L. Morgan, Plasma Chemistry and Plasma Processing 12, 449 (1992).
         </cross_section_comment>
 
-        <Interaction type="momentum">
+        <Interaction model="momentum">
             <e_mass_ratio>0.1430E-04</e_mass_ratio>
             <Eq><In><T><P>e^-</P></T> + <T><P>F2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>F2</P></T></Out></Eq>
-            <momentum_cross_section type="data" xscale="eV" yscale="m^2">
+            <momentum_cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ MOMENTUM;</reference>
                 <val x="0.000" y="1.6e-18"/>
                 <val x="0.1000E-01" y="0.888e-18"/>
@@ -2375,10 +2375,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>0.1110*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>F2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>F2(v1)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; vibrational excitation</reference>
                 <val x="0.1100" y="0.000"/>
                 <val x="0.2000" y="0.6400E-20"/>
@@ -2434,10 +2434,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>0.2190*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>F2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>F2(v2)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; vibrational excitation</reference>
                 <val x="0.2190" y="0.000"/>
                 <val x="0.3000" y="0.8200E-20"/>
@@ -2492,10 +2492,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>0.3240*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>F2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>F2(v3)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; vibrational excitation</reference>
                 <val x="0.3400" y="0.000"/>
                 <val x="0.4000" y="0.5200E-20"/>
@@ -2528,10 +2528,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>0.4210*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>F2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>F2(v4)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; vibrational excitation</reference>
                 <val x="0.4210" y="0.000"/>
                 <val x="0.5000" y="0.1800E-20"/>
@@ -2557,10 +2557,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>3.160*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>F2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>F2(a3)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; dissociation       a[3]pi{u} -&gt; 2 F</reference>
                 <val x="3.160" y="0.000"/>
                 <val x="4.000" y="0.6500E-21"/>
@@ -2584,10 +2584,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>4.340*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>F2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>F2(A1)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; dissociation      A[1]pi{u} -&gt; 2 F</reference>
                 <val x="4.340" y="0.000"/>
                 <val x="5.000" y="0.4000E-21"/>
@@ -2609,10 +2609,10 @@
             </cross_section>
         </Interaction>
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>11.57*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>F2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>F2(C1)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; electronic excitation    C[1]sigma{u}[+]</reference>
                 <val x="11.57" y="0.000"/>
                 <val x="11.73" y="0.1020E-21"/>
@@ -2634,10 +2634,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>13.08*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>F2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>F2(H1)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; electronic excitation      H[1]pi{u}</reference>
                 <val x="13.08" y="0.000"/>
                 <val x="19.25" y="0.1035E-21"/>
@@ -2658,10 +2658,10 @@
         </Interaction>
 
 
-        <Interaction type="ionization">
+        <Interaction model="ionization">
             <threshold_energy>15.69*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>F2</P></T></In>  --&gt;  <Out><T><n>2</n> <P>e^-</P></T> + <T><P>F2^+</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ IONIZATION;</reference>
                 <val x="15.69" y="0.000"/>
                 <val x="16.54" y="0.1030E-21"/>
@@ -2689,9 +2689,9 @@
         </Interaction>
 
 
-        <Interaction type="attachment">
+        <Interaction model="attachment">
             <Eq><In><T><P>e^-</P></T> + <T><P>F2</P></T></In>  --&gt;  <Out><T><P>F^-</P></T> + <T><P>F</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ ATTACHMENT; attachment.  large at zero energy.</reference>
                 <val x="0.000" y="0.8000E-18"/>
                 <val x="0.1000E-01" y="0.4440E-18"/>
@@ -2762,10 +2762,10 @@
             W.L. Morgan, Plasma Chemistry and Plasma Processing 12, 449 (1992).
         </cross_section_comment>
 
-        <Interaction type="momentum">
+        <Interaction model="momentum">
             <e_mass_ratio>0.1500E-04</e_mass_ratio>
             <Eq><In><T><P>e^-</P></T> + <T><P>HCl</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>HCl</P></T></Out></Eq>
-            <momentum_cross_section type="data" xscale="eV" yscale="m^2">
+            <momentum_cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ MOMENTUM;</reference>
                 <val x="0.000" y="0.1342E-16"/>
                 <val x="0.1000E-01" y="0.1342E-16"/>
@@ -2800,10 +2800,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>0.3600*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>HCl</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>HCl(v1)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; vibratinal excitation</reference>
                 <val x="0.3600" y="0.000"/>
                 <val x="0.4600" y="0.1305E-18"/>
@@ -2817,10 +2817,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>0.7000*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>HCl</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>HCl(v2)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; vibrational excitation</reference>
                 <val x="0.7000" y="0.000"/>
                 <val x="0.8000" y="0.1207E-19"/>
@@ -2836,10 +2836,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>5.500*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>HCl</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>HCl(A1)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; electronic excitation A[1]pi</reference>
                 <val x="5.500" y="0.000"/>
                 <val x="6.900" y="0.3080E-20"/>
@@ -2850,10 +2850,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>9.300*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>HCl</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>HCl(B1-C1)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; electronic excitation B[1]pi + C[1]pi</reference>
                 <val x="9.300" y="0.000"/>
                 <val x="9.600" y="0.3960E-20"/>
@@ -2864,9 +2864,9 @@
         </Interaction>
 
 
-        <Interaction type="attachment">
+        <Interaction model="attachment">
             <Eq><In><T><P>e^-</P></T> + <T><P>HCl</P></T></In>  --&gt;  <Out><T><P>H</P></T> + <T><P>Cl^-</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ ATTACHMENT; attachment forming Cl-</reference>
                 <val x="0.2010" y="0.000"/>
                 <val x="0.4100" y="0.000"/>
@@ -2912,9 +2912,9 @@
         </Interaction>
 
 
-        <Interaction type="attachment">
+        <Interaction model="attachment">
             <Eq><In><T><P>e^-</P></T> + <T><P>HCl</P></T></In>  --&gt;  <Out><T><P>H^-</P></T> + <T><P>Cl</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ ATTACHMENT; attachment forming H-</reference>
                 <val x="5.600" y="0.000"/>
                 <val x="6.750" y="0.1150E-21"/>
@@ -2935,10 +2935,10 @@
         </Interaction>
 
 
-        <Interaction type="ionization">
+        <Interaction model="ionization">
             <threshold_energy>12.74*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>HCl</P></T></In>  --&gt;  <Out><T><n>2</n> <P>e^-</P></T> + <T><P>HCl^+</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ IONIZATION;</reference>
                 <val x="12.74" y="0.000"/>
                 <val x="20.00" y="0.1600E-19"/>
@@ -2962,10 +2962,10 @@
             the inelastics over some energy intervals. 
         </cross_section_comment>
 
-        <Interaction type="elastic">
+        <Interaction model="elastic">
             <e_mass_ratio>0.6200E-05</e_mass_ratio>
             <Eq><In><T><P>e^-</P></T> + <T><P>CF4</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>CF4</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ ELASTIC;</reference>
                 <val x="0.000" y="0.4400E-19"/>
                 <val x="0.1000E-01" y="0.4467E-19"/>
@@ -3002,10 +3002,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>0.8000E-01*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>CF4</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>CF4(0.08eV)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; vibrational excitation (2,4)</reference>
                 <val x="0.8000E-01" y="0.000"/>
                 <val x="0.8800E-01" y="0.1240E-20"/>
@@ -3034,10 +3034,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>0.1660*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>CF4</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>CF4(0.166eV)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; vibrational excitation (1,3)</reference>
                 <val x="0.1660" y="0.000"/>
                 <val x="0.1740" y="0.1621E-19"/>
@@ -3075,9 +3075,9 @@
         </Interaction>
 
 
-        <Interaction type="attachment">
+        <Interaction model="attachment">
             <Eq><In><T><P>e^-</P></T> + <T><P>CF4</P></T></In>  --&gt;  <Out><T><P>CF2^-</P></T> + <T><P>F2</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ ATTACHMENT;</reference>
                 <val x="6.420" y="0.000"/>
                 <val x="6.427" y="0.1000E-21"/>
@@ -3094,10 +3094,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>7.570*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>CF4</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>CF4(7.57eV)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; electronic excitation</reference>
                 <val x="7.570" y="0.000"/>
                 <val x="7.573" y="0.9911E-22"/>
@@ -3115,10 +3115,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>12.70*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>CF4</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>CF2</P></T> + <T><P>F2</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; dissociative excitation</reference>
                 <val x="12.70" y="0.000"/>
                 <val x="12.71" y="0.1003E-21"/>
@@ -3137,10 +3137,10 @@
         </Interaction>
 
 
-        <Interaction type="ionization">
+        <Interaction model="ionization">
             <threshold_energy>15.61*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>CF4</P></T></In>  --&gt;  <Out><T><n>2</n> <P>e^-</P></T> + <T><P>CF4^+</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ IONIZATION;</reference>
                 <val x="15.61" y="0.000"/>
                 <val x="15.61" y="0.9793E-22"/>
@@ -3160,10 +3160,10 @@
             M. Kurachi and Y. Nakamura, J. Phys. D 22, 107 (1989).
         </cross_section_comment>
 
-        <Interaction type="elastic">
+        <Interaction model="elastic">
             <e_mass_ratio>0.1700E-04</e_mass_ratio>
             <Eq><In><T><P>e^-</P></T> + <T><P>SiH4</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>SiH4</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ ELASTIC;</reference>
                 <val x="0.000" y="0.3277E-18"/>
                 <val x="0.9400E-02" y="0.3277E-18"/>
@@ -3204,10 +3204,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>0.1130*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>SiH4</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>SiH4(0.113eV)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; vibrational excitation (2,4), extrapolate using ln(energy)/energy**2</reference>
                 <val x="0.1130" y="0.000"/>
                 <val x="0.1180" y="0.1010E-20"/>
@@ -3256,10 +3256,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>0.2700*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>SiH4</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>SiH4(0.27eV)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; vibrational excitation (1,3)</reference>
                 <val x="0.2700" y="0.000"/>
                 <val x="0.2710" y="0.1274E-19"/>
@@ -3300,10 +3300,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>7.800*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>SiH4</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>SiH4(7.8eV)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; excitation</reference>
                 <val x="7.7" y="0."/>
                 <val x="7.800" y="0.1010E-20"/>
@@ -3328,10 +3328,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>8.400*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>SiH4</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>SiH4(8.4eV)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; dissociative excitation</reference>
                 <val x="8.400" y="0.000"/>
                 <val x="8.810" y="0.1010E-20"/>
@@ -3354,9 +3354,9 @@
         </Interaction>
 
 
-        <Interaction type="attachment">
+        <Interaction model="attachment">
             <Eq><In><T><P>e^-</P></T> + <T><P>SiH4</P></T></In>  --&gt;  <Out><T><P>SiH2^-</P></T> + <T><P>H2</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ ATTACHMENT; diossociative attachment</reference>
                 <val x="0.000" y="0.0"/>
                 <val x="7.000" y="0.1010E-22"/>
@@ -3380,10 +3380,10 @@
         </Interaction>
 
 
-        <Interaction type="ionization">
+        <Interaction model="ionization">
             <threshold_energy>11.60*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>SiH4</P></T></In>  --&gt;  <Out><T><n>2</n> <P>e^-</P></T> + <T><P>SiH4^+</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ IONIZATION;</reference>
                 <val x="11.60" y="0.000"/>
                 <val x="12.22" y="0.1000E-20"/>
@@ -3408,10 +3408,10 @@
             A.V. Phelps and R.J. Van Brunt, J. Appl. Phys. 64, 4269 (1988).
         </cross_section_comment>
 
-        <Interaction type="momentum">
+        <Interaction model="momentum">
             <e_mass_ratio>0.3700E-05</e_mass_ratio>
             <Eq><In><T><P>e^-</P></T> + <T><P>SF6</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>SF6</P></T></Out></Eq>
-            <momentum_cross_section type="data" xscale="eV" yscale="m^2">
+            <momentum_cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ MOMENTUM;</reference>
                 <val x="0.000" y="0.2700E-16"/>
                 <val x="0.1000E-02" y="0.2600E-16"/>
@@ -3477,10 +3477,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>0.9500E-01*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>SF6</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>SF6(0.095eV)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; vibrational excitation</reference>
                 <val x="0.9500E-01" y="0.000"/>
                 <val x="0.1500" y="0.3400E-18"/>
@@ -3502,10 +3502,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>10.00*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>SF6</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>SF6(10.0eV)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; electronic excitation</reference>
                 <val x="10.00" y="0.000"/>
                 <val x="12.00" y="0.5000E-20"/>
@@ -3524,10 +3524,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>11.70*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>SF6</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>SF6(11.7eV)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; electronic excitation</reference>
                 <val x="11.70" y="0.000"/>
                 <val x="14.50" y="0.7560E-21"/>
@@ -3550,10 +3550,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>15.00*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>SF6</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>SF6(15.0eV)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; electronic excitation</reference>
                 <val x="15.00" y="0.000"/>
                 <val x="17.50" y="0.6048E-21"/>
@@ -3576,10 +3576,10 @@
         </Interaction>
 
 
-        <Interaction type="ionization">
+        <Interaction model="ionization">
             <threshold_energy>15.70*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>SF6</P></T></In>  --&gt;  <Out><T><n>2</n> <P>e^-</P></T> + <T><P>SF6^+</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ IONIZATION;</reference>
                 <val x="15.70" y="0.000"/>
                 <val x="16.45" y="0.8000E-22"/>
@@ -3608,9 +3608,9 @@
         </Interaction>
 
 
-        <Interaction type="attachment">
+        <Interaction model="attachment">
             <Eq><In><T><P>e^-</P></T> + <T><P>SF6</P></T></In>  --&gt;  <Out><T><P>SF6^-</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ ATTACHMENT; attachment forming SF6-</reference>
                 <val x="0.000" y="0.1400E-16"/>
                 <val x="0.1000E-02" y="0.1300E-16"/>
@@ -3634,9 +3634,9 @@
         </Interaction>
 
 
-        <Interaction type="attachment">
+        <Interaction model="attachment">
             <Eq><In><T><P>e^-</P></T> + <T><P>SF6</P></T></In>  --&gt;  <Out><T><P>SF5^-</P></T> + <T><P>F</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ ATTACHMENT; attachment forming SF5-</reference>
                 <val x="0.000" y="0.2275E-19"/>
                 <val x="0.2000E-01" y="0.2080E-19"/>
@@ -3656,9 +3656,9 @@
         </Interaction>
 
 
-        <Interaction type="attachment">
+        <Interaction model="attachment">
             <Eq><In><T><P>e^-</P></T> + <T><P>SF6</P></T></In>  --&gt;  <Out><T><P>SF4^-</P></T> + <T><P>F2</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ ATTACHMENT; attachment to form F-, F2-, and SF4-</reference>
                 <val x="1.300" y="0.000"/>
                 <val x="1.600" y="0.7150E-24"/>
@@ -3695,10 +3695,10 @@
             ftp://jila.colorado.edu/collision_data/
         </cross_section_comment>
 
-        <Interaction type="momentum">
+        <Interaction model="momentum">
             <e_mass_ratio>0.1360E-03</e_mass_ratio>
             <Eq><In><T><P>e^-</P></T> + <T><P>He</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>He</P></T></Out></Eq>
-            <momentum_cross_section type="data" xscale="eV" yscale="1.e-20*m^2">
+            <momentum_cross_section model="data" xscale="eV" yscale="1.e-20*m^2">
                 <reference>From Bolsig+ MOMENTUM; momentum TRANSFER - FROM CROMPTON ET AL AT LOW ENERGY, HAYASHI AT HIGH ENERGIES</reference>
                 <val x="0.0000E+00" y="0.4960E+01"/>
                 <val x="0.1000E-02" y="0.4980E+01"/>
@@ -3763,10 +3763,10 @@
             </momentum_cross_section>
         </Interaction>
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>19.82*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>He</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>He(19.82eV)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="1.e-20*m^2">
+            <cross_section model="data" xscale="eV" yscale="1.e-20*m^2">
                 <reference>From Bolsig+ EXCITATION; FROM 1960'S ANALYSIS OF MEIR-LEIBNITZ AND OTHERS BY PHELPS</reference>
                 <val x="0.0000E+00" y="0.0000E+00"/>
                 <val x="0.1980E+02" y="0.0000E+00"/>
@@ -3789,10 +3789,10 @@
             </cross_section>
         </Interaction>
 
-        <Interaction type="ionization">
+        <Interaction model="ionization">
             <threshold_energy>24.58*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>He</P></T></In>  --&gt;  <Out><T><n>2</n> <P>e^-</P></T> + <T><P>He^+</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="1.e-20*m^2">
+            <cross_section model="data" xscale="eV" yscale="1.e-20*m^2">
                 <reference>From Bolsig+ IONIZATION; total ionization RAPP AND ENGLANDER-GOLDEN, 1965</reference>
                 <val x="0.0000E+00" y="0.0000E+00"/>
                 <val x="0.2460E+02" y="0.0000E+00"/>
@@ -3822,10 +3822,10 @@
             good agreement with mobility and ionization rate calculated using Ne-AVP below.
         </cross_section_comment>
 
-        <Interaction type="elastic">
+        <Interaction model="elastic">
             <e_mass_ratio>0.2715E-04</e_mass_ratio>
             <Eq><In><T><P>e^-</P></T> + <T><P>Ne</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>Ne</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ ELASTIC;</reference>
                 <val x="0.000" y="0.1610E-20"/>
                 <val x="0.3000E-01" y="0.4690E-20"/>
@@ -3878,10 +3878,10 @@
             </cross_section>
         </Interaction>
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>16.62*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>Ne</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>Ne(3P2)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; NE 3P2 excitation</reference>
                 <val x="16.62" y="0.000"/>
                 <val x="17.00" y="0.1060E-21"/>
@@ -3901,10 +3901,10 @@
             </cross_section>
         </Interaction>
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>16.67*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>Ne</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>Ne(3P1)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; NE 3P1 (1S4) excitation; extrapolated after 200 eV using ln(energy)/energy</reference>
                 <val x="16.67" y="0.000"/>
                 <val x="17.71" y="0.2410E-22"/>
@@ -3928,10 +3928,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>16.84*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>Ne</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>Ne(1P1)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; Excitation 1P1 (1S2), extrapolated after 200 eV using ln(energy)/energy</reference>
                 <val x="16.84" y="0.000"/>
                 <val x="20.82" y="0.1910E-21"/>
@@ -3959,10 +3959,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>18.72*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>Ne</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>Ne(2P)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; (2p)  extrapolated after 88 eV using ln(energy)energy**2</reference>
                 <val x="18.72" y="0.000"/>
                 <val x="18.72" y="0.2800E-22"/>
@@ -3984,10 +3984,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>20.00*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>Ne</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>Ne(2S+3D)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; allowed (2s+3d); extrapolated after 90 eV using ln(energy)/energy</reference>
                 <val x="20.00" y="0.000"/>
                 <val x="20.28" y="0.2700E-22"/>
@@ -4009,10 +4009,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>20.65*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>Ne</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>Ne(3P)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; excitation (3p)</reference>
                 <val x="20.65" y="0.000"/>
                 <val x="21.69" y="0.2680E-22"/>
@@ -4031,10 +4031,10 @@
             </cross_section>
         </Interaction>
 
-        <Interaction type="ionization">
+        <Interaction model="ionization">
             <threshold_energy>4.900*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>Ne(3P2)</P></T></In>  --&gt;  <Out><T><n>2</n> <P>e^-</P></T> + <T><P>Ne^+</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="1.E-20*m^2">
+            <cross_section model="data" xscale="eV" yscale="1.E-20*m^2">
                 <reference>From Bolsig+ IONIZATION; stepwise ionization from metastable</reference>
                 <val x="4.900" y="0."/>
                 <val x="6.760" y="3.2"/>
@@ -4058,10 +4058,10 @@
         </Interaction>
 
 
-        <Interaction type="ionization">
+        <Interaction model="ionization">
             <threshold_energy>21.56*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>Ne</P></T></In>  --&gt;  <Out><T><n>2</n> <P>e^-</P></T> + <T><P>Ne^+</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ IONIZATION; Total ionization, WETZEL &amp; HEER</reference>
                 <val x="21.56" y="0.000"/>
                 <val x="22.00" y="0.9000E-22"/>
@@ -4107,10 +4107,10 @@
             from A.V. Phelps
         </cross_section_comment>
 
-        <Interaction type="momentum">
+        <Interaction model="momentum">
             <e_mass_ratio>0.1360E-04</e_mass_ratio>
             <Eq><In><T><P>e^-</P></T> + <T><P>Ar</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>Ar</P></T></Out></Eq>
-            <momentum_cross_section type="data" xscale="eV" yscale="m^2">
+            <momentum_cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ MOMENTUM; EFFECTIVE MOM-TRANSFER CROSS SECTION</reference>
                 <val x="0" y="7.5E-20"/>
                 <val x="1E-3" y="7.5E-20"/>
@@ -4182,10 +4182,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>11.50*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>Ar</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>Ar*</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; LOW E SCHAPERT-SCHEIBNER, HI E UNKNOWN</reference>
                 <val x="11.5" y="0"/>
                 <val x="12.7" y="7E-22"/>
@@ -4224,10 +4224,10 @@
 
 
 
-        <Interaction type="ionization">
+        <Interaction model="ionization">
             <threshold_energy>15.80*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>Ar</P></T></In>  --&gt;  <Out><T><n>2</n> <P>e^-</P></T> + <T><P>Ar^+</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ IONIZATION; RAPP-SCHRAM</reference>
                 <val x="15.8" y="0"/>
                 <val x="16" y="2.02E-22"/>
@@ -4268,10 +4268,10 @@
         </cross_section_comment>
 
 
-        <Interaction type="elastic">
+        <Interaction model="elastic">
             <e_mass_ratio>0.6500E-05</e_mass_ratio>
             <Eq><In><T><P>e^-</P></T> + <T><P>Kr</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>Kr</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ ELASTIC;</reference>
                 <val x="0.000" y="0.6600E-19"/>
                 <val x="0.1001" y="0.6611E-19"/>
@@ -4317,10 +4317,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>9.500*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>Kr</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>Kr(9.5eV)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION;</reference>
                 <val x="9.500" y="0.000"/>
                 <val x="10.29" y="0.1451E-22"/>
@@ -4350,10 +4350,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>10.00*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>Kr</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>Kr(a10.0eV)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION;</reference>
                 <val x="10.00" y="0.000"/>
                 <val x="10.81" y="0.1095E-21"/>
@@ -4381,10 +4381,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>10.00*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>Kr</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>Kr(b10.0eV)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION;</reference>
                 <val x="10.00" y="0.000"/>
                 <val x="11.04" y="0.1039E-22"/>
@@ -4412,10 +4412,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>10.00*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>Kr</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>Kr(c10.0eV)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION;</reference>
                 <val x="10.00" y="0.000"/>
                 <val x="20.00" y="0.1360E-20"/>
@@ -4428,10 +4428,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>11.00*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>Kr</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>Kr(11.0eV)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION;</reference>
                 <val x="11.00" y="0.000"/>
                 <val x="11.50" y="0.1600E-20"/>
@@ -4449,10 +4449,10 @@
         </Interaction>
 
 
-        <Interaction type="ionization">
+        <Interaction model="ionization">
             <threshold_energy>14.00*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>Kr</P></T></In>  --&gt;  <Out><T><n>2</n> <P>e^-</P></T> + <T><P>Kr^+</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ IONIZATION;</reference>
                 <val x="14.00" y="0.000"/>
                 <val x="14.24" y="0.1603E-21"/>
@@ -4480,10 +4480,10 @@
             Cross section Xe.  Same as siglo.sec, except extrapolated to 1 kV as indicated.
         </cross_section_comment>
 
-        <Interaction type="elastic">
+        <Interaction model="elastic">
             <e_mass_ratio>0.4200E-05</e_mass_ratio>
             <Eq><In><T><P>e^-</P></T> + <T><P>Xe</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>Xe</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ ELASTIC;</reference>
                 <val x="0.000" y="0.1305E-17"/>
                 <val x="0.1000E-01" y="0.8425E-18"/>
@@ -4544,10 +4544,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>8.310*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>Xe</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>Xe(1s5)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; Excitation XE+e__e + XE*(1s5)</reference>
                 <val x="8.310" y="0.000"/>
                 <val x="8.470" y="0.2500E-21"/>
@@ -4572,10 +4572,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>8.440*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>Xe</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>Xe(1s4)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; Excitation XE+e__e + XE*(1s4)</reference>
                 <val x="8.440" y="0.000"/>
                 <val x="15.09" y="0.3420E-20"/>
@@ -4594,10 +4594,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>9.690*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>Xe</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>Xe(1s3-1s2-2p)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; XE+e__e + XE*(1s3+1s2+2p) extrapolated after 40 eV using ln(energy)/energy</reference>
                 <val x="9.690" y="0.000"/>
                 <val x="10.04" y="0.1057E-20"/>
@@ -4622,10 +4622,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>10.00*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>Xe</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>Xe(2s-3d)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; XE+e__e + XE*(2s+3d) extrapolated after 40 eV using ln(energy)/energy</reference>
                 <val x="10.00" y="0.000"/>
                 <val x="11.44" y="0.4600E-20"/>
@@ -4648,10 +4648,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>11.00*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>Xe</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>Xe(2p-)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; Excitation XE+e__e + XE*(2p') set to zero at 200 eV</reference>
                 <val x="11.00" y="0.000"/>
                 <val x="11.26" y="0.4140E-21"/>
@@ -4673,10 +4673,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>11.70*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>Xe</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>Xe(11.7eV)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; XE+e__e + XE*(3&lt;n&lt;9) extrapolated after 100 eV</reference>
                 <val x="11.70" y="0.000"/>
                 <val x="13.59" y="0.7440E-21"/>
@@ -4700,10 +4700,10 @@
         </Interaction>
 
 
-        <Interaction type="ionization">
+        <Interaction model="ionization">
             <threshold_energy>3.440*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>Xe(1s5)</P></T></In>  --&gt;  <Out><T><n>2</n> <P>e^-</P></T> + <T><P>Xe^+</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ IONIZATION; xe(1s5)+e--&gt;xe+ +2e ionization from metastable level</reference>
                 <val x="3.440" y="0.000"/>
                 <val x="6.710" y="0.9550E-25"/>
@@ -4726,10 +4726,10 @@
         </Interaction>
 
 
-        <Interaction type="ionization">
+        <Interaction model="ionization">
             <threshold_energy>12.12*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>Xe</P></T></In>  --&gt;  <Out><T><n>2</n> <P>e^-</P></T> + <T><P>Xe^+</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ IONIZATION; RAPP &amp; ENGLANDER 1965 j.chem.phy 43 1464</reference>
                 <val x="12.12" y="0.000"/>
                 <val x="12.50" y="0.1100E-20"/>
@@ -4788,10 +4788,10 @@
             from WL Morgan's compilation
         </cross_section_comment>
 
-        <Interaction type="elastic">
+        <Interaction model="elastic">
             <e_mass_ratio>0.1240E-04</e_mass_ratio>
             <Eq><In><T><P>e^-</P></T> + <T><P>CO2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>CO2</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ ELASTIC; CO2 Momentum transfer: Lowke from Kieffer's Jila rept #13 Jila report #21092 and Shimaumura review (1989).</reference>
                 <val x="0.000" y="0.6000E-17"/>
                 <val x="0.1000E-02" y="0.5400E-17"/>
@@ -4836,10 +4836,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>0.8300E-01*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>CO2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>CO2(0.083eV)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; vibrational excitation    000 -&gt; 010</reference>
                 <val x="0.8300E-01" y="0.000"/>
                 <val x="0.8440E-01" y="0.8500E-20"/>
@@ -4880,10 +4880,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>0.1670*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>CO2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>CO2(0.167eV)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; vibrational excitation 000 -&gt; 020 + 100</reference>
                 <val x="0.1670" y="0.000"/>
                 <val x="0.2000" y="0.6000E-20"/>
@@ -4915,10 +4915,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>0.2910*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>CO2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>CO2(0.291eV)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; vibrational excitation 000 -&gt; 001</reference>
                 <val x="0.2910" y="0.000"/>
                 <val x="0.2970" y="0.4000E-20"/>
@@ -4942,10 +4942,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>0.3390*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>CO2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>CO2(0.339eV)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; vibrational excitation 000 -&gt; 0n0 + n00</reference>
                 <val x="0.3390" y="0.000"/>
                 <val x="1.500" y="0.000"/>
@@ -4960,10 +4960,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>0.2520*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>CO2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>CO2(0.252eV)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; vibrational excitation 000 -&gt; 0n0 + n00</reference>
                 <val x="0.2520" y="0.000"/>
                 <val x="2.500" y="0.000"/>
@@ -4977,10 +4977,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>0.4220*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>CO2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>CO2(0.422eV)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; vibrational excitation 000 -&gt; 0n0 + n00</reference>
                 <val x="0.4220" y="0.000"/>
                 <val x="2.500" y="0.000"/>
@@ -4992,10 +4992,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>0.5050*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>CO2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>CO2(0.505eV)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; vibrational excitation  000 -&gt; 0n0 + n00</reference>
                 <val x="0.5050" y="0.000"/>
                 <val x="2.500" y="0.000"/>
@@ -5007,10 +5007,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>2.500*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>CO2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>CO2(2.5eV)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; vibrational excitation 000 -&gt; 0n0 + n00</reference>
                 <val x="2.500" y="0.000"/>
                 <val x="3.000" y="0.1800E-20"/>
@@ -5021,10 +5021,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>7.000*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>CO2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>CO2(7.0eV)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; Electronic Excitation</reference>
                 <val x="7.000" y="0.000"/>
                 <val x="8.000" y="0.6000E-20"/>
@@ -5034,10 +5034,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>10.50*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>CO2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>CO2(10.5eV)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; Electronic Excitation</reference>
                 <val x="10.50" y="0.000"/>
                 <val x="12.00" y="0.6900E-20"/>
@@ -5052,10 +5052,10 @@
         </Interaction>
 
 
-        <Interaction type="ionization">
+        <Interaction model="ionization">
             <threshold_energy>13.30*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>CO2</P></T></In>  --&gt;  <Out><T><n>2</n> <P>e^-</P></T> + <T><P>CO2^+</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ IONIZATION;</reference>
                 <val x="13.30" y="0.000"/>
                 <val x="14.50" y="0.6000E-21"/>
@@ -5072,9 +5072,9 @@
         </Interaction>
 
 
-        <Interaction type="attachment">
+        <Interaction model="attachment">
             <Eq><In><T><P>e^-</P></T> + <T><P>CO2</P></T></In>  --&gt;  <Out><T><P>CO</P></T> + <T><P>O^-</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ ATTACHMENT; dissociative attachment</reference>
                 <val x="3.850" y="0.000"/>
                 <val x="4.300" y="0.1400E-22"/>
@@ -5093,10 +5093,10 @@
             Cross sections Hg. Corrected mass ratio 09/08, otherwise same as in siglo.sec.
         </cross_section_comment>
 
-        <Interaction type="elastic">
+        <Interaction model="elastic">
             <e_mass_ratio>2.733E-6</e_mass_ratio>
             <Eq><In><T><P>e^-</P></T> + <T><P>Hg</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>Hg</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ ELASTIC;</reference>
                 <val x="0.000" y="0.6000E-19"/>
                 <val x="30." y="0.6000E-19"/>
@@ -5104,10 +5104,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>4.660*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>Hg</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>Hg(6-3P0)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; Hg excit   Hg(6-1S0)--&gt;Hg(6-3P0)
                     <bibtex>
 @ARTICLE{1973PhRvA...8.2348R,
@@ -5156,10 +5156,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>4.870*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>Hg</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>Hg(6-3P1)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; Hg excit   Hg(6-1S0)--&gt;Hg(6-3P1)
                     <bibtex>
 @ARTICLE{1973PhRvA...8.2348R,
@@ -5232,10 +5232,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>5.430*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>Hg</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>Hg(6-3P2)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; Hg excit   Hg(6-1S0)--&gt;Hg(6-3P2)
                     <bibtex>
 @ARTICLE{1973PhRvA...8.2348R,
@@ -5306,10 +5306,10 @@
         </Interaction>
 
 
-        <Interaction type="excitation">
+        <Interaction model="excitation">
             <threshold_energy>7.700*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>Hg</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>Hg(7-3S1)</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ EXCITATION; Hg excit     Hg(6-1S0)--&gt;Hg(7-3S1)    Kenty J.A.P. 1950</reference>
                 <val x="7.700" y="0.000"/>
                 <val x="7.706" y="0.3513E-20"/>
@@ -5352,10 +5352,10 @@
         </Interaction>
 
 
-        <Interaction type="ionization">
+        <Interaction model="ionization">
             <threshold_energy>10.44*eV</threshold_energy>
             <Eq><In><T><P>e^-</P></T> + <T><P>Hg</P></T></In>  --&gt;  <Out><T><n>2</n> <P>e^-</P></T> + <T><P>Hg^+</P></T></Out></Eq>
-            <cross_section type="data" xscale="eV" yscale="m^2">
+            <cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ IONIZATION; Hg ionization   Hg(6-1S0)--&gt;Hg+
                     <bibtex>
 @ARTICLE{1973PhRvA...8.2348R,

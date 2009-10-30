@@ -27,7 +27,7 @@ BOOST_AUTO_TEST_SUITE( Label_tests ); // {
     set ans = f.filter(xset);
 
     for ( set::iterator i = ans.begin(); i != ans.end(); ++i ) {
-      BOOST_CHECK_EQUAL( i->query<std::string>("@type"), "elastic" );
+      BOOST_CHECK_EQUAL( i->query<std::string>("@model"), "elastic" );
     }
 
   }

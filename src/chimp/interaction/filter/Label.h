@@ -20,7 +20,7 @@ namespace chimp {
         /* MEMBER FUNCTIONS */
         /** Default constructor does not initialize the xpath filter string. */
         Label( const std::string & label ) {
-          xpath_query = "self::node()[@type='" + label + "']";
+          xpath_query = "self::node()[@model='" + label + "']";
         }
 
       };

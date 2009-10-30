@@ -16,7 +16,7 @@
 namespace chimp {
   namespace interaction {
 
-    /** Input data type indices.
+    /** Input species information.
      * \todo Allow inputs with more than two species.  This is going to be
      * necessary such that three-body recombination equations will be possible. 
      */
@@ -83,8 +83,8 @@ namespace chimp {
       template <class RnDB>
       void set_mu_AB(const RnDB & db) {
         using property::mass;
-        const double & m_A = db[A.type].mass::value;
-        const double & m_B = db[B.type].mass::value;
+        const double & m_A = db[A.species].mass::value;
+        const double & m_B = db[B.species].mass::value;
         mu_AB = m_A * m_B / (m_A + m_B);
       }
 
@@ -98,8 +98,8 @@ namespace chimp {
       std::ostream & print( std::ostream & out, const RnDB & db ) const {
         Term::printset ps;
 
-        if ( A.type == B.type )
-          ps.add( Term(A.type, 2), db );
+        if ( A.species == B.species )
+          ps.add( Term(A.species, 2), db );
         else
           ps.add(A, db);
           ps.add(B, db);

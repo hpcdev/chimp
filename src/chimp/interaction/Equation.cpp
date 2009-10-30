@@ -109,7 +109,7 @@ namespace chimp {
       for ( PIter i = out.begin(); i != out.end(); ++i ) {
         Term it( db.findParticleIndx(i->first->name::value), i->second );
 
-        if (it.type == -1)
+        if (it.species == -1)
           throw xml::error(
             "Cannot load equation with unknown outputs. "
             "please add outputs to RuntimeDB instance first."
@@ -119,20 +119,20 @@ namespace chimp {
       }
 
       {
-        /* Determine which type of interaction we are dealing with and
+        /* Determine which model of interaction we are dealing with and
          * instantiate the implementation of the interaction. */
 
         typedef interaction::model::Elastic<options> elastic;
         typedef interaction::model::InElastic<options> inelastic;
 
-        string i_type = inelastic::label;
+        string i_model = inelastic::label;
         if (in == out)
-          i_type = elastic::label;
+          i_model = elastic::label;
 
-        i_type = x.query<string>( "@type", i_type );
+        i_model = x.query<string>( "@model", i_model );
 
         typedef typename RnDB::InteractionRegistry::const_iterator IRIter;
-        IRIter i = db.interaction_registry.find(i_type);
+        IRIter i = db.interaction_registry.find(i_model);
 
         if ( i != db.interaction_registry.end() ) {
           retval.interaction.reset(
@@ -141,7 +141,7 @@ namespace chimp {
         } else {
           string Eq = x.query<string>("Eq");
           throw xml::error(
-            "Could not determine interaction type found for interaction '" + Eq + '\'' );
+            "Could not determine interaction model found for interaction '" + Eq + '\'' );
         }
       }
 
@@ -149,19 +149,19 @@ namespace chimp {
 
       {
         /* now, instantiate the child CrossSection object with the correct
-         * type. */
+         * model. */
         xml::Context cs_x = x.find("cross_section");
-        string cs_type = cs_x.query<string>("@type");
+        string cs_model = cs_x.query<string>("@model");
 
         typedef typename RnDB::CrossSectionRegistry::const_iterator CSRIter;
-        CSRIter i = db.cross_section_registry.find(cs_type);
+        CSRIter i = db.cross_section_registry.find(cs_model);
 
         if ( i != db.cross_section_registry.end() ) {
           retval.cs.reset( i->second->new_load( cs_x, retval.mu_AB ) );
         } else {
           string Eq = x.query<string>("Eq");
           throw xml::error(
-            "cross section type '"+cs_type+
+            "cross section model '"+cs_model+
             "' not found for interaction '" + Eq + '\'' );
         }
       }

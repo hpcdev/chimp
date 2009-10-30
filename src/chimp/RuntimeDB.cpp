@@ -125,7 +125,7 @@ namespace chimp {
       interaction::Input const & in = lhs_i->first;
 
       /* first instantiate the (A,B)th interactions */
-      Set & set = interactions( in.A.type, in.B.type );
+      Set & set = interactions( in.A.species, in.B.species );
       set.lhs = in;
 
       xml::Context::set const & xs = lhs_i->second;
@@ -205,10 +205,10 @@ namespace chimp {
     const std::string & n = prop.name::value;
     using olson_tools::logger::log_warning;
 
-    /* See if this particle type has already been
+    /* See if this particle species has already been
      * loaded into the database (we don't want any duplicates). */
     if ( findParticle(n) != props.end() )
-      log_warning( "particle type '%s' was previously loaded; will not reload",
+      log_warning( "particle species '%s' was previously loaded; will not reload",
                    n.c_str() );
     else
       props.push_back(prop);
@@ -221,7 +221,7 @@ namespace chimp {
     typedef typename PropertiesVector::const_iterator CIter;
     CIter i = findParticle(n);
     if (i == props.end())
-      throw std::runtime_error("particle type not loaded: '" + n + '\'');
+      throw std::runtime_error("particle species not loaded: '" + n + '\'');
     return  *i;
   }
 
@@ -232,7 +232,7 @@ namespace chimp {
     typedef typename PropertiesVector::iterator Iter;
     Iter i = findParticle(n);
     if (i == props.end())
-      throw std::runtime_error("particle type not loaded: '" + n + '\'');
+      throw std::runtime_error("particle species not loaded: '" + n + '\'');
     return  *i;
   }
 
@@ -258,9 +258,9 @@ namespace chimp {
     int i = findParticleIndx(i_name);
     int j = findParticleIndx(j_name);
     if (i == -1)
-      throw std::runtime_error("particle type not loaded: '" + i_name + '\'');
+      throw std::runtime_error("particle species not loaded: '" + i_name + '\'');
     if (j == -1)
-      throw std::runtime_error("particle type not loaded: '" + j_name + '\'');
+      throw std::runtime_error("particle species not loaded: '" + j_name + '\'');
 
     return  interactions(i,j);
   }
@@ -273,9 +273,9 @@ namespace chimp {
     int i = findParticleIndx(i_name);
     int j = findParticleIndx(j_name);
     if (i == -1)
-      throw std::runtime_error("particle type not loaded: '" + i_name + '\'');
+      throw std::runtime_error("particle species not loaded: '" + i_name + '\'');
     if (j == -1)
-      throw std::runtime_error("particle type not loaded: '" + j_name + '\'');
+      throw std::runtime_error("particle species not loaded: '" + j_name + '\'');
 
     return  interactions(i,j);
   }
