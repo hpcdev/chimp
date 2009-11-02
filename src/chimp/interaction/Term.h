@@ -6,6 +6,7 @@
 #define chimp_interaction_Term_h
 
 #include <chimp/property/name.h>
+#include <chimp/property/mass.h>
 
 #include <ostream>
 #include <set>
@@ -116,6 +117,21 @@ namespace chimp {
         return out;
       }
     };
+
+
+    /** Print a whole set of Terms. */
+    template < typename TermIterator,
+               typename RnDB >
+    std::ostream & printTerms( const TermIterator & tbegin,
+                               const TermIterator & tend,
+                               std::ostream & out,
+                               const RnDB & db ) {
+      Term::printset ps;
+      for ( TermIterator i = tbegin; i != tend; ++i )
+        ps.add(*i, db);
+
+      return ps.print(out, db);
+    }
 
     /** Equals operation for interaction::Term.  */
     inline bool operator== ( const Term & lhs, const Term & rhs ) {
