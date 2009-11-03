@@ -9,7 +9,8 @@
 #include <chimp/interaction/Term.h>
 #include <chimp/interaction/Input.h>
 #include <chimp/interaction/model/Base.h>
-#include <chimp/interaction/model/detail/ReducedMass.h>
+#include <chimp/interaction/ReducedMass.h>
+#include <chimp/interaction/model/detail/vss_helpers.h>
 #include <chimp/property/mass.h>
 
 #include <olson-tools/power.h>
@@ -24,24 +25,20 @@ namespace chimp {
   namespace interaction {
     namespace model {
 
-      namespace detail {
-        /** load a new instance of the Interaction. */
-        double load_vss_param( const xml::Context & x );
-      } /* namespace chimp::interaction::model::detail */
-
-
       /** Implementation of a variable-soft-sphere elastic interaction model. */
       template < typename options >
       struct VSSElastic : Base<options> {
         /* TYPEDEFS */
         typedef property::mass mass;
 
+        typedef typename Base<options>::ParticleParam ParticleParam;
+
         /* STATIC STORAGE */
         static const std::string label;
 
         /* MEMBER STORAGE */
         /** Reduced mass related ratios. */
-        detail::ReducedMass mu;
+        ReducedMass mu;
 
         /** Inverse of VSS model parameter. */
         double vss_param_inv;
@@ -49,16 +46,23 @@ namespace chimp {
 
 
         /* MEMBER FUNCTIONS */
-        /** Default constructor sets mu to invalid values. */
-        VSSElastic() : mu() { }
+        /** Default constructor sets mu to invalid values and vss_param_inv to
+         * 1.0. */
+        VSSElastic() : mu(), vss_param_inv(1.0) { }
 
-        /** Constructor. */
-        VSSElastic( const Term & t0,
-                    const Term & t1,
-                    const double & vss_param_inv,
+        /** Construct from xml::Context and calculate the reduced mass from the
+         * Input and RuntimeDB instances specified. */
+        VSSElastic( const xml::Context & x,
+                    const interaction::Input & input,
                     const RuntimeDB<options> & db )
-          : mu( db[t0.species].mass::value, db[t1.species].mass::value ),
-            vss_param_inv(vss_param_inv) { }
+          : mu( input, db ),
+            vss_param_inv( detail::loadVSSParamInv( x ) ) { }
+
+        /** Construct from xml::Context and use the specified reduced mass. */
+        VSSElastic( const xml::Context & x,
+                    const ReducedMass & mu )
+          : mu( mu ),
+            vss_param_inv( detail::loadVSSParamInv( x ) ) { }
 
         /** Virtual NO-OP destructor. */
         virtual ~VSSElastic() { }
@@ -66,6 +70,18 @@ namespace chimp {
         /** Obtain the label of the model. */
         virtual std::string getLabel() const {
           return label;
+        }
+
+        virtual void interact( const std::vector< const Particle* > & reactants,
+                               std::vector< ParticleParam > & products ) {
+          assert( reactants.size() == 2u );
+
+          products.resize( 2u );
+          products[0].is_set = true;
+          products[1].is_set = true;
+
+          interact( products[0].particle = *reactants[0],
+                    products[1].particle = *reactants[1] );
         }
 
         /** Binary elastic collision of VHS and VSS models. */
@@ -126,8 +142,7 @@ namespace chimp {
         virtual VSSElastic * new_load( const xml::Context & x,
                                        const interaction::Input & input,
                                        const RuntimeDB<options> & db ) const {
-          double vss_param_inv = detail::load_vss_param( x );
-          return new VSSElastic( input.A, input.B, vss_param_inv, db );
+          return new VSSElastic( x, input, db );
         }
       };
 

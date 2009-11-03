@@ -41,12 +41,12 @@ namespace chimp {
       typedef typename detail::makeSortedTermMap<RnDB>::type SortedElements;
       typedef typename SortedElements::iterator SEIter;
 
-      detail::sorted_equation_elements in, out;
+      SortedElements in, out;
 
       /* Load up the reactants and products and sort them according to
        * chimp::property::Comparator. */
       int n_in  = detail::loadAndSortTerms( x.eval("Eq/In/T"),  in,  db );
-      int n_out = detail::loadAndSortTerms( x.eval("Eq/Out/T"), out, db );
+      /* n_out */ detail::loadAndSortTerms( x.eval("Eq/Out/T"), out, db );
 
       Equation retval;
 
@@ -65,12 +65,6 @@ namespace chimp {
           ++i;
         retval.B = Term(db.findParticleIndx( i->first->name::value ));
       }
-
-      /* FIXME:  This was done so that we could pass it to the cross sections
-       * below.  We should really just pass a reference to the database and this
-       * Equation instance so the cross sections can just ask for what they
-       * need through some part of the Equation interface. */
-      retval.set_mu_AB(db);
 
       /* set the output. */
       for ( SEIter i = out.begin(); i != out.end(); ++i ) {

@@ -79,7 +79,7 @@ namespace chimp {
            *
            * @see DSMCInfo::load().
            * */
-          static VHSInfo load(xml::Context & x);
+          static VHSInfo load(const xml::Context & x);
         };
 
       } /* namespace chimp::interaction::cross_section::detail */

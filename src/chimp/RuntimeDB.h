@@ -84,7 +84,7 @@
 #  include <chimp/make_options.h>
 #  include <chimp/interaction/Set.h>
 #  include <chimp/interaction/model/Base.h>
-#  include <chimp/interaction/CrossSection.h>
+#  include <chimp/interaction/cross_section/Base.h>
 #  include <chimp/interaction/filter/Base.h>
 #  include <chimp/property/name.h>
 #  include <chimp/property/Comparator.h>
@@ -133,16 +133,22 @@ namespace chimp {
     /** Set of interactions equations that share the same inputs. */
     typedef interaction::Set<options> Set;
 
+    /** Cross section Base type. */
+    typedef interaction::cross_section::Base<options> CrossSection;
+
+    /** Interaction model Base type. */
+    typedef interaction::model::Base<options> Interaction;
+
     /** Map of cross section "name" to model. */
     typedef std::map<
       std::string,
-      shared_ptr<interaction::CrossSection>
+      shared_ptr< CrossSection >
     > CrossSectionRegistry;
 
     /** Map of interaction "name" to model. */
     typedef std::map<
       std::string,
-      shared_ptr< interaction::model::Base<options> >
+      shared_ptr< Interaction >
     > InteractionRegistry;
 
     /** Data type for the Interaction table.  This is really just a wrapper

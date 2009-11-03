@@ -17,7 +17,7 @@ namespace chimp {
           out.compute_gamma_visc_inv();
         }
 
-        VHSInfo VHSInfo::load(xml::Context & x) {
+        VHSInfo VHSInfo::load(const xml::Context & x) {
           return x.parse<VHSInfo>();
         }
 

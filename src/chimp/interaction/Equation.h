@@ -27,7 +27,7 @@ namespace chimp {
 
     /** Detailed balanced equation. */
     template < typename options >
-    struct Equation : Input, Output {
+    struct Equation : Input {
       /* TYPEDEFS */
       /** A vector of equations. */
       typedef std::vector<Equation> list;
@@ -42,7 +42,7 @@ namespace chimp {
       TermList products;
 
       /** The cross_section::Base instance that this interaction provides.  */
-      shared_ptr< cross_section::Base > cs;
+      shared_ptr< cross_section::Base<options> > cs;
 
       /** The interaction model used by this interaction. */
       shared_ptr< model::Base<options> > interaction;

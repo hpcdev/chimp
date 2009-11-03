@@ -1,18 +1,12 @@
-// $Id$
-/*
- * Copyright 2002-2007 Spencer Olson
- * dsmc package.
- *
+/** \file
+ * Implementation of VSS helper functions.
  */
 
-#include <chimp/RuntimeDB.h>
+#include <chimp/interaction/model/detail/vss_helpers.h>
 
 #include <olson-tools/xml/physical_parse.h>
 
-#include <physical/quantity.h>
-
-#include <string>
-#include <cmath>
+#include <physical/runtime.h>
 
 namespace chimp {
   namespace interaction {
@@ -20,7 +14,7 @@ namespace chimp {
       namespace detail {
 
         /** load a new instance of the Interaction. */
-        double load_vss_param( const xml::Context & x ) {
+        double loadVSSParamInv( const xml::Context & x ) {
           using runtime::physical::Quantity;
           return x.query<Quantity>("vss_param_inv")
                   .assertUnitless().getCoeff<double>();

@@ -5,6 +5,7 @@
 #include <chimp/property/Comparator.h>
 
 #include <map>
+#include <string>
 
 namespace chimp {
   namespace interaction {
@@ -40,10 +41,11 @@ namespace chimp {
                             typename makeSortedTermMap<RnDB>::type & el,
                             RnDB & db ) {
         typedef xml::Context::list::const_iterator CXIter;
+        typedef typename makeSortedTermMap<RnDB>::type::iterator PIter;
 
         int n_particles = 0;
         for (CXIter i = xl.begin(); i != xl.end(); ++i ) {
-          string particle_name = i->query<string>("P");
+          std::string particle_name = i->query<std::string>("P");
           int n = i->query<int>("n",1);
 
           n_particles += n;

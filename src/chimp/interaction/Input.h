@@ -16,6 +16,9 @@
 namespace chimp {
   namespace interaction {
 
+    /* FIXME:  This class needs to be deleted and replaced by a TermList as is
+     * used for the Equation::products.  We'll get there in time... */
+
     /** Input species information.
      * \todo Allow inputs with more than two species.  This is going to be
      * necessary such that three-body recombination equations will be possible. 
@@ -28,9 +31,6 @@ namespace chimp {
       /** The second Term of the Input portion of an Equation. */
       Term B;
 
-      /** The reduced mass of the two species in these terms. */
-      double mu_AB;
-
 
 
       /* MEMBER FUNCTIONS */
@@ -38,55 +38,8 @@ namespace chimp {
        * The caller can optionally supply the terms and reduced mass explicitly.
        * */
       Input( const Term & A = Term(),
-             const Term & B = Term(),
-             const double & mu_AB = 0.0 ) :
-        A(A), B(B), mu_AB(mu_AB) {}
-
-      /** A constructor that specifies the A and B terms.  The caller must also
-       * provide a reference to a RuntimeDB instance from which masses of the
-       * two species can be retrieved. 
-       *
-       * @param db
-       *    The reference to an instance of the RuntimeDB class.
-       * @param A
-       *    The first term.
-       * @param B
-       *    The second term.
-       */
-      template <class RnDB>
-      Input( const RnDB & db, const Term & A, const Term & B ) {
-        setInput(db,A,B);
-      }
-
-      /** Set the terms of the Equation Input and implicitly the reduced mass.
-       * This function uses the provided reference to the RuntimeDB class to
-       * obtain the species masses and compute the reduced mass. 
-       * @param db
-       *    The reference to an instance of the RuntimeDB class.
-       * @param A
-       *    The first term.
-       * @param B
-       *    The second term.
-       */
-      template <class RnDB>
-      void setInput( const RnDB & db, const Term & A, const Term & B ) {
-        this->A = A;
-        this->B = B;
-        set_mu_AB(db);
-      }
-
-      /** Set the reduced mass using the reference to the supplied RuntimeDB
-       * class.
-       * @param db
-       *    The reference to an instance of the RuntimeDB class.
-       */
-      template <class RnDB>
-      void set_mu_AB(const RnDB & db) {
-        using property::mass;
-        const double & m_A = db[A.species].mass::value;
-        const double & m_B = db[B.species].mass::value;
-        mu_AB = m_A * m_B / (m_A + m_B);
-      }
+             const Term & B = Term() )
+        : A(A), B(B) { }
 
       /** The stream printer for the Equation Input class.
        * @param out

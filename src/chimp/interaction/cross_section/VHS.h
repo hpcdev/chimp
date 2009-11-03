@@ -7,6 +7,7 @@
 
 #include <chimp/interaction/cross_section/Base.h>
 #include <chimp/interaction/cross_section/detail/VHSInfo.h>
+#include <chimp/interaction/ReducedMass.h>
 
 #include <olson-tools/power.h>
 #include <olson-tools/xml/Doc.h>
@@ -21,8 +22,13 @@ namespace chimp {
   namespace interaction {
     namespace cross_section {
 
-      /** Variable hard sphere implementation of the cross_section::Base class. */
-      struct VHS : cross_section::Base {
+      /** Variable hard sphere implementation of the cross_section::Base class.
+       * @tparam options
+       *    The RuntimeDB template options (see make_options::type for the
+       *    default options class).  
+       */
+      template < typename options >
+      struct VHS : cross_section::Base<options> {
         /* STATIC STORAGE */
         static const std::string label;
 
@@ -31,12 +37,34 @@ namespace chimp {
         /** The vhs information for this particular interaction. */
         detail::VHSInfo vhs;
 
+        /** The reduced mass. */
+        ReducedMass mu;
+
 
 
 
         /* MEMBER FUNCTIONS */
-        /** Constructor; sets reduced mass to zero by default. */
-        VHS(const double & mu = 0.0) : cross_section::Base(mu) {}
+        /** Default constructor creates a VHS instance with invalid data.  This
+         * is primarily useful for obtaining a class from which to call
+         * VHS::new_load. 
+         */
+        VHS() : cross_section::Base<options>() { }
+
+        /** Constructor with the reduced mass already specified. */
+        VHS( const xml::Context & x,
+             const ReducedMass & mu )
+        : cross_section::Base<options>(),
+          vhs( detail::VHSInfo::load(x) ),
+          mu( mu ) { }
+
+        /** Constructor that uses the specified inputs and the database to
+         * calculate the reduced mass. */
+        VHS( const xml::Context & x,
+             const interaction::Input & input,
+             const RuntimeDB<options> & db )
+        : cross_section::Base<options>(),
+          vhs( detail::VHSInfo::load(x) ),
+          mu( input, db ) { }
 
         /** Virtual NO-OP destructor. */
         virtual ~VHS() {}
@@ -59,7 +87,7 @@ namespace chimp {
               vhs.cross_section
             * fast_pow(
                 ( 2.0 * K_B * vhs.T_ref
-                  / ( reduced_mass
+                  / ( mu.value
                       * SQR(v_relative)
                     )
                 ), (vhs.visc_T_law - 0.5))
@@ -72,9 +100,10 @@ namespace chimp {
           return operator()(v_rel_max) * v_rel_max;
         }
 
-        virtual VHS * new_load( xml::Context & x,
-                                const double & mu ) const {
-          return new VHS( load(x,mu) );
+        virtual VHS * new_load( const xml::Context & x,
+                                const interaction::Input & input,
+                                const RuntimeDB<options> & db ) const {
+          return new VHS( x, input, db );
         }
 
         /** Obtain the label of the model. */
@@ -84,18 +113,10 @@ namespace chimp {
 
         /** Print the VHS data cross section parameters. */
         std::ostream & print(std::ostream & out) const {
-          out << "{reduced-mass: " << reduced_mass << ", "
+          out << "{reduced-mass: " << mu.value << ", "
               << "vhs: ";
           vhs.print(out) << '}';
           return out;
-        }
-
-        /** Load the information into this properties node.
-         * */
-        static VHS load(xml::Context & x, const double & mu) {
-          VHS cs(mu);
-          cs.vhs = detail::VHSInfo::load(x);
-          return cs;
         }
       };
 

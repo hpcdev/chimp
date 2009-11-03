@@ -36,10 +36,9 @@ project /chimp
 lib particledb :
       src/chimp/property/detail/check.cpp
       src/chimp/physical_calc.cpp
-      src/chimp/interaction/DATACrossSection.cpp
-      src/chimp/interaction/VHSCrossSection.cpp
-      src/chimp/interaction/detail/VHSInfo.cpp
-      src/chimp/interaction/model/VSSElastic.cpp
+      src/chimp/interaction/cross_section/DATA.cpp
+      src/chimp/interaction/cross_section/detail/VHSInfo.cpp
+      src/chimp/interaction/model/detail/vss_helpers.cpp
     : <link>static
     ;
 

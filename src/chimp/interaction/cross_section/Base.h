@@ -5,6 +5,8 @@
 #ifndef chimp_interaction_cross_section_Base_h
 #define chimp_interaction_cross_section_Base_h
 
+#include <chimp/interaction/Input.h>
+
 #include <olson-tools/xml/Doc.h>
 
 #include <physical/physical.h>
@@ -14,23 +16,17 @@
 
 
 namespace chimp {
+  template < typename T > class RuntimeDB;
+
   namespace xml = olson_tools::xml;
 
   namespace interaction {
     namespace cross_section {
 
       /** Interface definition for cross section functor classes. */
+      template < typename options >
       struct Base {
-        /* MEMBER STORAGE */
-        /** Reduced mass for the input particles. */
-        double reduced_mass;
-
-
-
         /* MEMBER FUNCTIONS */
-        /** Constructor sets reduced mass to 0.0 by default. */
-        Base(const double & mu = 0.0) : reduced_mass(mu) {}
-
         /** Virtual NO-OP destructor. */
         virtual ~Base() {}
 
@@ -46,9 +42,10 @@ namespace chimp {
          * */
         virtual double findMaxSigmaVProduct(const double & v_rel_max) const = 0;
 
-        /** Clone the Base class. */
-        virtual Base * new_load( xml::Context & x,
-                                 const double & mu ) const = 0;
+        /** Load a new instance of cross_section::Base. */
+        virtual Base * new_load( const xml::Context & x,
+                                 const interaction::Input & input,
+                                 const RuntimeDB<options> & db ) const = 0;
 
         /** Obtain the label of the model. */
         virtual std::string getLabel() const = 0;
@@ -57,7 +54,8 @@ namespace chimp {
 
 
       /** Effective radius.  Required by octree::Octree and dsmc::ParticleNode. */
-      double inline effectiveRadius( const Base & cs,
+      template < typename options >
+      double inline effectiveRadius( const Base<options> & cs,
                                      const double & v_relative ) {
         using physical::constant::si::pi;
         return /*size * */ 0.5 * sqrt( cs(v_relative) / pi );

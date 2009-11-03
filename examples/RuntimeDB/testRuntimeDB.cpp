@@ -100,8 +100,8 @@ int main() {
   typedef DB::InteractionTable::const_iterator CIter;
   for ( CIter i  = db.getInteractions().begin();
               i != db.getInteractions().end(); ++i ) {
-    const int & A = i->lhs.A.type;
-    const int & B = i->lhs.B.type;
+    const int & A = i->lhs.A.species;
+    const int & B = i->lhs.B.species;
 
     if (i->rhs.size() == 0)
         continue;

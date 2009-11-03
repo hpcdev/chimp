@@ -8,8 +8,8 @@
 #  include <chimp/interaction/model/VSSElastic.h>
 #  include <chimp/interaction/filter/EqIO.h>
 #  include <chimp/interaction/filter/Elastic.h>
-#  include <chimp/interaction/VHSCrossSection.h>
-#  include <chimp/interaction/DATACrossSection.h>
+#  include <chimp/interaction/cross_section/VHS.h>
+#  include <chimp/interaction/cross_section/DATA.h>
 
 #  include <math.h>
 #  include <ostream>
@@ -31,10 +31,10 @@ namespace chimp {
 
 
     /* register the library-provided CrossSection functors. */
-    typedef interaction::VHSCrosssection vhs;
-    typedef interaction::DATACrosssection data;
-    cross_section_registry[vhs::label ].reset(new vhs);
-    cross_section_registry[data::label].reset(new data);
+    typedef interaction::cross_section::VHS<options> VHS;
+    typedef interaction::cross_section::DATA<options> DATA;
+    cross_section_registry[VHS::label ].reset(new VHS);
+    cross_section_registry[DATA::label].reset(new DATA);
 
 
     /* register the library-provided Interaction functors. */
@@ -57,7 +57,7 @@ namespace chimp {
 
     for (unsigned int A = 0; A < props.size(); ++A) {
       for (unsigned int B = A; B < props.size(); ++B) {
-        interaction::Input in(*this, A, B);
+        interaction::Input in(A, B);
 
         using std::string;
         using property::name;
