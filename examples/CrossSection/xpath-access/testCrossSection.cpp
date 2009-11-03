@@ -1,8 +1,8 @@
 /** \file Simple test of chimp::Particle mechanics. */
 
 #include <chimp/physical_calc.h>
-#include <chimp/interaction/VHSCrossSection.h>
-#include <chimp/interaction/DATACrossSection.h>
+#include <chimp/interaction/cross_section/VHS.h>
+#include <chimp/interaction/cross_section/DATA.h>
 
 #include <physical/physical.h>
 
@@ -12,9 +12,7 @@
 
 namespace xml = olson_tools::xml;
 using namespace physical::elements;
-using chimp::interaction::CrossSection;
-using chimp::interaction::VHSCrossSection;
-using chimp::interaction::DATACrossSection;
+namespace XS = chimp::interaction::cross_section;
 using physical::system::si;
 const double amu = physical::constant::amu<si>::value;
 const double m_e = physical::constant::m_e<si>::value;
@@ -23,7 +21,7 @@ using physical::unit::nm;
 using physical::unit::s;
 
 std::ostream & print( std::ostream & out,
-                      CrossSection & cs,
+                      XS::Base & cs,
                       const double & v0,
                       const double & v1,
                       const int & N_points ) {
@@ -53,13 +51,13 @@ int main() {
     std::ofstream fdata("data.dat");
 
     std::cout << "testing VHS..." << std::endl;
-    xml::Context::list xl = db.root_context.eval("//Interaction[cross_section/@type='vhs']");
+    xml::Context::list xl = db.root_context.eval("//Interaction[cross_section/@model='vhs']");
     for (xml::Context::list::iterator i = xl.begin(); i!=xl.end(); i++) {
         std::string Eq = i->query<std::string>("Eq");
         std::cout << "Eq:  " << Eq << std::endl;
 
         xml::Context x = i->find("cross_section");
-        VHSCrossSection cs = VHSCrossSection::load(x,0.5*87*amu);
+        XS::VHS cs = XS::VHS::load(x,0.5*87*amu);
         //cs.print(std::cout) << std::endl;
 
         fvhs << "# Eq:  " << Eq << '\n';
@@ -67,15 +65,15 @@ int main() {
     }
 
 
-    std::cout << "testing DATACrossSection..." << std::endl;
-    xl = db.root_context.eval("//Interaction[cross_section/@type='data']");
+    std::cout << "testing XS::DATA..." << std::endl;
+    xl = db.root_context.eval("//Interaction[cross_section/@model='data']");
     for (xml::Context::list::iterator i = xl.begin(); i!=xl.end(); i++) {
         std::string Eq = i->query<std::string>("Eq");
         std::cout << "Eq:  " << Eq << std::endl;
 
         xml::Context x = i->find("cross_section");
         try {
-            DATACrossSection cs = DATACrossSection::load(x,m_e*Hg::mass / (m_e + Hg::mass));
+            XS::DATA cs = XS::DATA::load(x,m_e*Hg::mass / (m_e + Hg::mass));
             //cs.print(std::cout) << std::endl;
 
             fdata << "# Eq:  " << Eq << '\n';

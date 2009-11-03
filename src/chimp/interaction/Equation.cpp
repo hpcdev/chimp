@@ -1,6 +1,6 @@
 
 #include <chimp/interaction/Equation.h>
-#include <chimp/interaction/CrossSection.h>
+#include <chimp/interaction/cross_section/Base.h>
 #include <chimp/interaction/model/Elastic.h>
 #include <chimp/interaction/model/InElastic.h>
 #include <chimp/interaction/detail/sort_terms.h>
@@ -116,7 +116,7 @@ namespace chimp {
 
 
       {
-        /* now, instantiate the child CrossSection object with the correct
+        /* now, instantiate the child cross_section::Base object with the correct
          * model. */
         using std::string;
 

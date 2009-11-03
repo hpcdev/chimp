@@ -2,10 +2,10 @@
  * Emperical data cross section provider class.
  * */
 
-#ifndef chimp_interaction_DATACrossSection_h
-#define chimp_interaction_DATACrossSection_h
+#ifndef chimp_interaction_cross_section_DATA_h
+#define chimp_interaction_cross_section_DATA_h
 
-#include <chimp/interaction/CrossSection.h>
+#include <chimp/interaction/cross_section/Base.h>
 
 #include <olson-tools/xml/Doc.h>
 #include <olson-tools/data_set.h>
@@ -20,122 +20,127 @@ namespace chimp {
   namespace xml = olson_tools::xml;
 
   namespace interaction {
+    namespace cross_section {
 
-    namespace detail {
-      /** Calculate the log(E)/E exponential fall-off of the cross section. */
-      inline double g(const double & x) {
-        register double s = x + M_E;
-        return M_E * std::log(s)/s;
-      }
-    }
-
-    /** Scaling constant used for extrapolating data using a ln(E)/E scaling.
-     * \todo get the scaling right.
-     * for right now, this is an arbitrary scaling.
-     */
-    const double lne_e_scaling = olson_tools::SQR(2500.0/3e8);
-
-    /** Emperical data cross section provider.
-     * */
-    struct DATACrossSection : CrossSection {
-      /* TYPEDEFS */
-      typedef olson_tools::data_set<double,double> table_t;
-
-
-      /* STATIC STORAGE */
-      static const std::string label;
-
-
-      /* MEMBER STORAGE */
-      /** Table of cross-section data. */
-      table_t table;
-
-
-
-      /* MEMBER FUNCTIONS */
-      /** Constructor; initializes reduced mass to 0.0 by default. */
-      DATACrossSection(const double & mu = 0.0) : CrossSection(mu) {}
-
-      /** Virtual NO-OP destructor. */
-      virtual ~DATACrossSection() {}
-
-      /** Interpolate the cross-section from a lookup table.
-       *
-       * @param v_relative
-       *     The relative velocity between two particles.
-       * */
-      inline virtual double operator() (const double & v_relative) const {
-        using olson_tools::SQR;
-
-        /* find the first entry not less that v_relative */
-        table_t::const_iterator i = table.lower_bound(v_relative);
-        if      (i==table.begin()) {
-          /* Assume that the data begins at a threshold value */
-          return 0;
-        } else if (i==table.end()) {
-          //throw std::runtime_error("fix extrapolation code please");
-          --i;
-
-          using detail::g;
-          return i->second * g(SQR(v_relative - i->first)*lne_e_scaling);
-        } else {
-          table_t::const_iterator f = i;
-          --i;
-          /* we are not at the ends of the data, so use the normal lever
-           * rule.  
-           * TODO:  Do we need to do the L_inv mult befoe the add to avoid
-           * precision errors?  Does our data ever require this? */
-          double L_inv = 1.0/(f->first - i->first);
-          return   i->second * L_inv * (f->first - v_relative) +
-                   f->second * L_inv * (v_relative - i->first);
+      namespace detail {
+        /** Calculate the log(E)/E exponential fall-off of the cross section. */
+        inline double g(const double & x) {
+          register double s = x + M_E;
+          return M_E * std::log(s)/s;
         }
       }
 
-      /** Determine by inspection the maximum value of the product v_rel *
-       * cross_section given a specific maximum v_rel to include in the search. */
-      virtual double findMaxSigmaVProduct(const double & v_rel_max) const {
-        /* search through the data within the range [0:v_rel_max) to find
-         * maximum product. */
-        double retval = 0;
-        /* find the first entry not less that v_rel_max */
-        table_t::const_iterator f = table.lower_bound(v_rel_max);
-        for (table_t::const_iterator i = table.begin(); i != f; ++i) {
-          double prod_i = i->first * i->second;
-          if (retval < prod_i)
-            retval = prod_i;
+      /** Scaling constant used for extrapolating data using a ln(E)/E scaling.
+       * \todo get the scaling right.
+       * for right now, this is an arbitrary scaling.
+       */
+      const double lne_e_scaling = olson_tools::SQR(2500.0/3e8);
+
+      /** Emperical data cross section provider.
+       * */
+      struct DATA : cross_section::Base {
+        /* TYPEDEFS */
+        typedef olson_tools::data_set<double,double> table_t;
+
+
+        /* STATIC STORAGE */
+        static const std::string label;
+
+
+        /* MEMBER STORAGE */
+        /** Table of cross-section data. */
+        table_t table;
+
+
+
+        /* MEMBER FUNCTIONS */
+        /** Constructor; initializes reduced mass to 0.0 by default. */
+        DATA(const double & mu = 0.0) : cross_section::Base(mu) {}
+
+        /** Virtual NO-OP destructor. */
+        virtual ~DATA() {}
+
+        /** Interpolate the cross-section from a lookup table.
+         *
+         * @param v_relative
+         *     The relative velocity between two particles.
+         * */
+        inline virtual double operator() (const double & v_relative) const {
+          using olson_tools::SQR;
+
+          /* find the first entry not less that v_relative */
+          table_t::const_iterator i = table.lower_bound(v_relative);
+          if      (i==table.begin()) {
+            /* Assume that the data begins at a threshold value */
+            return 0;
+          } else if (i==table.end()) {
+            //throw std::runtime_error("fix extrapolation code please");
+            --i;
+
+            using detail::g;
+            return i->second * g(SQR(v_relative - i->first)*lne_e_scaling);
+          } else {
+            table_t::const_iterator f = i;
+            --i;
+            /* we are not at the ends of the data, so use the normal lever
+             * rule.  
+             * TODO:  Do we need to do the L_inv mult befoe the add to avoid
+             * precision errors?  Does our data ever require this? */
+            double L_inv = 1.0/(f->first - i->first);
+            return   i->second * L_inv * (f->first - v_relative) +
+                     f->second * L_inv * (v_relative - i->first);
+          }
         }
 
-        return retval;
-      }
+        /** Determine by inspection the maximum value of the product v_rel *
+         * cross_section given a specific maximum v_rel to include in the search. */
+        virtual double findMaxSigmaVProduct(const double & v_rel_max) const {
+          /* search through the data within the range [0:v_rel_max) to find
+           * maximum product. */
+          double retval = 0;
+          /* find the first entry not less that v_rel_max */
+          table_t::const_iterator f = table.lower_bound(v_rel_max);
+          for (table_t::const_iterator i = table.begin(); i != f; ++i) {
+            double prod_i = i->first * i->second;
+            if (retval < prod_i)
+              retval = prod_i;
+          }
 
-      virtual DATACrossSection * new_load( xml::Context & x,
-                                           const double & mu ) const {
-        return new DATACrossSection( load(x,mu) );
-      }
+          return retval;
+        }
 
-      /** Obtain the label of the model. */
-      virtual std::string getLabel() const {
-        return label;
-      }
+        virtual DATA * new_load( xml::Context & x,
+                                 const double & mu ) const {
+          return new DATA( load(x,mu) );
+        }
 
-      /** Print the cross section data table. */
-      std::ostream & print(std::ostream & out) const {
-        out << table;
-        return out;
-      }
+        /** Obtain the label of the model. */
+        virtual std::string getLabel() const {
+          return label;
+        }
 
-      /** Load the information into this properties node.
-       * @param x
-       *     The context of the cross-section from which to load the
-       *     cross-section data set.
-       *
-       * @param mu
-       *     Reduced mass of particles in question.
-       * */
-      static DATACrossSection load( xml::Context & x, const double & mu );
-    };
+        /** Print the cross section data table. */
+        std::ostream & print(std::ostream & out) const {
+          out << table;
+          return out;
+        }
 
+        /** Load the information into this properties node.
+         * @param x
+         *     The context of the cross-section from which to load the
+         *     cross-section data set.
+         *
+         * @param mu
+         *     Reduced mass of particles in question.
+         * */
+        static DATA load( xml::Context & x, const double & mu );
+      };
+
+      template < typename options >
+      const std::string DATA<options>::label = "data";
+
+    } /* namespace chimp::interaction::cross_section */
   } /* namespace chimp::interaction */
 } /* namespace chimp */
 
-#endif // chimp_interaction_DATACrossSection_h
+#endif // chimp_interaction_cross_section_DATA_h

@@ -8,7 +8,7 @@
 #include <chimp/interaction/Term.h>
 #include <chimp/interaction/Input.h>
 #include <chimp/interaction/model/Base.h>
-#include <chimp/interaction/CrossSection.h>
+#include <chimp/interaction/cross_section/Base.h>
 
 #include <olson-tools/xml/Doc.h>
 
@@ -41,8 +41,8 @@ namespace chimp {
       /** The list of products resulting from this equation. */
       TermList products;
 
-      /** The CrossSection instance that this interaction provides.  */
-      shared_ptr<CrossSection> cs;
+      /** The cross_section::Base instance that this interaction provides.  */
+      shared_ptr< cross_section::Base > cs;
 
       /** The interaction model used by this interaction. */
       shared_ptr< model::Base<options> > interaction;
