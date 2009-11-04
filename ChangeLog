@@ -1,3 +1,210 @@
+commit 0be1d28ca44a596cbccb5befa5684f83740abb91
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Wed Nov 4 15:53:38 2009 -0700
+
+    added in forgotten dependency on /physical//runtime
+
+commit a1e78ba553762bd2001d2151c2e1c63db675d2aa
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Wed Nov 4 14:36:31 2009 -0700
+
+    added installation options
+
+commit 2d3596d1cc8bc1bda9a2ee1c95b986e10026b688
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Tue Nov 3 13:45:38 2009 -0700
+
+    Cross sections moved into new namespace and are loaded using a Input reference.
+    
+    This is the same loading signature that the interaction models use.  Perhaps in
+    the future, the loading functions should be passed a reference to the full
+    Equation object, but not yet...
+    These changes had the following consequences:
+    reduced mass is no longer stored by the cross_section::Base class, but must be
+    computed and stored in the descendant classes.  This makes for a more generic
+    interface for cross sections and their specific loading functions.
+    
+    Also, cross_section::Base classes now have the 'options' template parameter,
+    similar to RuntimeDB and interaction::model::Base classes.
+    
+    The ReducedMass class was moved from a detail namespace to the interaction
+    namespace since it will be used by several pieces and could be useful to the
+    outside world.
+    
+    Created new interact(...) signature for arbitrary numbers of interaction terms
+    for:  InElastic and VSSElastic.
+
+commit e337f687417a5288d04a85641c661b2beda8bb5e
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Tue Nov 3 09:12:14 2009 -0700
+
+    updated namespace stuff in VHSInfo files
+
+commit e36264982e76278abd627d32f0e6bbfd485a12fc
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Tue Nov 3 09:08:53 2009 -0700
+
+    Percolated name changes for new cross_section:: namespace.
+    
+    Changed a remaining @type to @model in testCrossSection.cpp
+    Moved VHSInfo stuff to cross_section/detail/  Still need to rename stuff inside
+    the files.
+
+commit 0b298d52fc6c58844899d004c6d3cd013c102255
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Mon Nov 2 16:40:40 2009 -0700
+
+    moved cross sections into subdirectory.
+    
+    This isn't finished yet.  I've still got to add the new cross_section namespace
+    and change the name of CrossSection to cross_section::Base.
+
+commit d56d05b8c073eff2458837185cd00c2431a1cb58
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Mon Nov 2 16:33:22 2009 -0700
+
+    Removed interaction::Output class and moved some pieces into Equation.
+    
+    Other pieces were moved into the appropriate location.  In the future, I'd like
+    to remove the Input class and use the same code to represent inputs as outputs.
+    This would allow >2 inputs and would provide a more generic interface to the
+    left hand side and right hand side of the interaction equations.
+
+commit 5c64c49217e68159a556e7126e93be302fa7640f
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Fri Oct 30 15:31:10 2009 -0600
+
+    fixed some ordering problems in some interaction equations in the xml
+
+commit c89d6fda848baf25252244bb6a63c1daa4ef7bac
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Fri Oct 30 14:56:40 2009 -0600
+
+    Replaced usage of 'type' word:
+    
+    For interactions and cross sections, it when from @type to @model.
+    For identifying particle species, it changed to the word 'species'.
+    
+    Added new model::Base::interact interface and implemented it for elastic
+    collisions.
+
+commit e7a61840a0e97c83a7aba1df1d86311f10363303
+Merge: 2a9ccdd 413a43f
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Fri Oct 30 13:34:41 2009 -0600
+
+    Merge branch 'topic/inelastic' into topic/inelastic-nosplit
+    
+    Merge commit '413a43faf738b27d5c8f6030347cc8fb5a5172af' into HEAD
+
+commit 413a43faf738b27d5c8f6030347cc8fb5a5172af
+Merge: 8044d97 b3a2de4
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Fri Oct 30 13:34:19 2009 -0600
+
+    Merge branch 'master' into topic/inelastic
+    
+    Merge commit 'b3a2de4a1da269246d4de9aebd04993bfad6c437' into HEAD
+
+commit 2a9ccdd547ecd423493d78cc29f7c2fbc02e94f0
+Merge: 24f5ed7 b3a2de4
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Fri Oct 30 13:34:37 2009 -0600
+
+    Merge branch 'master' into topic/inelastic-nosplit
+    
+    Merge commit 'b3a2de4a1da269246d4de9aebd04993bfad6c437' into HEAD
+
+commit 8044d97b7671fdce06cacf63f320d19b0e3759e9
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Fri Oct 30 10:04:09 2009 -0600
+
+    added labels and acessor function to cross section classes
+
+commit b3a2de4a1da269246d4de9aebd04993bfad6c437
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Fri Oct 30 13:33:43 2009 -0600
+
+    split up the standard-particledb.xml file into standard/*.xml pieces
+
+commit 24f5ed73782c0db8eb15d70b7c9809d4f9284853
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Fri Oct 30 13:23:34 2009 -0600
+
+    Revert "added some n-body (in)elastic classes--unfinished as of yet"
+    
+    This reverts commit 6b61d6f5b3946409a0f996c345ba3be42ebfd0ab.
+
+commit 26e12f21573a20c20fc9cccc413bc182556ae7ca
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Thu Oct 29 13:58:24 2009 -0600
+
+    added some n-body (in)elastic classes--unfinished as of yet
+
+commit ccb109299ac447c1d14cfc68bf67ad93f793d1c5
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Thu Oct 29 12:10:34 2009 -0600
+
+    added first cut of installation of libraries to a local stage directory
+
+commit 73961dd4ce8c8836c3167a082cf1f708ddb3ab5f
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Wed Oct 28 16:10:17 2009 -0600
+
+    removed invalid copyright indication
+
+commit 311872b90c606e25533ee07ab90555ce69f4ee4c
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Wed Oct 28 15:15:46 2009 -0600
+
+    Changed momentum cross_section data into momentum_cross_section
+    
+    Added Will and Shane as contributors in AUTHORS
+    Interactions are now filtered in RuntimeDB.cpp by whether they have a
+        cross_section xml node.
+    examples/RuntimeDB example has been overhauled, updated, and simplified.
+
+commit ce9d5f255729ab09e5ae289a6abd5a1ac8f2e681
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Tue Oct 27 14:42:30 2009 -0600
+
+    improved Properties examples
+
+commit 52901072190428c621a037fe740870d4ea8b5fb7
+Author: U-OW\olsonse <olsonse@ow.(none)>
+Date:   Tue Oct 27 09:32:12 2009 -0800
+
+    updated use following olson-tools changes
+
+commit eceb55ebc4b56bbf255ee79a70835111f5c2a42e
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Sat Oct 24 23:02:38 2009 -0600
+
+    More documentation and simplification.
+
+commit 294b5a2fc75c2559af6cea54675fa204bbef0c25
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Sat Oct 24 22:16:52 2009 -0600
+
+    More documentation and removed property/PHYS/*
+    
+    property/PHYS/* stuff was removed in favor of just using the
+    runtime::physical::dimension::* classes from the physical package.  If we could
+    only get Boost.Spirit to compile faster, then we might be able to use the
+    default implementation of parse_item and provide a generally useful
+    xml::check_units parsing functionality.
+
+commit 47f93b7cdeff1ba905f6d38e0faa8ab801666337
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Fri Oct 23 17:09:15 2009 -0600
+
+    Improved camel script usage.
+    
+    Improved documentation some more.
+    Simplified some header files by removing implementation into .cpp files.
+    Removed some functions from classes into non-member space when they can be
+    computed by public interface.
+
 commit 0034b982a7a0cd5480a8e80485e886b23afb5eba
 Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
 Date:   Fri Oct 23 11:38:45 2009 -0600

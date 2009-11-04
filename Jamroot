@@ -59,22 +59,23 @@ path-constant TOP : . ;
 local xml2-features = [ mpi.cmdline_to_features [ SHELL "printf '%s ' compiler `xml2-config --cflags --libs`" ] ] ;
 
 use-project /olson-tools : ../olson-tools ;
+use-project /physical : ../physical ;
 use-project /boost : ../boost ;
 
 path-constant PARTICLEDB_XML : $(TOP)/data/particledb.xml ;
 
 project /chimp
     : requirements
-        <library>/olson-tools//headers
-        $(xml2-features)
         <include>src
+        <library>/olson-tools//headers
+        <library>/boost//headers
+        $(xml2-features)
         <define>PARTICLEDB_XML=\\\"$(PARTICLEDB_XML)\\\"
     : usage-requirements
-        <library>/olson-tools//misc
-        <library>/olson-tools//random
-        $(xml2-features)
         <include>src
-        <library>/boost//regex
+        <library>/olson-tools//headers
+        <library>/boost//headers
+        $(xml2-features)
         <define>PARTICLEDB_XML=\\\"$(PARTICLEDB_XML)\\\"
     ;
 
@@ -86,7 +87,12 @@ lib particledb :
       src/chimp/interaction/cross_section/DATA.cpp
       src/chimp/interaction/cross_section/detail/VHSInfo.cpp
       src/chimp/interaction/model/detail/vss_helpers.cpp
-    : <link>static
+    : <link>static # build requirements
+    : # no default build
+    : <library>/boost//regex/<link>static
+      <library>/physical//runtime
+      <library>/olson-tools//misc
+      <library>/olson-tools//random
     ;
 
 # installation configuration
