@@ -1,15 +1,60 @@
-# alias install : install-headers install-lib ;
+# Usage:
+#
+#   bjam [options] [properties] [install|stage]
+#
+#   Builds and installs Boost.
+#
+# Targets and Related Options:
+#
+#   install                 Install headers and compiled library files to the
+#   =======                 configured locations (below).
+#
+#   --prefix=<PREFIX>       Install architecture independent files here.
+#                           Default; C:\Boost on Win32
+#                           Default; /usr/local on Unix. Linux, etc.
+#
+#   --exec-prefix=<EPREFIX> Install architecture dependent files here.
+#                           Default; <PREFIX>
+#
+#   --libdir=<DIR>          Install library files here.
+#                           Default; <EPREFIX>/lib
+#
+#   --includedir=<HDRDIR>   Install header files here.
+#                           Default; <PREFIX>/include
+#
+#   stage                   Build and install only compiled library files
+#   =====                   to the ./stage directory.
+#
+# Other Options:
+#
+#   --build-dir=DIR         Build in this location instead of building
+#                           within the distribution tree. Recommended!
+#
+#   --help                  This message.
+#
+# Properties:
+#
+#   toolset=toolset         Indicates the toolset to build with.
+#
+#   variant=debug|release   Select the build variant
+#
+#   link=static|shared      Whether to build static or shared libraries
+#
+#   threading=single|multi  Whether to build single or multithreaded binaries
+# 
+#   runtime-link=static|shared      
+#                           Whether to link to static or shared C and C++ runtime.
+#   
 
-# install install-lib : particledb ;
-# 
-# install install-headers
-#     : [ glob-tree *.h : .svn ]
-#     ;
-# 
+import mpi ; # for converting xml2-config output to features.
+import testing ; # for unit tests
+import path ; # for getting a better glob
+import package ; # used for installing whole package (provides --prefix related
+                 # options )
+
 
 path-constant TOP : . ;
 
-import mpi ;
 
 local xml2-features = [ mpi.cmdline_to_features [ SHELL "printf '%s ' compiler `xml2-config --cflags --libs`" ] ] ;
 
@@ -33,6 +78,8 @@ project /chimp
         <define>PARTICLEDB_XML=\\\"$(PARTICLEDB_XML)\\\"
     ;
 
+alias headers : : : : <include>src ;
+
 lib particledb :
       src/chimp/property/detail/check.cpp
       src/chimp/physical_calc.cpp
@@ -42,5 +89,51 @@ lib particledb :
     : <link>static
     ;
 
-install stage : particledb ;
+# installation configuration
 
+# options:
+install-properties =
+    <install-no-version-symlinks>on
+    ;
+
+if [ modules.peek : NT ] {
+    install-properties += <install-default-prefix>C:/Boost ;
+} else if [ modules.peek : UNIX ] {
+    install-properties += <install-default-prefix>/usr/local ;
+}
+
+
+# the list of libraries to build and install
+local libraries = particledb ;
+# all headers to install
+local all_headers = [ path.glob-tree src : *.h *.cpp : .svn ] ;
+# data to install
+local data = [ path.glob-tree data : *.xml : .svn ] ;
+
+
+# Complete install allowing --prefix and related command line options
+alias install : install-code install-data ;
+explicit install ;
+
+# install code allowing --prefix and related command line options
+package.install install-code
+    : $(install-properties) <install-source-root>$(TOP)/src
+    :
+    : $(libraries)
+    : $(all_headers)
+    ;
+explicit install-code ;
+
+# install data allowing --prefix and related command line options
+package.install install-data
+    : $(install-properties) <install-header-subdir>chimp/data
+    :
+    :
+    : $(data)
+    ;
+explicit install-data ;
+
+
+# install the libs into a staging dir
+install stage : $(libraries) ;
+explicit stage ;
