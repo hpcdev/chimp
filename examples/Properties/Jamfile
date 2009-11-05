@@ -1,2 +1,3 @@
 build-project simple ;
+build-project specify-properties ;
 build-project xpath-access ;
