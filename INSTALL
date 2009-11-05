@@ -10,7 +10,7 @@ General Install:
   These instructions are for installing this software into a standard layout
   where libraries are installed to  <prefix>/lib
   and headers are installed to      <prefix>/include
-  and xml data are installed to     <prefix>/include/chimp/data
+  and xml data are installed to     <prefix>/include/../share/chimp/data
   DEFAULT:  <prefix> = /usr/local
 
   For a simple install, just do:

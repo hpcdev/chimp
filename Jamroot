@@ -133,7 +133,9 @@ explicit install-code ;
 
 # install data allowing --prefix and related command line options
 package.install install-data
-    : $(install-properties) <install-header-subdir>chimp/data
+    : $(install-properties)
+      <install-source-root>$(TOP)
+      <install-header-subdir>../share/chimp
     :
     :
     : $(data)
