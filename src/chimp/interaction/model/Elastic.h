@@ -9,8 +9,7 @@
 #include <chimp/interaction/Term.h>
 #include <chimp/interaction/Input.h>
 #include <chimp/interaction/model/Base.h>
-#include <chimp/interaction/model/detail/ReducedMass.h>
-#include <chimp/property/mass.h>
+#include <chimp/interaction/ReducedMass.h>
 
 #include <olson-tools/power.h>
 #include <olson-tools/Vector.h>
@@ -19,6 +18,7 @@
 
 #include <string>
 #include <cmath>
+#include <cassert>
 
 namespace chimp {
   namespace interaction {
@@ -28,14 +28,16 @@ namespace chimp {
       template < typename options >
       struct Elastic : Base<options> {
         /* TYPEDEFS */
-        typedef property::mass mass;
+        typedef typename Base<options>::ParticleParam ParticleParam;
+
 
         /* STATIC STORAGE */
         static const std::string label;
 
+
         /* MEMBER STORAGE */
         /** Reduced mass related ratios. */
-        detail::ReducedMass mu;
+        ReducedMass mu;
 
 
         /* MEMBER FUNCTIONS */
@@ -43,10 +45,13 @@ namespace chimp {
         Elastic() : mu() { }
 
         /** Constructor. */
-        Elastic( const Term & t0,
-                 const Term & t1,
+        Elastic( const interaction::Input & input,
                  const RuntimeDB<options> & db )
-          : mu( db[t0.type].mass::value, db[t1.type].mass::value ) { }
+          : mu( input, db ) { }
+
+        /** Constructor that specifies the reduced mass explicitly. */
+        Elastic( const ReducedMass & mu )
+          : mu( mu ) { }
 
         /** Virtual NO-OP destructor. */
         virtual ~Elastic() { }
@@ -54,6 +59,18 @@ namespace chimp {
         /** Obtain the label of the model. */
         virtual std::string getLabel() const {
           return label;
+        }
+
+        virtual void interact( const std::vector< const Particle* > & reactants,
+                               std::vector< ParticleParam > & products ) {
+          assert( reactants.size() == 2u );
+
+          products.resize( 2u );
+          products[0].is_set = true;
+          products[1].is_set = true;
+
+          interact( products[0].particle = *reactants[0],
+                    products[1].particle = *reactants[1] );
         }
 
         /** Binary elastic collision. */
@@ -96,7 +113,7 @@ namespace chimp {
         virtual Elastic * new_load( const xml::Context & x,
                                     const interaction::Input & input,
                                     const RuntimeDB<options> & db ) const {
-          return new Elastic( input.A, input.B, db );
+          return new Elastic( input, db );
         }
 
       };

@@ -1,5 +1,63 @@
 Installation Instructions
 *************************
 
-Because of the change to the Boost.build system, I will still need to
-implement installation.  
+This project uses the Boost.Build system which automatically tracks
+link, include, and other dependencies among any number of libraries and
+projects.  Except for using the (unfinished) CMake build configuration, these
+instructions assume that you have Boost.Build installed on your system.  
+
+General Install:
+  These instructions are for installing this software into a standard layout
+  where libraries are installed to  <prefix>/lib
+  and headers are installed to      <prefix>/include
+  and xml data are installed to     <prefix>/include/../share/chimp/data
+  DEFAULT:  <prefix> = /usr/local
+
+  For a simple install, just do:
+  
+      bjam install
+  
+  To change the installation path, use
+  
+      bjam --prefix=/path/to/install/into/ install
+  
+  For help on other options, execute
+  
+      bjam --help
+
+
+Boost.Build:
+  If you use Boost.Build, integrating this library into your own project is
+  the most easy.  You simply, include a line like:
+
+      use-project /chimp : path/to/chimp ;
+
+  where the path/to/chimp path can be either relative or absolute.  
+  This library has several sub-libraries that are useful and which will
+  invoke the proper linking to other libraries such as Boost.Regex.
+
+      /chimp//headers    : only provides <include> dependencies
+      /chimp//particledb : invokes linking to the Particle database library
+                           useful for particle simulations such as DSMC.
+                           Also links in required libs (e.g Boost.Regex)
+      /chimp//em         : (conceptual still) invokes linking to the
+                           electro-magnetic constants and properties database
+                           library.
+      /chimp//mechanical : (conceptual still) invokes linking to the mechanical
+                           constants and properties database library.
+
+CMake:
+  CMake files also accompany the package and make it easier to use in a
+  CMake environment.  To use in a CMake environment, just add appropriate
+  lines to your master CMakeLists.txt file, such as
+
+      add_subdirectory(chimp)
+
+  You will also have to include the proper line for the include paths, such
+  as:
+      include_directories(
+        ${CMAKE_SOURCE_DIR}/path/to/your/code
+        ${CMAKE_SOURCE_DIR}/chimp/src
+      )
+
+  NOTE:  the CMake files are a work in progress and may not work yet.

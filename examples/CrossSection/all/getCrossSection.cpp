@@ -5,7 +5,7 @@
 
 #include <chimp/RuntimeDB.h>
 #include <chimp/interaction/filter/Null.h>
-#include <chimp/interaction/CrossSection.h>
+#include <chimp/interaction/cross_section/Base.h>
 
 #include <physical/physical.h>
 
@@ -15,8 +15,9 @@
 
 #include <cstdlib>
 
+template < typename T >
 std::ostream & print( std::ostream & out,
-                      chimp::interaction::CrossSection & cs,
+                      chimp::interaction::cross_section::Base<T> & cs,
                       const double & v0,
                       const double & v1,
                       const int & N_points ) {

@@ -1,13 +1,10 @@
 
 #include <chimp/interaction/Equation.h>
-#include <chimp/interaction/CrossSection.h>
+#include <chimp/interaction/cross_section/Base.h>
 #include <chimp/interaction/model/Elastic.h>
 #include <chimp/interaction/model/InElastic.h>
-#include <chimp/interaction/detail/PropertyPtrComparator.h>
+#include <chimp/interaction/detail/sort_terms.h>
 #include <chimp/property/name.h>
-#include <chimp/property/mass.h>
-
-#include <map>
 
 
 namespace chimp {
@@ -15,17 +12,17 @@ namespace chimp {
 
 
     template < typename options >
-    template <class RnDB>
+    template < typename RnDB >
     std::ostream & Equation<options>::print( std::ostream & out,
                                              const RnDB & db ) const {
       Input::print(out,db) << "  -->  ";
-      Output::print(out,db);
+      printTerms( products.begin(), products.end(), out, db );
       return out;
     }
 
 
     template < typename options >
-    template <class RnDB>
+    template < typename RnDB >
     inline Equation<options>
     Equation<options>::load( const xml::Context & x,
                              const std::string & Eq,
@@ -36,65 +33,31 @@ namespace chimp {
 
 
     template < typename options >
-    template <class RnDB>
+    template < typename RnDB >
     Equation<options>
     Equation<options>::load( const xml::Context & x, const RnDB & db ) {
-      using std::string;
-      using property::mass;
       using property::name;
 
+      typedef typename detail::makeSortedTermMap<RnDB>::type SortedElements;
+      typedef typename SortedElements::iterator SEIter;
 
-      typedef std::map<
-        const typename RnDB::Properties *,
-        int,
-        detail::PropertyPtrComparator
-      > equation_elements;
-      typedef typename equation_elements::iterator PIter;
+      SortedElements in, out;
 
-      equation_elements in, out;
-      int n_in = 0, n_out = 0;
-
-      xml::Context::list xl = x.eval("Eq/In/T");
-      for (xml::Context::list::iterator i = xl.begin(); i != xl.end(); ++i ) {
-        string particle_name = i->query<string>("P");
-        int n = i->query<int>("n",1);
-
-        n_in += n;
-
-        const typename RnDB::Properties * p = &( db[particle_name] );
-
-        PIter j = in.find(p);
-        if ( j != in.end() )
-          j->second += n;
-        else
-          in.insert( std::make_pair(p, n) );
-      }
-
-      xl = x.eval("Eq/Out/T");
-      for (xml::Context::list::iterator i = xl.begin(); i != xl.end(); ++i) {
-        string particle_name = i->query<string>("P");
-        int n = i->query<int>("n", 1);
-
-        n_out += n;
-
-        const typename RnDB::Properties * p = &( db[particle_name] );
-
-        PIter j = out.find(p);
-        if ( j != out.end() )
-          j->second += n;
-        else
-          out.insert( std::make_pair(p, n) );
-      }
-
+      /* Load up the reactants and products and sort them according to
+       * chimp::property::Comparator. */
+      int n_in  = detail::loadAndSortTerms( x.eval("Eq/In/T"),  in,  db );
+      /* n_out */ detail::loadAndSortTerms( x.eval("Eq/Out/T"), out, db );
 
       Equation retval;
 
+      /* FIXME:  allow nore than two inputs and store the input terms in a list,
+       * just as is done for the products. */
       if (n_in != 2) {
         throw xml::error("Only interactions with binary inputs currently supported");
       }
 
       {
-        PIter i = in.begin();
+        SEIter i = in.begin();
         int n = i->second;
 
         retval.A = Term(db.findParticleIndx( i->first->name::value ));
@@ -103,36 +66,35 @@ namespace chimp {
         retval.B = Term(db.findParticleIndx( i->first->name::value ));
       }
 
-      retval.set_mu_AB(db);
-
       /* set the output. */
-      for ( PIter i = out.begin(); i != out.end(); ++i ) {
+      for ( SEIter i = out.begin(); i != out.end(); ++i ) {
         Term it( db.findParticleIndx(i->first->name::value), i->second );
 
-        if (it.type == -1)
+        if (it.species == -1)
           throw xml::error(
             "Cannot load equation with unknown outputs. "
             "please add outputs to RuntimeDB instance first."
           );
 
-        retval.items.push_back(it);
+        retval.products.push_back(it);
       }
 
       {
-        /* Determine which type of interaction we are dealing with and
+        /* Determine which model of interaction we are dealing with and
          * instantiate the implementation of the interaction. */
 
         typedef interaction::model::Elastic<options> elastic;
         typedef interaction::model::InElastic<options> inelastic;
+        using std::string;
 
-        string i_type = inelastic::label;
+        string i_model = inelastic::label;
         if (in == out)
-          i_type = elastic::label;
+          i_model = elastic::label;
 
-        i_type = x.query<string>( "@type", i_type );
+        i_model = x.query<string>( "@model", i_model );
 
         typedef typename RnDB::InteractionRegistry::const_iterator IRIter;
-        IRIter i = db.interaction_registry.find(i_type);
+        IRIter i = db.interaction_registry.find(i_model);
 
         if ( i != db.interaction_registry.end() ) {
           retval.interaction.reset(
@@ -141,27 +103,31 @@ namespace chimp {
         } else {
           string Eq = x.query<string>("Eq");
           throw xml::error(
-            "Could not determine interaction type found for interaction '" + Eq + '\'' );
+            "Could not determine interaction model found for interaction '" + Eq + '\'' );
         }
       }
 
 
 
       {
-        /* now, instantiate the child CrossSection object with the correct
-         * type. */
+        /* now, instantiate the child cross_section::Base object with the correct
+         * model. */
+        using std::string;
+
         xml::Context cs_x = x.find("cross_section");
-        string cs_type = cs_x.query<string>("@type");
+        string cs_model = cs_x.query<string>("@model");
 
         typedef typename RnDB::CrossSectionRegistry::const_iterator CSRIter;
-        CSRIter i = db.cross_section_registry.find(cs_type);
+        CSRIter i = db.cross_section_registry.find(cs_model);
 
         if ( i != db.cross_section_registry.end() ) {
-          retval.cs.reset( i->second->new_load( cs_x, retval.mu_AB ) );
+          retval.cs.reset(
+            i->second->new_load( cs_x, static_cast<const Input&>(retval), db )
+          );
         } else {
           string Eq = x.query<string>("Eq");
           throw xml::error(
-            "cross section type '"+cs_type+
+            "cross section model '"+cs_model+
             "' not found for interaction '" + Eq + '\'' );
         }
       }

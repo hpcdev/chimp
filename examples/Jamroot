@@ -1,15 +1,12 @@
+# The root BJam configuration for the examples of the chimp package.
 
 path-constant EXAMPLES_TOP : . ;
 
-project /chimp/examples
-    #: build-dir build
-    ;
+project /chimp/examples ;
 
 use-project /chimp : ../ ;
 
 build-project CrossSection ;
-build-project Interaction ;
 build-project Properties ;
 build-project RuntimeDB ;
-#build-project Particle ;
-#build-project xmldb ;
+build-project xmldb ;

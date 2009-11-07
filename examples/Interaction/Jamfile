@@ -1,2 +1,0 @@
-echo "A simple Interaction example needs to be created--old one was obsolete" ;
-#exe testInteraction : testInteraction.cpp /chimp//particledb ;

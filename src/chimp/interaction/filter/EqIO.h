@@ -33,7 +33,7 @@ namespace chimp {
       };
 
       /** The comparator for Eq terms sorts by name only.  The reason for this
-       * is to ensure that we can only have one entry for each particle type.
+       * is to ensure that we can only have one entry for each particle species.
        * The side-effect of this comparator is obviously that any subsequent
        * insertion of an EqTerm will override a previous entry with the same
        * name. */

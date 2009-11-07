@@ -8,7 +8,6 @@
 #include <chimp/RuntimeDB.h>
 #include <chimp/interaction/Input.h>
 #include <chimp/interaction/model/Base.h>
-#include <chimp/interaction/model/detail/ReducedMass.h>
 
 #include <olson-tools/power.h>
 #include <olson-tools/Vector.h>
@@ -25,6 +24,9 @@ namespace chimp {
       /** Implementation of an <b>in</b>elastic interaction model. */
       template < typename options >
       struct InElastic : Base<options> {
+        /* TYPEDEFS */
+        typedef typename Base<options>::ParticleParam ParticleParam;
+
 
         /* STATIC STORAGE */
         static const std::string label;
@@ -40,6 +42,11 @@ namespace chimp {
           return label;
         }
 
+        /** Arbitrary collision participants interface. */
+        virtual void interact( const std::vector< const Particle* > & reactants,
+                               std::vector< ParticleParam > & products ) {
+        }
+
         /** Binary inelastic collision. */
         virtual void interact( Particle & part1, Particle & part2 ) {
         } // interact
@@ -48,7 +55,7 @@ namespace chimp {
         virtual InElastic * new_load( const xml::Context & x,
                                       const interaction::Input & input,
                                       const RuntimeDB<options> & db ) const {
-          return new InElastic/*( input.A, input.B, db )*/;
+          return new InElastic/*( input, db )*/;
         }
 
       };

@@ -23,11 +23,22 @@ namespace chimp {
         /* TYPEDEFS */
         typedef typename options::Particle Particle;
 
+        struct ParticleParam {
+          Particle particle;
+          bool is_set;
+        };
+
+
+        /* MEMBER FUNCTIONS */
         /** Virtual NO-OP destructor. */
         virtual ~Base() { }
 
         /** Obtain the label of the model. */
         virtual std::string getLabel() const = 0;
+
+        /** Arbitrary collision participants interface. */
+        virtual void interact( const std::vector< const Particle* > & reactants,
+                               std::vector< ParticleParam > & products ) = 0;
 
         /** Binary collision interface. */
         virtual void interact( Particle & part1, Particle & part2 ) = 0;

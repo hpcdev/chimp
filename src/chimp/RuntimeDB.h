@@ -26,7 +26,7 @@
  *     integer arithmetic.  This might make it easier for instance to change
  *     the internal atomic state or even the particle charge without doing any
  *     work with "getParticleTypeIndex(...)" or the like.  It would be most
- *     easy to just _know_ what the particle type index needs to be based on
+ *     easy to just _know_ what the particle species index needs to be based on
  *     the knowledge of how the charge/internal quantum number has changed.  
  *
  *     I really need two types of classes: one class will act as the data
@@ -41,9 +41,9 @@
  *     I work out the details a little more.  
  *
  *     Another Requirement:
- *     It is necessary that the "type" index be an integer, preferably of low
+ *     It is necessary that the "species" index be an integer, preferably of low
  *     value.  In other words, if only 5 particle types are loaded from file,
- *     ONLY 5 values of "type" should be used, i.e. '0, 1, 2, 3, 4'.  Some
+ *     ONLY 5 values of "species" should be used, i.e. '0, 1, 2, 3, 4'.  Some
  *     classes, such as dsmc::Wall may use this to create an array of items
  *     that are used only with a particular species.  
  *
@@ -84,7 +84,7 @@
 #  include <chimp/make_options.h>
 #  include <chimp/interaction/Set.h>
 #  include <chimp/interaction/model/Base.h>
-#  include <chimp/interaction/CrossSection.h>
+#  include <chimp/interaction/cross_section/Base.h>
 #  include <chimp/interaction/filter/Base.h>
 #  include <chimp/property/name.h>
 #  include <chimp/property/Comparator.h>
@@ -133,16 +133,22 @@ namespace chimp {
     /** Set of interactions equations that share the same inputs. */
     typedef interaction::Set<options> Set;
 
+    /** Cross section Base type. */
+    typedef interaction::cross_section::Base<options> CrossSection;
+
+    /** Interaction model Base type. */
+    typedef interaction::model::Base<options> Interaction;
+
     /** Map of cross section "name" to model. */
     typedef std::map<
       std::string,
-      shared_ptr<interaction::CrossSection>
+      shared_ptr< CrossSection >
     > CrossSectionRegistry;
 
     /** Map of interaction "name" to model. */
     typedef std::map<
       std::string,
-      shared_ptr< interaction::model::Base<options> >
+      shared_ptr< Interaction >
     > InteractionRegistry;
 
     /** Data type for the Interaction table.  This is really just a wrapper
@@ -278,27 +284,24 @@ namespace chimp {
     inline Set & operator()(const std::string & i, const std::string & j);
 
 
-    /** Get the (const) iterator of the particle type with the specified name.
-     * @return Iterator of particle type or getProps().end() if not found.
-     * @see Particle::type and ParticleTypeInfo
+    /** Get the (const) iterator of the particle species with the specified name.
+     * @return Iterator of particle species or getProps().end() if not found.
      * @see Note for getProps() concerning ill-determined order of properties
      * vector.
      */
     inline typename PropertiesVector::const_iterator
     findParticle(const std::string & name) const;
 
-    /** Get the (non-const) iterator of the particle type with the specified name.
-     * @return Iterator of particle type or getProps().end() if not found.
-     * @see Particle::type and ParticleTypeInfo
+    /** Get the (non-const) iterator of the particle species with the specified name.
+     * @return Iterator of particle species or getProps().end() if not found.
      * @see Note for getProps() concerning ill-determined order of properties
      * vector.
      */
     inline typename PropertiesVector::iterator
     findParticle(const std::string & name);
 
-    /** Get the index of the particle type with the specified name.
-     * @return Index of particle type or -1 if not found.
-     * @see Particle::type and ParticleTypeInfo
+    /** Get the index of the particle species with the specified name.
+     * @return Index of particle species or -1 if not found.
      * @see Note for getProps() concerning ill-determined order of properties
      * vector.
      */

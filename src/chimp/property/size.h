@@ -17,7 +17,7 @@ namespace chimp {
 
   namespace property {
 
-    /** Representative size of this type of particle. */
+    /** Representative size of this species of particle. */
     struct size {
       /* TYPEDEFS */
       typedef size super;

@@ -6,6 +6,7 @@
 #define chimp_interaction_Term_h
 
 #include <chimp/property/name.h>
+#include <chimp/property/mass.h>
 
 #include <ostream>
 #include <set>
@@ -65,8 +66,8 @@ namespace chimp {
          */
         template < typename RnDB >
         void add( const Term & t, RnDB & db ) {
-          const property::mass & mass = db[t.type];
-          const property::name & name = db[t.type];
+          const property::mass & mass = db[t.species];
+          const property::name & name = db[t.species];
           s.insert(name_mass(mass,name,t));
         }
 
@@ -86,10 +87,10 @@ namespace chimp {
 
 
       /* MEMBER STORAGE */
-      /** The index of the particle type of this term.  This index can be used
+      /** The index of the particle species of this term. This index can be used
        * by with the runtime database to determine information about the
        * particle species. */
-      int type;
+      int species;
 
       /** The multiplicity factor of this term.  For example, if the equation is
        * \verbatim  2 e^- --> 2 e^- \endverbatim
@@ -101,13 +102,13 @@ namespace chimp {
 
       /* MEMBER FUNCTIONS */
       /** Term constructor. */
-      Term( const int & type = 0,
-            const int & n = 1 ) : type(type), n(n) { }
+      Term( const int & species = 0,
+            const int & n = 1 ) : species(species), n(n) { }
 
       /** Term stream printer. */
       template <class RnDB>
       std::ostream & print(std::ostream & out, const RnDB & db) const {
-        const property::name & name = db[type];
+        const property::name & name = db[species];
 
         if (n > 1)
           out << n << ' ';
@@ -117,15 +118,30 @@ namespace chimp {
       }
     };
 
-    /** Equals operation for interaction::Term.  */
-    inline bool operator== ( const Term & lhs, const Term & rhs ) {
-      return lhs.type == rhs.type && lhs.n == rhs.n;
+
+    /** Print a whole set of Terms. */
+    template < typename TermIterator,
+               typename RnDB >
+    std::ostream & printTerms( const TermIterator & tbegin,
+                               const TermIterator & tend,
+                               std::ostream & out,
+                               const RnDB & db ) {
+      Term::printset ps;
+      for ( TermIterator i = tbegin; i != tend; ++i )
+        ps.add(*i, db);
+
+      return ps.print(out, db);
     }
 
-    /** Less than operation for interaction::Term orders by type and then by n.
-     */
+    /** Equals operation for interaction::Term.  */
+    inline bool operator== ( const Term & lhs, const Term & rhs ) {
+      return lhs.species == rhs.species && lhs.n == rhs.n;
+    }
+
+    /** Less than operation for interaction::Term orders by species and then by
+     * n.  */
     inline bool operator< ( const Term & lhs, const Term & rhs ) {
-      return lhs.type < rhs.type || (lhs.type == rhs.type && lhs.n < rhs.n);
+      return lhs.species < rhs.species || (lhs.species == rhs.species && lhs.n < rhs.n);
     }
 
   }/* namespace chimp::interaction */
