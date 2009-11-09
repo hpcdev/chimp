@@ -7,6 +7,7 @@
 
 #include <chimp/interaction/cross_section/Base.h>
 #include <chimp/interaction/cross_section/detail/VHSInfo.h>
+#include <chimp/interaction/Equation.h>
 #include <chimp/interaction/ReducedMass.h>
 
 #include <olson-tools/power.h>
@@ -57,15 +58,6 @@ namespace chimp {
           vhs( detail::VHSInfo::load(x) ),
           mu( mu ) { }
 
-        /** Constructor that uses the specified inputs and the database to
-         * calculate the reduced mass. */
-        VHS( const xml::Context & x,
-             const interaction::Input & input,
-             const RuntimeDB<options> & db )
-        : cross_section::Base<options>(),
-          vhs( detail::VHSInfo::load(x) ),
-          mu( input, db ) { }
-
         /** Virtual NO-OP destructor. */
         virtual ~VHS() {}
 
@@ -101,9 +93,9 @@ namespace chimp {
         }
 
         virtual VHS * new_load( const xml::Context & x,
-                                const interaction::Input & input,
+                                const interaction::Equation<options> & eq,
                                 const RuntimeDB<options> & db ) const {
-          return new VHS( x, input, db );
+          return new VHS( x, eq.reducedMass );
         }
 
         /** Obtain the label of the model. */

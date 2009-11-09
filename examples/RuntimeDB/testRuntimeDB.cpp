@@ -78,8 +78,9 @@ int main() {
 
       /* now set cross species data for i */
       for ( PIter j  = i; j != end; ++j ) {
-        double reduced_mass = i->mass::value * j->mass::value
+        double reduced_mass =   i->mass::value * j->mass::value
                             / ( i->mass::value + j->mass::value);
+        // FIXME:  I forgot to call db(i,j).cs->findMaxSigmaVProduct( max_v )
         maxSigmaVelProduct.push_back(
           estMaxVFromStdV( calcStdVFromT( temperature, reduced_mass ) )
         );

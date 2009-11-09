@@ -5,8 +5,6 @@
 #ifndef chimp_interaction_cross_section_Base_h
 #define chimp_interaction_cross_section_Base_h
 
-#include <chimp/interaction/Input.h>
-
 #include <olson-tools/xml/Doc.h>
 
 #include <physical/physical.h>
@@ -21,6 +19,10 @@ namespace chimp {
   namespace xml = olson_tools::xml;
 
   namespace interaction {
+
+    /* forward declaration of Equation class. */
+    template < typename T > class Equation;
+
     namespace cross_section {
 
       /** Interface definition for cross section functor classes. */
@@ -44,7 +46,7 @@ namespace chimp {
 
         /** Load a new instance of cross_section::Base. */
         virtual Base * new_load( const xml::Context & x,
-                                 const interaction::Input & input,
+                                 const interaction::Equation<options> & eq,
                                  const RuntimeDB<options> & db ) const = 0;
 
         /** Obtain the label of the model. */

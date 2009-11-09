@@ -66,6 +66,9 @@ namespace chimp {
         retval.B = Term(db.findParticleIndx( i->first->name::value ));
       }
 
+      /* cache the reduced mass */
+      retval.reducedMass = ReducedMass( retval, db );
+
       /* set the output. */
       for ( SEIter i = out.begin(); i != out.end(); ++i ) {
         Term it( db.findParticleIndx(i->first->name::value), i->second );
@@ -98,7 +101,7 @@ namespace chimp {
 
         if ( i != db.interaction_registry.end() ) {
           retval.interaction.reset(
-            i->second->new_load( x, static_cast<const Input&>(retval), db )
+            i->second->new_load( x, retval, db )
           );
         } else {
           string Eq = x.query<string>("Eq");
@@ -122,7 +125,7 @@ namespace chimp {
 
         if ( i != db.cross_section_registry.end() ) {
           retval.cs.reset(
-            i->second->new_load( cs_x, static_cast<const Input&>(retval), db )
+            i->second->new_load( cs_x, retval, db )
           );
         } else {
           string Eq = x.query<string>("Eq");
