@@ -1,1 +1,1 @@
-exe simtest : simtest.cpp /chimp//particledb ;
+exe simtest : main.cpp /chimp//particledb ;

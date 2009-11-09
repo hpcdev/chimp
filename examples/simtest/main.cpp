@@ -1,6 +1,6 @@
 
 #include "Particle.h"
-#include "cell_info.h"
+#include "Cell.h"
 
 #include <chimp/RuntimeDB.h>
 #include <chimp/interaction/filter/Or.h>
@@ -14,14 +14,17 @@
 
 
 using physical::unit::nm;
+using physical::unit::K;
 static const double nm2 = nm*nm;
 
+typedef chimp::make_options<>::type
+  ::setParticle< simtest::Particle >::type options;
 
 
 int main() {
   namespace filter = chimp::interaction::filter;
   typedef boost::shared_ptr<filter::Base> SP;
-  typedef chimp::RuntimeDB<> DB;
+  typedef chimp::RuntimeDB< options > DB;
 
   DB db;
 
@@ -41,16 +44,22 @@ int main() {
   db.initBinaryInteractions();
 
 
-  /* Create the mock cell with the given number of particles, uniformly
-   * distributed accross each species */
-  Cell cell( 10/* particles */, db );
+  /* create all particles */
+  std::vector< simtest::Particle > particles;
+  simtest::createRandomParticles( particles , n_particles, 300*K, db );
 
+  /* Create the mock cell*/
+  Cell cell( particles.begin(), particles.end(), db.getProps().size() );
+
+  /* sort and perform statistical measurements. */
+  sortBySpecies( particles.begin(), particles.end(), cell.types );
+  doCellMeasurements( cell, db );
 
   /* spit out known interactions and attempt execution */
   std::cout << "\n\nSimple 0-D test using each interaction set "
                "known to the runtime database:\n";
   std::vector<Particle> result_list;
-  chimp::interaction::Driver<>()(
+  CollisionsDriver<>()(
     cell.types.begin(),
     cell.types.end(),
     result_list,
@@ -64,3 +73,4 @@ int main() {
 
   return 0;
 }
+
