@@ -5,16 +5,20 @@
 #ifndef chimp_interaction_model_Base_h
 #define chimp_interaction_model_Base_h
 
-#include <chimp/interaction/Input.h>
-
 #include <olson-tools/xml/Doc.h>
 
 namespace chimp {
-  template < typename T > class RuntimeDB;
 
   namespace xml = olson_tools::xml;
 
+  /* forward declaration of RuntimeDB class. */
+  template < typename T > class RuntimeDB;
+
   namespace interaction {
+
+    /* forward declaration of Equation class. */
+    template < typename T > class Equation;
+
     namespace model {
 
       /** The base class for interaction models.  */
@@ -45,7 +49,7 @@ namespace chimp {
 
         /** load a new instance of the Interaction. */
         virtual Base * new_load( const xml::Context & x,
-                                 const interaction::Input & input,
+                                 const interaction::Equation<options> & eq,
                                  const RuntimeDB<options> & db ) const = 0;
 
       };

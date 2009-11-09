@@ -41,6 +41,9 @@ namespace chimp {
       /** The list of products resulting from this equation. */
       TermList products;
 
+      /** Reduced mass of the reactants of this equation. */
+      ReducedMass reducedMass;
+
       /** The cross_section::Base instance that this interaction provides.  */
       shared_ptr< cross_section::Base<options> > cs;
 

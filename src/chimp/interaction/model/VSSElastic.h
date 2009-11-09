@@ -7,7 +7,7 @@
 
 #include <chimp/RuntimeDB.h>
 #include <chimp/interaction/Term.h>
-#include <chimp/interaction/Input.h>
+#include <chimp/interaction/Equation.h>
 #include <chimp/interaction/model/Base.h>
 #include <chimp/interaction/ReducedMass.h>
 #include <chimp/interaction/ParticleAccessors.h>
@@ -50,14 +50,6 @@ namespace chimp {
         /** Default constructor sets mu to invalid values and vss_param_inv to
          * 1.0. */
         VSSElastic() : mu(), vss_param_inv(1.0) { }
-
-        /** Construct from xml::Context and calculate the reduced mass from the
-         * Input and RuntimeDB instances specified. */
-        VSSElastic( const xml::Context & x,
-                    const interaction::Input & input,
-                    const RuntimeDB<options> & db )
-          : mu( input, db ),
-            vss_param_inv( detail::loadVSSParamInv( x ) ) { }
 
         /** Construct from xml::Context and use the specified reduced mass. */
         VSSElastic( const xml::Context & x,
@@ -145,10 +137,11 @@ namespace chimp {
         } // collide
 
         /** load a new instance of the Interaction. */
-        virtual VSSElastic * new_load( const xml::Context & x,
-                                       const interaction::Input & input,
-                                       const RuntimeDB<options> & db ) const {
-          return new VSSElastic( x, input, db );
+        virtual
+        VSSElastic * new_load( const xml::Context & x,
+                               const interaction::Equation<options> & eq,
+                               const RuntimeDB<options> & db ) const {
+          return new VSSElastic( x, eq.reducedMass );
         }
       };
 

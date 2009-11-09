@@ -7,7 +7,7 @@
 
 #include <chimp/RuntimeDB.h>
 #include <chimp/interaction/Term.h>
-#include <chimp/interaction/Input.h>
+#include <chimp/interaction/Equation.h>
 #include <chimp/interaction/model/Base.h>
 #include <chimp/interaction/ReducedMass.h>
 #include <chimp/interaction/ParticleAccessors.h>
@@ -46,9 +46,8 @@ namespace chimp {
         Elastic() : mu() { }
 
         /** Constructor. */
-        Elastic( const interaction::Input & input,
-                 const RuntimeDB<options> & db )
-          : mu( input, db ) { }
+        Elastic( const interaction::Equation<options> & eq )
+          : mu( eq.reducedMass ) { }
 
         /** Constructor that specifies the reduced mass explicitly. */
         Elastic( const ReducedMass & mu )
@@ -117,9 +116,9 @@ namespace chimp {
 
         /** load a new instance of the Interaction. */
         virtual Elastic * new_load( const xml::Context & x,
-                                    const interaction::Input & input,
+                                    const interaction::Equation<options> & eq,
                                     const RuntimeDB<options> & db ) const {
-          return new Elastic( input, db );
+          return new Elastic( eq.reducedMass );
         }
 
       };
