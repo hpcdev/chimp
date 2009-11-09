@@ -10,6 +10,7 @@
 #include <chimp/interaction/Input.h>
 #include <chimp/interaction/model/Base.h>
 #include <chimp/interaction/ReducedMass.h>
+#include <chimp/interaction/ParticleAccessors.h>
 #include <chimp/interaction/model/detail/vss_helpers.h>
 #include <chimp/property/mass.h>
 
@@ -94,14 +95,19 @@ namespace chimp {
           static const unsigned int Y = 1u;
           static const unsigned int Z = 2u;
 
+          /* This copy allows the Particle class to have other storage instead
+           * of just double perhaps. */
+          Vector<double,3> v1 = velocity(part1);
+          Vector<double,3> v2 = velocity(part2);
+
           /*  first obtain the center of mass velocity components */
 
           /* velocity of center of mass. */
-          Vector<double,3> VelCM = (mu.over_m2 * part1.v) +
-                                   (mu.over_m1 * part2.v);
+          Vector<double,3> VelCM = (mu.over_m2 * v1) +
+                                   (mu.over_m1 * v2);
 
           /* relative velocity prior to collision */
-          Vector<double,3> VelRelPre = part1.v - part2.v;
+          Vector<double,3> VelRelPre = v1 - v2;
           double SpeedRel = VelRelPre.abs();
 
           // use the VSS logic
@@ -128,8 +134,8 @@ namespace chimp {
 
 
           // VelRelPost is the post-collision relative v.
-          part1.v = VelCM + ( mu.over_m1 * VelRelPost );
-          part2.v = VelCM - ( mu.over_m2 * VelRelPost );
+          velocity(part1) = VelCM + ( mu.over_m1 * VelRelPost );
+          velocity(part2) = VelCM - ( mu.over_m2 * VelRelPost );
 
           // // or, for similar particles
           // VelRelPost *= 0.5;

@@ -4,6 +4,7 @@
 
 #include <chimp/property/mass.h>
 #include <chimp/property/size.h>
+#include <chimp/interaction/ParticleAccessors.h>
 
 #include <olson-tools/power.h>
 #include <olson-tools/Vector.h>
@@ -23,7 +24,7 @@ namespace chimp {
           const typename RnDB::options::Properties & prop = db[part_i];
           const double & sz = prop.property::size::value;
           const double & m = prop.property::mass::value;
-          return sz * 0.5 * m * SQR(p.v);
+          return sz * 0.5 * m * SQR( velocity(p) );
         }
 
 
@@ -35,7 +36,7 @@ namespace chimp {
           const typename RnDB::options::Properties & prop = db[part_i];
           const double & sz = prop.property::size::value;
           const double & m = prop.property::mass::value;
-          return (sz * m) * p.v;
+          return (sz * m) * velocity(p);
         }
 
       }/* namespace chimp::interaction::model::test */
