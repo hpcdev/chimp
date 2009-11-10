@@ -4104,6 +4104,45 @@
             </cross_section>
         </Interaction>
 
+        <Interaction model="elastic">
+            <Eq><In><T><P>e^-</P></T> + <T><P>Ar</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>Ar</P></T></Out></Eq>
+            <cross_section model="data" xscale="eV" yscale="1.e-20*m^2">
+                <reference>Various sources. See G. Raju, Gaseous Electronics: Theory and Practice, CRC Press, 2006, Table 3.11.  </reference>
+                <val x="0.08" y="1.50"/>
+                <val x="0.1" y="1.19"/>
+                <val x="0.5" y="0.374"/>
+                <val x="1" y="1.07"/>
+                <val x="5" y="8.81"/>
+                <val x="10" y="20.06"/>
+                <val x="15" y="23.22"/>
+                <val x="16" y="22.30"/>
+                <val x="18" y="19.52"/>
+                <val x="20" y="18.60"/>
+                <val x="25" y="16.27"/>
+                <val x="30" y="13.94"/>
+                <val x="40" y="9.51"/>
+                <val x="50" y="7.74"/>
+                <val x="70" y="6.15"/>
+                <val x="90" y="5.00"/>
+                <val x="100" y="4.86"/>
+                <val x="150" y="3.79"/>
+                <val x="200" y="3.2"/>
+                <val x="250" y="2.833"/>
+                <val x="300" y="2.466"/>
+                <val x="350" y="2.290"/>
+                <val x="400" y="2.115"/>
+                <val x="450" y="2.0"/>
+                <val x="500" y="1.885"/>
+                <val x="550" y="1.806"/>
+                <val x="600" y="1.728"/>
+                <val x="650" y="1.649"/>
+                <val x="700" y="1.571"/>
+                <val x="800" y="1.448"/>
+                <val x="900" y="1.361"/>
+                <val x="1000" y="1.274"/>
+            </cross_section>
+        </Interaction>
+
         <cross_section_comment key="Ar">
             Cross sections Ar.  Same as siglo.sec after 10/1997. Corrected 09/2008.
             from A.V. Phelps
