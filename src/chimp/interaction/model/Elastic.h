@@ -5,7 +5,6 @@
 #ifndef chimp_interaction_model_Elastic_h
 #define chimp_interaction_model_Elastic_h
 
-#include <chimp/RuntimeDB.h>
 #include <chimp/interaction/Term.h>
 #include <chimp/interaction/Equation.h>
 #include <chimp/interaction/model/Base.h>
@@ -20,6 +19,7 @@
 #include <string>
 #include <cmath>
 #include <cassert>
+#include <vector>
 
 namespace chimp {
   namespace interaction {
@@ -30,6 +30,7 @@ namespace chimp {
       struct Elastic : Base<options> {
         /* TYPEDEFS */
         typedef typename Base<options>::ParticleParam ParticleParam;
+        typedef typename options::Particle Particle;
 
 
         /* STATIC STORAGE */

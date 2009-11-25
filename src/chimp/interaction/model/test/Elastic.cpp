@@ -8,6 +8,7 @@
 #include <chimp/interaction/Term.h>
 #include <chimp/interaction/Input.h>
 #include <chimp/interaction/Particle.h>
+#include <chimp/interaction/ReducedMass.h>
 #include <chimp/interaction/model/Elastic.h>
 #include <chimp/interaction/model/test/diagnostics.h>
 
@@ -42,8 +43,11 @@ BOOST_AUTO_TEST_SUITE( Elastic_tests ); // {
 
     typedef chimp::interaction::model::Elastic<DB::options> Elastic;
     Term t0(part_i);
-    chimp::interaction::Input input( t0, t0 );
-    shared_ptr<Elastic> el( Elastic().new_load(xml::Context(), input, db) );
+    chimp::interaction::Equation<DB::options> eq;
+    eq.A = eq.B = t0;
+    /* cache the reduced mass */
+    eq.reducedMass = chimp::interaction::ReducedMass( eq, db );
+    shared_ptr<Elastic> el( Elastic().new_load(xml::Context(), eq, db) );
 
     BOOST_CHECK_EQUAL( el->getLabel(), "elastic" );
 

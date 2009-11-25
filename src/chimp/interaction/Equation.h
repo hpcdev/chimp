@@ -7,6 +7,7 @@
 
 #include <chimp/interaction/Term.h>
 #include <chimp/interaction/Input.h>
+#include <chimp/interaction/ReducedMass.h>
 #include <chimp/interaction/model/Base.h>
 #include <chimp/interaction/cross_section/Base.h>
 
