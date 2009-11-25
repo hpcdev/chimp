@@ -5,7 +5,6 @@
 #ifndef chimp_interaction_model_InElastic_h
 #define chimp_interaction_model_InElastic_h
 
-#include <chimp/RuntimeDB.h>
 #include <chimp/interaction/Equation.h>
 #include <chimp/interaction/model/Base.h>
 
@@ -26,6 +25,7 @@ namespace chimp {
       struct InElastic : Base<options> {
         /* TYPEDEFS */
         typedef typename Base<options>::ParticleParam ParticleParam;
+        typedef typename options::Particle Particle;
 
 
         /* STATIC STORAGE */

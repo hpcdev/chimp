@@ -5,7 +5,6 @@
 #ifndef chimp_interaction_model_VSSElastic_h
 #define chimp_interaction_model_VSSElastic_h
 
-#include <chimp/RuntimeDB.h>
 #include <chimp/interaction/Term.h>
 #include <chimp/interaction/Equation.h>
 #include <chimp/interaction/model/Base.h>
