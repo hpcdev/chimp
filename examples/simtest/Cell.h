@@ -1,35 +1,29 @@
-#ifdef chimplib_examples_simtest_Cell_h
+#ifndef chimplib_examples_simtest_Cell_h
 #define chimplib_examples_simtest_Cell_h
 
-#include <olson-tools/upper_triangle.h>
-#include <olson-tools/nsort/NSort.h>
-#include <olson-tools/nsort/map/type.h>
+#include "Particle.h"
+
+#include <olson-tools/Vector.h>
 
 namespace simtest {
+  using olson_tools::Vector;
 
   /** Representative implementation of noce/cell type of information similar to
    * that used in a DSMC simulation.
    */
-  template <class ParticleIterator>
   class Cell {
     /* TYPEDEFS */
   public:
-    typedef ParticleIterator particle_iter_type;
-    typedef olson_tools::upper_triangle<interact_info> InteractionDataTable;
-    typedef olson_tools::IteratorRange<ParticleIterator> Range;
+    typedef std::vector<Particle>::iterator ParticleIterator;
+    typedef olson_tools::IteratorRange< ParticleIterator > Range;
 
-    struct TypeData {
-      double vav;
-      double v2;
+    struct SpeciesData {
+      Vector<double,3> v_min;/**< Average velocity <v>. */
+      Vector<double,3> v_max;/**< Average square velocity <v2>. */
 
-      TypeData (const double & vav = 0, const double & v2 = 0)
-        : vav(vav), v2(v2) {}
-    };
-
-    struct interact_info {
-      double max_sigma_v_rel;
-
-      interact_info(const double & m = 0) : max_sigma_v_rel(m) {}
+      SpeciesData( const Vector<double,3> & v_min = 0.0,
+                   const Vector<double,3> & v_max  = 0.0 )
+        : v_min(v_min), v_max(v_max) { }
     };
 
 
@@ -38,59 +32,55 @@ namespace simtest {
     /** Beginning/ending iterators of all particles belonging to this cell. */
     Range particles;
 
-    /** Beginning/ending iterators of all particles belonging to each type
-     * group.  This vector is of length n_types. */
+    /** Beginning/ending iterators of all particles belonging to each species
+     * group.  This vector is of length n_species. */
     std::vector< Range > types;
 
-    std::vector< TypeData > data;                           /* size : n */
-    InteractionDataTable interaction_info;       /* size : n*(n+1)/2 */
+    /** Per species statistical data. */
+    std::vector< SpeciesData > data;             /* size : n */
+
   private:
     /** The number of types that will be used in this cell. */
-    int n_types;
+    const int n_species;
 
 
     /* MEMBER FUNCTIONS */
   public:
-    /** Constructor specifies the number of types in this Cell. */
-    Cell (const int & n =  0) {
-      interaction_info.resize(n); /* actually : n*(n+1)/2 */
-      types.resize(n);
-      data.resize(n);
+    /** Constructor specifies the number of species in this Cell. */
+    Cell( const ParticleIterator & pbegin,
+          const ParticleIterator & pend,
+          const int & n_species )
+      : particles(pbegin, pend), n_species(n_species) {
+      types.resize(n_species);
+      data.resize(n_species);
     }
 
-`   /** Get number of types that this cell has been configured to work with.
+    /** Get number of species that this cell has been configured to work with.
      * This function will generally be necessary for compatibility with
      * libraries such /dsmc//octree.  This is because for /dsmc//octree the
      * number of allowed types is set at compile time, not run-time.
      */
-    const int & getNumberTypes() const { return n_types; }
+    const int & getNumberTypes() const { return n_species; }
 
-    /** Sort only the types in this cell.  It is necessary to have all the types
-     * sorted and the types vector set correctly in order to use the interaction
-     * stuff correctly.  This is because we will be randomly selecting pairs
-     * with specific type values.  This function is nearly a duplicate of the
-     * octree::Octree::sortOnlyTypes function of the /dsmc//octree library. 
+
+    /** Determine the maximum product of sigma*velocity for an interaction pair.
+     * Normally, a simulation might maintain this quantity over time and update
+     * it periodically rather than calculating it every time at runtime.
      */
-    void sortOnlyTypes(const int & n_types) {
-      // Create type sorter
-      namespace nsort = olson_tools::nsort;
-      nsort::NSort< nsort::map::type > s(n_types);
+    template < typename RnDB >
+    double maxSigmaVelProduct( const unsigned int & A, 
+                               const unsigned int & B,
+                               const RnDB & db ) const {
+      const Vector<double,3> & vA_min = data[A].v_min,
+                             & vA_max = data[A].v_max,
+                             & vB_min = data[B].v_min,
+                             & vB_max = data[B].v_max;
 
-      // execute sort
-      s.sort( particles.begin(), particles.end() );
+      /* Simple estimator for maximum relative velocity between cross species.*/
+      double v_rel_max = 0.5*( (vA_max - VB_min).abs() +
+                               (VB_max - VA_min).abs() );
 
-      setTypeRanges( particles.begin(), s );
-    }
-
-  private:
-    /** Sets each of the ranges for the types.  This function is only called
-     * for Octree leaf nodes.  This function was borrowed from the /dsmc//octree
-     * library from the w_type_fields.h file. */
-    template < typename NSort >
-    void setTypeRanges( const ParticleIterator & begin, const NSort & s ) {
-      for ( int i = 0; i < static_cast<int>(n_types); ++i ) {
-        types[i] = Range( begin + s.begin(i), begin + s.end(i) );
-      }
+      return db(A,B)->cs->findMaxSigmaVProduct( v_rel_max );
     }
 
   };

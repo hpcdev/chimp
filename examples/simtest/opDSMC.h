@@ -11,7 +11,7 @@ namespace chimp {
     };
 
 
-    /** Driver class for performing all interactions necessary for all the types
+    /** CollisionsDriver class for performing all interactions necessary for all the types
      * that are present.
      *
      * @tparam SpeciesMap
@@ -38,7 +38,7 @@ namespace chimp {
      */
     template < some template parameters to specialize this for specific use,
                typename SpeciesMap = UnityTransform >
-    struct Driver {
+    struct CollisionsDriver {
 
       template < typename SpeciesIterator,
                  typename InteractionInfo,
@@ -72,7 +72,7 @@ namespace chimp {
 
           i->print(std::cout << "Performing test interactions for:", db) << '\n';
 
-          double & m_s_v = info(A,B).max_sigma_v_rel;
+          double m_s_v = info.maxSigmaVelProduct(A,B, db);
 
 
           /* Start by determining the number of collisions to use. */

@@ -15,7 +15,6 @@ namespace chimp {
      *     Temperature of assumed ensemble.
      * @param reduced_mass
      *     Reduced mass of particles in assumed ensemble.
-     * FIXME:  Check the coefficients inside the sqrt.
      * */
     inline double avg_v_rel(const double & T, const double & reduced_mass) {
       using physical::constant::si::K_B;
@@ -30,7 +29,6 @@ namespace chimp {
      *     Temperature of assumed ensemble.
      * @param reduced_mass
      *     Reduced mass of particles in assumed ensemble.
-     * FIXME:  Check the coefficients inside the sqrt.
      * */
     inline double calcStdVFromT(const double & T, const double & reduced_mass) {
       using physical::constant::si::K_B;
