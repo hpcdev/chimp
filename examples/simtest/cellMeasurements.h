@@ -22,7 +22,7 @@ namespace simtest {
     assert( cell.types.size() > 0 );
     assert( cell.types.size() == cell.data.size() );
 
-    /* first measure the single species data:  <v> and <v2>. */
+    /* measure the single species data:  v_max, v_min. */
     for ( int i = 0; i < n; ++i ) {
       Cell::ParticleIterator pi   = cell.types[i].begin();
       Cell::ParticleIterator pend = cell.types[i].end();

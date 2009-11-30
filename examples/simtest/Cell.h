@@ -77,8 +77,8 @@ namespace simtest {
                              & vB_max = data[B].v_max;
 
       /* Simple estimator for maximum relative velocity between cross species.*/
-      double v_rel_max = 0.5*( (vA_max - VB_min).abs() +
-                               (VB_max - VA_min).abs() );
+      double v_rel_max = std::max( (vA_max - VB_min).abs(),
+                                   (VB_max - VA_min).abs() );
 
       return db(A,B)->cs->findMaxSigmaVProduct( v_rel_max );
     }
