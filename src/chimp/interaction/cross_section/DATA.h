@@ -6,6 +6,7 @@
 #define chimp_interaction_cross_section_DATA_h
 
 #include <chimp/interaction/cross_section/Base.h>
+#include <chimp/interaction/Equation.h>
 #include <chimp/interaction/ReducedMass.h>
 
 #include <olson-tools/xml/Doc.h>
@@ -81,13 +82,6 @@ namespace chimp {
               const ReducedMass & mu )
           : table( loadCrossSectionData(x, mu ) ) { }
 
-        /** Constructor that uses the specified inputs and the database to
-         * calculate the reduced mass. */
-        DATA( const xml::Context & x,
-              const interaction::Input & input,
-              const RuntimeDB<options> & db )
-          : table( loadCrossSectionData(x, ReducedMass(input, db) ) ) { }
-
         /** Constructor to initialize the cross section data by copying from a
          * set of data previously loaded. */
         DATA( const DoubleDataSet & table )
@@ -146,9 +140,9 @@ namespace chimp {
         }
 
         virtual DATA * new_load( const xml::Context & x,
-                                 const interaction::Input & input,
+                                 const interaction::Equation<options> & eq,
                                  const RuntimeDB<options> & db ) const {
-          return new DATA( x, input, db );
+          return new DATA( x, eq.reducedMass );
         }
 
         /** Obtain the label of the model. */

@@ -5,11 +5,11 @@
 #ifndef chimp_interaction_model_VSSElastic_h
 #define chimp_interaction_model_VSSElastic_h
 
-#include <chimp/RuntimeDB.h>
 #include <chimp/interaction/Term.h>
-#include <chimp/interaction/Input.h>
+#include <chimp/interaction/Equation.h>
 #include <chimp/interaction/model/Base.h>
 #include <chimp/interaction/ReducedMass.h>
+#include <chimp/interaction/ParticleAccessors.h>
 #include <chimp/interaction/model/detail/vss_helpers.h>
 #include <chimp/property/mass.h>
 
@@ -50,14 +50,6 @@ namespace chimp {
          * 1.0. */
         VSSElastic() : mu(), vss_param_inv(1.0) { }
 
-        /** Construct from xml::Context and calculate the reduced mass from the
-         * Input and RuntimeDB instances specified. */
-        VSSElastic( const xml::Context & x,
-                    const interaction::Input & input,
-                    const RuntimeDB<options> & db )
-          : mu( input, db ),
-            vss_param_inv( detail::loadVSSParamInv( x ) ) { }
-
         /** Construct from xml::Context and use the specified reduced mass. */
         VSSElastic( const xml::Context & x,
                     const ReducedMass & mu )
@@ -94,14 +86,19 @@ namespace chimp {
           static const unsigned int Y = 1u;
           static const unsigned int Z = 2u;
 
+          /* This copy allows the Particle class to have other storage instead
+           * of just double perhaps. */
+          Vector<double,3> v1 = velocity(part1);
+          Vector<double,3> v2 = velocity(part2);
+
           /*  first obtain the center of mass velocity components */
 
           /* velocity of center of mass. */
-          Vector<double,3> VelCM = (mu.over_m2 * part1.v) +
-                                   (mu.over_m1 * part2.v);
+          Vector<double,3> VelCM = (mu.over_m2 * v1) +
+                                   (mu.over_m1 * v2);
 
           /* relative velocity prior to collision */
-          Vector<double,3> VelRelPre = part1.v - part2.v;
+          Vector<double,3> VelRelPre = v1 - v2;
           double SpeedRel = VelRelPre.abs();
 
           // use the VSS logic
@@ -128,8 +125,8 @@ namespace chimp {
 
 
           // VelRelPost is the post-collision relative v.
-          part1.v = VelCM + ( mu.over_m1 * VelRelPost );
-          part2.v = VelCM - ( mu.over_m2 * VelRelPost );
+          velocity(part1) = VelCM + ( mu.over_m1 * VelRelPost );
+          velocity(part2) = VelCM - ( mu.over_m2 * VelRelPost );
 
           // // or, for similar particles
           // VelRelPost *= 0.5;
@@ -139,10 +136,11 @@ namespace chimp {
         } // collide
 
         /** load a new instance of the Interaction. */
-        virtual VSSElastic * new_load( const xml::Context & x,
-                                       const interaction::Input & input,
-                                       const RuntimeDB<options> & db ) const {
-          return new VSSElastic( x, input, db );
+        virtual
+        VSSElastic * new_load( const xml::Context & x,
+                               const interaction::Equation<options> & eq,
+                               const RuntimeDB<options> & db ) const {
+          return new VSSElastic( x, eq.reducedMass );
         }
       };
 

@@ -5,11 +5,11 @@
 #ifndef chimp_interaction_model_Elastic_h
 #define chimp_interaction_model_Elastic_h
 
-#include <chimp/RuntimeDB.h>
 #include <chimp/interaction/Term.h>
-#include <chimp/interaction/Input.h>
+#include <chimp/interaction/Equation.h>
 #include <chimp/interaction/model/Base.h>
 #include <chimp/interaction/ReducedMass.h>
+#include <chimp/interaction/ParticleAccessors.h>
 
 #include <olson-tools/power.h>
 #include <olson-tools/Vector.h>
@@ -19,6 +19,7 @@
 #include <string>
 #include <cmath>
 #include <cassert>
+#include <vector>
 
 namespace chimp {
   namespace interaction {
@@ -29,6 +30,7 @@ namespace chimp {
       struct Elastic : Base<options> {
         /* TYPEDEFS */
         typedef typename Base<options>::ParticleParam ParticleParam;
+        typedef typename options::Particle Particle;
 
 
         /* STATIC STORAGE */
@@ -45,9 +47,8 @@ namespace chimp {
         Elastic() : mu() { }
 
         /** Constructor. */
-        Elastic( const interaction::Input & input,
-                 const RuntimeDB<options> & db )
-          : mu( input, db ) { }
+        Elastic( const interaction::Equation<options> & eq )
+          : mu( eq.reducedMass ) { }
 
         /** Constructor that specifies the reduced mass explicitly. */
         Elastic( const ReducedMass & mu )
@@ -81,14 +82,19 @@ namespace chimp {
           using olson_tools::V3;
           using olson_tools::random::MTRNGrand;
 
+          /* This copy allows the Particle class to have other storage instead
+           * of just double perhaps. */
+          Vector<double,3> v1 = velocity(part1);
+          Vector<double,3> v2 = velocity(part2);
+
           /*  first obtain the center of mass velocity components */
 
           /* velocity of center of mass. */
-          Vector<double,3> VelCM = (mu.over_m2 * part1.v) +
-                                   (mu.over_m1 * part2.v);
+          Vector<double,3> VelCM = (mu.over_m2 * v1) +
+                                   (mu.over_m1 * v2);
 
           /* relative velocity prior to collision */
-          Vector<double,3> VelRelPre = part1.v - part2.v;
+          Vector<double,3> VelRelPre = v1 - v2;
           double SpeedRel = VelRelPre.abs();
 
           // use the VHS logic
@@ -105,15 +111,15 @@ namespace chimp {
                 A * std::sin(C) * SpeedRel );
 
           // VelRelPost is the post-collision relative v.
-          part1.v = VelCM + ( mu.over_m1 * VelRelPost );
-          part2.v = VelCM - ( mu.over_m2 * VelRelPost );
+          velocity(part1) = VelCM + ( mu.over_m1 * VelRelPost );
+          velocity(part2) = VelCM - ( mu.over_m2 * VelRelPost );
         } // collide
 
         /** load a new instance of the Interaction. */
         virtual Elastic * new_load( const xml::Context & x,
-                                    const interaction::Input & input,
+                                    const interaction::Equation<options> & eq,
                                     const RuntimeDB<options> & db ) const {
-          return new Elastic( input, db );
+          return new Elastic( eq.reducedMass );
         }
 
       };

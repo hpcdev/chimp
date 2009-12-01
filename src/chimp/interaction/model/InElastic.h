@@ -5,8 +5,7 @@
 #ifndef chimp_interaction_model_InElastic_h
 #define chimp_interaction_model_InElastic_h
 
-#include <chimp/RuntimeDB.h>
-#include <chimp/interaction/Input.h>
+#include <chimp/interaction/Equation.h>
 #include <chimp/interaction/model/Base.h>
 
 #include <olson-tools/power.h>
@@ -26,6 +25,7 @@ namespace chimp {
       struct InElastic : Base<options> {
         /* TYPEDEFS */
         typedef typename Base<options>::ParticleParam ParticleParam;
+        typedef typename options::Particle Particle;
 
 
         /* STATIC STORAGE */
@@ -53,9 +53,9 @@ namespace chimp {
 
         /** load a new instance of the Interaction. */
         virtual InElastic * new_load( const xml::Context & x,
-                                      const interaction::Input & input,
+                                      const interaction::Equation<options> & eq,
                                       const RuntimeDB<options> & db ) const {
-          return new InElastic/*( input, db )*/;
+          return new InElastic/*( eq.reducedMass )*/;
         }
 
       };
