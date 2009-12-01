@@ -6,7 +6,8 @@
 #include <chimp/interaction/v_rel_fnc.h>
 
 #include <olson-tools/upper_triangle.h>
-#include <olson-tools/Distribution.h>
+#include <olson-tools/distribution/Inverter.h>
+#include <olson-tools/distribution/Gaussian.h>
 
 #include <physical/physical.h>
 
@@ -56,12 +57,13 @@ int main() {
    * use of the chimp library and information that would typically be required
    * per cell in a gridded type of simulation. */
   /** velocity distributions. */
-  std::vector< olson_tools::Distribution > velocity;
+  std::vector< olson_tools::distribution::Inverter > velocity;
   /** max(sigma * v_rel). */
   olson_tools::upper_triangle<double> maxSigmaVelProduct;
   {
-    typedef olson_tools::Distribution D;
-    typedef olson_tools::GaussianDistrib G;
+    namespace dist = olson_tools::distribution;
+    using dist::Inverter;
+    using dist::Gaussian;
     typedef DB::PropertiesVector::const_iterator PIter;
     using chimp::property::mass;
     using chimp::interaction::estMaxVFromStdV;
@@ -74,7 +76,7 @@ int main() {
        * temperature. */
       double beta = 0.5 * i->mass::value / (K_B * temperature);
       double sigma = std::sqrt( 0.5 / beta );
-      velocity.push_back( D( G(beta), -4*sigma, 4*sigma ) );
+      velocity.push_back( Inverter( Gaussian(beta), -4*sigma, 4*sigma ) );
 
       /* now set cross species data for i */
       for ( PIter j  = i; j != end; ++j ) {
