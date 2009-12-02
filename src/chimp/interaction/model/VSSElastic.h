@@ -65,20 +65,30 @@ namespace chimp {
           return label;
         }
 
-        virtual void interact( const std::vector< const Particle* > & reactants,
-                               std::vector< ParticleParam > & products ) {
-          assert( reactants.size() == 2u );
-
+        /** Two-body collision interface. */
+        virtual void interact( const Particle & part1,
+                               const Particle & part2,
+                               std::vector< ParticleParam > & products )  {
           products.resize( 2u );
           products[0].is_set = true;
           products[1].is_set = true;
 
-          interact( products[0].particle = *reactants[0],
-                    products[1].particle = *reactants[1] );
+          interact( products[0].particle = part1,
+                    products[1].particle = part2 );
+        }
+
+        /** Three-body collision interface. */
+        virtual void interact( const Particle & part1,
+                               const Particle & part2,
+                               const Particle & part3,
+                               std::vector< ParticleParam > & products ) {
+          throw std::runtime_error(
+            "Three body interactions are not supported by VSSElastic collisions"
+          );
         }
 
         /** Binary elastic collision of VHS and VSS models. */
-        virtual void interact( Particle & part1, Particle & part2 ) {
+        void interact( Particle & part1, Particle & part2 ) {
           using olson_tools::SQR;
           using olson_tools::fast_pow;
           using olson_tools::Vector;
@@ -89,8 +99,8 @@ namespace chimp {
 
           /* This copy allows the Particle class to have other storage instead
            * of just double perhaps. */
-          Vector<double,3> v1 = velocity(part1);
-          Vector<double,3> v2 = velocity(part2);
+          const Vector<double,3> & v1 = velocity(part1);
+          const Vector<double,3> & v2 = velocity(part2);
 
           /*  first obtain the center of mass velocity components */
 

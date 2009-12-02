@@ -42,14 +42,18 @@ namespace chimp {
           return label;
         }
 
-        /** Arbitrary collision participants interface. */
-        virtual void interact( const std::vector< const Particle* > & reactants,
+        /** Two-body collision interface. */
+        virtual void interact( const Particle & part1,
+                               const Particle & part2,
                                std::vector< ParticleParam > & products ) {
         }
 
-        /** Binary inelastic collision. */
-        virtual void interact( Particle & part1, Particle & part2 ) {
-        } // interact
+        /** Three-body collision interface. */
+        virtual void interact( const Particle & part1,
+                               const Particle & part2,
+                               const Particle & part3,
+                               std::vector< ParticleParam > & products ) {
+        }
 
         /** load a new instance of the Interaction. */
         virtual InElastic * new_load( const xml::Context & x,
