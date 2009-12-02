@@ -1,6 +1,8 @@
 #ifndef chimplib_examples_simtest_opDSMC_h
 #define chimplib_examples_simtest_opDSMC_h
 
+#include "selectRandomPair.h"
+
 #include <chimp/RuntimeDB.h>
 #include <chimp/interaction/ParticleAccessors.h>
 
@@ -83,39 +85,22 @@ namespace chimp {
           int number_of_collisions_to_test = XXX;
 
           while ( number_of_collisions_to_test ) {
+            typedef std::pair<Particle*, Particle*> CollisionPair;
 
-            /* Pick the particles that need to interact. */
-            Particle::list::iterator pi
-              = sbegin[A].begin() + int(sbegin[A].size()*MTRNGrand()*0.99999999);
-            Particle::list::iterator pj = pi;
-            while ( pi == pj )
-              pj = sbegin[B].begin()
-                 + int(sbegin[B].size()*MTRNGrand()*0.99999999);
+            CollisionPair pair = selectRandomPair( sbegin[A], sbegin[B] );
 
             /* Relative velocity of the the two particles. */
-            double v_rel = (velocity(pi) - velocity(pj)).abs();
+            double v_rel = ( velocity(*pair.first) -
+                             velocity(*pair.second) ).abs();
 
-            /* This calculates the proper output path, observing both absolute
-             * probability that any interaction occurs as well as relative probabilities
-             * for when an interaction does occur.  
-             *
-             * The .first<int> component is the interaction index, such as
-             * i->rhs[path.first] to obtain the Equation instance for the interaction
-             * that should occur.  
-             * The .second<double> component is the cross section value of this
-             * particular interaction for the given relative velocity.   */
-            std::pair<int,double> path = i->calculateOutPath(m_s_v, v_rel);
+            typedef typename RuntimeDB<options>::InteractionTable::value_type::ResultList Results;
 
-            if ( path.first < 0 )
-              // FIXME:  How should we allow statistics to be gathered for this?
-            else {
-              // FIXME:  How should we allow statistics to be gathered for this?
+            Products products;
+            // Picks the correct output equation to use.
+            i->interact( m_s_v, *pair.first, *pair.second, products );
 
-              /* and now do the interaction for the two different particles.  */
-              // FIXME:  The actual thing to do here really might depend on the
-              // algorithm begin implemented (DSMC, collisions with background gas,
-              // rates calculations, etc.)
-            }
+            /* do something with the products. */
+            // FIXME:  finish the interface to interact... and then use it!
 
             /* one down, ... more to go. */
             --number_of_collisions_to_test;
