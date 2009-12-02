@@ -96,31 +96,38 @@ int main(int argc, char * argv[]) {
 
   typedef chimp::RuntimeDB<> DB;
   namespace filter = chimp::interaction::filter;
-  DB db;
-  db.filter.reset(
-    new filter::EqIO( filter::EqIO::IN,
-                      filter::EqTerm(A,-1),
-                      filter::EqTerm(B,-1) ) );
-  db.addParticleType(A);
-  db.addParticleType(B);
+  try {
+    DB db;
+    db.filter.reset(
+      new filter::EqIO( filter::EqIO::IN,
+                        filter::EqTerm(A,-1),
+                        filter::EqTerm(B,-1) ) );
+    db.addParticleType(A);
+    db.addParticleType(B);
 
-  std::set<std::string> rhs_particles =
-    chimp::findAllRHSParticles( db.findAllLHSRelatedInteractionCtx() );
-  /* Add all particles that arise from the given equations. */
-  rhs_particles.erase(A);
-  rhs_particles.erase(B);
-  db.addParticleType( rhs_particles.begin(), rhs_particles.end() );
+    std::set<std::string> rhs_particles =
+      chimp::findAllRHSParticles( db.findAllLHSRelatedInteractionCtx() );
+    /* Add all particles that arise from the given equations. */
+    rhs_particles.erase(A);
+    rhs_particles.erase(B);
+    db.addParticleType( rhs_particles.begin(), rhs_particles.end() );
 
-  db.initBinaryInteractions();
+    db.initBinaryInteractions();
 
-  DB::Set const & set = db(A,B);
+    DB::Set const & set = db(A,B);
 
-  typedef DB::Set::Equation::list::const_iterator EIter;
+    typedef DB::Set::Equation::list::const_iterator EIter;
 
-  for ( EIter i = set.rhs.begin(); i != set.rhs.end(); ++i ) {
-    i->print( std::cout << "# Eq: ", db ) << '\n';
-    i->print(      fout << "# Eq: ", db ) << '\n';
-    print( fout, *(i->cs), vi, vf, N_points ) << "\n\n";
+    for ( EIter i = set.rhs.begin(); i != set.rhs.end(); ++i ) {
+      i->print( std::cout << "# Eq: ", db ) << '\n';
+      i->print(      fout << "# Eq: ", db ) << '\n';
+      print( fout, *(i->cs), vi, vf, N_points ) << "\n\n";
+    }
+
+  } catch ( const olson_tools::xml::error & e ) {
+    std::cout << "Error,  what():  " << e.what() << std::endl;
+  } catch (...) {
+    std::cout << "Unknown error" << std::endl;
   }
 
   fout.close();
