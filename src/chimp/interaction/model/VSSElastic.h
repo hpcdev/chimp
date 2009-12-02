@@ -29,9 +29,10 @@ namespace chimp {
       template < typename options >
       struct VSSElastic : Base<options> {
         /* TYPEDEFS */
-        typedef property::mass mass;
-
         typedef typename Base<options>::ParticleParam ParticleParam;
+        typedef typename options::Particle Particle;
+
+        typedef property::mass mass;
 
         /* STATIC STORAGE */
         static const std::string label;
