@@ -69,6 +69,7 @@ int main() {
   std::cout << "\n\nSimple 0-D test using each interaction set "
                "known to the runtime database:\n";
   std::vector< simtest::Particle > result_list;
+  // FIXME:  Finish the implementation of the collision driver
   //CollisionsDriver<>()(
   //  cell.types.begin(),
   //  cell.types.end(),
