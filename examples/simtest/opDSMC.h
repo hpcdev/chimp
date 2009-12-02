@@ -1,5 +1,8 @@
+#ifndef chimplib_examples_simtest_opDSMC_h
+#define chimplib_examples_simtest_opDSMC_h
 
 #include <chimp/RuntimeDB.h>
+#include <chimp/interaction/ParticleAccessors.h>
 
 namespace chimp {
   namespace interaction {
@@ -50,6 +53,7 @@ namespace chimp {
                         InteractionInfo & info,
                         const RuntimeDB<options> & db,
                         const SpeciesMap & map = SpeciesMap() ) {
+        using chimp::interaction::velocity; // generic accessor for velocity
 
         typedef std::iterator_traits<SpeciesIterator>::value_type Species;
         typedef typename Species::iterator PIter; /* ParticleIterator */
@@ -89,7 +93,7 @@ namespace chimp {
                  + int(sbegin[B].size()*MTRNGrand()*0.99999999);
 
             /* Relative velocity of the the two particles. */
-            double v_rel = (pi->v - pj->v).abs();
+            double v_rel = (velocity(pi) - velocity(pj)).abs();
 
             /* This calculates the proper output path, observing both absolute
              * probability that any interaction occurs as well as relative probabilities
@@ -124,3 +128,4 @@ namespace chimp {
   }/* namespace chimp::interaction */
 }/* namespace chimp */
 
+#endif // chimplib_examples_simtest_opDSMC_h

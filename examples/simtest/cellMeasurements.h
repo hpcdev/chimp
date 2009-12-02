@@ -3,7 +3,6 @@
 
 #include "Cell.h"
 
-#include <chimp/interaction/v_rel_fnc.h>
 #include <chimp/interaction/ParticleAccessors.h>
 
 #include <olson-tools/Vector.h>
