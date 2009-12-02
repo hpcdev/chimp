@@ -4,6 +4,7 @@
 #include "Particle.h"
 
 #include <olson-tools/Vector.h>
+#include <olson-tools/IteratorRange.h>
 
 namespace simtest {
   using olson_tools::Vector;
@@ -77,8 +78,8 @@ namespace simtest {
                              & vB_max = data[B].v_max;
 
       /* Simple estimator for maximum relative velocity between cross species.*/
-      double v_rel_max = std::max( (vA_max - VB_min).abs(),
-                                   (VB_max - VA_min).abs() );
+      double v_rel_max = std::max( (vA_max - vB_min).abs(),
+                                   (vB_max - vA_min).abs() );
 
       return db(A,B)->cs->findMaxSigmaVProduct( v_rel_max );
     }

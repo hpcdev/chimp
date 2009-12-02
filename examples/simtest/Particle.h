@@ -9,6 +9,8 @@
 #include <olson-tools/distribution/Gaussian.h>
 #include <olson-tools/distribution/Inverter.h>
 
+#include <physical/physical.h>
+
 #include <vector>
 #include <cstdlib>
 
@@ -53,12 +55,13 @@ namespace simtest {
                               const double & temperature,
                               const RnDB & db ) {
     namespace dist = olson_tools::distribution;
+    using physical::constant::si::K_B;
 
     /** velocity distributions per species. */
     std::vector< dist::Inverter > velocity;
 
     { /* first set up the initial velocity distributions. */
-      typedef DB::PropertiesVector::const_iterator PIter;
+      typedef typename RnDB::PropertiesVector::const_iterator PIter;
       PIter end = db.getProps().end();
       for ( PIter i  = db.getProps().begin(); i != end; ++i ) {
         /* set the velocity distribution for this particle type using the global
@@ -77,7 +80,7 @@ namespace simtest {
     dist::Inverter position( dist::Uniform(), -1, 1 );
 
     /** random species. */
-    dist::Inverter species( dist::Uniform(), 0, 0.9999999*db.getProps.size() );
+    dist::Inverter species( dist::Uniform(), 0, 0.9999999*db.getProps().size() );
 
     pv.resize(0);              /* start with empty array */
     pv.reserve( n_particles ); /* allocate right away */

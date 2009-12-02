@@ -1,6 +1,8 @@
 
-#include "Particle.h"
 #include "Cell.h"
+#include "Particle.h"
+#include "sortSpecies.h"
+#include "cellMeasurements.h"
 
 #include <chimp/RuntimeDB.h>
 #include <chimp/interaction/filter/Or.h>
@@ -13,6 +15,11 @@
 #include <iterator>
 
 
+using simtest::Cell;
+using simtest::createRandomParticles;
+using simtest::sortBySpecies;
+using simtest::doCellMeasurements;
+
 using physical::unit::nm;
 using physical::unit::K;
 static const double nm2 = nm*nm;
@@ -20,6 +27,7 @@ static const double nm2 = nm*nm;
 typedef chimp::make_options<>::type
   ::setParticle< simtest::Particle >::type options;
 
+const int n_particles = 100;
 
 int main() {
   namespace filter = chimp::interaction::filter;
@@ -36,8 +44,10 @@ int main() {
   db.addParticleType("Hg^+");
 
   db.filter = SP(
-                new filter::Or( SP(new filter::Elastic),
-                                SP(new filter::Label("inelastic")) )
+                new filter::Or(
+                  SP(new filter::Elastic),
+                  SP(new filter::Label("inelastic"))
+                )
               );
 
   /* set up the the runtime database */
@@ -46,7 +56,7 @@ int main() {
 
   /* create all particles */
   std::vector< simtest::Particle > particles;
-  simtest::createRandomParticles( particles , n_particles, 300*K, db );
+  createRandomParticles( particles , n_particles, 300*K, db );
 
   /* Create the mock cell*/
   Cell cell( particles.begin(), particles.end(), db.getProps().size() );
@@ -58,14 +68,14 @@ int main() {
   /* spit out known interactions and attempt execution */
   std::cout << "\n\nSimple 0-D test using each interaction set "
                "known to the runtime database:\n";
-  std::vector<Particle> result_list;
-  CollisionsDriver<>()(
-    cell.types.begin(),
-    cell.types.end(),
-    result_list,
-    cell,
-    db
-  );
+  std::vector< simtest::Particle > result_list;
+  //CollisionsDriver<>()(
+  //  cell.types.begin(),
+  //  cell.types.end(),
+  //  result_list,
+  //  cell,
+  //  db
+  //);
 
   /* lets print out some statistics. */
   // FIXME:  where are we going to get these said statistics???

@@ -23,16 +23,15 @@ namespace simtest {
 
     // Create type sorter
     namespace nsort = olson_tools::nsort;
-    nsort::NSort< nsort::map::type > s( srange.size() );
+    nsort::NSort< nsort::map::type > s( sranges.size() );
 
     // execute sort
-    s.sort( particles.begin(), particles.end() );
+    s.sort( pbegin, pend );
 
     /** Sets each of the ranges for the species. */
-    ParticleIterator begin = particles.begin();
-    for ( int i = 0; i < static_cast<int>( srange.size() ); ++i ) {
+    for ( int i = 0; i < static_cast<int>( sranges.size() ); ++i ) {
       typedef typename SpeciesRanges::value_type Range;
-      sranges[i] = Range( begin + s.begin(i), begin + s.end(i) );
+      sranges[i] = Range( pbegin + s.begin(i), pbegin + s.end(i) );
     }
   }
 
