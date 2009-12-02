@@ -40,12 +40,16 @@ namespace chimp {
         /** Obtain the label of the model. */
         virtual std::string getLabel() const = 0;
 
-        /** Arbitrary collision participants interface. */
-        virtual void interact( const std::vector< const Particle* > & reactants,
+        /** Two-body collision interface. */
+        virtual void interact( const Particle & part1,
+                               const Particle & part2,
                                std::vector< ParticleParam > & products ) = 0;
 
-        /** Binary collision interface. */
-        virtual void interact( Particle & part1, Particle & part2 ) = 0;
+        /** Three-body collision interface. */
+        virtual void interact( const Particle & part1,
+                               const Particle & part2,
+                               const Particle & part3,
+                               std::vector< ParticleParam > & products ) = 0;
 
         /** load a new instance of the Interaction. */
         virtual Base * new_load( const xml::Context & x,
