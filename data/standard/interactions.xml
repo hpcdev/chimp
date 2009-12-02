@@ -4104,7 +4104,13 @@
             </cross_section>
         </Interaction>
 
+        <cross_section_comment key="Ar">
+            Cross sections Ar.  Same as siglo.sec after 10/1997. Corrected 09/2008.
+            from A.V. Phelps
+        </cross_section_comment>
+
         <Interaction model="elastic">
+            <e_mass_ratio>0.1360E-04</e_mass_ratio>
             <Eq><In><T><P>e^-</P></T> + <T><P>Ar</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>Ar</P></T></Out></Eq>
             <cross_section model="data" xscale="eV" yscale="1.e-20*m^2">
                 <reference>Various sources. See G. Raju, Gaseous Electronics: Theory and Practice, CRC Press, 2006, Table 3.11.  </reference>
@@ -4141,16 +4147,6 @@
                 <val x="900" y="1.361"/>
                 <val x="1000" y="1.274"/>
             </cross_section>
-        </Interaction>
-
-        <cross_section_comment key="Ar">
-            Cross sections Ar.  Same as siglo.sec after 10/1997. Corrected 09/2008.
-            from A.V. Phelps
-        </cross_section_comment>
-
-        <Interaction model="momentum">
-            <e_mass_ratio>0.1360E-04</e_mass_ratio>
-            <Eq><In><T><P>e^-</P></T> + <T><P>Ar</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>Ar</P></T></Out></Eq>
             <momentum_cross_section model="data" xscale="eV" yscale="m^2">
                 <reference>From Bolsig+ MOMENTUM; EFFECTIVE MOM-TRANSFER CROSS SECTION</reference>
                 <val x="0" y="7.5E-20"/>
