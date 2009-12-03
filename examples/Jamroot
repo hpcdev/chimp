@@ -9,4 +9,5 @@ use-project /chimp : ../ ;
 build-project CrossSection ;
 build-project Properties ;
 build-project RuntimeDB ;
+build-project simtest ;
 build-project xmldb ;
