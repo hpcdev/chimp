@@ -108,8 +108,8 @@ int main(int argc, char * argv[]) {
     std::set<std::string> rhs_particles =
       chimp::findAllRHSParticles( db.findAllLHSRelatedInteractionCtx() );
     /* Add all particles that arise from the given equations. */
-    rhs_particles.erase(A);
-    rhs_particles.erase(B);
+    rhs_particles.erase(A); /* avoid log warning--don't add it again */
+    rhs_particles.erase(B); /* avoid log warning--don't add it again */
     db.addParticleType( rhs_particles.begin(), rhs_particles.end() );
 
     db.initBinaryInteractions();
