@@ -1,10 +1,46 @@
 Installation Instructions
 *************************
 
-This project uses the Boost.Build system which automatically tracks
-link, include, and other dependencies among any number of libraries and
-projects.  Except for using the (unfinished) CMake build configuration, these
-instructions assume that you have Boost.Build installed on your system.  
+This project uses the Boost.Build system which automatically tracks link,
+include, and other dependencies among any number of libraries and projects.
+These instructions assume that you have Boost.Build installed on your system.
+
+Boost.Build:
+  If you use Boost.Build, integrating this library into your own project is
+  the MOST EASY.  No installation beyond storing CHIMP somewhere on your
+  harddrive.  To use chimp in your Boost.Build project, you simply include a
+  line like:
+
+      use-project /chimp : path/to/chimp ;
+
+  where the path/to/chimp path can be either relative or absolute.  
+  This library has several sub-libraries that are useful and which will
+  invoke the proper linking to external libraries as needed.
+
+      /chimp//headers    : only provides <include> dependencies
+      /chimp//particledb : invokes linking to the Particle database library
+                           useful for particle simulations such as DSMC.
+                           Also links in required libs (e.g Boost.Regex)
+      /chimp//em         : (conceptual still) invokes linking to the
+                           electro-magnetic constants and properties database
+                           library.
+      /chimp//mechanical : (conceptual still) invokes linking to the mechanical
+                           constants and properties database library.
+
+  External libraries required by various components:
+    Boost.Regex
+    olson-tools
+        In the future, the components of this all-purpose library will be
+        imported into a more specialized compact library.
+    physical
+
+        Each of Boost, olson-tools, physical libraries includes a Boost.Build
+        setup.  Just store these packages in the same directory as the chimp
+        package. 
+
+    libxml2
+        Should be installed somewhere on your system and the xml2-config command
+        from that installation should be in your path.
 
 General Install:
   These instructions are for installing this software into a standard layout
@@ -26,38 +62,11 @@ General Install:
       bjam --help
 
 
-Boost.Build:
-  If you use Boost.Build, integrating this library into your own project is
-  the most easy.  You simply, include a line like:
+  External library installations required:
+    Boost.Regex
+    olson-tools
+        In the future, the components of this all-purpose library will be
+        imported into a more specialized compact library.
+    physical
+    libxml2
 
-      use-project /chimp : path/to/chimp ;
-
-  where the path/to/chimp path can be either relative or absolute.  
-  This library has several sub-libraries that are useful and which will
-  invoke the proper linking to other libraries such as Boost.Regex.
-
-      /chimp//headers    : only provides <include> dependencies
-      /chimp//particledb : invokes linking to the Particle database library
-                           useful for particle simulations such as DSMC.
-                           Also links in required libs (e.g Boost.Regex)
-      /chimp//em         : (conceptual still) invokes linking to the
-                           electro-magnetic constants and properties database
-                           library.
-      /chimp//mechanical : (conceptual still) invokes linking to the mechanical
-                           constants and properties database library.
-
-CMake:
-  CMake files also accompany the package and make it easier to use in a
-  CMake environment.  To use in a CMake environment, just add appropriate
-  lines to your master CMakeLists.txt file, such as
-
-      add_subdirectory(chimp)
-
-  You will also have to include the proper line for the include paths, such
-  as:
-      include_directories(
-        ${CMAKE_SOURCE_DIR}/path/to/your/code
-        ${CMAKE_SOURCE_DIR}/chimp/src
-      )
-
-  NOTE:  the CMake files are a work in progress and may not work yet.
