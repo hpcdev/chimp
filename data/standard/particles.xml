@@ -124,9 +124,6 @@
         <Particle name="CO2(0.083eV)">
             <mass>element::C::mass + 2*element::O::mass</mass>
         </Particle>
-        <Particle name="CO2(0.083eV)">
-            <mass>element::C::mass + 2*element::O::mass</mass>
-        </Particle>
         <Particle name="CO2(0.167eV)">
             <mass>element::C::mass + 2*element::O::mass</mass>
         </Particle>
