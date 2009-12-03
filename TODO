@@ -168,3 +168,7 @@ DONE (alphabetically at least, charge not yet)
 15. Change the CrossSection::cross_section function into the operator()
     function.
 DONE
+
+16. Make the particle property comparator be a policy defined class--defaulting
+    to chimp::property::Comparator.
+

@@ -92,18 +92,16 @@ int main(int argc, char * argv[]) {
 
   db.initBinaryInteractions();
 
-  typedef DB::InteractionTable::const_iterator CIter;
-  CIter end = db.getInteractions().end();
-  for ( CIter i = db.getInteractions().begin(); i != end; ++i ) {
-
-    DB::Set const & set = *i;
+  typedef DB::InteractionTable::const_iterator ITIter;
+  ITIter end = db.getInteractions().end();
+  for ( ITIter set = db.getInteractions().begin(); set != end; ++set ) {
 
     typedef DB::Set::Equation::list::const_iterator EIter;
 
-    for ( EIter i = set.rhs.begin(); i != set.rhs.end(); ++i ) {
-      i->print( std::cout << "# Eq: ", db ) << '\n';
-      i->print(      fout << "# Eq: ", db ) << '\n';
-      print( fout, *(i->cs), vi, vf, N_points ) << "\n\n";
+    for ( EIter eq = set->rhs.begin(); eq != set->rhs.end(); ++eq ) {
+      eq->print( std::cout << "# Eq: ", db ) << '\n';
+      eq->print(      fout << "# Eq: ", db ) << '\n';
+      print( fout, *(eq->cs), vi, vf, N_points ) << "\n\n";
     }
 
   }
