@@ -21,22 +21,27 @@ The scope of the data to be housed within the database is intended to be
 necessarily wide, so as to create some uniformity of simulation results based on
 the same data.  All data to be added to any released version of the library will
 be required to be both publicly accessible and well documented as to its origin.
-If appropriate public information exists (e.g. in journals or databases such as
-from NIST), the level of fidelity will also be documented.  The success of this
-work will rely on heavily on all collaborators contributing data in the correct
-format and helping thoroughly documenting this data. 
+The success of this work will rely on heavily on all collaborators contributing
+data in the correct format and helping thoroughly documenting this data. 
 
-<h3>Technical Reference</h3>
+This manual constitutes the technical reference or application programming
+interface (API) documentation for CHIMP.  This manual is automatically generated
+using the doxygen code documentation tool.  Currently, we support HTML and
+\f$\LaTeX\f$ output generation.  Please follow the appropriate links to
+documentation for each function, class, and namespace of the API.
 
 
-  For reference, please also see the following sections:
-  - \subpage fidelity
+<h3>Additional Material</h3>
+  Please refer to the following material for current status, future direction,
+  and otherwise typical package information:
+  - \subpage discussions
   - \subpage platforms
   - \subpage license
   - \subpage readme
   - \subpage install
   - \subpage changelog
   - \subpage authors
+  .
 */
 
 
@@ -76,8 +81,11 @@ format and helping thoroughly documenting this data.
 
 
 //-----------------------------------------------------------
-/** \page fidelity Fidelity
-    A recent discussion among AFRL/DOE collaborators brought out the following
+/** \page discussions Direction and Discussions
+
+If appropriate public information exists (e.g. in journals or databases such as
+from NIST), the level of fidelity will also be documented.  
+A recent discussion among AFRL/DOE collaborators brought out the following
 idea for documenting fidelity of the data that we will be distributing.
   - Baked from thin air
   - Published
