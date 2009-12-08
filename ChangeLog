@@ -1,8 +1,289 @@
-commit 0be1d28ca44a596cbccb5befa5684f83740abb91
+commit 6b7968142b241e2a13a027b79680c5754b2189fe
+Author: Spencer Olson <olsonse@asok.hpmi.afrl.af.mil>
+Date:   Tue Dec 8 08:45:19 2009 -0700
+
+    improving documentation
+
+commit 27d21fad12cf33abb203e2884b0a6436f969e97a
+Author: Spencer Olson <olsonse@asok.hpmi.afrl.af.mil>
+Date:   Tue Dec 8 08:42:54 2009 -0700
+
+    moved dummy __namespace__.h documentation file to be less conspicuous
+
+commit 50dc504fc9d5701807fb6b540c09d36ba0013f6e
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Thu Dec 3 23:48:56 2009 -0700
+
+    Fixed minor embarrassing spelling mistake.
+
+commit 76705a6352f967cf222a61655fcdf52d59c93bc7
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Thu Dec 3 22:04:56 2009 -0700
+
+    Cleaned master branch: rm bolsig+ conversion and testdist.C
+    
+    The bolsig+ conversion is in the form of VIM search/replace regex commands.
+    This will be left for now in my own private imports/bolsig branch.
+    
+    testdist.C is some code for developing the precomputed set (as of yet
+    unfinished).  This is also left in my private branch for the day that I finish
+    that feature.
+
+commit 95f8000da5fe2495423efa6934b1f1e7fe4d65db
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Thu Dec 3 15:32:34 2009 -0700
+
+    Improved INSTALL instructions--removed references to nonexistent CMake setup
+
+commit 83e74f9398527887b7e543ee336011453ecf4be8
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Thu Dec 3 15:12:18 2009 -0700
+
+    added simtest to examples Jamfile
+
+commit 7dd410283c27c2e8e3162c0e9775c418bc253898
+Merge: 8544e84 d4b7855
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Thu Dec 3 14:56:15 2009 -0700
+
+    Merge branch 'master' into topic/simtest
+    
+    Merge commit 'd4b7855d1f342e1be199092f39783b88cd0bab7d' into HEAD
+
+commit 8544e841be39e34e457cc3e754b0c54c08620a4b
+Merge: 0a7c7ef 6782df7
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Thu Dec 3 11:16:54 2009 -0700
+
+    Merge branch 'master' into topic/simtest
+    
+    Merge commit '6782df7f76b59b2b681cea344ccd5f4f5de979f0' into HEAD
+
+commit d4b7855d1f342e1be199092f39783b88cd0bab7d
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Thu Dec 3 13:45:10 2009 -0700
+
+    removed duplicate CO2(0.083eV) particle
+
+commit 0a7c7efbb0cdceb922d3117ab6a2398f0693d0f2
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Tue Dec 1 22:52:14 2009 -0700
+
+    minor changes to simplify simtest example
+
+commit 6782df7f76b59b2b681cea344ccd5f4f5de979f0
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Thu Dec 3 11:14:16 2009 -0700
+
+    More aesthetic tweaks in example--added a comment.
+
+commit b70149f8c4ffa7ca876b149cf43644fe5311d293
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Tue Dec 1 22:18:49 2009 -0700
+
+    minor comment addition
+
+commit 3c4067fc178317a612d43a8122f332b09e7198ae
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Thu Dec 3 11:08:06 2009 -0700
+
+    Aesthetic tweaks to cross section example.  New TODO item.
+
+commit 2ec2c95271b2dd90adc21e2ab13b6769798832f7
+Merge: 6dc0170 6fa53ad
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Tue Dec 1 22:02:27 2009 -0700
+
+    Merge branch 'master' into topic/simtest
+    
+    Merge commit '6fa53adf4a9a4fea28580b220e5af34c5174bb8a' into HEAD
+
+commit 6fa53adf4a9a4fea28580b220e5af34c5174bb8a
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Tue Dec 1 21:59:52 2009 -0700
+
+    Made model::Base::interact interface explicit in the number of reactants.
+    
+    Also removed the two-in/two-out interface as it is not very generic.
+    The interact function with arbitrary inputs was removed in lieu of the explicit
+    versions (including only two-body and three-body reactant interactions).
+
+commit 6dc017024f8c40b7607215994952e8e7d8882280
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Tue Dec 1 21:57:54 2009 -0700
+
+    minor changes in simtest
+
+commit f2a3d95b708088e4b61660dff69afee6f5212d34
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Tue Dec 1 21:01:32 2009 -0700
+
+    tweaked VSSElastic model so that it compiles again
+
+commit 3bd6db7777d153eb530c05d143a086466bac3477
+Merge: 3ac4376 f2a3d95
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Tue Dec 1 21:01:52 2009 -0700
+
+    Merge branch 'master' into topic/simtest
+    
+    Merge commit 'f2a3d95b708088e4b61660dff69afee6f5212d34' into HEAD
+
+commit b2829503fe1989fda58e2774fd04156ddab0456a
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Tue Dec 1 17:19:46 2009 -0700
+
+    added try-catch so-as to catch xml_error exceptions
+
+commit 3ac43763ff7ca6f6a967939157185e4bba648efc
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Tue Dec 1 21:00:48 2009 -0700
+
+    first version of simtest that at least compiles--everything should work except the driver
+
+commit bf3b946a6e6d2590cdd281814b45a26ca4d00ef9
+Author: Spencer E. Olson <olsonse@cygwin-laptop>
+Date:   Tue Dec 1 16:04:11 2009 -0800
+
+    fixed new cross-section entry for e+Ar->e+Ar
+
+commit cb6f9941f40eb1f4ec79439a2ecc321af55c293b
+Merge: 3bb35b8 b282950
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Tue Dec 1 20:33:04 2009 -0700
+
+    Merge branch 'master' into topic/simtest
+    
+    Merge commit 'b2829503fe1989fda58e2774fd04156ddab0456a' into HEAD
+
+commit fe0d44c08ca42758108b74a5079aa003bc990739
+Author: Spencer Olson <olsonse@asok.hpmi.afrl.af.mil>
+Date:   Tue Dec 1 16:09:43 2009 -0700
+
+    updated authors
+
+commit 3bb35b8aac9e7630aca32784385576ed3cbb5843
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Mon Nov 30 10:56:58 2009 -0700
+
+    tweaked the way I think vrel_max should be calculated.
+
+commit eb0ccc9522ba614ccecc7d5e8f24e18b932f1dba
+Merge: d38a11d f28e35d
+Author: Spencer Olson <olsonse@asok.hpmi.afrl.af.mil>
+Date:   Tue Dec 1 15:43:53 2009 -0700
+
+    Merge branch 'master' of /home/olsonse/src/chimp
+    
+    Merge commit 'f28e35db77edf81431b2c2fa7a8dadbfdcaec016' into HEAD
+
+commit f2a8d1c32974e3dfbc59960a3202deaa730e0d31
+Merge: 72e0e58 0e4937b
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Wed Nov 25 15:57:11 2009 -0700
+
+    Merge branch 'master' into topic/simtest
+    
+    Merge commit '0e4937bac987f2bbe2194e2944a53f171b46c3b7' into HEAD
+
+commit d38a11d291002055f6628aaaf8cb6b1c8d2e5190
+Author: Shane Stafford <shane@ted.afrl.kirtland.af.mil>
+Date:   Tue Nov 10 13:50:31 2009 -0700
+
+    Added new e + Ar elastic cross section.
+
+commit f28e35db77edf81431b2c2fa7a8dadbfdcaec016
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Tue Dec 1 15:28:06 2009 -0700
+
+    updated olson_tools::distribution::Inverter use in testRuntimeDB.cpp example
+
+commit 72e0e58856c31f3960a2f1d053df069a98091a69
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Tue Nov 24 17:15:01 2009 -0700
+
+    almost finished with simtest example
+
+commit 0e4937bac987f2bbe2194e2944a53f171b46c3b7
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Wed Nov 25 15:56:57 2009 -0700
+
+    fixed compile broken after recent changes
+
+commit a9eb431329f8d22de247abcf1fa02aab5de747fe
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Mon Nov 9 08:11:31 2009 -0700
+
+    Particle data now accessed using non-member accessor functions.
+    
+    For example, velocity will be accessed using the 'velocity(particle)' function.
+
+commit 0e2ae323ee5d73579b4b87d07f0ed39f067e4a4c
+Merge: 62775ba e91608b
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Mon Nov 9 16:50:57 2009 -0700
+
+    Merge branch 'master' into topic/simtest
+    
+    Merge commit 'e91608b19005d03be3ebb7be2eef41c99c94abb1' into HEAD
+
+commit e91608b19005d03be3ebb7be2eef41c99c94abb1
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Mon Nov 9 16:46:51 2009 -0700
+
+    Decided that it was indeed helpful to cache reduced mass.
+    
+    I'm using the interaction::ReducedMass class which caches things like mu/m1 and
+    mu/m2 as well.
+
+commit 62775bab2bb6a3eb0fb713ce8f99eb0dcb7eaf9e
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Mon Nov 9 16:36:04 2009 -0700
+
+    moved simtest.cpp to main.cpp
+
+commit c31346a1cc1511e5bea0f45c8830f18e1e227d66
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Mon Nov 9 08:11:31 2009 -0700
+
+    Particle data now accessed using non-member accessor functions.
+    
+    For example, velocity will be accessed using the 'velocity(particle)' function.
+
+commit 26dab9ed2a9ee06b27a806fc894e17b892149f68
+Merge: 478ff6d 88ab6c5
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Fri Nov 6 21:01:56 2009 -0700
+
+    Merge branch 'master' into topic/simtest
+    
+    Merge commit '88ab6c58f86803a44f64542ee4d12d25e2a7db4d' into HEAD
+
+commit 88ab6c58f86803a44f64542ee4d12d25e2a7db4d
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Thu Nov 5 11:28:06 2009 -0700
+
+    added new properties example that uses make_options<> metafunction to specify the properties to load
+
+commit 7511096318d94f5daf6d09191a1631a41b9babf4
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Wed Nov 4 23:19:02 2009 -0700
+
+    data now installed to <prefix>/include/../share/chimp/data
+
+commit fb83558d149942822903d5ff70187148c93a0a58
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Wed Nov 4 23:04:01 2009 -0700
+
+    fixed build requirements for /physical//particledb
+
+commit e9d241a79955fa2dbdbdbd4179e060da63063a66
 Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
 Date:   Wed Nov 4 15:53:38 2009 -0700
 
-    added in forgotten dependency on /physical//runtime
+    Tweak dependencies in Jamroot; added install instructions.
+    
+    ChangeLog also updated.
 
 commit a1e78ba553762bd2001d2151c2e1c63db675d2aa
 Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
@@ -106,6 +387,12 @@ Date:   Fri Oct 30 13:34:19 2009 -0600
     
     Merge commit 'b3a2de4a1da269246d4de9aebd04993bfad6c437' into HEAD
 
+commit 478ff6d74b72c65ebd802e156cd2939b5f1b312e
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Fri Oct 30 09:32:02 2009 -0600
+
+    added doc line for UnityTransform
+
 commit 2a9ccdd547ecd423493d78cc29f7c2fbc02e94f0
 Merge: 24f5ed7 b3a2de4
 Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
@@ -127,6 +414,12 @@ Date:   Fri Oct 30 13:33:43 2009 -0600
 
     split up the standard-particledb.xml file into standard/*.xml pieces
 
+commit 8652424188c121810d1f0e698645c797f4b1354d
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Thu Oct 29 16:59:26 2009 -0600
+
+    more work on simtest.  first good start at making interaction driver.
+
 commit 24f5ed73782c0db8eb15d70b7c9809d4f9284853
 Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
 Date:   Fri Oct 30 13:23:34 2009 -0600
@@ -147,11 +440,26 @@ Date:   Thu Oct 29 12:10:34 2009 -0600
 
     added first cut of installation of libraries to a local stage directory
 
+commit 9945622ef049ab828847b79698c0ca057d8b8259
+Merge: 4992277 ccb1092
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Thu Oct 29 12:19:20 2009 -0600
+
+    Merge branch 'master' into topic/simtest
+    
+    Merge commit 'ccb109299ac447c1d14cfc68bf67ad93f793d1c5' into HEAD
+
 commit 73961dd4ce8c8836c3167a082cf1f708ddb3ab5f
 Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
 Date:   Wed Oct 28 16:10:17 2009 -0600
 
     removed invalid copyright indication
+
+commit 4992277df2ebea18bafade9cd0d22f7e4af60782
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Wed Oct 28 15:19:21 2009 -0600
+
+    added (as of yet unfinished) new simtest example:  an example that might more closely resemble DSMC usage.
 
 commit 311872b90c606e25533ee07ab90555ce69f4ee4c
 Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
