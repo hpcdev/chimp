@@ -1,3 +1,8 @@
+/** \file
+ * A few useful functions for calculating with temperature, velocity
+ * distribution moments, etc.
+ * */
+
 #ifndef chimp_interaction_v_rel_fnc_h
 #define chimp_interaction_v_rel_fnc_h
 

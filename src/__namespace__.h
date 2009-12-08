@@ -11,6 +11,9 @@ namespace chimp {
   /** Classes, types, and functions for Interactions. */
   namespace interaction {
 
+    /** Cross section data models. */
+    namespace cross_section { }
+
     /** Filters for selecting appropriate interactions. */
     namespace filter { }
 

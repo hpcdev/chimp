@@ -7,35 +7,17 @@
 
 #include <chimp/interaction/filter/Base.h>
 #include <chimp/interaction/filter/Null.h>
+#include <chimp/interaction/filter/detail/EqPair.h>
 
 #include <boost/shared_ptr.hpp>
 
 #include <string>
-#include <map>
 
 namespace chimp {
   namespace interaction {
     namespace filter {
 
       using boost::shared_ptr;
-
-      namespace detail {
-
-        struct EqPair
-        : std::pair< const xml::Context *, const xml::Context *> {
-          typedef std::pair< const xml::Context *,
-                             const xml::Context *> super;
-
-          EqPair( const xml::Context * matched = NULL,
-                  const xml::Context * unmatched = NULL )
-            : super(matched, unmatched) { }
-        };
-
-        typedef std::map< std::string, EqPair> EqMap;
-
-      }/* namespace chimp::interaction::filter::detail */
-
-
 
 
       /** This filter sets an order of precedence on interactions coming from

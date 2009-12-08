@@ -6,6 +6,7 @@
 #define chimp_interaction_cross_section_DATA_h
 
 #include <chimp/interaction/cross_section/Base.h>
+#include <chimp/interaction/cross_section/detail/logE_E.h>
 #include <chimp/interaction/Equation.h>
 #include <chimp/interaction/ReducedMass.h>
 
@@ -16,7 +17,6 @@
 #include <map>
 #include <stdexcept>
 #include <ostream>
-#include <cmath>
 
 namespace chimp {
   namespace xml = olson_tools::xml;
@@ -38,14 +38,6 @@ namespace chimp {
        * */
       DoubleDataSet loadCrossSectionData( const xml::Context & x,
                                           const ReducedMass & mu );
-
-      namespace detail {
-        /** Calculate the log(E)/E exponential fall-off of the cross section. */
-        inline double g(const double & x) {
-          register double s = x + M_E;
-          return M_E * std::log(s)/s;
-        }
-      }
 
       /** Scaling constant used for extrapolating data using a ln(E)/E scaling.
        * \todo get the scaling right.
