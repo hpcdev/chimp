@@ -8,7 +8,6 @@
 
 #include <chimp/property/Add.h>
 #include <chimp/property/name.h>
-#include <chimp/property/size.h>
 #include <chimp/property/mass.h>
 #include <chimp/property/charge.h>
 
@@ -16,11 +15,10 @@
 namespace chimp {
   namespace property {
 
-    /** The default set of particle properties includes:  name, size, mass, and
+    /** The default set of particle properties includes:  name, mass, and
      * charge. */
     typedef Add<
       property::name,
-      property::size,
       property::mass,
       property::charge
     > DefaultSet;

@@ -16,7 +16,6 @@ int main() {
 
   std::cout << "Accessing each property individually:\n";
   std::cout << "p.name:  "   << p.name::value << std::endl;
-  std::cout << "p.size:  "   << p.size::value << std::endl;
   std::cout << "p.mass:  "   << p.mass::value << std::endl;
   std::cout << "p.charge:  " << p.charge::value << std::endl;
 

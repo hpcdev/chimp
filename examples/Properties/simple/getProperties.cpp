@@ -17,14 +17,12 @@ int main() {
 
   std::cout << "Accessed with string index, each property individually:\n";
   std::cout << "\tp.name:  "   << db[Pname].name::value << std::endl;
-  std::cout << "\tp.size:  "   << db[Pname].size::value << std::endl;
   std::cout << "\tp.mass:  "   << db[Pname].mass::value << std::endl;
   std::cout << "\tp.charge:  " << db[Pname].charge::value << std::endl;
 
   int i = db.findParticleIndx(Pname);
   std::cout << "Accessed with integer index, each property individually:\n";
   std::cout << "\tp.name:  "   << db[i].name::value << std::endl;
-  std::cout << "\tp.size:  "   << db[i].size::value << std::endl;
   std::cout << "\tp.mass:  "   << db[i].mass::value << std::endl;
   std::cout << "\tp.charge:  " << db[i].charge::value << std::endl;
 

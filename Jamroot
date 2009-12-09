@@ -113,7 +113,7 @@ if [ modules.peek : NT ] {
 # the list of libraries to build and install
 local libraries = particledb ;
 # all headers to install
-local all_headers = [ path.glob-tree src : *.h *.cpp : .svn ] ;
+local all_headers = [ path.glob-tree src : *.h *.cpp : .svn __namespace__.h ] ;
 # data to install
 local data = [ path.glob-tree data : *.xml : .svn ] ;
 

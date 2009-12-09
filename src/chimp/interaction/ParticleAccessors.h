@@ -16,40 +16,46 @@ namespace chimp {
 
     /** Generic NON-const accessor for particle velocity. */
     template < typename ParticleT >
-    Vector<double,3> & velocity( ParticleT & p ) {
+    static Vector<double,3> & velocity( ParticleT & p ) {
       return p.v;
     }
 
     /** Generic const accessor for particle velocity. */
     template < typename ParticleT >
-    const Vector<double,3> & velocity( const ParticleT & p ) {
+    static const Vector<double,3> & velocity( const ParticleT & p ) {
       return p.v;
     }
 
 
     /** Generic NON-const accessor for particle position. */
     template < typename ParticleT >
-    Vector<double,3> & position( ParticleT & p ) {
+    static Vector<double,3> & position( ParticleT & p ) {
       return p.x;
     }
 
     /** Generic const accessor for particle position. */
     template < typename ParticleT >
-    const Vector<double,3> & position( const ParticleT & p ) {
+    static const Vector<double,3> & position( const ParticleT & p ) {
       return p.x;
     }
 
 
     /** Generic NON-const accessor for particle species. */
     template < typename ParticleT >
-    int & species( ParticleT & p ) {
+    static int & species( ParticleT & p ) {
       return p.type;
     }
 
     /** Generic const accessor for particle species. */
     template < typename ParticleT >
-    const int & species( const ParticleT & p ) {
+    static const int & species( const ParticleT & p ) {
       return p.type;
+    }
+
+    /** Generic accessor for particle weight:  defaults to just returning 1. */
+    template < typename ParticleT >
+    static double weight( const ParticleT & p ) {
+      return 1;
     }
 
   } /* namespace chimp::interaction */
