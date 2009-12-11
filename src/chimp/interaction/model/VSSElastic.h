@@ -99,8 +99,8 @@ namespace chimp {
 
           /* This copy allows the Particle class to have other storage instead
            * of just double perhaps. */
-          const Vector<double,3> & v1 = velocity(part1);
-          const Vector<double,3> & v2 = velocity(part2);
+          const Vector<double,3> v1 = velocity(part1);
+          const Vector<double,3> v2 = velocity(part2);
 
           /*  first obtain the center of mass velocity components */
 
@@ -136,8 +136,8 @@ namespace chimp {
 
 
           // VelRelPost is the post-collision relative v.
-          velocity(part1) = VelCM + ( mu.over_m1 * VelRelPost );
-          velocity(part2) = VelCM - ( mu.over_m2 * VelRelPost );
+          setVelocity(part1, VelCM + ( mu.over_m1 * VelRelPost ) );
+          setVelocity(part2, VelCM - ( mu.over_m2 * VelRelPost ) );
 
           // // or, for similar particles
           // VelRelPost *= 0.5;

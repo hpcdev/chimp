@@ -26,6 +26,12 @@ namespace chimp {
       return p.v;
     }
 
+    /** Generic particle velocity set function. */
+    template < typename ParticleT >
+    static void setVelocity( ParticleT & p, const Vector<double,3> & v ) {
+      p.v = v;
+    }
+
 
     /** Generic NON-const accessor for particle position. */
     template < typename ParticleT >
