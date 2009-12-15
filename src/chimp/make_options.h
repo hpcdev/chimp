@@ -38,8 +38,8 @@ namespace chimp {
            : index(index) { }
        };
        
-       Vector<double,3> & velocity( ParticleProxy & pp ) {
-         return velocities[pp.index];
+       void setVelocity( ParticleProxy & pp, const Vector<double,3> & v ) {
+         velocities[pp.index] = v;
        }
        
        const Vector<double,3> & velocity( const ParticleProxy & pp ) {
