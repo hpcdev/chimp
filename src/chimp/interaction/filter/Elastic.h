@@ -19,7 +19,8 @@ namespace chimp {
         /* TYPEDEFS */
         /** Simply a place to put the elastic predicate so that I don't have to
          * put it in a .cpp file that gets compiled into a .o file, just to have
-         * the string.  I guess I <i>coulc</i> use a #define instead. */
+         * the string.  I guess I <i>could</i> use a <code>\#define</code>
+         * instead. */
         template < unsigned int i = 0 >
         struct elastic_predicate {
         /** query statement for elastic interactions. */

@@ -27,7 +27,7 @@ data in the correct format and helping thoroughly documenting this data.
 This manual constitutes the technical reference or application programming
 interface (API) documentation for CHIMP.  This manual is automatically generated
 using the doxygen code documentation tool.  Currently, we support HTML and
-\f$\LaTeX\f$ output generation.  Please follow the appropriate links to
+\f$\textnormal{\LaTeX}\f$ output generation.  Please follow the appropriate links to
 documentation for each function, class, and namespace of the API.
 
 
@@ -48,6 +48,17 @@ documentation for each function, class, and namespace of the API.
 
 //-----------------------------------------------------------
 /** \page license Licence
+    <h2><a name="lgpl">LGPL v3.0</a>
+      (See the <a href="#gpl">GPL License</a> as LGPL is a set of
+      exceptions/extensions to it)
+    </h2>
+    \verbinclude COPYING.LESSER
+
+    <h2><a name="gpl">GPL v3.0</a>
+      (See the <a href="#lgpl">LGPL License</a> under which this package is
+      released)
+    </h2>
+    
     \verbinclude COPYING
 */
 
@@ -98,13 +109,11 @@ idea for documenting fidelity of the data that we will be distributing.
 
 //-----------------------------------------------------------
 /** \page platforms Supported Platforms
-  <table border=0>
+  <table border=1>
     <tr><th>Platform</th><th>Compiler</th><th>Version</th><th>Status</th></tr>
-    <tr><td>Linux</td><td>GCC</td><td></td><td></td></tr>
-    <tr><td></td>     <td></td>   <td>4.1.2 (RedHat/Centos 5.3)</td><td>Supported</td></tr>
-    <tr><td></td>     <td></td>   <td>4.4.1 (Ubuntu 9.10)</td><td>Supported</td></tr>
-    <tr><td>Cygwin</td><td>GCC</td><td></td><td></td></tr>
-    <tr><td></td>     <td></td>   <td>3.5</td><td>Supported</td></tr>
-    <tr><td></td>     <td></td>   <td>4.x</td><td>Not Supported</td></tr>
+    <tr><td rowspan="2">Linux</td><td rowspan="2">GCC</td><td>4.1.2 (RedHat/Centos 5.3)</td><td>Supported</td></tr>
+    <tr>                                                  <td>4.4.1 (Ubuntu 9.10)</td><td>Supported</td></tr>
+    <tr><td rowspan="2">Cygwin</td><td rowspan="2">GCC</td><td>3.5</td><td>Supported</td></tr>
+    <tr>                                                  <td>4.x</td><td>Not Supported</td></tr>
   </table>
 */
