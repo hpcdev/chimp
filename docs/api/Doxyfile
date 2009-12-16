@@ -25,13 +25,13 @@ DOXYFILE_ENCODING      = UTF-8
 # The PROJECT_NAME tag is a single word (or a sequence of words surrounded 
 # by quotes) that should identify the project.
 
-PROJECT_NAME           = "Chimp"
+PROJECT_NAME           = "CHIMP"
 
 # The PROJECT_NUMBER tag can be used to enter a project or revision number. 
 # This could be handy for archiving the generated documentation or 
 # if some version control system is used.
 
-PROJECT_NUMBER         = "$Rev: 0.1 $"
+PROJECT_NUMBER         = "CHIMP 0.1.0"
 
 # The OUTPUT_DIRECTORY tag is used to specify the (relative or absolute) 
 # base path where the generated documentation will be put. 
@@ -1246,9 +1246,9 @@ SKIP_FUNCTION_MACROS   = YES
 # If a tag file is not located in the directory in which doxygen 
 # is run, you must also specify the path to the tagfile here.
 
-# TAGFILES               = \
-#   ../../../olson-tools/docs/api/olson-tools.tag=../../../olson-tools/docs/api/html \
-#   ../../../physical/docs/api/physical.tag=../../../physical/docs/api/html
+TAGFILES               = \
+  ../../../olson-tools/docs/api/olson-tools.tag=../../../../olson-tools/docs/api/html \
+  ../../../physical/docs/api/physical.tag=../../../../physical/docs/api/html
 
 # When a file name is specified after GENERATE_TAGFILE, doxygen will create 
 # a tag file that is based on the input files it reads.

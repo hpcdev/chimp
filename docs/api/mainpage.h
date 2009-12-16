@@ -34,20 +34,20 @@ documentation for each function, class, and namespace of the API.
 <h3>Additional Material</h3>
   Please refer to the following material for current status, future direction,
   and otherwise typical package information:
-  - \subpage discussions
-  - \subpage platforms
-  - \subpage license
-  - \subpage readme
-  - \subpage install
-  - \subpage changelog
-  - \subpage authors
+  - \subpage chimp_discussions
+  - \subpage chimp_platforms
+  - \subpage chimp_license
+  - \subpage chimp_readme
+  - \subpage chimp_install
+  - \subpage chimp_changelog
+  - \subpage chimp_authors
   .
 */
 
 
 
 //-----------------------------------------------------------
-/** \page license Licence
+/** \page chimp_license Licence
     <h2><a name="lgpl">LGPL v3.0</a>
       (See the <a href="#gpl">GPL License</a> as LGPL is a set of
       exceptions/extensions to it)
@@ -65,34 +65,34 @@ documentation for each function, class, and namespace of the API.
 
 
 //-----------------------------------------------------------
-/** \page readme README
+/** \page chimp_readme README
     \verbinclude README
 */
 
 
 
 //-----------------------------------------------------------
-/** \page install INSTALL
+/** \page chimp_install INSTALL
     \verbinclude INSTALL
 */
 
 
 
 //-----------------------------------------------------------
-/** \page changelog ChangeLog
+/** \page chimp_changelog ChangeLog
     \verbinclude ChangeLog
 */
 
 
 
 //-----------------------------------------------------------
-/** \page authors AUTHORS
+/** \page chimp_authors AUTHORS
     \verbinclude AUTHORS
 */
 
 
 //-----------------------------------------------------------
-/** \page discussions Direction and Discussions
+/** \page chimp_discussions Direction and Discussions
 
 If appropriate public information exists (e.g. in journals or databases such as
 from NIST), the level of fidelity will also be documented.  
@@ -108,7 +108,7 @@ idea for documenting fidelity of the data that we will be distributing.
 
 
 //-----------------------------------------------------------
-/** \page platforms Supported Platforms
+/** \page chimp_platforms Supported Platforms
   <table border=1>
     <tr><th>Platform</th><th>Compiler</th><th>Version</th><th>Status</th></tr>
     <tr><td rowspan="2">Linux</td><td rowspan="2">GCC</td><td>4.1.2 (RedHat/Centos 5.3)</td><td>Supported</td></tr>
