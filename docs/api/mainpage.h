@@ -27,7 +27,10 @@
 
 /** \mainpage CHIMP API Documentation
 
-<h2>Chemical Interactions and Materials Properties Library</h2>
+<table border=0>
+<tr><td><h2>Chemical Interactions, Materials, and Particles (CHIMP)</h2>
+        <center><h3>Database and Simulation Framework</h3></center></td></tr>
+</table>
 
 
 <h3>Introduction</h3>
