@@ -1,3 +1,68 @@
+commit d0cd3f661a249d5b65e127c4004bd05cf8b2a39c
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Tue Dec 15 23:21:59 2009 -0700
+
+    added warranty/license header to all source files
+
+commit e07b1c456afe3825af3dbf9415dce0747ab3ef52
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Tue Dec 15 23:19:35 2009 -0700
+
+    fixed cross-package api links
+
+commit 4b0df86cd5e8d37412990a23a739cc9a72efbcda
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Tue Dec 15 22:10:35 2009 -0700
+
+    updated to lgpl v3 and added gplv3 and lgplv3 files per GNU.ORG instructions
+
+commit 1de1f831fee948af644eb9f2146b567e4c4cbd2b
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Tue Dec 15 01:42:17 2009 -0700
+
+    updated documentation concerning setVelocity...
+
+commit b97cab7aa6f995757d21a2b03f0428fc1590ab08
+Author: Spencer Olson <olsonse@asok.hpmi.afrl.af.mil>
+Date:   Thu Dec 10 17:00:13 2009 -0700
+
+    made velocity accessors less intrusive on library user
+
+commit 01d323207d9e4eee9720f1a4d43221cff008f675
+Author: Spencer E. Olson <olsonse@olsonse-laptop.(none)>
+Date:   Tue Dec 8 21:57:04 2009 -0700
+
+    Changes based on feedback from Paul C.:
+    
+    1.  The dummy __namespace__.h file is no longer installed.
+    2.  All of the examples now run without error:
+        The xml dataset was changed so that it works in all the examples.
+        The lag in fixing up the dataset has been caused by the development of the
+        inelastic model.  I saved the development info and will get it back out
+        later.
+    3.  The cross section plotter (plot.py) gained some command line options.
+    4.  size was removed from the DefaultSet of particle properties.
+        The models may need access to the weight of a particle.  Since these may
+        come from variable weights (perhaps more fine-grained that per-species),
+        there is a new accessor called 'weight'.
+    
+        see ParticleAccessors.h for the growing list of accessor methods for
+        particles that must be implemented in order to work with the interaction
+        models--If the default implementations work for your particle type, then you
+        don't have to do anything.
+
+commit aa307056b911c2e0547f7d79581856a5d2926db6
+Author: Spencer Olson <olsonse@asok.hpmi.afrl.af.mil>
+Date:   Tue Dec 8 10:03:59 2009 -0700
+
+    documentation updates
+
+commit d8b94bcf25bf944902fe3015f313dbdc9de54534
+Author: Spencer Olson <olsonse@asok.hpmi.afrl.af.mil>
+Date:   Tue Dec 8 08:47:41 2009 -0700
+
+    updated ChangeLog
+
 commit 6b7968142b241e2a13a027b79680c5754b2189fe
 Author: Spencer Olson <olsonse@asok.hpmi.afrl.af.mil>
 Date:   Tue Dec 8 08:45:19 2009 -0700
