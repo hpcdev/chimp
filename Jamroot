@@ -116,15 +116,18 @@ local libraries = particledb ;
 local all_headers = [ path.glob-tree src : *.h *.cpp : .svn __namespace__.h ] ;
 # data to install
 local data = [ path.glob-tree data : *.xml : .svn ] ;
+# docs to install
+local docs = [ path.glob-tree docs/api/html docs/api/latex : * : .svn ] ;
 
 
 # Complete install allowing --prefix and related command line options
-alias install : install-code install-data ;
+alias install : install-code install-data install-docs ;
 explicit install ;
 
 # install code allowing --prefix and related command line options
 package.install install-code
-    : $(install-properties) <install-source-root>$(TOP)/src
+    : $(install-properties)
+      <install-source-root>$(TOP)/src
     :
     : $(libraries)
     : $(all_headers)
@@ -141,6 +144,17 @@ package.install install-data
     : $(data)
     ;
 explicit install-data ;
+
+# install data allowing --prefix and related command line options
+package.install install-docs
+    : $(install-properties)
+      <install-source-root>$(TOP)
+      <install-header-subdir>../share/chimp
+    :
+    :
+    : $(docs)
+    ;
+explicit install-docs ;
 
 
 # install the libs into a staging dir
