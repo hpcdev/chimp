@@ -26,6 +26,7 @@
 #define chimp_examples_simtest_Particle_h
 
 #include <chimp/property/mass.h>
+#include <chimp/interaction/ParticleAccessors.h>
 
 #include <olson-tools/Vector.h>
 #include <olson-tools/distribution/Uniform.h>
@@ -46,20 +47,22 @@ namespace simtest {
   struct Particle {
     Vector<double, 3> x;/**< position */
     Vector<double, 3> v;/**< velocity */
-    int type;                        /**< species */
+    int species;        /**< species */
 
     /* default construtor sets all to zero. */
     Particle( const Vector<double,3> & x = 0.0,
               const Vector<double,3> & v = 0.0,
-              const int & type = 0 )
-      : x(x), v(v), type(type) { }
+              const int & species = 0 )
+      : x(x), v(v), species(species) { }
   };
+
+  using chimp::interaction::species; // import generic accessor for species
 
 
   std::ostream & operator<< (std::ostream & out, const Particle & p) {
     return out << "{x: (" << p.x[0] << ", " << p.x[1] << ", " << p.x[2] << "), "
                    "v: (" << p.v[0] << ", " << p.v[1] << ", " << p.v[2] << "), "
-                   "t: " << p.type   << '}';
+                   "t: " << p.species   << '}';
   }
 
   /** Create a bunch of particles from a set of given species and with the given
@@ -87,8 +90,8 @@ namespace simtest {
       typedef typename RnDB::PropertiesVector::const_iterator PIter;
       PIter end = db.getProps().end();
       for ( PIter i  = db.getProps().begin(); i != end; ++i ) {
-        /* set the velocity distribution for this particle type using the global
-         * temperature. */
+        /* set the velocity distribution for this particle species using the
+         * global temperature. */
         using chimp::property::mass;
         double beta = 0.5 * i->mass::value / (K_B * temperature);
         double sigma = std::sqrt( 0.5 / beta );

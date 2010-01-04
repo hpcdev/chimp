@@ -23,7 +23,7 @@
 
 /** \file
  * Declaration of generic particle accessor functions such as velocity,
- * position, type, and species.
+ * position, and species.
  */
 
 #ifndef chimp_interaction_ParticleAccessors_h
@@ -72,13 +72,13 @@ namespace chimp {
     /** Generic NON-const accessor for particle species. */
     template < typename ParticleT >
     static int & species( ParticleT & p ) {
-      return p.type;
+      return p.species;
     }
 
     /** Generic const accessor for particle species. */
     template < typename ParticleT >
     static const int & species( const ParticleT & p ) {
-      return p.type;
+      return p.species;
     }
 
     /** Generic accessor for particle weight:  defaults to just returning 1. */

@@ -25,17 +25,17 @@
 #define chimplib_examples_simtest_sortSpecies_h
 
 #include <olson-tools/nsort/NSort.h>
-#include <olson-tools/nsort/map/type.h>
+#include <olson-tools/nsort/map/species_only.h>
 
 #include <cassert>
 
 namespace simtest {
 
-  /** Sort only the types in this cell.  It is necessary to have all the types
-   * sorted and the types vector set correctly in order to use the interaction
-   * stuff correctly.  This is because we will be randomly selecting pairs
-   * with specific type values.  This function is nearly a duplicate of the
-   * octree::Octree::sortOnlyTypes function of the /dsmc//octree library. 
+  /** Sort only the species in this cell.  It is necessary to have all the
+   * species sorted and the types vector set correctly in order to use the
+   * interaction stuff correctly.  This is because we will be randomly selecting
+   * pairs with specific species values.  This function is nearly a duplicate of
+   * the octree::Octree::sortOnlyTypes function of the /dsmc//octree library. 
    */
   template < typename ParticleIterator,
              typename SpeciesRanges >
@@ -44,9 +44,9 @@ namespace simtest {
                       SpeciesRanges & sranges ) {
     assert( sranges.size() > 0 );
 
-    // Create type sorter
+    // Create species sorter
     namespace nsort = olson_tools::nsort;
-    nsort::NSort< nsort::map::type > s( sranges.size() );
+    nsort::NSort< nsort::map::species_only > s( sranges.size() );
 
     // execute sort
     s.sort( pbegin, pend );
