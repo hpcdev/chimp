@@ -2,7 +2,7 @@
 #
 #   bjam [options] [properties] [install|stage]
 #
-#   Builds and installs Boost.
+#   Builds and installs CHIMP.
 #
 # Targets and Related Options:
 #
@@ -10,7 +10,7 @@
 #   =======                 configured locations (below).
 #
 #   --prefix=<PREFIX>       Install architecture independent files here.
-#                           Default; C:\Boost on Win32
+#                           Default; C:\Chimp on Win32
 #                           Default; /usr/local on Unix. Linux, etc.
 #
 #   --exec-prefix=<EPREFIX> Install architecture dependent files here.
@@ -104,7 +104,7 @@ install-properties =
     ;
 
 if [ modules.peek : NT ] {
-    install-properties += <install-default-prefix>C:/Boost ;
+    install-properties += <install-default-prefix>C:/Chimp ;
 } else if [ modules.peek : UNIX ] {
     install-properties += <install-default-prefix>/usr/local ;
 }
