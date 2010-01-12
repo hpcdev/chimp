@@ -5450,5 +5450,30 @@
             </cross_section>
         </Interaction>
 
+        <Interaction old_model_label="ionization">
+          <threshold_energy>10.44*eV</threshold_energy>
+          <Eq><In><T><P>e^-</P></T> + <T><P>Cu</P></T></In>  --&gt;  <Out><T><n>2</n> <P>e^-</P></T> + <T><P>Cu^+</P></T></Out></Eq>
+          <cross_section model="lotz">
+            <reference>
+              <bibtex>
+@article{lotz1969electron,
+    title = {{Electron-impact ionization cross-sections and ionization rate coefficients for atoms and ions from scandium to zinc}},
+   author = {Lotz, W.},
+  journal = {Zeitschrift f{\\"u}r Physik A Hadrons and Nuclei},
+   volume = {220},
+   number = {5},
+    pages = {466--472},
+     year = {1969},
+publisher = {Springer}
+}
+                </bibtex>
+            </reference>
+            <LotzParameters><P>7.73*eV</P><q>1</q><a>4*nm^2*eV^2</a><b>0</b><c>0</c></LotzParameters>
+            <LotzParameters><P>10.4*eV</P><q>10</q><a>2.2*nm^2*eV^2</a><b>0.95</b><c>0.16</c></LotzParameters>
+            <LotzParameters><P>80*eV</P><q>6</q><a>4*nm^2*eV^2</a><b>0.6</b><c>0.4</c></LotzParameters>
+          </cross_section>
+        </Interaction>
+
+
     </Interactions>
 </standard>

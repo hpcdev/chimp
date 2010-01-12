@@ -33,25 +33,6 @@
             <mass>m_e</mass>
             <charge>1</charge>
         </Particle>
-        <Particle name="Hg">
-            <mass>element::Hg::mass</mass>
-        </Particle>
-        <Particle name="Hg^+">
-            <mass>element::Hg::mass</mass>
-            <charge>1</charge>
-        </Particle>
-        <Particle name="Hg(6-3P0)">
-            <mass>element::Hg::mass</mass>
-        </Particle>
-        <Particle name="Hg(6-3P1)">
-            <mass>element::Hg::mass</mass>
-        </Particle>
-        <Particle name="Hg(6-3P2)">
-            <mass>element::Hg::mass</mass>
-        </Particle>
-        <Particle name="Hg(7-3S1)">
-            <mass>element::Hg::mass</mass>
-        </Particle>
         <Particle name="Ar^+">
             <mass>element::Ar::mass</mass>
             <charge>1</charge>
@@ -150,6 +131,13 @@
         </Particle>
         <Particle name="CO2(7.0eV)">
             <mass>element::C::mass + 2*element::O::mass</mass>
+        </Particle>
+
+        <Particle name="Cu">
+            <mass>element::Cu::mass</mass>
+        </Particle>
+        <Particle name="Cu^+">
+            <mass>element::Cu::mass</mass>
         </Particle>
 
         <Particle name="F">
@@ -281,6 +269,25 @@
             <mass>element::He::mass</mass>
         </Particle>
 
+        <Particle name="Hg">
+            <mass>element::Hg::mass</mass>
+        </Particle>
+        <Particle name="Hg^+">
+            <mass>element::Hg::mass</mass>
+            <charge>1</charge>
+        </Particle>
+        <Particle name="Hg(6-3P0)">
+            <mass>element::Hg::mass</mass>
+        </Particle>
+        <Particle name="Hg(6-3P1)">
+            <mass>element::Hg::mass</mass>
+        </Particle>
+        <Particle name="Hg(6-3P2)">
+            <mass>element::Hg::mass</mass>
+        </Particle>
+        <Particle name="Hg(7-3S1)">
+            <mass>element::Hg::mass</mass>
+        </Particle>
 
         <Particle name="Kr">
             <mass>element::Kr::mass</mass>

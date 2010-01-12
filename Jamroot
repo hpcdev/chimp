@@ -86,6 +86,7 @@ lib particledb :
       src/chimp/physical_calc.cpp
       src/chimp/interaction/cross_section/DATA.cpp
       src/chimp/interaction/cross_section/detail/VHSInfo.cpp
+      src/chimp/interaction/cross_section/detail/LotzDetails.cpp
       src/chimp/interaction/model/detail/vss_helpers.cpp
     : <link>static # build requirements
       <library>/physical//runtime

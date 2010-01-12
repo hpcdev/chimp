@@ -1,0 +1,3 @@
+path-constant LOTZ_FILENAME : ./lotz.xml ;
+
+unit-test Lotz : Lotz.cpp : <define>XML_FILENAME=\\\"$(LOTZ_FILENAME)\\\" ;

@@ -172,3 +172,9 @@ DONE
 16. Make the particle property comparator be a policy defined class--defaulting
     to chimp::property::Comparator.
 
+17. Make a new cross-section model that pieces together models of arbitrary
+    types using arbitrary ranges for each sub-model.
+    This would make it easy to piece together empirical data with parameterized
+    models or perhaps two like-minded models with slightly different parameters
+    that are valid for different ranges of velocity.
+

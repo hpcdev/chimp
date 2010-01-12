@@ -33,6 +33,7 @@
 #  include <chimp/interaction/filter/Elastic.h>
 #  include <chimp/interaction/cross_section/VHS.h>
 #  include <chimp/interaction/cross_section/DATA.h>
+#  include <chimp/interaction/cross_section/Lotz.h>
 
 #  include <math.h>
 #  include <ostream>
@@ -56,8 +57,10 @@ namespace chimp {
     /* register the library-provided CrossSection functors. */
     typedef interaction::cross_section::VHS<options> VHS;
     typedef interaction::cross_section::DATA<options> DATA;
+    typedef interaction::cross_section::Lotz<options> Lotz;
     cross_section_registry[VHS::label ].reset(new VHS);
     cross_section_registry[DATA::label].reset(new DATA);
+    cross_section_registry[Lotz::label].reset(new Lotz);
 
 
     /* register the library-provided Interaction functors. */
