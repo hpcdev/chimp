@@ -55,6 +55,18 @@
         </Interaction>
 
         <Interaction>
+            <Eq><In><T><P>85Rb</P></T> + <T><P>87Rb</P></T></In>  --&gt;  <Out><T><P>85Rb</P></T> + <T><P>87Rb</P></T></Out></Eq>
+            <cross_section model="vhs">
+                <value>8*pi*(100*a_0)^2</value>
+                <T_ref>150*uK</T_ref>             <!-- We'll just guess this value -->
+                <visc_T_law>3.0/4.0</visc_T_law><!-- We'll just guess this value -->
+                <reference>FIXME:  This really should be replaced by a layered
+                model in chimp that automatically computes a cross species cross
+                section based on the average of separate single species diameters.</reference>
+            </cross_section>
+        </Interaction>
+
+        <Interaction>
             <Eq><In><T><n>2</n> <P>Ar</P></T></In>  --&gt;  <Out><T><n>2</n> <P>Ar</P></T></Out></Eq>
             <cross_section model="vhs">
                 <value>pi*(0.417*nm)^2</value>
