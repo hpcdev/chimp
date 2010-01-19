@@ -178,3 +178,6 @@ DONE
     models or perhaps two like-minded models with slightly different parameters
     that are valid for different ranges of velocity.
 
+18. Make a new cross-section model that automatically creates a cross-species
+    cross section from single-species cross section data, provided that the
+    cross-species data does not already exist in the database.
