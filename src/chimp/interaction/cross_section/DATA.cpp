@@ -29,6 +29,8 @@
 
 #include <olson-tools/xml/physical_parse.h>
 
+#include <physical/math.h>
+
 namespace chimp {
   namespace interaction {
     namespace cross_section {
@@ -38,7 +40,6 @@ namespace chimp {
       using runtime::physical::unit::m;
       using runtime::physical::unit::s;
       using runtime::physical::unit::kg;
-      using namespace runtime::physical::math;
 
       typedef olson_tools::data_set<Quantity,Quantity> pqdata_set;
 

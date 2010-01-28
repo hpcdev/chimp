@@ -23,14 +23,14 @@
 
 #include <chimp/physical_calc.h>
 
-#include <physical/calc/infix.h>
+#include <physical/calc/Driver.h>
 
 namespace chimp {
   void prepareCalculator(const xml::Doc & doc) {
     /* prepare infix units calculator. */
-    using runtime::physical::calc::InfixCalc;
+    using runtime::physical::calc::Driver;
     using runtime::physical::calc::symbol;
-    InfixCalc::base_calc & calc = InfixCalc::instance();
+    Driver & calc = Driver::instance();
   
     /* clear the old symbols out */
     calc.symbols.clear();

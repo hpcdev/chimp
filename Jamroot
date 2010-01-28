@@ -94,10 +94,10 @@ lib particledb :
       src/chimp/interaction/cross_section/detail/LotzDetails.cpp
       src/chimp/interaction/model/detail/vss_helpers.cpp
     : <link>static # build requirements
-      <library>/physical//runtime
+      <library>/physical//calc
     : # no default build
     : <library>/boost//regex/<link>static
-      <library>/physical//runtime
+      <library>/physical//calc
       <library>/olson-tools//misc
       <library>/olson-tools//random
     ;
