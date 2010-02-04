@@ -136,10 +136,12 @@ idea for documenting fidelity of the data that we will be distributing.
 //-----------------------------------------------------------
 /** \page chimp_platforms Supported Platforms
   <table border=1>
-    <tr><th>Platform</th><th>Compiler</th><th>Version</th><th>Status</th></tr>
-    <tr><td rowspan="2">Linux</td><td rowspan="2">GCC</td><td>4.1.2 (RedHat/Centos 5.3)</td><td>Supported</td></tr>
-    <tr>                                                  <td>4.4.1 (Ubuntu 9.10)</td><td>Supported</td></tr>
-    <tr><td rowspan="2">Cygwin</td><td rowspan="2">GCC</td><td>3.5</td><td>Supported</td></tr>
-    <tr>                                                  <td>4.x</td><td>Not Supported</td></tr>
+    <tr><th>Platform</th>          <th>Compiler</th>     <th>Version</th><th>OS Distribution</th>  <th>Status</th></tr>
+    <tr><td rowspan="4">Linux</td> <td rowspan="2">GCC</td><td>4.1.2</td><td>RedHat/Centos 5.3</td><td>Supported</td></tr>
+    <tr>                                                   <td>4.4.1</td><td>Ubuntu 9.10</td>      <td>Supported</td></tr>
+    <tr>           <td rowspan="2">Pathscale</td><td rowspan="2">3.2</td><td>Cray XT4</td>         <td>Supported</td></tr>
+    <tr>                                                                 <td>Cray XT3</td>         <td>Unknown</td></tr>
+    <tr><td rowspan="2">Cygwin</td><td rowspan="2">GCC</td><td>3.5</td>  <td></td>                 <td>Supported</td></tr>
+    <tr>                                                   <td>4.x</td>  <td></td>                 <td>Not Supported</td></tr>
   </table>
 */
