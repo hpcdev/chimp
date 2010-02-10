@@ -144,7 +144,8 @@ BOOST_AUTO_TEST_SUITE( Elastic_tests ); // {
         dP2 /= N;
 
         Vector <double,3> dP_mean_sigma =
-          (dP2 - compMult(dP,dP)).save_sqrt() / std::sqrt(N);
+          (dP2 - compMult(dP,dP)).save_sqrt() /
+          std::sqrt(static_cast<double>(N));
 
         dP.save_fabs();
         BOOST_CHECK_LE( dP, (2.*dP_mean_sigma) );

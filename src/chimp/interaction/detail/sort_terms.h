@@ -39,7 +39,8 @@ namespace chimp {
         typedef chimp::property::Comparator super;
 
         template < typename Properties >
-        bool operator() ( const Properties * lhs, const Properties * rhs ) {
+        bool operator() ( const Properties * lhs,
+                          const Properties * rhs ) const {
           return super::operator()(*lhs,*rhs);
         }
       };

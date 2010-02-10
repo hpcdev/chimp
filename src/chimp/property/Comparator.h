@@ -37,7 +37,7 @@ namespace chimp {
     /** Comparator used to sort particles first by mass and then by name. */
     struct Comparator {
       template < typename Properties >
-      bool operator() ( const Properties & lhs, const Properties & rhs ) {
+      bool operator() ( const Properties & lhs, const Properties & rhs ) const {
         return lhs.mass::value < rhs.mass::value ||
                ( lhs.mass::value == rhs.mass::value &&
                  lhs.name::value < rhs.name::value );
