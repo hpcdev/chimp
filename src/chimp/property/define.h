@@ -22,31 +22,64 @@
 
 
 /** \file
- * Definition of the default set of properties to load from database.
+ * Implementation of a generic property class.
  */
 
-#ifndef chimp_property_DefaultSet_h
-#define chimp_property_DefaultSet_h
+#ifndef chimp_property_define_h
+#define chimp_property_define_h
 
+#include <chimp/property/detail/check.h>
 
-#include <chimp/property/list.h>
-#include <chimp/property/name.h>
-#include <chimp/property/mass.h>
-#include <chimp/property/charge.h>
+#include <olson-tools/xml/Doc.h>
 
+#include <physical/runtime.h>
+
+#include <string>
 
 namespace chimp {
   namespace property {
+    namespace dim = runtime::physical::dimension;
 
-    /** The default set of particle properties includes:  name, mass, and
-     * charge. */
-    typedef MakeList<
-      property::name,
-      property::mass,
-      property::charge
-    >::type DefaultSet;
+    #define CHIMP_DEFINE_PARTICLE_PROPERTY( \
+      Property, T, dimension, xpath, default_value ) \
+        CHIMP_DEFINE_PARTICLE_PROPERTY_IMPL( \
+          Property, T, dimension, xpath, default_value, false )
+
+    #define CHIMP_DEFINE_REQUIRED_PARTICLE_PROPERTY( \
+      Property, T, dimension, xpath) \
+        CHIMP_DEFINE_PARTICLE_PROPERTY_IMPL( \
+          Property, T, dimension, xpath, T(), true )
+
+    #define CHIMP_DEFINE_PARTICLE_PROPERTY_IMPL( \
+      Property, T, dimension, xpath, default_value, required ) \
+    struct Property { \
+      /* TYPEDEFS */ \
+      typedef T value_type; \
+ \
+      /* MEMBER STORAGE */ \
+      T value; \
+ \
+      /* MEMBER FUNCTIONS */ \
+      /** Constructor which sets the value to the given parameter. */ \
+      Property(const T & val = default_value) : value(val) {} \
+ \
+      /** Stream printer. */ \
+      std::ostream & print(std::ostream & out, const std::string & sep) const { \
+        return out << xpath << ": " << value << sep; \
+      } \
+ \
+      /** Load function (loads from xml context. */ \
+      static Property load(const olson_tools::xml::Context & x) { \
+        namespace cpd = chimp::property::detail; \
+        if (required) \
+          return x.query< cpd::check<T,dimension> >(xpath).value; \
+        else \
+          return x.query< cpd::check<T,dimension> > \
+            ( xpath, default_value ).value; \
+      } \
+    } /* require the ';' by calling code */
 
   }/* namespace chimp::property */
 }/*namespace chimp */
 
-#endif // chimp_property_DefaultSet_h
+#endif // chimp_property_define_h

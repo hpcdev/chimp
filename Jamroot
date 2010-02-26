@@ -87,7 +87,6 @@ project /chimp
 alias headers : : : : <include>src ;
 
 lib particledb :
-      src/chimp/property/detail/check.cpp
       src/chimp/physical_calc.cpp
       src/chimp/interaction/cross_section/DATA.cpp
       src/chimp/interaction/cross_section/detail/VHSInfo.cpp

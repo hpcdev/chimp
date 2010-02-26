@@ -34,6 +34,9 @@
 
 namespace {
   using chimp::property::DefaultSet;
+  typedef chimp::property::name N;
+  typedef chimp::property::mass M;
+  typedef chimp::property::charge C;
 }
 
 BOOST_AUTO_TEST_SUITE( property_DefaultSet ); // {
@@ -47,7 +50,7 @@ BOOST_AUTO_TEST_SUITE( property_DefaultSet ); // {
     }
 
     {
-      DefaultSet p( "bob", 1, 2 );
+      DefaultSet p = make_properties( N("bob"), M(1), C(2) );
       BOOST_CHECK_EQUAL(p.name::value, "bob");
       BOOST_CHECK_EQUAL(p.mass::value, 1);
       BOOST_CHECK_EQUAL(p.charge::value, 2);
@@ -55,7 +58,7 @@ BOOST_AUTO_TEST_SUITE( property_DefaultSet ); // {
   }
 
   BOOST_AUTO_TEST_CASE( printing ) {
-    DefaultSet p("bob", 1, 2);
+    DefaultSet p = make_properties( N("bob"), M(1), C(2));
 
     {
       std::ostringstream ostr;

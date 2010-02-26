@@ -22,54 +22,64 @@
 
 
 /** \file
- * Test file for the property::Comparator class.
- * */
-#define BOOST_TEST_MODULE  Comparator
+ * Unit test for chimp/property/detail/list.h
+ */
 
+#define BOOST_TEST_MODULE  chimp_property_detail_list
+
+#include <chimp/property/detail/list.h>
 #include <chimp/property/list.h>
-#include <chimp/property/name.h>
-#include <chimp/property/mass.h>
-#include <chimp/property/Comparator.h>
 
 #include <boost/test/unit_test.hpp>
 
-#include <sstream>
-
 namespace {
   using chimp::property::MakeList;
-  using chimp::property::Comparator;
-  typedef chimp::property::name N;
-  typedef chimp::property::mass M;
-  typedef MakeList < N, M >::type Prop;
+  using chimp::property::detail::Concat;
+  using chimp::property::detail::List;
+  using chimp::property::detail::Null;
+
+  struct A {
+    double value;
+  };
+  
+  struct B {
+    int value;
+  };
+  
+  struct C {
+    char value;
+  };
+  
+  struct D {
+    float value;
+  };
+  
+  struct E {
+    int value;
+  };
 }
 
-BOOST_AUTO_TEST_SUITE( property_Comparator ); // {
+BOOST_AUTO_TEST_CASE( intantiation ) {
+  /* If this compiles, we should be pretty safe. */
+  typedef List< A, List< B, Null > >                      List0;
+  typedef List< C, Null >                                 List1;
+  typedef Concat< List<A, List< B, Null > >, Null >::type List2;
+  typedef Concat< List0, List1 >::type                    List3;
+  typedef Concat< List1, List0 >::type                    List4;
+  typedef Concat< D, List4 >::type                        List5;
+  typedef Concat< List5, E >::type                        List6;
+  typedef MakeList< A, B, C >::type                       List7;
+  typedef MakeList< A, B, C, D, E >::type                 List8;
+  typedef MakeList< List1, List0 >::type                  List9;
 
-  BOOST_AUTO_TEST_CASE( comparisons ) {
-    BOOST_CHECK_EQUAL(
-      Comparator()( make_properties(N("H"),  M(1)),   make_properties(N("H"), M(1)) ),
-      false
-    );
-
-    BOOST_CHECK_EQUAL(
-      Comparator()( make_properties(N("H"),  M(1)),   make_properties(N("He"),M(1)) ),
-      true
-    );
-
-    BOOST_CHECK_EQUAL(
-      Comparator()( make_properties(N("He"), M(1)),  make_properties(N("H"), M(10)) ),
-      true
-    );
-
-    BOOST_CHECK_EQUAL(
-      Comparator()( make_properties(N("He"), M(1)),  make_properties(N("H"), M(1)) ),
-      false
-    );
-
-    BOOST_CHECK_EQUAL(
-      Comparator()( make_properties(N("He"), M(10)), make_properties(N("H"), M(1)) ),
-      false
-    );
-  }
-
-BOOST_AUTO_TEST_SUITE_END(); // }
+  List0 l0 = List< A, List< B, Null > >();
+  List1 l1 = List< C, Null >();
+  List2 l2 = List< A, List< B, Null > >();
+  List3 l3 = List< A, List< B, List< C, Null > > >();
+  List4 l4 = List< C, List< A, List< B, Null > > >();
+  List5 l5 = List< D, List< C, List< A, List< B, Null > > > >();
+  List6 l6 = List< D, List< C, List< A, List< B, List< E, Null > > > > >();
+  List7 l7 = List< A, List< B, List< C, Null > > >();
+  List8 l8 = List< A, List< B, List< C, List< D, List< E, Null > > > > >();
+  List9 l9 = List< C, List< A, List< B, Null > > >();
+}
