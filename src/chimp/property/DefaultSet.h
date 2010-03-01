@@ -29,10 +29,11 @@
 #define chimp_property_DefaultSet_h
 
 
-#include <chimp/property/list.h>
+#include <chimp/property/aggregate.h>
 #include <chimp/property/name.h>
 #include <chimp/property/mass.h>
 #include <chimp/property/charge.h>
+#include <chimp/property/polarizability.h>
 
 
 namespace chimp {
@@ -40,10 +41,11 @@ namespace chimp {
 
     /** The default set of particle properties includes:  name, mass, and
      * charge. */
-    typedef MakeList<
+    typedef Aggregate<
       property::name,
       property::mass,
-      property::charge
+      property::charge,
+      property::polarizability
     >::type DefaultSet;
 
   }/* namespace chimp::property */

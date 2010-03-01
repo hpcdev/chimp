@@ -24,7 +24,7 @@
 /** \file Example specifying properties to load.
  * In this example, we don't use the default set of particle properties to load
  * from the database, but rather specify a (different) subset of particle
- * properties to load.  We use the chimp::property::MakeList class to aggregate the
+ * properties to load.  We use the chimp::property::Aggregate class to aggregate the
  * properties together.  
  *
  * After creating the aggregate properties type, we use the chimp::make_options
@@ -33,7 +33,7 @@
  */
 
 #include <chimp/RuntimeDB.h>
-#include <chimp/property/list.h>
+#include <chimp/property/aggregate.h>
 #include <chimp/property/name.h>
 #include <chimp/property/mass.h>
 #include <chimp/property/DefaultSet.h>
@@ -73,8 +73,8 @@ CHIMP_DEFINE_REQUIRED_PARTICLE_PROPERTY( meanness, double, dim::viscosity, "mean
  * from the xml file into memory for each particle type added to the
  * chimp::RuntimeDB class.  For this example, we simply append the niceness
  * property to the default set of properties (as defined in chimp).  The order
- * within MakeList is not important.  */
-typedef property::MakeList<
+ * within Aggregate is not important.  */
+typedef property::Aggregate<
   property::DefaultSet,
   niceness
 >::type MyProperties;
@@ -82,7 +82,7 @@ typedef property::MakeList<
 
 /* You could also define the list entirely, rather than just concatenating more
  * items onto the default list. */
-typedef property::MakeList<
+typedef property::Aggregate<
   property::name,
   property::mass,
   niceness,

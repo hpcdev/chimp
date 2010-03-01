@@ -22,61 +22,28 @@
 
 
 /** \file
- * Test file for the property::DefaultSet class.
+ * Test file for the property::polarizability class.
  * */
-#define BOOST_TEST_MODULE  DefaultSet
+#define BOOST_TEST_MODULE  polarizability
 
-#include <chimp/property/DefaultSet.h>
+#include <chimp/property/polarizability.h>
 
 #include <boost/test/unit_test.hpp>
 
-#include <sstream>
-
-namespace {
-  using chimp::property::DefaultSet;
-  typedef chimp::property::name N;
-  typedef chimp::property::mass M;
-  typedef chimp::property::charge C;
-  typedef chimp::property::polarizability P;
-}
-
-BOOST_AUTO_TEST_SUITE( property_DefaultSet ); // {
+BOOST_AUTO_TEST_SUITE( property_polarizability ); // {
 
   BOOST_AUTO_TEST_CASE( intantiation ) {
+    using chimp::property::polarizability;
     {
-      DefaultSet p;
-      BOOST_CHECK_EQUAL(p.name::value, "");
-      BOOST_CHECK_EQUAL(p.mass::value, 0);
-      BOOST_CHECK_EQUAL(p.charge::value, 0);
-      BOOST_CHECK_EQUAL(p.polarizability::value, 0);
+      polarizability p;
+      BOOST_CHECK_EQUAL(p.value,0);
+      BOOST_CHECK_EQUAL(p.polarizability::value,0);
     }
 
     {
-      DefaultSet p = make_properties( N("bob"), M(1), C(2), P(3) );
-      BOOST_CHECK_EQUAL(p.name::value, "bob");
-      BOOST_CHECK_EQUAL(p.mass::value, 1);
-      BOOST_CHECK_EQUAL(p.charge::value, 2);
-      BOOST_CHECK_EQUAL(p.polarizability::value, 3);
-    }
-  }
-
-  BOOST_AUTO_TEST_CASE( printing ) {
-    DefaultSet p = make_properties( N("bob"), M(1), C(2), P(3) );
-
-    {
-      std::ostringstream ostr;
-      BOOST_CHECK_EQUAL(
-        dynamic_cast<std::ostringstream&>(p.print(ostr)).str(),
-        "@name: bob, mass: 1, charge: 2, polarizability: 3, "
-      );
-    }
-
-    {
-      std::ostringstream ostr;
-      BOOST_CHECK_EQUAL(
-        dynamic_cast<std::ostringstream&>(ostr << p).str(),
-        "@name: bob, mass: 1, charge: 2, polarizability: 3, "
-      );
+      polarizability p(10);
+      BOOST_CHECK_EQUAL(p.value,10);
+      BOOST_CHECK_EQUAL(p.polarizability::value,10);
     }
   }
 

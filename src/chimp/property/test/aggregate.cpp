@@ -1,7 +1,6 @@
 /*==============================================================================
  * Public Domain Contributions 2009 United States Government                   *
  * as represented by the U.S. Air Force Research Laboratory.                   *
- * Copyright (C) 2006, 2008 Spencer E. Olson                                   *
  *                                                                             *
  * This file is part of CHIMP                                                  *
  *                                                                             *
@@ -22,11 +21,11 @@
 
 
 /** \file
- * Test file for the property::MakeList class and company.
+ * Test file for the property::Aggregate class and company.
  * */
 #define BOOST_TEST_MODULE  chimp_property_list
 
-#include <chimp/property/list.h>
+#include <chimp/property/aggregate.h>
 #include <chimp/property/name.h>
 #include <chimp/property/mass.h>
 
@@ -35,14 +34,14 @@
 #include <sstream>
 
 namespace {
-  using chimp::property::MakeList;
+  using chimp::property::Aggregate;
   using chimp::property::name;
   using chimp::property::mass;
 }
 
 BOOST_AUTO_TEST_SUITE( simple_list ); // {
 
-  typedef MakeList < name, mass >::type Prop;
+  typedef Aggregate < name, mass >::type Prop;
 
   BOOST_AUTO_TEST_CASE( intantiation ) {
     {
@@ -95,9 +94,9 @@ BOOST_AUTO_TEST_SUITE_END(); // }
 
 BOOST_AUTO_TEST_SUITE( list_aggregation ); // {
 
-  typedef MakeList < name >::type N;
-  typedef MakeList < N, mass >::type NM;
-  typedef MakeList < mass, N >::type MN;
+  typedef Aggregate < name >::type N;
+  typedef Aggregate < N, mass >::type NM;
+  typedef Aggregate < mass, N >::type MN;
 
   BOOST_AUTO_TEST_CASE( intantiation ) {
     {

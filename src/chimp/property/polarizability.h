@@ -22,62 +22,40 @@
 
 
 /** \file
- * Test file for the property::DefaultSet class.
- * */
-#define BOOST_TEST_MODULE  DefaultSet
+ * Definition of polarizability property. 
+ */
 
-#include <chimp/property/DefaultSet.h>
+#ifndef chimp_property_polarizability_h
+#define chimp_property_polarizability_h
 
-#include <boost/test/unit_test.hpp>
+#include <chimp/property/define.h>
 
-#include <sstream>
+#include <physical/runtime.h>
 
-namespace {
-  using chimp::property::DefaultSet;
-  typedef chimp::property::name N;
-  typedef chimp::property::mass M;
-  typedef chimp::property::charge C;
-  typedef chimp::property::polarizability P;
-}
+namespace chimp {
+  namespace property {
 
-BOOST_AUTO_TEST_SUITE( property_DefaultSet ); // {
+    namespace detail {
+      using runtime::physical::dimension::make_dim;
+      using runtime::physical::dimension::exp_dim;
 
-  BOOST_AUTO_TEST_CASE( intantiation ) {
-    {
-      DefaultSet p;
-      BOOST_CHECK_EQUAL(p.name::value, "");
-      BOOST_CHECK_EQUAL(p.mass::value, 0);
-      BOOST_CHECK_EQUAL(p.charge::value, 0);
-      BOOST_CHECK_EQUAL(p.polarizability::value, 0);
+      template < typename T, int U >
+      struct polarizability_dims :
+      make_dim<
+        runtime::physical::dimension::charge,
+        exp_dim< runtime::physical::dimension::length, 2 >::type,
+        exp_dim< runtime::physical::dimension::electric::potential, -1 >::type
+      >::dim<T,U> {};
+
     }
 
-    {
-      DefaultSet p = make_properties( N("bob"), M(1), C(2), P(3) );
-      BOOST_CHECK_EQUAL(p.name::value, "bob");
-      BOOST_CHECK_EQUAL(p.mass::value, 1);
-      BOOST_CHECK_EQUAL(p.charge::value, 2);
-      BOOST_CHECK_EQUAL(p.polarizability::value, 3);
-    }
-  }
+    CHIMP_DEFINE_PARTICLE_PROPERTY( polarizability,
+                                    double,
+                                    detail::polarizability_dims,
+                                    "polarizability",
+                                    0.0 );
 
-  BOOST_AUTO_TEST_CASE( printing ) {
-    DefaultSet p = make_properties( N("bob"), M(1), C(2), P(3) );
+  }/* namespace chimp::property */
+}/*namespace chimp */
 
-    {
-      std::ostringstream ostr;
-      BOOST_CHECK_EQUAL(
-        dynamic_cast<std::ostringstream&>(p.print(ostr)).str(),
-        "@name: bob, mass: 1, charge: 2, polarizability: 3, "
-      );
-    }
-
-    {
-      std::ostringstream ostr;
-      BOOST_CHECK_EQUAL(
-        dynamic_cast<std::ostringstream&>(ostr << p).str(),
-        "@name: bob, mass: 1, charge: 2, polarizability: 3, "
-      );
-    }
-  }
-
-BOOST_AUTO_TEST_SUITE_END(); // }
+#endif // chimp_property_polarizability_h

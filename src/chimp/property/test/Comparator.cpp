@@ -26,7 +26,7 @@
  * */
 #define BOOST_TEST_MODULE  Comparator
 
-#include <chimp/property/list.h>
+#include <chimp/property/aggregate.h>
 #include <chimp/property/name.h>
 #include <chimp/property/mass.h>
 #include <chimp/property/Comparator.h>
@@ -36,11 +36,11 @@
 #include <sstream>
 
 namespace {
-  using chimp::property::MakeList;
+  using chimp::property::Aggregate;
   using chimp::property::Comparator;
   typedef chimp::property::name N;
   typedef chimp::property::mass M;
-  typedef MakeList < N, M >::type Prop;
+  typedef Aggregate < N, M >::type Prop;
 }
 
 BOOST_AUTO_TEST_SUITE( property_Comparator ); // {

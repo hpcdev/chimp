@@ -1,7 +1,6 @@
 /*==============================================================================
  * Public Domain Contributions 2009 United States Government                   *
  * as represented by the U.S. Air Force Research Laboratory.                   *
- * Copyright (C) 2006, 2008 Spencer E. Olson                                   *
  *                                                                             *
  * This file is part of CHIMP                                                  *
  *                                                                             *
@@ -22,11 +21,11 @@
 
 
 /** \file
- * Definition of property MakeList template meta-function.
+ * Definition of property Aggregate template meta-function.
  */
 
-#ifndef chimp_property_list_h
-#define chimp_property_list_h
+#ifndef chimp_property_aggregate_h
+#define chimp_property_aggregate_h
 
 #include <chimp/property/detail/list.h>
 
@@ -35,7 +34,7 @@
 namespace chimp {
   namespace property {
 
-    /* ****** BEGIN MakeList Implemenation ******* */
+    /* ****** BEGIN Aggregate Implemenation ******* */
     /** Aggregate several properties lists of properties together.  */
     template< typename T0,
               typename T1  = detail::Null, typename T2  = detail::Null,
@@ -50,27 +49,28 @@ namespace chimp {
               typename T19 = detail::Null, typename T20 = detail::Null,
               typename T21 = detail::Null, typename T22 = detail::Null,
               typename T23 = detail::Null, typename T24 = detail::Null >
-    struct MakeList {
+    struct Aggregate {
       typedef typename 
         detail::Concat< T0, 
           typename
-          MakeList< T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13,
+          Aggregate< T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13,
                     T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24
           >::type
         >::type type;
     };
 
-    /* Termination case for the MakeList template meta-function. */
+    /* Termination case for the Aggregate template meta-function. */
     template< typename T0 > 
-    struct MakeList< T0, detail::Null, detail::Null, detail::Null, detail::Null,
-                         detail::Null, detail::Null, detail::Null, detail::Null,
-                         detail::Null, detail::Null, detail::Null, detail::Null,
-                         detail::Null, detail::Null, detail::Null, detail::Null,
-                         detail::Null, detail::Null, detail::Null, detail::Null,
-                         detail::Null, detail::Null, detail::Null, detail::Null > {
+    struct Aggregate< T0,
+                      detail::Null, detail::Null, detail::Null, detail::Null,
+                      detail::Null, detail::Null, detail::Null, detail::Null,
+                      detail::Null, detail::Null, detail::Null, detail::Null,
+                      detail::Null, detail::Null, detail::Null, detail::Null,
+                      detail::Null, detail::Null, detail::Null, detail::Null,
+                      detail::Null, detail::Null, detail::Null, detail::Null > {
       typedef typename detail::Concat< T0, detail::Null >::type type;
     };
-    /* ****** END MakeList Implemenation ******* */
+    /* ****** END Aggregate Implemenation ******* */
 
 
 
@@ -94,7 +94,7 @@ namespace chimp {
                typename P9,
                typename P10,
                typename P11 >
-    typename MakeList<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11 >::type
+    typename Aggregate<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11 >::type
     make_properties( const P0 & p0,
                      const P1 & p1,
                      const P2 & p2,
@@ -107,7 +107,7 @@ namespace chimp {
                      const P9 & p9,
                      const P10 & p10,
                      const P11 & p11 ) {
-      typename MakeList<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11 >::type retval;
+      typename Aggregate<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11 >::type retval;
       retval.P0::operator=(p0);
       retval.P1::operator=(p1);
       retval.P2::operator=(p2);
@@ -136,7 +136,7 @@ namespace chimp {
                typename P8,
                typename P9,
                typename P10 >
-    typename MakeList<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10 >::type
+    typename Aggregate<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10 >::type
     make_properties( const P0 & p0,
                      const P1 & p1,
                      const P2 & p2,
@@ -148,7 +148,7 @@ namespace chimp {
                      const P8 & p8,
                      const P9 & p9,
                      const P10 & p10 ) {
-      typename MakeList<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10 >::type retval;
+      typename Aggregate<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10 >::type retval;
       retval.P0::operator=(p0);
       retval.P1::operator=(p1);
       retval.P2::operator=(p2);
@@ -175,7 +175,7 @@ namespace chimp {
                typename P7,
                typename P8,
                typename P9 >
-    typename MakeList<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9 >::type
+    typename Aggregate<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9 >::type
     make_properties( const P0 & p0,
                      const P1 & p1,
                      const P2 & p2,
@@ -186,7 +186,7 @@ namespace chimp {
                      const P7 & p7,
                      const P8 & p8,
                      const P9 & p9 ) {
-      typename MakeList<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9 >::type retval;
+      typename Aggregate<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9 >::type retval;
       retval.P0::operator=(p0);
       retval.P1::operator=(p1);
       retval.P2::operator=(p2);
@@ -211,7 +211,7 @@ namespace chimp {
                typename P6,
                typename P7,
                typename P8 >
-    typename MakeList<P0, P1, P2, P3, P4, P5, P6, P7, P8 >::type
+    typename Aggregate<P0, P1, P2, P3, P4, P5, P6, P7, P8 >::type
     make_properties( const P0 & p0,
                      const P1 & p1,
                      const P2 & p2,
@@ -221,7 +221,7 @@ namespace chimp {
                      const P6 & p6,
                      const P7 & p7,
                      const P8 & p8 ) {
-      typename MakeList<P0, P1, P2, P3, P4, P5, P6, P7, P8 >::type retval;
+      typename Aggregate<P0, P1, P2, P3, P4, P5, P6, P7, P8 >::type retval;
       retval.P0::operator=(p0);
       retval.P1::operator=(p1);
       retval.P2::operator=(p2);
@@ -244,7 +244,7 @@ namespace chimp {
                typename P5,
                typename P6,
                typename P7 >
-    typename MakeList<P0, P1, P2, P3, P4, P5, P6, P7 >::type
+    typename Aggregate<P0, P1, P2, P3, P4, P5, P6, P7 >::type
     make_properties( const P0 & p0,
                      const P1 & p1,
                      const P2 & p2,
@@ -253,7 +253,7 @@ namespace chimp {
                      const P5 & p5,
                      const P6 & p6,
                      const P7 & p7 ) {
-      typename MakeList<P0, P1, P2, P3, P4, P5, P6, P7 >::type retval;
+      typename Aggregate<P0, P1, P2, P3, P4, P5, P6, P7 >::type retval;
       retval.P0::operator=(p0);
       retval.P1::operator=(p1);
       retval.P2::operator=(p2);
@@ -274,7 +274,7 @@ namespace chimp {
                typename P4,
                typename P5,
                typename P6 >
-    typename MakeList<P0, P1, P2, P3, P4, P5, P6 >::type
+    typename Aggregate<P0, P1, P2, P3, P4, P5, P6 >::type
     make_properties( const P0 & p0,
                      const P1 & p1,
                      const P2 & p2,
@@ -282,7 +282,7 @@ namespace chimp {
                      const P4 & p4,
                      const P5 & p5,
                      const P6 & p6 ) {
-      typename MakeList<P0, P1, P2, P3, P4, P5, P6 >::type retval;
+      typename Aggregate<P0, P1, P2, P3, P4, P5, P6 >::type retval;
       retval.P0::operator=(p0);
       retval.P1::operator=(p1);
       retval.P2::operator=(p2);
@@ -301,14 +301,14 @@ namespace chimp {
                typename P3,
                typename P4,
                typename P5 >
-    typename MakeList<P0, P1, P2, P3, P4, P5 >::type
+    typename Aggregate<P0, P1, P2, P3, P4, P5 >::type
     make_properties( const P0 & p0,
                      const P1 & p1,
                      const P2 & p2,
                      const P3 & p3,
                      const P4 & p4,
                      const P5 & p5 ) {
-      typename MakeList<P0, P1, P2, P3, P4, P5 >::type retval;
+      typename Aggregate<P0, P1, P2, P3, P4, P5 >::type retval;
       retval.P0::operator=(p0);
       retval.P1::operator=(p1);
       retval.P2::operator=(p2);
@@ -325,13 +325,13 @@ namespace chimp {
                typename P2,
                typename P3,
                typename P4 >
-    typename MakeList<P0, P1, P2, P3, P4 >::type
+    typename Aggregate<P0, P1, P2, P3, P4 >::type
     make_properties( const P0 & p0,
                      const P1 & p1,
                      const P2 & p2,
                      const P3 & p3,
                      const P4 & p4 ) {
-      typename MakeList<P0, P1, P2, P3, P4 >::type retval;
+      typename Aggregate<P0, P1, P2, P3, P4 >::type retval;
       retval.P0::operator=(p0);
       retval.P1::operator=(p1);
       retval.P2::operator=(p2);
@@ -346,12 +346,12 @@ namespace chimp {
                typename P1,
                typename P2,
                typename P3 >
-    typename MakeList<P0, P1, P2, P3 >::type
+    typename Aggregate<P0, P1, P2, P3 >::type
     make_properties( const P0 & p0,
                      const P1 & p1,
                      const P2 & p2,
                      const P3 & p3 ) {
-      typename MakeList<P0, P1, P2, P3 >::type retval;
+      typename Aggregate<P0, P1, P2, P3 >::type retval;
       retval.P0::operator=(p0);
       retval.P1::operator=(p1);
       retval.P2::operator=(p2);
@@ -364,11 +364,11 @@ namespace chimp {
     template < typename P0,
                typename P1,
                typename P2 >
-    typename MakeList<P0, P1, P2 >::type
+    typename Aggregate<P0, P1, P2 >::type
     make_properties( const P0 & p0,
                      const P1 & p1,
                      const P2 & p2 ) {
-      typename MakeList<P0, P1, P2 >::type retval;
+      typename Aggregate<P0, P1, P2 >::type retval;
       retval.P0::operator=(p0);
       retval.P1::operator=(p1);
       retval.P2::operator=(p2);
@@ -379,10 +379,10 @@ namespace chimp {
      * std::make_pair. */
     template < typename P0,
                typename P1 >
-    typename MakeList<P0, P1 >::type
+    typename Aggregate<P0, P1 >::type
     make_properties( const P0 & p0,
                      const P1 & p1 ) {
-      typename MakeList<P0, P1>::type retval;
+      typename Aggregate<P0, P1>::type retval;
       retval.P0::operator=(p0);
       retval.P1::operator=(p1);
       return retval;
@@ -391,9 +391,9 @@ namespace chimp {
     /** Auto type-generating construction for Properties (similar to
      * std::make_pair. */
     template < typename P0 >
-    typename MakeList<P0>::type
+    typename Aggregate<P0>::type
     make_properties( const P0 & p0 ) {
-      typename MakeList<P0>::type retval;
+      typename Aggregate<P0>::type retval;
       retval.P0::operator=(p0);
       return retval;
     }
@@ -731,4 +731,4 @@ namespace chimp {
   }/* namespace chimp::property */
 }/*namespace chimp */
 
-#endif // chimp_property_list_h
+#endif // chimp_property_aggregate_h

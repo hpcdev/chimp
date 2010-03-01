@@ -110,7 +110,7 @@ BOOST_AUTO_TEST_SUITE( RuntimeDB_tests ); // {
     {/* 87Rb * 85Rb */
       DB::Set set = db(i85Rb,i87Rb);
 
-      BOOST_CHECK_EQUAL( set.rhs.size(), 0u );
+      BOOST_CHECK_EQUAL( set.rhs.size(), 1u );
     }/* 85Rb * 85Rb */
   }
 

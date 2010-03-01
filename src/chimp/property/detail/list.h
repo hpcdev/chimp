@@ -1,7 +1,6 @@
 /*==============================================================================
  * Public Domain Contributions 2009 United States Government                   *
  * as represented by the U.S. Air Force Research Laboratory.                   *
- * Copyright (C) 2006, 2008 Spencer E. Olson                                   *
  *                                                                             *
  * This file is part of CHIMP                                                  *
  *                                                                             *

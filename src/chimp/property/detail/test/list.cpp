@@ -1,7 +1,6 @@
 /*==============================================================================
  * Public Domain Contributions 2009 United States Government                   *
  * as represented by the U.S. Air Force Research Laboratory.                   *
- * Copyright (C) 2006, 2008 Spencer E. Olson                                   *
  *                                                                             *
  * This file is part of CHIMP                                                  *
  *                                                                             *
@@ -28,12 +27,12 @@
 #define BOOST_TEST_MODULE  chimp_property_detail_list
 
 #include <chimp/property/detail/list.h>
-#include <chimp/property/list.h>
+#include <chimp/property/aggregate.h>
 
 #include <boost/test/unit_test.hpp>
 
 namespace {
-  using chimp::property::MakeList;
+  using chimp::property::Aggregate;
   using chimp::property::detail::Concat;
   using chimp::property::detail::List;
   using chimp::property::detail::Null;
@@ -68,9 +67,9 @@ BOOST_AUTO_TEST_CASE( intantiation ) {
   typedef Concat< List1, List0 >::type                    List4;
   typedef Concat< D, List4 >::type                        List5;
   typedef Concat< List5, E >::type                        List6;
-  typedef MakeList< A, B, C >::type                       List7;
-  typedef MakeList< A, B, C, D, E >::type                 List8;
-  typedef MakeList< List1, List0 >::type                  List9;
+  typedef Aggregate< A, B, C >::type                      List7;
+  typedef Aggregate< A, B, C, D, E >::type                List8;
+  typedef Aggregate< List1, List0 >::type                 List9;
 
   List0 l0 = List< A, List< B, Null > >();
   List1 l1 = List< C, Null >();
