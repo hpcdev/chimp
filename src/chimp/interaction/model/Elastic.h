@@ -32,7 +32,7 @@
 #include <chimp/interaction/Equation.h>
 #include <chimp/interaction/model/Base.h>
 #include <chimp/interaction/ReducedMass.h>
-#include <chimp/interaction/ParticleAccessors.h>
+#include <chimp/accessors.h>
 
 #include <olson-tools/power.h>
 #include <olson-tools/Vector.h>
@@ -115,6 +115,8 @@ namespace chimp {
           using olson_tools::Vector;
           using olson_tools::V3;
           using olson_tools::random::MTRNGrand;
+          using chimp::accessors::particle::velocity;
+          using chimp::accessors::particle::setVelocity;
 
           /* This copy allows the Particle class to have other storage instead
            * of just double perhaps. */

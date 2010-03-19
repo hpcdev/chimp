@@ -32,7 +32,7 @@
 #include <chimp/interaction/Equation.h>
 #include <chimp/interaction/model/Base.h>
 #include <chimp/interaction/ReducedMass.h>
-#include <chimp/interaction/ParticleAccessors.h>
+#include <chimp/accessors.h>
 #include <chimp/interaction/model/detail/vss_helpers.h>
 #include <chimp/property/mass.h>
 
@@ -116,6 +116,9 @@ namespace chimp {
           using olson_tools::fast_pow;
           using olson_tools::Vector;
           using olson_tools::random::MTRNGrand;
+          using chimp::accessors::particle::velocity;
+          using chimp::accessors::particle::setVelocity;
+
           static const unsigned int X = 0u;
           static const unsigned int Y = 1u;
           static const unsigned int Z = 2u;

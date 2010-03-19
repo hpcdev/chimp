@@ -47,6 +47,8 @@
 #ifndef chimp_interaction_Particle_h
 #define chimp_interaction_Particle_h
 
+#  include <chimp/accessors.h>
+
 #  include <olson-tools/random/random.h>
 #  include <olson-tools/Vector.h>
 
@@ -66,11 +68,18 @@ namespace chimp {
       /** Velocity array.  */
       Vector<double,3> v;
 
+      /** Species identifier. */
+      int species;
+
+      /** Representative particle weight. */
+      float weight;
 
       /* MEMBER FUNCTIONS */
       Particle( const Vector<double,3> & x = 0.0,
-                const Vector<double,3> & v = 0.0 ):
-        x(x), v(v) { }
+                const Vector<double,3> & v = 0.0,
+                const int & species = 0,
+                const float & weight = 1.0f ):
+        x(x), v(v), species(species), weight(weight) { }
 
     };// Particle
 
@@ -106,18 +115,20 @@ namespace chimp {
     /** Print the six position and velocity values out seperated by spaces. */
     inline std::ostream & operator<< ( std::ostream & output,
                                        const Particle & q ) {
-      return output << q.x << q.v;
+      return output << q.x << q.v << q.species << q.weight;
     }
     
-    /** Read in the six position and velocity values into Particle class. */
+    /** Read in position, velocity, species, and weight values into Particle. */
     inline std::istream & operator>> ( std::istream & input, Particle & p ) {
-      return input >> p.x >> p.v;
+      return input >> p.x >> p.v >> p.species >> p.weight;
     }
 
-    /** Read in the six position and velocity values into Particle class. */
+    /** Equivalence operator for Particles. */
     inline bool operator== ( const Particle & lhs, const Particle & rhs ) {
-      return lhs.x == rhs.x &&
-             lhs.v == rhs.v;
+      return lhs.x       == rhs.x &&
+             lhs.v       == rhs.v &&
+             lhs.species == rhs.species && 
+             lhs.weight  == rhs.weight;
     }
 
   }/* namespace chimp::interaction */

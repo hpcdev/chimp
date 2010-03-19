@@ -26,7 +26,7 @@
 #define chimp_interaction_model_test_diagnostics_h
 
 #include <chimp/property/mass.h>
-#include <chimp/interaction/ParticleAccessors.h>
+#include <chimp/accessors.h>
 
 #include <olson-tools/power.h>
 #include <olson-tools/Vector.h>
@@ -43,6 +43,8 @@ namespace chimp {
                               const int & part_i,
                               const RnDB & db ) {
           using olson_tools::SQR;
+          using chimp::accessors::particle::velocity;
+          using chimp::accessors::particle::weight;
           const typename RnDB::options::Properties & prop = db[part_i];
           const double & m = prop.property::mass::value;
           double sz = weight(p);
@@ -55,6 +57,8 @@ namespace chimp {
         inline Vector<double,3> momentum( const Particle & p,
                                           const int & part_i,
                                           const RnDB & db ) {
+          using chimp::accessors::particle::velocity;
+          using chimp::accessors::particle::weight;
           const typename RnDB::options::Properties & prop = db[part_i];
           const double & m = prop.property::mass::value;
           double sz = weight(p);
