@@ -126,7 +126,7 @@ namespace chimp {
     {
       std::ostringstream istr;
       typedef typename PropertiesVector::iterator PIter;
-      for ( PIter i = props.begin(); i != props.end(); ++i ) {
+      for ( PIter i = props.begin(), end = props.end(); i != end; ++i ) {
         using property::name;
         istr << ':' << i->name::value << ':';
       }
@@ -147,7 +147,9 @@ namespace chimp {
       findAllLHSRelatedInteractionCtx( particles_output_filter );
     typedef LHSRelatedInteractionCtx::const_iterator LHSCtxIter;
 
-    for (LHSCtxIter lhs_i = lhs_ctxs.begin(); lhs_i != lhs_ctxs.end(); ++lhs_i) {
+    for ( LHSCtxIter lhs_i  = lhs_ctxs.begin(),
+                     lhend  = lhs_ctxs.end();
+                     lhs_i != lhend; ++lhs_i ) {
       interaction::Input const & in = lhs_i->first;
 
       /* first instantiate the (A,B)th interactions */
@@ -156,7 +158,9 @@ namespace chimp {
 
       xml::Context::set const & xs = lhs_i->second;
       /* add each of the allowed interactions to the new set. */
-      for (xml::Context::set::iterator k = xs.begin(); k != xs.end(); ++k) {
+      for ( xml::Context::set::iterator k = xs.begin(),
+                                     kend = xs.end();
+                                       k != kend; ++k ) {
         /* Finally load the Equation fully and push it into the Output stack. */
         set.rhs.push_back(Set::Equation::load(*k,*this));
       }
@@ -168,8 +172,9 @@ namespace chimp {
   inline typename RuntimeDB<T>::PropertiesVector::const_iterator
   RuntimeDB<T>::findParticle(const std::string & name) const {
     typedef typename PropertiesVector::const_iterator CIter;
-    CIter i = props.begin();
-    for (; i != props.end(); i++) {
+    CIter i = props.begin(),
+        end = props.end();
+    for (; i != end; ++i) {
       property::name n = (*i);
       if (name == n.value)
         break;
@@ -182,8 +187,9 @@ namespace chimp {
   inline typename RuntimeDB<T>::PropertiesVector::iterator
   RuntimeDB<T>::findParticle(const std::string & name) {
     typedef typename PropertiesVector::iterator Iter;
-    Iter i = props.begin();
-    for (; i != props.end(); i++) {
+    Iter i = props.begin(),
+       end = props.end();
+    for (; i != end; ++i) {
       property::name n = (*i);
       if (name == n.value)
         break;
@@ -313,15 +319,21 @@ namespace chimp {
 
     typedef typename LHSCtxs::const_iterator LHSCtxIter;
 
-    for(LHSCtxIter lhs_i = lhs_ctxs.begin(); lhs_i != lhs_ctxs.end(); ++lhs_i) {
+    for( LHSCtxIter lhs_i  = lhs_ctxs.begin(),
+                    lhend  = lhs_ctxs.end();
+                    lhs_i != lhend; ++lhs_i ) {
       xml::Context::set const & xs = lhs_i->second;
       /* add each of the allowed interactions to the new set. */
-      for (xml::Context::set::iterator k = xs.begin(); k != xs.end(); ++k) {
+      for ( xml::Context::set::iterator k = xs.begin(),
+                                     kend = xs.end();
+                                       k != kend; ++k ) {
         /* This is a hack until we can figure out how to write an xpath query
          * to make sure that the outputs all come from the particles set.
          * Such an xpath query may end up being impossible. */
         xml::Context::list xl = k->eval("Eq/Out/T/P");
-        for (xml::Context::list::iterator i = xl.begin(); i != xl.end(); ++i ) {
+        for ( xml::Context::list::iterator i = xl.begin(),
+                                        iend = xl.end();
+                                        i != iend; ++i ) {
           retval.insert( i->parse<std::string>() );
         }
       }

@@ -76,9 +76,10 @@ namespace chimp {
 
         if ( A.species == B.species )
           ps.add( Term(A.species, 2), db );
-        else
+        else {
           ps.add(A, db);
           ps.add(B, db);
+        }
         return ps.print(out, db);
       }
     };

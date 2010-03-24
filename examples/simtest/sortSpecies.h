@@ -21,8 +21,8 @@
  -----------------------------------------------------------------------------*/
 
 
-#ifndef chimplib_examples_simtest_sortSpecies_h
-#define chimplib_examples_simtest_sortSpecies_h
+#ifndef chimp_examples_simtest_sortSpecies_h
+#define chimp_examples_simtest_sortSpecies_h
 
 #include <olson-tools/nsort/NSort.h>
 #include <olson-tools/nsort/map/species_only.h>
@@ -60,4 +60,4 @@ namespace simtest {
 
 }
 
-#endif // chimplib_examples_simtest_sortSpecies_h
+#endif // chimp_examples_simtest_sortSpecies_h

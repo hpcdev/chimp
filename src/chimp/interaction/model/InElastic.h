@@ -37,6 +37,7 @@
 #include <olson-tools/random/random.h>
 
 #include <string>
+#include <vector>
 #include <cmath>
 
 namespace chimp {
@@ -47,7 +48,6 @@ namespace chimp {
       template < typename options >
       struct InElastic : Base<options> {
         /* TYPEDEFS */
-        typedef typename Base<options>::ParticleParam ParticleParam;
         typedef typename options::Particle Particle;
 
 
@@ -63,19 +63,6 @@ namespace chimp {
         /** Obtain the label of the model. */
         virtual std::string getLabel() const {
           return label;
-        }
-
-        /** Two-body collision interface. */
-        virtual void interact( const Particle & part1,
-                               const Particle & part2,
-                               std::vector< ParticleParam > & products ) {
-        }
-
-        /** Three-body collision interface. */
-        virtual void interact( const Particle & part1,
-                               const Particle & part2,
-                               const Particle & part3,
-                               std::vector< ParticleParam > & products ) {
         }
 
         /** load a new instance of the Interaction. */

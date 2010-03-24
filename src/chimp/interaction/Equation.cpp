@@ -93,7 +93,7 @@ namespace chimp {
       retval.reducedMass = ReducedMass( retval, db );
 
       /* set the output. */
-      for ( SEIter i = out.begin(); i != out.end(); ++i ) {
+      for ( SEIter i = out.begin(), end = out.end(); i != end; ++i ) {
         Term it( db.findParticleIndx(i->first->name::value), i->second );
 
         if (it.species == -1)

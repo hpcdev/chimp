@@ -50,7 +50,9 @@ namespace chimp {
         DoubleDataSet table;
         pqdata_set pqd = x.parse<pqdata_set>();
         /* convert x-val to velocity units. */
-        for (pqdata_set::iterator i = pqd.begin(); i != pqd.end(); i++) {
+        for (pqdata_set::iterator i  = pqd.begin(),
+                                end  = pqd.end();
+                                  i != end; ++i) {
           Quantity v = i->first;
           if (v.units == eV.units)
             v = sqrt(v / (mu.value * kg) );

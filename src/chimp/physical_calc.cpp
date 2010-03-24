@@ -38,8 +38,9 @@ namespace chimp {
     calc.addPhysicalUnits();
   
     xml::Context::list xl = doc.eval("//calc-commands/command");
-    xml::Context::list::iterator i = xl.begin();
-    for (; i != xl.end(); i++) {
+    for ( xml::Context::list::iterator i  = xl.begin(),
+                                     end  = xl.end();
+                                       i != end; ++i ) {
       const xml::Context & x = (*i);
       calc.exec(x.parse<std::string>());
     }

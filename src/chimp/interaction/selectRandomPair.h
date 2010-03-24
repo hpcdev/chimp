@@ -20,28 +20,40 @@
  *                                                                             *
  -----------------------------------------------------------------------------*/
 
+#ifndef chimp_interaction_selectRandomPair_h
+#define chimp_interaction_selectRandomPair_h
 
 
-namespace simtest {
+#include <olson-tools/random/random.h>
 
-  template < typename RandomAccessParticleContainer >
-  std::pair<
-    typename RandomAccessParticleContainer::iterator,
-    typename RandomAccessParticleContainer::iterator
-  >
-  selectRandomPair( RandomAccessParticleContainer & Aparticles,
-                    RandomAccessParticleContainer & Bparticles ) {
-    /* Pick the particles that need to interact. */
-    Particle::list::iterator pi
-         = Aparticles.begin() + int(Aparticles.size()*MTRNGrand()*0.99999999);
+namespace chimp {
+  namespace interaction {
 
-    Particle::list::iterator pj = pi;
+    template < typename RandomAccessParticleContainer >
+    std::pair<
+      typename RandomAccessParticleContainer::iterator,
+      typename RandomAccessParticleContainer::iterator
+    >
+    selectRandomPair( RandomAccessParticleContainer & Aparticles,
+                      RandomAccessParticleContainer & Bparticles ) {
+      using olson_tools::random::MTRNGrand;
+      typedef typename RandomAccessParticleContainer::iterator PIter;
+      double Asz_m05 = Aparticles.size() * 0.999999;
+      double Bsz_m05 = Bparticles.size() * 0.999999;
 
-    while ( pi == pj )
-      pj = BParticles.begin() + int(BParticles.size()*MTRNGrand()*0.99999999);
+      /* First pick pA */
+      PIter pA = Aparticles.begin() + static_cast<int>( Asz_m05 * MTRNGrand() );
+      PIter pB = pA;
+      PIter Bbegin = Bparticles.begin();
 
-    return std::make_pair(pi, pj);
-  }
+      /* now we pick pB */
+      while ( pA == pB )
+        pB = Bbegin + static_cast<int>( Bsz_m05 * MTRNGrand() );
 
-}
+      return std::make_pair(pA, pB);
+    }
 
+  }/* namespace chimp::interaction */
+}/* namespace chimp */
+
+#endif // chimp_interaction_selectRandomPair_h

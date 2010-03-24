@@ -68,7 +68,7 @@ namespace chimp {
         typedef typename makeSortedTermMap<RnDB>::type::iterator PIter;
 
         int n_particles = 0;
-        for (CXIter i = xl.begin(); i != xl.end(); ++i ) {
+        for (CXIter i = xl.begin(), end = xl.end(); i != end; ++i ) {
           std::string particle_name = i->query<std::string>("P");
           int n = i->query<int>("n",1);
 

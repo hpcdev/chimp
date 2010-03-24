@@ -26,7 +26,7 @@
 #define chimp_examples_simtest_Particle_h
 
 #include <chimp/property/mass.h>
-#include <chimp/interaction/ParticleAccessors.h>
+#include <chimp/accessors.h>
 
 #include <olson-tools/Vector.h>
 #include <olson-tools/distribution/Uniform.h>
@@ -56,7 +56,7 @@ namespace simtest {
       : x(x), v(v), species(species) { }
   };
 
-  using chimp::interaction::species; // import generic accessor for species
+  using chimp::accessors::particle::species; // import generic accessor for species
 
 
   std::ostream & operator<< (std::ostream & out, const Particle & p) {

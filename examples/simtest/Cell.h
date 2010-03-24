@@ -21,8 +21,8 @@
  -----------------------------------------------------------------------------*/
 
 
-#ifndef chimplib_examples_simtest_Cell_h
-#define chimplib_examples_simtest_Cell_h
+#ifndef chimp_examples_simtest_Cell_h
+#define chimp_examples_simtest_Cell_h
 
 #include "Particle.h"
 
@@ -87,28 +87,24 @@ namespace simtest {
     const int & getNumberTypes() const { return n_species; }
 
 
-    /** Determine the maximum product of sigma*velocity for an interaction pair.
+    /** Determine the maximum relative velocity between two species.
      * Normally, a simulation might maintain this quantity over time and update
      * it periodically rather than calculating it every time at runtime.
      */
-    template < typename RnDB >
-    double maxSigmaVelProduct( const unsigned int & A, 
-                               const unsigned int & B,
-                               const RnDB & db ) const {
+    double maxRelativeVelocity( const unsigned int & A, 
+                                const unsigned int & B ) const {
       const Vector<double,3> & vA_min = data[A].v_min,
                              & vA_max = data[A].v_max,
                              & vB_min = data[B].v_min,
                              & vB_max = data[B].v_max;
 
       /* Simple estimator for maximum relative velocity between cross species.*/
-      double v_rel_max = std::max( (vA_max - vB_min).abs(),
-                                   (vB_max - vA_min).abs() );
-
-      return db(A,B)->cs->findMaxSigmaVProduct( v_rel_max );
+      return std::max( (vA_max - vB_min).abs(),
+                       (vB_max - vA_min).abs() );
     }
 
   };
 
 }
 
-#endif // chimplib_examples_simtest_Cell_h
+#endif // chimp_examples_simtest_Cell_h

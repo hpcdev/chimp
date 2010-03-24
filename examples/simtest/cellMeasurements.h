@@ -21,12 +21,12 @@
  -----------------------------------------------------------------------------*/
 
 
-#ifndef chimplib_examples_simtest_cellMeasurements_h
-#define chimplib_examples_simtest_cellMeasurements_h
+#ifndef chimp_examples_simtest_cellMeasurements_h
+#define chimp_examples_simtest_cellMeasurements_h
 
 #include "Cell.h"
 
-#include <chimp/interaction/ParticleAccessors.h>
+#include <chimp/accessors.h>
 
 #include <olson-tools/Vector.h>
 #include <olson-tools/power.h>
@@ -38,7 +38,7 @@ namespace simtest {
   /** Perform statistical measurements relevant to a cell. */
   template < typename RnDB >
   void doCellMeasurements( Cell & cell, const RnDB & db ) {
-    using chimp::interaction::velocity; // generic accessor for velocity
+    using chimp::accessors::particle::velocity; // generic accessor for velocity
 
     const int n = cell.types.size();
     assert( cell.types.size() > 0 );
@@ -66,4 +66,4 @@ namespace simtest {
 
 }/* namespace simtest */
 
-#endif // chimplib_examples_simtest_cellMeasurements_h
+#endif // chimp_examples_simtest_cellMeasurements_h

@@ -91,8 +91,9 @@ namespace chimp {
        * */
       inline double findMaxSigmaVProduct(const double & v_rel_max) const {
         double mx = 0.0;
-        for ( typename eq_list::const_iterator i = rhs.begin();
-              i != rhs.end(); ++i ) {
+        for ( typename eq_list::const_iterator i = rhs.begin(),
+                                             end = rhs.end();
+              i != end; ++i ) {
           mx = std::max(mx, i->cs->findMaxSigmaVProduct(v_rel_max));
         }
         return mx;
@@ -117,8 +118,9 @@ namespace chimp {
         double cs_max = 0;
         std::vector<double> cs;
         cs.reserve(rhs.size());
-        for ( typename eq_list::const_iterator i = rhs.begin();
-              i != rhs.end(); ++i ) {
+        for ( typename eq_list::const_iterator i = rhs.begin(),
+                                             end = rhs.end();
+              i != end; ++i ) {
           double csi = i->cs->operator()(v_relative);
           cs_tot += csi;
           cs.push_back(csi);
@@ -131,11 +133,11 @@ namespace chimp {
          * happen. */
         using olson_tools::random::MTRNGrand;
         if ( (MTRNGrand() * max_sigma_relspeed) > (cs_tot*v_relative) )
-          return std::make_pair(-1,0); /* no interaction!!! */
+          return std::make_pair(-1,0.0); /* no interaction!!! */
 
         /* upgrade max_sigma_relspeed? */
         {
-          double cs_max_relspeed = cs_max * v_relative;
+          register double cs_max_relspeed = cs_max * v_relative;
           if (cs_max_relspeed > max_sigma_relspeed)
             max_sigma_relspeed = cs_max_relspeed;
         }
@@ -145,7 +147,9 @@ namespace chimp {
         double r = MTRNGrand() * cs_tot * 0.999999999;
         cs_tot = 0;
         int j = 0;
-        for (std::vector<double>::iterator i = cs.begin(); i < cs.end(); ++i, ++j) {
+        for ( std::vector<double>::iterator i = cs.begin(),
+                                          end = cs.end();
+              i < end; ++i, ++j) {
           cs_tot += (*i);
           if (cs_tot > r)
             return std::make_pair(j,(*i));
@@ -153,7 +157,29 @@ namespace chimp {
 
         /* we actually better never get here. */
         olson_tools::logger::log_severe("interaction::Set::calculateOutPath reached invalid return");
-        return std::make_pair(-1,0);
+        return std::make_pair(-1,0.0);
+      }
+
+      template < typename PIter,
+                 typename BackInsertionSequence >
+      std::pair<int,double>
+      interact( double & max_sigma_relspeed,
+                const std::pair<PIter, PIter> & pair,
+                BackInsertionSequence & result_list ) const {
+        typename options::Particle & pA = *pair.first;
+        typename options::Particle & pB = *pair.second;
+
+        using chimp::accessors::particle::velocity;
+        /* Relative velocity of the the two particles. */
+        double v_rel = ( velocity(pA) - velocity(pB) ).abs();
+
+        std::pair<int,double> path =
+          calculateOutPath( max_sigma_relspeed, v_rel );
+
+        if ( path.first >= 0 )
+          rhs[path.first].interaction->interact( pA, pB, result_list );
+
+        return path;
       }
     };
 
@@ -174,7 +200,7 @@ namespace chimp {
       calculateOutPath( double & max_sigma_relspeed,
                         const double & v_relative ) const {
         if (rhs.empty())
-          return std::make_pair(-1,0);
+          return std::make_pair(-1,0.0);
         return 1;
       }
     };

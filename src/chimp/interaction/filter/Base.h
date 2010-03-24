@@ -65,7 +65,9 @@ namespace chimp {
         virtual set filter(const set & in) {
           std::string query = xpath_query + "/Eq";
           set retval;
-          for ( set::const_iterator i = in.begin(); i != in.end(); ++i ) {
+          for ( set::const_iterator i  = in.begin(),
+                                  end  = in.end();
+                                    i != end; ++i ) {
             if ( i->eval(query).size() > 0 )
               retval.insert(*i);
           }

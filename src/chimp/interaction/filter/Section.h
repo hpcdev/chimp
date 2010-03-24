@@ -90,7 +90,9 @@ namespace chimp {
 
           detail::EqMap map;
 
-          for ( set::iterator i = fset.begin(); i != fset.end(); ++i ) {
+          for ( set::iterator i  = fset.begin(),
+                            end  = fset.end();
+                              i != end; ++i ) {
             /* we need to test to see if the section matches. */
             std::string estr = i->query<std::string>("Eq");
 
@@ -109,7 +111,9 @@ namespace chimp {
 
           /* now insert the appropriate item. */
           set retval;
-          for ( detail::EqMap::iterator i = map.begin(); i != map.end(); ++i ) {
+          for ( detail::EqMap::iterator i  = map.begin(),
+                                      end  = map.end();
+                                        i != end; ++i ) {
             assert(i->second.first || i->second.second);
 
             if (i->second.first)

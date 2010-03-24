@@ -81,7 +81,9 @@ namespace chimp {
         std::ostringstream query;
         query << "Eq[count("<<EqIO<<"/T) = " << set.size() << "]/" << EqIO;
 
-        for ( EqTermSet::const_iterator i = set.begin(); i != set.end(); ++i ) {
+        for ( EqTermSet::const_iterator i  = set.begin(),
+                                      end  = set.end();
+                                        i != end; ++i ) {
           if ( i->n == 0 )
             continue;
 

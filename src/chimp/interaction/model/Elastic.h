@@ -41,7 +41,6 @@
 
 #include <string>
 #include <vector>
-#include <stdexcept>
 #include <cmath>
 #include <cassert>
 
@@ -53,7 +52,6 @@ namespace chimp {
       template < typename options >
       struct Elastic : Base<options> {
         /* TYPEDEFS */
-        typedef typename Base<options>::ParticleParam ParticleParam;
         typedef typename options::Particle Particle;
 
 
@@ -89,23 +87,14 @@ namespace chimp {
         /** Two-body collision interface. */
         virtual void interact( const Particle & part1,
                                const Particle & part2,
-                               std::vector< ParticleParam > & products )  {
-          products.resize( 2u );
-          products[0].is_set = true;
-          products[1].is_set = true;
+                               std::vector< Particle > & products )  {
+          products.reserve( products.size() + 2u );
+          products.push_back( part1 );
+          products.push_back( part2 );
 
-          interact( products[0].particle = part1,
-                    products[1].particle = part2 );
-        }
-
-        /** Three-body collision interface. */
-        virtual void interact( const Particle & part1,
-                               const Particle & part2,
-                               const Particle & part3,
-                               std::vector< ParticleParam > & products ) {
-          throw std::runtime_error(
-            "Three body interactions are not supported by Elastic collisions"
-          );
+          typename std::vector< Particle >::reverse_iterator rbeg
+            = products.rbegin();
+          interact( *(rbeg+1), *rbeg );
         }
 
         /** Binary elastic collision. */

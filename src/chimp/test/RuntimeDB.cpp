@@ -137,9 +137,10 @@ BOOST_AUTO_TEST_SUITE( RuntimeDB_tests ); // {
     BOOST_CHECK_EQUAL( db.getInteractions().size(), 6u );
 
     typedef DB::InteractionTable::const_iterator CIter;
-    CIter end = db.getInteractions().end();
     unsigned int number_interactions = 0u;
-    for ( CIter i = db.getInteractions().begin(); i != end; ++i ) {
+    for ( CIter i  = db.getInteractions().begin(),
+              end  = db.getInteractions().end();
+                i != end; ++i ) {
       number_interactions += i->rhs.size();
     }
 

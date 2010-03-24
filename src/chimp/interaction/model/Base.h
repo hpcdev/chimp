@@ -30,6 +30,10 @@
 
 #include <olson-tools/xml/Doc.h>
 
+#include <string>
+#include <vector>
+#include <stdexcept>
+
 namespace chimp {
 
   namespace xml = olson_tools::xml;
@@ -50,12 +54,6 @@ namespace chimp {
         /* TYPEDEFS */
         typedef typename options::Particle Particle;
 
-        struct ParticleParam {
-          Particle particle;
-          bool is_set;
-        };
-
-
         /* MEMBER FUNCTIONS */
         /** Virtual NO-OP destructor. */
         virtual ~Base() { }
@@ -66,13 +64,23 @@ namespace chimp {
         /** Two-body collision interface. */
         virtual void interact( const Particle & part1,
                                const Particle & part2,
-                               std::vector< ParticleParam > & products ) = 0;
+                               std::vector< Particle > & products ) {
+          throw std::runtime_error(
+            "Two body interactions are not supported by "
+            + this->getLabel() + " collisions"
+          );
+        }
 
         /** Three-body collision interface. */
         virtual void interact( const Particle & part1,
                                const Particle & part2,
                                const Particle & part3,
-                               std::vector< ParticleParam > & products ) = 0;
+                               std::vector< Particle > & products ) {
+          throw std::runtime_error(
+            "Three body interactions are not supported by "
+            + this->getLabel() + " collisions"
+          );
+        }
 
         /** load a new instance of the Interaction. */
         virtual Base * new_load( const xml::Context & x,
