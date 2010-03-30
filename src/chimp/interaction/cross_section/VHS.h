@@ -39,6 +39,7 @@
 #include <physical/physical.h>
 
 #include <ostream>
+#include <limits>
 
 namespace chimp {
   namespace xml = olson_tools::xml;
@@ -96,14 +97,15 @@ namespace chimp {
           using olson_tools::SQR;
           using olson_tools::fast_pow;
 
+          /* the collision cross-section is based on eqn (4.63) for VHS model.
+           * NOTE that we are guarding against (1/0).
+           */
           return 
-                  /* the collision cross-section is based on
-                   * eqn (4.63) for VHS model. */
               vhs.cross_section
             * fast_pow(
                 ( 2.0 * K_B * vhs.T_ref
-                  / ( mu.value
-                      * SQR(v_relative)
+                  / ( mu.value * SQR(v_relative)
+                      + std::numeric_limits<double>::min()
                     )
                 ), (vhs.visc_T_law - 0.5))
             * vhs.gamma_visc_inv;
