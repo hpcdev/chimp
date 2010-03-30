@@ -84,7 +84,7 @@ namespace chimp {
           return label;
         }
 
-        /** Two-body collision interface. */
+        /** Two-body collision interface.  const particle version. */
         virtual void interact( const Particle & part1,
                                const Particle & part2,
                                std::vector< Particle > & products )  {
@@ -95,6 +95,13 @@ namespace chimp {
           typename std::vector< Particle >::reverse_iterator rbeg
             = products.rbegin();
           interact( *(rbeg+1), *rbeg );
+        }
+
+        /** Two-body collision interface.  in-place operation version */
+        virtual void interact( Particle & part1,
+                               Particle & part2,
+                               std::vector< Particle > & products )  {
+          interact( part1, part2 );
         }
 
         /** Binary elastic collision. */

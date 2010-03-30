@@ -81,10 +81,17 @@ namespace chimp {
    *   Aggregate class of all particle properties that will be loaded from the
    *   xml file.  <br>
    *   [Default:  chimp::property::DefaultSet]
+   *
+   * @tparam _inplace_interactions
+   *   Whether interaction models are allowed to operate on particles in place.
+   *   This changes the interface on interaction::model::Base slightly by having
+   *   arguments as either const references or modifiable references.
+   *   [Default: true]
    * */
   template <
     typename _Particle   = chimp::interaction::Particle,
-    typename _Properties = chimp::property::DefaultSet
+    typename _Properties = chimp::property::DefaultSet,
+    bool _inplace_interactions = true
   >
   struct make_options {
     /** The result of the chimp::make_options template metafunction. */
@@ -92,20 +99,45 @@ namespace chimp {
       /** The type of particle that can be used for the collision/interaction
        * functions. */
       typedef _Particle   Particle;
+
       /** Aggregate class of all particle properties that will be loaded from
        * the xml file. */
       typedef _Properties Properties;
 
+      /** Whether to allow interaction models to operate on particles in place
+       * when it makes sense rather than returning results via the product list.
+       * This make most sense for elastic collisions and perhaps the catalyst
+       * particle for three body interactions. */
+      static const bool inplace_interactions = _inplace_interactions;
+
       /** Set options with the given Particle type. */
       template < typename T >
       struct setParticle {
-        typedef typename make_options< T, Properties >::type type;
+        typedef typename make_options<
+          T,
+          Properties,
+          inplace_interactions
+        >::type type;
       };/* setParticle */
 
       /** Set options with the given Particle type. */
       template < typename T >
       struct setProperties {
-        typedef typename make_options< Particle, T >::type type;
+        typedef typename make_options<
+          Particle,
+          T,
+          inplace_interactions
+        >::type type;
+      };/* setProperties */
+
+      /** Set options with the given Particle type. */
+      template < bool B >
+      struct setInplaceInteractions {
+        typedef typename make_options<
+          Particle,
+          Properties,
+          B
+        >::type type;
       };/* setProperties */
     };/* struct type */
   };/* make_options */
