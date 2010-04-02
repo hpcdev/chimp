@@ -75,8 +75,8 @@ namespace chimp {
         virtual std::string getLabel() const = 0;
 
         /** Two-body collision interface. */
-        virtual void interact( ParticleArgRef & part1,
-                               ParticleArgRef & part2,
+        virtual void interact( ParticleArgRef part1,
+                               ParticleArgRef part2,
                                std::vector< Particle > & products ) {
           throw std::runtime_error(
             "Two body interactions are not supported by "
@@ -85,9 +85,9 @@ namespace chimp {
         }
 
         /** Three-body collision interface. */
-        virtual void interact( ParticleArgRef & part1,
-                               ParticleArgRef & part2,
-                               ParticleArgRef & part3,
+        virtual void interact( ParticleArgRef part1,
+                               ParticleArgRef part2,
+                               ParticleArgRef part3,
                                std::vector< Particle > & products ) {
           throw std::runtime_error(
             "Three body interactions are not supported by "
