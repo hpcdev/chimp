@@ -28,7 +28,7 @@
 #ifndef chimp_interaction_model_Base_h
 #define chimp_interaction_model_Base_h
 
-#include <olson-tools/xml/Doc.h>
+#include <xylose/xml/Doc.h>
 
 #include <string>
 #include <vector>
@@ -36,7 +36,7 @@
 
 namespace chimp {
 
-  namespace xml = olson_tools::xml;
+  namespace xml = xylose::xml;
 
   /* forward declaration of RuntimeDB class. */
   template < typename T > class RuntimeDB;

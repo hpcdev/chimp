@@ -31,10 +31,9 @@
 #include <chimp/interaction/Equation.h>
 #include <chimp/interaction/model/Base.h>
 
-#include <olson-tools/power.h>
-#include <olson-tools/Vector.h>
-#include <olson-tools/xml/Doc.h>
-#include <olson-tools/random/random.h>
+#include <xylose/power.h>
+#include <xylose/Vector.h>
+#include <xylose/xml/Doc.h>
 
 #include <string>
 #include <vector>

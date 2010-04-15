@@ -34,7 +34,7 @@
 #include <chimp/interaction/model/Base.h>
 #include <chimp/interaction/cross_section/Base.h>
 
-#include <olson-tools/xml/Doc.h>
+#include <xylose/xml/Doc.h>
 
 #include <boost/shared_ptr.hpp>
 
@@ -44,7 +44,7 @@
 
 
 namespace chimp {
-  namespace xml = olson_tools::xml;
+  namespace xml = xylose::xml;
   using boost::shared_ptr;
 
   namespace interaction {

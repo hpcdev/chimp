@@ -147,7 +147,7 @@ int main(int argc, char * argv[]) {
       print( fout, *(i->cs), vi, vf, N_points ) << "\n\n";
     }
 
-  } catch ( const olson_tools::xml::error & e ) {
+  } catch ( const xylose::xml::error & e ) {
     std::cout << "Error,  what():  " << e.what() << std::endl;
   } catch (...) {
     std::cout << "Unknown error" << std::endl;

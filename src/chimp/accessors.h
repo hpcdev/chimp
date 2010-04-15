@@ -30,13 +30,13 @@
 #define chimp_accessors_h
 
 
-#include <olson-tools/Vector.h>
+#include <xylose/Vector.h>
 
 namespace chimp {
   namespace accessors {
     namespace particle {
 
-      using olson_tools::Vector;
+      using xylose::Vector;
 
       /** Generic NON-const accessor for particle velocity. */
       template < typename ParticleT >

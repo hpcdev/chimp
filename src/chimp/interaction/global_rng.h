@@ -20,41 +20,17 @@
  *                                                                             *
  -----------------------------------------------------------------------------*/
 
+#ifndef chimp_interaction_global_rng_h
+#define chimp_interaction_global_rng_h
 
-#include <chimp/interaction/cross_section/detail/LotzDetails.h>
-
-#include <xylose/xml/physical_parse.h>
-
-#include <physical/runtime.h>
-#include <physical/physical.h>
+#  include <xylose/random/Kiss.hpp>
 
 namespace chimp {
   namespace interaction {
-    namespace cross_section {
-      namespace detail {
+    
+    extern xylose::random::Kiss global_rng;
 
-        void parse_item( LotzParameters & out, const xml::Context & x ) {
-          {
-            using runtime::physical::Quantity;
-            using runtime::physical::constant::si::eV;
-            using runtime::physical::unit::m;
-            /* Note that we use Quantity::assertUnitless() instead of parsing
-             * directly to double so that we can have calculator support. */
-            x.query<Quantity>("P").assertMatch(eV).getCoeff(out.P);
-            x.query<Quantity>("q").assertUnitless().getCoeff(out.q);
-            x.query<Quantity>("a").assertMatch(m*m*eV*eV).getCoeff(out.a);
-            x.query<Quantity>("b").assertUnitless().getCoeff(out.b);
-            x.query<Quantity>("c").assertUnitless().getCoeff(out.c);
-          }
+  }/* namespace chimp::interaction */
+}/* namespace chimp */
 
-          /* now cache the result of beta */
-          {
-            using physical::constant::si::m_e;
-            out.beta = m_e / ( 2. * out.P );
-          }
-        }
-
-      } /* namespace chimp::interaction::cross_section::detail */
-    } /* namespace chimp::interaction::cross_section */
-  } /* namespace chimp::interaction */
-} /* namespace chimp */
+#endif // chimp_interaction_global_rng_h

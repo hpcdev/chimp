@@ -26,8 +26,7 @@
 
 #include <chimp/interaction/selectRandomPair.h>
 #include <chimp/accessors.h>
-
-#include <olson-tools/random/random.h>
+#include <chimp/interaction/global_rng.h>
 
 #include <iterator>
 
@@ -179,8 +178,7 @@ namespace chimp {
               number_of_collisions_to_test -
               static_cast<int>(number_of_collisions_to_test);
 
-            using olson_tools::random::MTRNGrand;
-            if ( MTRNGrand() < number_of__fraction )
+            if ( global_rng.rand() < number_of__fraction )
               number_of_collisions_to_test += 1.0;
           }
 

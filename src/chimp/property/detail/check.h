@@ -25,8 +25,8 @@
 #ifndef chimp_property_detail_check_h
 #define chimp_property_detail_check_h
 
-#include <olson-tools/xml/Doc.h>
-#include <olson-tools/xml/physical_parse.h>
+#include <xylose/xml/Doc.h>
+#include <xylose/xml/physical_parse.h>
 
 #include <physical/runtime.h>
 
@@ -36,7 +36,7 @@ namespace chimp {
   namespace property {
     namespace detail {
 
-      namespace xml = olson_tools::xml;
+      namespace xml = xylose::xml;
 
       /** Non-dimension used as default arg of Generic class.  This is used when
        * a physical dimension is not specified. */

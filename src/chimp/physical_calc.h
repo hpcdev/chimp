@@ -27,10 +27,10 @@
 #ifndef chimp_physical_calc_h
 #define chimp_physical_calc_h
 
-#include <olson-tools/xml/Doc.h>
+#include <xylose/xml/Doc.h>
 
 namespace chimp {
-  namespace xml = olson_tools::xml;
+  namespace xml = xylose::xml;
 
   /** Prepare the units calculator by executing commands stored in the
    * calc-command subsections of the xml file.

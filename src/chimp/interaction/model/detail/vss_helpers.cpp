@@ -27,7 +27,7 @@
 
 #include <chimp/interaction/model/detail/vss_helpers.h>
 
-#include <olson-tools/xml/physical_parse.h>
+#include <xylose/xml/physical_parse.h>
 
 #include <physical/runtime.h>
 

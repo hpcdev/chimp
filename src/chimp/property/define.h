@@ -30,7 +30,7 @@
 
 #include <chimp/property/detail/check.h>
 
-#include <olson-tools/xml/Doc.h>
+#include <xylose/xml/Doc.h>
 
 #include <physical/runtime.h>
 
@@ -69,7 +69,7 @@ namespace chimp {
       } \
  \
       /** Load function (loads from xml context. */ \
-      static Property load(const olson_tools::xml::Context & x) { \
+      static Property load(const xylose::xml::Context & x) { \
         namespace cpd = chimp::property::detail; \
         if (required) \
           return x.query< cpd::check<T,dimension> >(xpath).value; \

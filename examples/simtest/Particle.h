@@ -28,10 +28,10 @@
 #include <chimp/property/mass.h>
 #include <chimp/accessors.h>
 
-#include <olson-tools/Vector.h>
-#include <olson-tools/distribution/Uniform.h>
-#include <olson-tools/distribution/Gaussian.h>
-#include <olson-tools/distribution/Inverter.h>
+#include <xylose/Vector.h>
+#include <xylose/distribution/Uniform.h>
+#include <xylose/distribution/Gaussian.h>
+#include <xylose/distribution/Inverter.h>
 
 #include <physical/physical.h>
 
@@ -40,8 +40,8 @@
 
 namespace simtest {
 
-  using olson_tools::Vector;
-  using olson_tools::V3;
+  using xylose::Vector;
+  using xylose::V3;
 
   /** This is the particle type that we will be using.  */
   struct Particle {
@@ -80,11 +80,12 @@ namespace simtest {
                               const int & n_particles,
                               const double & temperature,
                               const RnDB & db ) {
-    namespace dist = olson_tools::distribution;
+    namespace dist = xylose::distribution;
+    typedef dist::Inverter<> Inverter;
     using physical::constant::si::K_B;
 
     /** velocity distributions per species. */
-    std::vector< dist::Inverter > velocity;
+    std::vector< Inverter > velocity;
 
     { /* first set up the initial velocity distributions. */
       typedef typename RnDB::PropertiesVector::const_iterator PIter;
@@ -95,7 +96,6 @@ namespace simtest {
         using chimp::property::mass;
         double beta = 0.5 * i->mass::value / (K_B * temperature);
         double sigma = std::sqrt( 0.5 / beta );
-        using dist::Inverter;
         using dist::Gaussian;
         velocity.push_back( Inverter( Gaussian(beta), -4*sigma, 4*sigma ) );
       }
@@ -103,10 +103,10 @@ namespace simtest {
 
 
     /** position distribution (shared by all species). */
-    dist::Inverter position( dist::Uniform(), -1, 1 );
+    Inverter position( dist::Uniform(), -1, 1 );
 
     /** random species. */
-    dist::Inverter species( dist::Uniform(), 0, 0.9999999*db.getProps().size() );
+    Inverter species( dist::Uniform(), 0, 0.9999999*db.getProps().size() );
 
     pv.resize(0);              /* start with empty array */
     pv.reserve( n_particles ); /* allocate right away */

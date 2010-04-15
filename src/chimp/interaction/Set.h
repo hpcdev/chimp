@@ -29,9 +29,9 @@
 #define chimp_interaction_Set_h
 
 #include <chimp/interaction/Equation.h>
+#include <chimp/interaction/global_rng.h>
 
-#include <olson-tools/random/random.h>
-#include <olson-tools/logger.h>
+#include <xylose/logger.h>
 
 #include <cmath>
 #include <vector>
@@ -131,8 +131,7 @@ namespace chimp {
 
         /* now evaluate whether any of these interactions should even
          * happen. */
-        using olson_tools::random::MTRNGrand;
-        if ( (MTRNGrand() * max_sigma_relspeed) > (cs_tot*v_relative) )
+        if ( (global_rng.rand() * max_sigma_relspeed) > (cs_tot*v_relative) )
           return std::make_pair(-1,0.0); /* no interaction!!! */
 
         /* upgrade max_sigma_relspeed? */
@@ -144,7 +143,7 @@ namespace chimp {
 
         /* now, we finally pick our output state.  The 0.999999999 factor
          * is to ensure that r < cs_tot. */
-        double r = MTRNGrand() * cs_tot * 0.999999999;
+        double r = global_rng.rand() * cs_tot * 0.999999999;
         cs_tot = 0;
         int j = 0;
         for ( std::vector<double>::iterator i = cs.begin(),
@@ -156,7 +155,7 @@ namespace chimp {
         }
 
         /* we actually better never get here. */
-        olson_tools::logger::log_severe("interaction::Set::calculateOutPath reached invalid return");
+        xylose::logger::log_severe("interaction::Set::calculateOutPath reached invalid return");
         return std::make_pair(-1,0.0);
       }
 
@@ -192,7 +191,7 @@ namespace chimp {
       struct elt {
         double cross_section_total;
         std::vector<double> cross_sections;
-        olson_tools::Distribution distrib;
+        xylose::Distribution distrib;
       };
 
 

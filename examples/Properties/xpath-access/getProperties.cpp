@@ -29,7 +29,7 @@
 #include <physical/physical.h>
 
 int main() {
-  namespace xml = olson_tools::xml;
+  namespace xml = xylose::xml;
 
   xml::Doc db(PARTICLEDB_XML);
   chimp::prepareCalculator(db);

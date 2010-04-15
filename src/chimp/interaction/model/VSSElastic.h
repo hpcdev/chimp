@@ -28,18 +28,18 @@
 #ifndef chimp_interaction_model_VSSElastic_h
 #define chimp_interaction_model_VSSElastic_h
 
+#include <chimp/accessors.h>
+#include <chimp/property/mass.h>
 #include <chimp/interaction/Term.h>
 #include <chimp/interaction/Equation.h>
 #include <chimp/interaction/model/Base.h>
+#include <chimp/interaction/global_rng.h>
 #include <chimp/interaction/ReducedMass.h>
-#include <chimp/accessors.h>
 #include <chimp/interaction/model/detail/vss_helpers.h>
-#include <chimp/property/mass.h>
 
-#include <olson-tools/power.h>
-#include <olson-tools/Vector.h>
-#include <olson-tools/xml/Doc.h>
-#include <olson-tools/random/random.h>
+#include <xylose/power.h>
+#include <xylose/Vector.h>
+#include <xylose/xml/Doc.h>
 
 #include <string>
 #include <vector>
@@ -54,11 +54,12 @@ namespace chimp {
       struct VSSElastic : Base<options> {
         /* TYPEDEFS */
         typedef typename options::Particle Particle;
-
         typedef property::mass mass;
+
 
         /* STATIC STORAGE */
         static const std::string label;
+
 
         /* MEMBER STORAGE */
         /** Reduced mass related ratios. */
@@ -110,10 +111,9 @@ namespace chimp {
 
         /** Binary elastic collision of VHS and VSS models. */
         void interact( Particle & part1, Particle & part2 ) {
-          using olson_tools::SQR;
-          using olson_tools::fast_pow;
-          using olson_tools::Vector;
-          using olson_tools::random::MTRNGrand;
+          using xylose::SQR;
+          using xylose::fast_pow;
+          using xylose::Vector;
           using chimp::accessors::particle::velocity;
           using chimp::accessors::particle::setVelocity;
 
@@ -137,10 +137,10 @@ namespace chimp {
           double SpeedRel = VelRelPre.abs();
 
           // use the VSS logic
-          double B = 2.0 * fast_pow( MTRNGrand(), vss_param_inv ) - 1.0;
+          double B = 2.0 * fast_pow( global_rng.rand(), vss_param_inv ) - 1.0;
           // B is the cosine of the deflection angle for the VSS model (eqn (11.8)
           double A = std::sqrt( 1.0 - B*B);
-          double C = 2.0 * M_PI * MTRNGrand();
+          double C = 2.0 * M_PI * global_rng.rand();
           double COSC = std::cos(C);
           double SINC = std::sin(C);
           double D = std::sqrt( SQR(VelRelPre[Y]) + SQR(VelRelPre[Z]) );

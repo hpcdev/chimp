@@ -28,7 +28,7 @@
 #ifndef chimp_interaction_filter_Base_h
 #define chimp_interaction_filter_Base_h
 
-#include <olson-tools/xml/Doc.h>
+#include <xylose/xml/Doc.h>
 
 #include <string>
 
@@ -36,7 +36,7 @@ namespace chimp {
   namespace interaction {
 
     namespace filter {
-      namespace xml = olson_tools::xml;
+      namespace xml = xylose::xml;
 
       typedef xml::Context::set set;
 

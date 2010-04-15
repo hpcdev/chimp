@@ -43,7 +43,7 @@ BOOST_AUTO_TEST_SUITE( And_tests ); // {
     And f( shared_ptr<EqIO>(new EqIO(EqIO::IN,  "e^-", "Hg")),
            shared_ptr<EqIO>(new EqIO(EqIO::OUT, "e^-", "Hg(6-3P0)")) );
 
-    namespace xml = olson_tools::xml;
+    namespace xml = xylose::xml;
     xml::Doc xmlDb(PARTICLEDB_XML);
 
     typedef xml::Context::set set;

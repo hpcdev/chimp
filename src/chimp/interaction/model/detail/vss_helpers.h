@@ -28,10 +28,10 @@
 #ifndef chimp_interaction_model_detail_vss_helpers_h
 #define chimp_interaction_model_detail_vss_helpers_h
 
-#include <olson-tools/xml/Doc.h>
+#include <xylose/xml/Doc.h>
 
 namespace chimp {
-  namespace xml = olson_tools::xml;
+  namespace xml = xylose::xml;
 
   namespace interaction {
     namespace model {

@@ -24,8 +24,8 @@
 #ifndef chimp_examples_simtest_sortSpecies_h
 #define chimp_examples_simtest_sortSpecies_h
 
-#include <olson-tools/nsort/NSort.h>
-#include <olson-tools/nsort/map/species_only.h>
+#include <xylose/nsort/NSort.h>
+#include <xylose/nsort/map/species_only.h>
 
 #include <cassert>
 
@@ -45,7 +45,7 @@ namespace simtest {
     assert( sranges.size() > 0 );
 
     // Create species sorter
-    namespace nsort = olson_tools::nsort;
+    namespace nsort = xylose::nsort;
     nsort::NSort< nsort::map::species_only > s( sranges.size() );
 
     // execute sort

@@ -36,9 +36,9 @@
 #include <chimp/interaction/cross_section/Base.h>
 #include <chimp/interaction/Equation.h>
 
-#include <olson-tools/xml/Doc.h>
-#include <olson-tools/xml/vector_parse.h>
-#include <olson-tools/power.h>
+#include <xylose/xml/Doc.h>
+#include <xylose/xml/vector_parse.h>
+#include <xylose/power.h>
 
 #include <boost/math/tools/roots.hpp>
 
@@ -48,7 +48,7 @@
 #include <stdexcept>
 
 namespace chimp {
-  namespace xml = olson_tools::xml;
+  namespace xml = xylose::xml;
 
   namespace interaction {
     namespace cross_section {
@@ -186,7 +186,7 @@ namespace chimp {
           for ( CIter i = parameters.begin(); i != end; ++i ) {
             using std::log;
             using std::exp;
-            using olson_tools::SQR;
+            using xylose::SQR;
             Parameters const & p = *i;
             const double v2Beta = v2 * p.beta;
             sigma += p.a * p.q

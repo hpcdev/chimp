@@ -235,7 +235,7 @@ namespace chimp {
   inline void RuntimeDB<T>::addParticleType(const Properties & prop) {
     using property::name;
     const std::string & n = prop.name::value;
-    using olson_tools::logger::log_warning;
+    using xylose::logger::log_warning;
 
     /* See if this particle species has already been
      * loaded into the database (we don't want any duplicates). */

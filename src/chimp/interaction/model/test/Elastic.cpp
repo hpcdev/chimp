@@ -31,11 +31,10 @@
 #include <chimp/interaction/Term.h>
 #include <chimp/interaction/Input.h>
 #include <chimp/interaction/Particle.h>
+#include <chimp/interaction/global_rng.h>
 #include <chimp/interaction/ReducedMass.h>
 #include <chimp/interaction/model/Elastic.h>
 #include <chimp/interaction/model/test/diagnostics.h>
-
-#include <olson-tools/random/random.h>
 
 #include <boost/shared_ptr.hpp>
 #include <boost/test/unit_test.hpp>
@@ -49,9 +48,9 @@ namespace {
   using chimp::interaction::Particle;
   using chimp::interaction::Term;
   namespace test = chimp::interaction::model::test;
-  using olson_tools::V3;
-  using olson_tools::Vector;
-  namespace xml = olson_tools::xml;
+  using xylose::V3;
+  using xylose::Vector;
+  namespace xml = xylose::xml;
 }
 
 BOOST_AUTO_TEST_SUITE( Elastic_tests ); // {
@@ -61,10 +60,9 @@ BOOST_AUTO_TEST_SUITE( Elastic_tests ); // {
     DB db;
     db.addParticleType("87Rb");
     int part_i = db.findParticleIndx("87Rb");
-    uint32 seed = 1;
-    olson_tools::random::MTRNGseedV1(&seed);
 
     typedef chimp::interaction::model::Elastic<DB::options> Elastic;
+    chimp::interaction::global_rng.seed(1u);
     Term t0(part_i);
     chimp::interaction::Equation<DB::options> eq;
     eq.A = eq.B = t0;

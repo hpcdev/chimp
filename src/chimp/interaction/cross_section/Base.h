@@ -28,7 +28,7 @@
 #ifndef chimp_interaction_cross_section_Base_h
 #define chimp_interaction_cross_section_Base_h
 
-#include <olson-tools/xml/Doc.h>
+#include <xylose/xml/Doc.h>
 
 #include <physical/physical.h>
 
@@ -39,7 +39,7 @@
 namespace chimp {
   template < typename T > class RuntimeDB;
 
-  namespace xml = olson_tools::xml;
+  namespace xml = xylose::xml;
 
   namespace interaction {
 

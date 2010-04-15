@@ -32,14 +32,14 @@
 #ifndef chimp_interaction_cross_section_detail_LotzDetails_h
 #define chimp_interaction_cross_section_detail_LotzDetails_h
 
-#include <olson-tools/xml/Doc.h>
-#include <olson-tools/power.h>
+#include <xylose/xml/Doc.h>
+#include <xylose/power.h>
 
 #include <ostream>
 #include <cmath>
 
 namespace chimp {
-  namespace xml = olson_tools::xml;
+  namespace xml = xylose::xml;
 
   namespace interaction {
     namespace cross_section {
@@ -106,7 +106,7 @@ namespace chimp {
             for ( CIter i = lotz.parameters.begin(); i != end; ++i ) {
               using std::log;
               using std::exp;
-              using olson_tools::SQR;
+              using xylose::SQR;
               typename LotzT::Parameters const & p = *i;
               const double v2Beta = v2 * p.beta;
               double ln_v2Beta = log( v2Beta );

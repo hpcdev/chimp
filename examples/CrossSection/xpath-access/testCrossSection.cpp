@@ -34,7 +34,7 @@
 #include <fstream>
 #include <stdexcept>
 
-namespace xml = olson_tools::xml;
+namespace xml = xylose::xml;
 using namespace physical::elements;
 namespace XS = chimp::interaction::cross_section;
 using physical::system::si;

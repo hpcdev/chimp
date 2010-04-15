@@ -31,7 +31,7 @@
 #ifndef chimp_interaction_cross_section_detail_VHSInfo_h
 #define chimp_interaction_cross_section_detail_VHSInfo_h
 
-#include <olson-tools/xml/Doc.h>
+#include <xylose/xml/Doc.h>
 
 #include <ostream>
 #include <cmath>
@@ -49,7 +49,7 @@ inline double tgamma(double x) {
 
 namespace chimp {
   namespace interaction {
-    namespace xml = olson_tools::xml;
+    namespace xml = xylose::xml;
     namespace cross_section {
       namespace detail {
 

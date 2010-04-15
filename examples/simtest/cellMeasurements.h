@@ -28,8 +28,8 @@
 
 #include <chimp/accessors.h>
 
-#include <olson-tools/Vector.h>
-#include <olson-tools/power.h>
+#include <xylose/Vector.h>
+#include <xylose/power.h>
 
 #include <cassert>
 

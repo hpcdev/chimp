@@ -28,7 +28,7 @@
 #include <cmath>
 
 namespace chimp {
-  namespace xml = olson_tools::xml;
+  namespace xml = xylose::xml;
 
   namespace interaction {
     namespace cross_section {

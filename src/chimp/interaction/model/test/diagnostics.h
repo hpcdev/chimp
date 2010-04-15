@@ -28,21 +28,21 @@
 #include <chimp/property/mass.h>
 #include <chimp/accessors.h>
 
-#include <olson-tools/power.h>
-#include <olson-tools/Vector.h>
+#include <xylose/power.h>
+#include <xylose/Vector.h>
 
 namespace chimp {
   namespace interaction {
     namespace model {
       namespace test {
-        using olson_tools::Vector;
+        using xylose::Vector;
 
         /** Calculate the energy of a particle. */
         template < typename Particle, typename RnDB  >
         inline double energy( const Particle & p,
                               const int & part_i,
                               const RnDB & db ) {
-          using olson_tools::SQR;
+          using xylose::SQR;
           using chimp::accessors::particle::velocity;
           using chimp::accessors::particle::weight;
           const typename RnDB::options::Properties & prop = db[part_i];

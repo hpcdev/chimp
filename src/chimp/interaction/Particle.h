@@ -48,16 +48,16 @@
 #define chimp_interaction_Particle_h
 
 #  include <chimp/accessors.h>
+#  include <chimp/interaction/global_rng.h>
 
-#  include <olson-tools/random/random.h>
-#  include <olson-tools/Vector.h>
+#  include <xylose/Vector.h>
 
 #  include <ostream>
 
 
 namespace chimp {
   namespace interaction {
-    using olson_tools::Vector;
+    using xylose::Vector;
 
     /** Just some class to represent particles to sort. */
     struct Particle {
@@ -74,6 +74,7 @@ namespace chimp {
       /** Representative particle weight. */
       float weight;
 
+
       /* MEMBER FUNCTIONS */
       Particle( const Vector<double,3> & x = 0.0,
                 const Vector<double,3> & v = 0.0,
@@ -89,15 +90,14 @@ namespace chimp {
     inline Particle & randomize( Particle & p,
                            const Vector<double,3> & dx = 100,
                            const Vector<double,3> & dv = 100 ) {
-      using olson_tools::random::MTRNGrand;
       /* random values */
-      p.x[0] = dx[0] * ( MTRNGrand() - .5 );
-      p.x[1] = dx[1] * ( MTRNGrand() - .5 );
-      p.x[2] = dx[2] * ( MTRNGrand() - .5 );
+      p.x[0] = dx[0] * ( global_rng.rand() - .5 );
+      p.x[1] = dx[1] * ( global_rng.rand() - .5 );
+      p.x[2] = dx[2] * ( global_rng.rand() - .5 );
     
-      p.v[0] = dv[0] * ( MTRNGrand() - .5 );
-      p.v[1] = dv[1] * ( MTRNGrand() - .5 );
-      p.v[2] = dv[2] * ( MTRNGrand() - .5 );
+      p.v[0] = dv[0] * ( global_rng.rand() - .5 );
+      p.v[1] = dv[1] * ( global_rng.rand() - .5 );
+      p.v[2] = dv[2] * ( global_rng.rand() - .5 );
 
       return p;
     }

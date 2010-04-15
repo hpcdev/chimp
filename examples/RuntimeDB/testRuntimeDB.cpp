@@ -28,9 +28,9 @@
 #include <chimp/interaction/filter/Label.h>
 #include <chimp/interaction/v_rel_fnc.h>
 
-#include <olson-tools/upper_triangle.h>
-#include <olson-tools/distribution/Inverter.h>
-#include <olson-tools/distribution/Gaussian.h>
+#include <xylose/upper_triangle.h>
+#include <xylose/distribution/Inverter.h>
+#include <xylose/distribution/Gaussian.h>
 
 #include <physical/physical.h>
 
@@ -78,11 +78,11 @@ int main() {
    * use of the chimp library and information that would typically be required
    * per cell in a gridded type of simulation. */
   /** velocity distributions. */
-  std::vector< olson_tools::distribution::Inverter > velocity;
+  std::vector< xylose::distribution::Inverter<> > velocity;
   /** max(sigma * v_rel). */
-  olson_tools::upper_triangle<double> maxSigmaVelProduct;
+  xylose::upper_triangle<double> maxSigmaVelProduct;
   {
-    namespace dist = olson_tools::distribution;
+    namespace dist = xylose::distribution;
     using dist::Inverter;
     using dist::Gaussian;
     typedef DB::PropertiesVector::const_iterator PIter;
@@ -97,7 +97,7 @@ int main() {
        * temperature. */
       double beta = 0.5 * i->mass::value / (K_B * temperature);
       double sigma = std::sqrt( 0.5 / beta );
-      velocity.push_back( Inverter( Gaussian(beta), -4*sigma, 4*sigma ) );
+      velocity.push_back( Inverter<>( Gaussian(beta), -4*sigma, 4*sigma ) );
 
       /* now set cross species data for i */
       for ( PIter j  = i; j != end; ++j ) {

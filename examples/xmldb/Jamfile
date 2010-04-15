@@ -8,7 +8,7 @@ echo "" ;
 path-constant PARTICLEDB_XML : $(EXAMPLES_TOP)/../data/particledb.xml ;
 
 exe testXML
-    : $(EXAMPLES_TOP)/../../olson-tools/examples/xml/testXML.cpp
-      /olson-tools//xml
+    : $(EXAMPLES_TOP)/../../xylose/examples/xml/testXML.cpp
+      /xylose//xml /physical//calc
     : <define>XML_FILENAME=\\\"$(PARTICLEDB_XML)\\\"
     ;

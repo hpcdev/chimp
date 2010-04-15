@@ -33,8 +33,8 @@
 #include <chimp/interaction/Equation.h>
 #include <chimp/interaction/ReducedMass.h>
 
-#include <olson-tools/power.h>
-#include <olson-tools/xml/Doc.h>
+#include <xylose/power.h>
+#include <xylose/xml/Doc.h>
 
 #include <physical/physical.h>
 
@@ -42,7 +42,7 @@
 #include <limits>
 
 namespace chimp {
-  namespace xml = olson_tools::xml;
+  namespace xml = xylose::xml;
 
   namespace interaction {
     namespace cross_section {
@@ -94,8 +94,8 @@ namespace chimp {
          * */
         inline virtual double operator() (const double & v_relative) const {
           using physical::constant::si::K_B;
-          using olson_tools::SQR;
-          using olson_tools::fast_pow;
+          using xylose::SQR;
+          using xylose::fast_pow;
 
           /* the collision cross-section is based on eqn (4.63) for VHS model.
            * NOTE that we are guarding against (1/0).

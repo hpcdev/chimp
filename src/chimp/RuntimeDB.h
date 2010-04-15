@@ -112,9 +112,9 @@
 #  include <chimp/property/name.h>
 #  include <chimp/property/Comparator.h>
 
-#  include <olson-tools/logger.h>
-#  include <olson-tools/upper_triangle.h>
-#  include <olson-tools/xml/Doc.h>
+#  include <xylose/logger.h>
+#  include <xylose/upper_triangle.h>
+#  include <xylose/xml/Doc.h>
 
 #  include <math.h>
 #  include <ostream>
@@ -130,7 +130,7 @@
 namespace chimp {
 
   using boost::shared_ptr;
-  namespace xml = olson_tools::xml;
+  namespace xml = xylose::xml;
 
 
   /** Runtime database of properties pertinent to the current simulation.
@@ -177,9 +177,9 @@ namespace chimp {
     /** Data type for the Interaction table.  This is really just a wrapper
      * around the std::vector class such that using operator()(i,j) works easily
      * and correctly. */
-    typedef olson_tools::upper_triangle<
+    typedef xylose::upper_triangle<
       Set,
-      olson_tools::SymmetryFix
+      xylose::SymmetryFix
     > InteractionTable;
 
     /** Vector type used to store all loaded particle properties. */

@@ -26,11 +26,11 @@
 
 #include "Particle.h"
 
-#include <olson-tools/Vector.h>
-#include <olson-tools/IteratorRange.h>
+#include <xylose/Vector.h>
+#include <xylose/IteratorRange.h>
 
 namespace simtest {
-  using olson_tools::Vector;
+  using xylose::Vector;
 
   /** Representative implementation of noce/cell type of information similar to
    * that used in a DSMC simulation.
@@ -39,7 +39,7 @@ namespace simtest {
     /* TYPEDEFS */
   public:
     typedef std::vector<Particle>::iterator ParticleIterator;
-    typedef olson_tools::IteratorRange< ParticleIterator > Range;
+    typedef xylose::IteratorRange< ParticleIterator > Range;
 
     struct SpeciesData {
       Vector<double,3> v_min;/**< Average velocity <v>. */

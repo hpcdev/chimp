@@ -24,7 +24,7 @@
 #define chimp_interaction_selectRandomPair_h
 
 
-#include <olson-tools/random/random.h>
+#include <chimp/interaction/global_rng.h>
 
 namespace chimp {
   namespace interaction {
@@ -36,19 +36,19 @@ namespace chimp {
     >
     selectRandomPair( RandomAccessParticleContainer & Aparticles,
                       RandomAccessParticleContainer & Bparticles ) {
-      using olson_tools::random::MTRNGrand;
       typedef typename RandomAccessParticleContainer::iterator PIter;
       double Asz_m05 = Aparticles.size() * 0.999999;
       double Bsz_m05 = Bparticles.size() * 0.999999;
 
       /* First pick pA */
-      PIter pA = Aparticles.begin() + static_cast<int>( Asz_m05 * MTRNGrand() );
+      PIter pA = Aparticles.begin()
+               + static_cast<int>( Asz_m05 * global_rng.rand() );
       PIter pB = pA;
       PIter Bbegin = Bparticles.begin();
 
       /* now we pick pB */
       while ( pA == pB )
-        pB = Bbegin + static_cast<int>( Bsz_m05 * MTRNGrand() );
+        pB = Bbegin + static_cast<int>( Bsz_m05 * global_rng.rand() );
 
       return std::make_pair(pA, pB);
     }

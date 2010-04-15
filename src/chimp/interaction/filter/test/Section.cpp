@@ -42,7 +42,7 @@ BOOST_AUTO_TEST_SUITE( Section_tests ); // {
 
     Section f;
 
-    namespace xml = olson_tools::xml;
+    namespace xml = xylose::xml;
     xml::Doc xmlDb(PARTICLEDB_XML);
 
     typedef xml::Context::set set;
@@ -59,7 +59,7 @@ BOOST_AUTO_TEST_SUITE( Section_tests ); // {
 
     Section f("unstandard");
 
-    namespace xml = olson_tools::xml;
+    namespace xml = xylose::xml;
     xml::Doc xmlDb(PARTICLEDB_XML);
 
     typedef xml::Context::set set;
@@ -76,7 +76,7 @@ BOOST_AUTO_TEST_SUITE( Section_tests ); // {
 
     Section f("unstandard", Section::REQUIRED);
 
-    namespace xml = olson_tools::xml;
+    namespace xml = xylose::xml;
     xml::Doc xmlDb(PARTICLEDB_XML);
 
     typedef xml::Context::set set;
@@ -98,7 +98,7 @@ BOOST_AUTO_TEST_SUITE( Section_tests ); // {
                SP(new EqIO( EqIO::OUT, "e^-", "Hg") )
              );
 
-    namespace xml = olson_tools::xml;
+    namespace xml = xylose::xml;
     xml::Doc xmlDb(PARTICLEDB_XML);
 
     typedef xml::Context::set set;

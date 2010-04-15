@@ -40,7 +40,7 @@ BOOST_AUTO_TEST_SUITE( Label_tests ); // {
     using boost::shared_ptr;
     Label f( "elastic" );
 
-    namespace xml = olson_tools::xml;
+    namespace xml = xylose::xml;
     xml::Doc xmlDb(PARTICLEDB_XML);
 
     typedef xml::Context::set set;

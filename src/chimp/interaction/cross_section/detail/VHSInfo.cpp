@@ -23,7 +23,7 @@
 
 #include <chimp/interaction/cross_section/detail/VHSInfo.h>
 
-#include <olson-tools/xml/physical_parse.h>
+#include <xylose/xml/physical_parse.h>
 
 namespace chimp {
   namespace interaction {

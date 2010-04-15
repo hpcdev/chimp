@@ -27,7 +27,7 @@
 
 #include <chimp/interaction/cross_section/DATA.h>
 
-#include <olson-tools/xml/physical_parse.h>
+#include <xylose/xml/physical_parse.h>
 
 #include <physical/math.h>
 
@@ -41,7 +41,7 @@ namespace chimp {
       using runtime::physical::unit::s;
       using runtime::physical::unit::kg;
 
-      typedef olson_tools::data_set<Quantity,Quantity> pqdata_set;
+      typedef xylose::data_set<Quantity,Quantity> pqdata_set;
 
       DoubleDataSet loadCrossSectionData( const xml::Context & x,
                                           const ReducedMass & mu ) {

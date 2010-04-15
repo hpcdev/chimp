@@ -29,12 +29,10 @@ Boost.Build:
 
   External libraries required by various components:
     Boost.Regex
-    olson-tools
-        In the future, the components of this all-purpose library will be
-        imported into a more specialized compact library.
+    xylose
     physical
 
-        Each of Boost, olson-tools, physical libraries includes a Boost.Build
+        Each of Boost, xylose, physical libraries includes a Boost.Build
         setup.  Just store these packages in the same directory as the chimp
         package. 
 
@@ -64,9 +62,7 @@ General Install:
 
   External library installations required:
     Boost.Regex
-    olson-tools
-        In the future, the components of this all-purpose library will be
-        imported into a more specialized compact library.
+    xylose
     physical
     libxml2
 

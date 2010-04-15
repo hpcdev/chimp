@@ -29,14 +29,14 @@
 #define chimp_property_size_h
 
 
-#include <olson-tools/xml/Doc.h>
+#include <xylose/xml/Doc.h>
 
 #include <string>
 #include <ostream>
 
 
 namespace chimp {
-  namespace xml = olson_tools::xml;
+  namespace xml = xylose::xml;
 
   namespace property {
 

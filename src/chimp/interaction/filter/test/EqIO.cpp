@@ -58,7 +58,7 @@ BOOST_AUTO_TEST_SUITE( EqIO_tests ); // {
     using chimp::interaction::filter::EqIO;
     EqIO f(EqIO::IN, "e^-", "Hg");
 
-    namespace xml = olson_tools::xml;
+    namespace xml = xylose::xml;
     xml::Doc xmlDb(PARTICLEDB_XML);
 
     typedef xml::Context::set set;
@@ -87,7 +87,7 @@ BOOST_AUTO_TEST_SUITE( EqIO_tests ); // {
     using chimp::interaction::filter::EqIO;
     EqIO f(EqIO::OUT, "e^-", "Hg");
 
-    namespace xml = olson_tools::xml;
+    namespace xml = xylose::xml;
     xml::Doc xmlDb(PARTICLEDB_XML);
 
     typedef xml::Context::set set;

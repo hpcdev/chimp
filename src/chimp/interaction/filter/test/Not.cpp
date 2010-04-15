@@ -52,7 +52,7 @@ BOOST_AUTO_TEST_SUITE( Not_tests ); // {
       SP(new EqIO(EqIO::IN, "e^-", "Kr"))
          );
 
-    namespace xml = olson_tools::xml;
+    namespace xml = xylose::xml;
     xml::Doc xmlDb(PARTICLEDB_XML);
 
     typedef xml::Context::set set;

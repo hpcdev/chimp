@@ -28,16 +28,16 @@
 #ifndef chimp_interaction_model_Elastic_h
 #define chimp_interaction_model_Elastic_h
 
+#include <chimp/accessors.h>
 #include <chimp/interaction/Term.h>
 #include <chimp/interaction/Equation.h>
+#include <chimp/interaction/global_rng.h>
 #include <chimp/interaction/model/Base.h>
 #include <chimp/interaction/ReducedMass.h>
-#include <chimp/accessors.h>
 
-#include <olson-tools/power.h>
-#include <olson-tools/Vector.h>
-#include <olson-tools/xml/Doc.h>
-#include <olson-tools/random/random.h>
+#include <xylose/power.h>
+#include <xylose/Vector.h>
+#include <xylose/xml/Doc.h>
 
 #include <string>
 #include <vector>
@@ -106,11 +106,10 @@ namespace chimp {
 
         /** Binary elastic collision. */
         void interact( Particle & part1, Particle & part2 ) {
-          using olson_tools::SQR;
-          using olson_tools::fast_pow;
-          using olson_tools::Vector;
-          using olson_tools::V3;
-          using olson_tools::random::MTRNGrand;
+          using xylose::SQR;
+          using xylose::fast_pow;
+          using xylose::Vector;
+          using xylose::V3;
           using chimp::accessors::particle::velocity;
           using chimp::accessors::particle::setVelocity;
 
@@ -130,11 +129,11 @@ namespace chimp {
           double SpeedRel = VelRelPre.abs();
 
           // use the VHS logic
-          double B = 2.0 * MTRNGrand() - 1.0;
+          double B = 2.0 * global_rng.rand() - 1.0;
           // B is the cosine of a random elevation angle
           double A = std::sqrt( 1.0 - SQR(B) );
           // C is a random azimuth angle
-          double C = 2.0 * M_PI * MTRNGrand();
+          double C = 2.0 * M_PI * global_rng.rand();
 
           /* relative velocity after collision */
           Vector<double,3> VelRelPost =

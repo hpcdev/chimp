@@ -31,8 +31,8 @@
 #include <chimp/physical_calc.h>
 #include <chimp/make_options.h>
 
-#include <olson-tools/xml/vector_parse.h>
-#include <olson-tools/power.h>
+#include <xylose/xml/vector_parse.h>
+#include <xylose/power.h>
 
 #include <physical/physical.h>
 
@@ -46,7 +46,7 @@
 #endif
 
 namespace {
-  namespace xml = olson_tools::xml;
+  namespace xml = xylose::xml;
 
   using chimp::interaction::cross_section::detail::LotzParameters;
   typedef chimp::interaction::cross_section::Lotz<
@@ -56,7 +56,7 @@ namespace {
   using physical::constant::si::m_e;
   using physical::unit::nm;
 
-  using olson_tools::SQR;
+  using xylose::SQR;
 }
 
 BOOST_AUTO_TEST_SUITE( LotzParameters_test ); // {

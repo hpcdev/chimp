@@ -26,9 +26,9 @@
   const int N_part = 10;
 
 
-using olson_tools::IteratorRange;
-using olson_tools::nsort::NSort;
-namespace map = olson_tools::nsort::map;
+using xylose::IteratorRange;
+using xylose::nsort::NSort;
+namespace map = xylose::nsort::map;
 
   /* ***** BEGIN MAKE PARTICLES AND CELL ***** */
   Particle::list particles;

@@ -61,7 +61,7 @@ constant VERSION : [ SHELL "printf `cd $(TOP); git describe --tags 2> /dev/null`
 
 local xml2-features = [ mpi.cmdline_to_features [ SHELL "printf '%s ' compiler `xml2-config --cflags --libs`" ] ] ;
 
-use-project /olson-tools : ../olson-tools ;
+use-project /xylose : ../xylose ;
 use-project /physical : ../physical ;
 use-project /boost : ../boost ;
 
@@ -70,14 +70,14 @@ path-constant PARTICLEDB_XML : $(TOP)/data/particledb.xml ;
 project /chimp
     : requirements
         <include>src
-        <library>/olson-tools//headers
+        <library>/xylose//headers
         <library>/boost//headers
         $(xml2-features)
         <define>PARTICLEDB_XML=\\\"$(PARTICLEDB_XML)\\\"
         <define>CHIMP_VERSION=\\\"$(VERSION)\\\"
     : usage-requirements
         <include>src
-        <library>/olson-tools//headers
+        <library>/xylose//headers
         <library>/boost//headers
         $(xml2-features)
         <define>PARTICLEDB_XML=\\\"$(PARTICLEDB_XML)\\\"
@@ -88,6 +88,7 @@ alias headers : : : : <include>src ;
 
 lib particledb :
       src/chimp/physical_calc.cpp
+      src/chimp/interaction/global_rng.cpp
       src/chimp/interaction/cross_section/DATA.cpp
       src/chimp/interaction/cross_section/detail/VHSInfo.cpp
       src/chimp/interaction/cross_section/detail/LotzDetails.cpp
@@ -97,8 +98,7 @@ lib particledb :
     : # no default build
     : <library>/boost//regex/<link>static
       <library>/physical//calc
-      <library>/olson-tools//misc
-      <library>/olson-tools//random
+      <library>/xylose//xylose
     ;
 
 # installation configuration

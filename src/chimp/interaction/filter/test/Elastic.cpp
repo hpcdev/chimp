@@ -40,7 +40,7 @@ BOOST_AUTO_TEST_SUITE( Elastic_tests ); // {
     using chimp::interaction::filter::isElastic;
     Elastic f;
 
-    namespace xml = olson_tools::xml;
+    namespace xml = xylose::xml;
     xml::Doc xmlDb(PARTICLEDB_XML);
 
     typedef xml::Context::set set;

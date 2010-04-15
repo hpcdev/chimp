@@ -33,21 +33,21 @@
 #include <chimp/interaction/Equation.h>
 #include <chimp/interaction/ReducedMass.h>
 
-#include <olson-tools/xml/Doc.h>
-#include <olson-tools/data_set.h>
-#include <olson-tools/power.h>
+#include <xylose/xml/Doc.h>
+#include <xylose/data_set.h>
+#include <xylose/power.h>
 
 #include <map>
 #include <stdexcept>
 #include <ostream>
 
 namespace chimp {
-  namespace xml = olson_tools::xml;
+  namespace xml = xylose::xml;
 
   namespace interaction {
     namespace cross_section {
 
-      typedef olson_tools::data_set<double,double> DoubleDataSet;
+      typedef xylose::data_set<double,double> DoubleDataSet;
 
       /** Load a cross section data set from an appropriate xml::Context after
        * converting the x-axis into velocity and the y axis into cross section,
@@ -66,7 +66,7 @@ namespace chimp {
        * \todo get the scaling right.
        * for right now, this is an arbitrary scaling.
        */
-      const double lne_e_scaling = olson_tools::SQR(2500.0/3e8);
+      const double lne_e_scaling = xylose::SQR(2500.0/3e8);
 
       /** Emperical data cross section provider.
        * @tparam options
@@ -111,7 +111,7 @@ namespace chimp {
          *     The relative velocity between two particles.
          * */
         inline virtual double operator() (const double & v_relative) const {
-          using olson_tools::SQR;
+          using xylose::SQR;
 
           /* find the first entry not less that v_relative */
           DoubleDataSet::const_iterator i = table.lower_bound(v_relative);
