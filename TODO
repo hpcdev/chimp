@@ -181,3 +181,9 @@ DONE
 18. Make a new cross-section model that automatically creates a cross-species
     cross section from single-species cross section data, provided that the
     cross-species data does not already exist in the database.
+
+19. Add ability to perform variation on properties based on measured,
+    estimated... uncertainty.
+
+20. Create a way for the database to be extended (sections to be added) at
+    runtime, without the need to edit the root and/or distributed xml files.
