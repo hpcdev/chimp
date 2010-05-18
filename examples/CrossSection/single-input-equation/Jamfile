@@ -1,1 +1,2 @@
 exe getCrossSection : getCrossSection.cpp /chimp//particledb ;
+install convenient-copy : getCrossSection : <location>. ;

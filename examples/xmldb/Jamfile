@@ -12,3 +12,5 @@ exe testXML
       /xylose//xml /physical//calc
     : <define>XML_FILENAME=\\\"$(PARTICLEDB_XML)\\\"
     ;
+
+install convenient-copy : testXML : <location>. ;

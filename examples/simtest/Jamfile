@@ -1,1 +1,2 @@
 exe simtest : main.cpp /chimp//particledb ;
+install convenient-copy : simtest : <location>. ;

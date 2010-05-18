@@ -1,1 +1,2 @@
 exe getProperties : getProperties.cpp /chimp//particledb ;
+install convenient-copy : getProperties : <location>. ;

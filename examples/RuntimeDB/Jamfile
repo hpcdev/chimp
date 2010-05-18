@@ -1,1 +1,2 @@
 exe testRuntimeDB : testRuntimeDB.cpp /chimp//particledb ;
+install convenient-copy : testRuntimeDB : <location>. ;
