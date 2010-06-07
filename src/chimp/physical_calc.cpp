@@ -26,7 +26,7 @@
 #include <physical/calc/Driver.h>
 
 namespace chimp {
-  void prepareCalculator(const xml::Doc & doc) {
+  void prepareCalculator( const xml::Doc & doc ) {
     /* prepare infix units calculator. */
     using runtime::physical::calc::Driver;
     using runtime::physical::calc::symbol;
@@ -36,8 +36,18 @@ namespace chimp {
     calc.symbols.clear();
     calc.addMathLib();
     calc.addPhysicalUnits();
+    execCalcCommands( doc );
+  }
+
+  void execCalcCommands( const xml::Doc & doc, std::string section ) {
+    /* prepare infix units calculator. */
+    using runtime::physical::calc::Driver;
+    Driver & calc = Driver::instance();
   
-    xml::Context::list xl = doc.eval("//calc-commands/command");
+    if ( section[ section.length() - 1 ] != '/' )
+      section += "/";
+  
+    xml::Context::list xl = doc.eval(section + "calc-commands/command");
     for ( xml::Context::list::iterator i  = xl.begin(),
                                      end  = xl.end();
                                        i != end; ++i ) {

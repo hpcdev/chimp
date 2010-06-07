@@ -313,6 +313,17 @@ namespace chimp {
   }
 
 
+  template < typename T >
+  inline void RuntimeDB<T>::addXMLData( const std::string & filename ) {
+    xml::Doc otherDoc(filename);
+    execCalcCommands( otherDoc );
+    xmlDb.root_context.extend( otherDoc.root_context );
+  }
+
+
+
+
+
   template < typename LHSCtxs >
   inline std::set<std::string> findAllRHSParticles( const LHSCtxs & lhs_ctxs ) {
     std::set<std::string> retval;

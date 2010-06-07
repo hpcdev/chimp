@@ -235,6 +235,9 @@ namespace chimp {
      */
     RuntimeDB(const std::string & xml_doc = PARTICLEDB_XML);
 
+    /** Add XML section data into the already loaded CHIMP XML data set. */
+    inline void addXMLData( const std::string & filename );
+
     /** Loads the particle information for the given particle name into the
      * runtime database.  Note that only the information relevant to the
      * templated Properties class will get loaded. 

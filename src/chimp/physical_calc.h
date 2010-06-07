@@ -29,6 +29,8 @@
 
 #include <xylose/xml/Doc.h>
 
+#include <string>
+
 namespace chimp {
   namespace xml = xylose::xml;
 
@@ -37,7 +39,14 @@ namespace chimp {
    * This function is used inside the RuntimeDB class after the xml data set is
    * opened.  Generally, an end user does not need to use this function. 
    */
-  void prepareCalculator(const xml::Doc & doc);
+  void prepareCalculator( const xml::Doc & doc );
+
+  /** Continue preparing the units calculator by executing commands stored in
+   * the calc-command subsections of the xml file for the given section.
+   * This function is used inside the RuntimeDB class after the xml data set is
+   * opened.  Generally, an end user does not need to use this function. 
+   */
+  void execCalcCommands( const xml::Doc & doc, std::string section = "//" );
 } /* namespace chimp */
 
 #endif // chimp_physical_calc_h
