@@ -32,7 +32,7 @@
 namespace simtest {
 
   /** Sort only the species in this cell.  It is necessary to have all the
-   * species sorted and the types vector set correctly in order to use the
+   * species sorted and the species vector set correctly in order to use the
    * interaction stuff correctly.  This is because we will be randomly selecting
    * pairs with specific species values.  This function is nearly a duplicate of
    * the octree::Octree::sortOnlyTypes function of the /dsmc//octree library. 

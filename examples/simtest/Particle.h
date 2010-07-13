@@ -58,6 +58,17 @@ namespace simtest {
 
   using chimp::accessors::particle::species; // import generic accessor for species
 
+  /** Particle weight is always 1.0. Const version must exist... */
+  static inline float weight( const Particle & p ) {
+    return 1.0f;
+  }
+
+
+  /** Particle weight is always 1.0. Non-Const version must exist... */
+  static inline float weight( Particle & p ) {
+    return 1.0f;
+  }
+
 
   std::ostream & operator<< (std::ostream & out, const Particle & p) {
     return out << "{x: (" << p.x[0] << ", " << p.x[1] << ", " << p.x[2] << "), "

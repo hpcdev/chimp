@@ -33,7 +33,6 @@
 #include <chimp/interaction/Term.h>
 #include <chimp/interaction/Equation.h>
 #include <chimp/interaction/model/Base.h>
-#include <chimp/interaction/global_rng.h>
 #include <chimp/interaction/ReducedMass.h>
 #include <chimp/interaction/model/detail/vss_helpers.h>
 
@@ -92,25 +91,28 @@ namespace chimp {
         /** Two-body collision interface.  const particle version. */
         virtual void interact( const Particle & part1,
                                const Particle & part2,
-                               std::vector< Particle > & products ) {
+                               std::vector< Particle > & products,
+                               typename options::RNG & rng ) {
           products.reserve( products.size() + 2u );
           products.push_back( part1 );
           products.push_back( part2 );
 
           typename std::vector< Particle >::reverse_iterator rbeg
             = products.rbegin();
-          interact( *(rbeg+1), *rbeg );
+          interact( *(rbeg+1), *rbeg, rng );
         }
 
         /** Two-body collision interface.  in-place operation version */
         virtual void interact( Particle & part1,
                                Particle & part2,
-                               std::vector< Particle > & products ) {
-          interact( part1, part2 );
+                               std::vector< Particle > & products,
+                               typename options::RNG & rng ) {
+          interact( part1, part2, rng );
         }
 
         /** Binary elastic collision of VHS and VSS models. */
-        void interact( Particle & part1, Particle & part2 ) {
+        void interact( Particle & part1, Particle & part2,
+                       typename options::RNG & rng ) {
           using xylose::SQR;
           using xylose::fast_pow;
           using xylose::Vector;
@@ -137,10 +139,10 @@ namespace chimp {
           double SpeedRel = VelRelPre.abs();
 
           // use the VSS logic
-          double B = 2.0 * fast_pow( global_rng.rand(), vss_param_inv ) - 1.0;
+          double B = 2.0 * fast_pow( rng.rand(), vss_param_inv ) - 1.0;
           // B is the cosine of the deflection angle for the VSS model (eqn (11.8)
           double A = std::sqrt( 1.0 - B*B);
-          double C = 2.0 * M_PI * global_rng.rand();
+          double C = 2.0 * M_PI * rng.rand();
           double COSC = std::cos(C);
           double SINC = std::sin(C);
           double D = std::sqrt( SQR(VelRelPre[Y]) + SQR(VelRelPre[Z]) );

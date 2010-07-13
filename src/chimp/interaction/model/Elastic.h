@@ -31,7 +31,6 @@
 #include <chimp/accessors.h>
 #include <chimp/interaction/Term.h>
 #include <chimp/interaction/Equation.h>
-#include <chimp/interaction/global_rng.h>
 #include <chimp/interaction/model/Base.h>
 #include <chimp/interaction/ReducedMass.h>
 
@@ -87,25 +86,28 @@ namespace chimp {
         /** Two-body collision interface.  const particle version. */
         virtual void interact( const Particle & part1,
                                const Particle & part2,
-                               std::vector< Particle > & products )  {
+                               std::vector< Particle > & products,
+                               typename options::RNG & rng )  {
           products.reserve( products.size() + 2u );
           products.push_back( part1 );
           products.push_back( part2 );
 
           typename std::vector< Particle >::reverse_iterator rbeg
             = products.rbegin();
-          interact( *(rbeg+1), *rbeg );
+          interact( *(rbeg+1), *rbeg, rng );
         }
 
         /** Two-body collision interface.  in-place operation version */
         virtual void interact( Particle & part1,
                                Particle & part2,
-                               std::vector< Particle > & products )  {
-          interact( part1, part2 );
+                               std::vector< Particle > & products,
+                               typename options::RNG & rng )  {
+          interact( part1, part2, rng );
         }
 
         /** Binary elastic collision. */
-        void interact( Particle & part1, Particle & part2 ) {
+        void interact( Particle & part1, Particle & part2,
+                       typename options::RNG & rng ) {
           using xylose::SQR;
           using xylose::fast_pow;
           using xylose::Vector;
@@ -129,11 +131,11 @@ namespace chimp {
           double SpeedRel = VelRelPre.abs();
 
           // use the VHS logic
-          double B = 2.0 * global_rng.rand() - 1.0;
+          double B = 2.0 * rng.rand() - 1.0;
           // B is the cosine of a random elevation angle
           double A = std::sqrt( 1.0 - SQR(B) );
           // C is a random azimuth angle
-          double C = 2.0 * M_PI * global_rng.rand();
+          double C = 2.0 * M_PI * rng.rand();
 
           /* relative velocity after collision */
           Vector<double,3> VelRelPost =

@@ -40,14 +40,14 @@ namespace simtest {
   void doCellMeasurements( Cell & cell, const RnDB & db ) {
     using chimp::accessors::particle::velocity; // generic accessor for velocity
 
-    const int n = cell.types.size();
-    assert( cell.types.size() > 0 );
-    assert( cell.types.size() == cell.data.size() );
+    const int n = cell.species.size();
+    assert( cell.species.size() > 0 );
+    assert( cell.species.size() == cell.data.size() );
 
     /* measure the single species data:  v_max, v_min. */
     for ( int i = 0; i < n; ++i ) {
-      Cell::ParticleIterator pi   = cell.types[i].begin();
-      Cell::ParticleIterator pend = cell.types[i].end();
+      Cell::ParticleIterator pi   = cell.species[i].begin();
+      Cell::ParticleIterator pend = cell.species[i].end();
 
       /* velocity moments of the distribution */
       Vector<double,3> & v_min = cell.data[i].v_min,

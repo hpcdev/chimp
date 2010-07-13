@@ -31,6 +31,8 @@
 #include <chimp/interaction/Particle.h>
 #include <chimp/property/DefaultSet.h>
 
+#include <xylose/random/Kiss.hpp>
+
 namespace chimp {
 
   /** Metafunction to generate the chimp::options class.
@@ -87,11 +89,17 @@ namespace chimp {
    *   This changes the interface on interaction::model::Base slightly by having
    *   arguments as either const references or modifiable references.
    *   [Default: true]
+   *
+   * @tparam _RNG
+   *   The type of random number generator that the interaction models will
+   *   accept.
+   *   [Default:  xylose::random::Kiss]
    * */
   template <
-    typename _Particle   = chimp::interaction::Particle,
-    typename _Properties = chimp::property::DefaultSet,
-    bool _inplace_interactions = true
+    typename _Particle          = chimp::interaction::Particle,
+    typename _Properties        = chimp::property::DefaultSet,
+    bool _inplace_interactions  = true,
+    typename _RNG               = xylose::random::Kiss
   >
   struct make_options {
     /** The result of the chimp::make_options template metafunction. */
@@ -110,13 +118,17 @@ namespace chimp {
        * particle for three body interactions. */
       static const bool inplace_interactions = _inplace_interactions;
 
+      /** Random number generator type allowed/used by interaction models. */
+      typedef _RNG RNG;
+
       /** Set options with the given Particle type. */
       template < typename T >
       struct setParticle {
         typedef typename make_options<
           T,
           Properties,
-          inplace_interactions
+          inplace_interactions,
+          RNG
         >::type type;
       };/* setParticle */
 
@@ -126,7 +138,8 @@ namespace chimp {
         typedef typename make_options<
           Particle,
           T,
-          inplace_interactions
+          inplace_interactions,
+          RNG
         >::type type;
       };/* setProperties */
 
@@ -136,7 +149,19 @@ namespace chimp {
         typedef typename make_options<
           Particle,
           Properties,
-          B
+          B,
+          RNG
+        >::type type;
+      };/* setProperties */
+
+      /** Set options with the given Particle type. */
+      template < typename T >
+      struct setRNG {
+        typedef typename make_options<
+          Particle,
+          Properties,
+          inplace_interactions,
+          T
         >::type type;
       };/* setProperties */
     };/* struct type */

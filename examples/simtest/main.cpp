@@ -28,9 +28,12 @@
 #include "cellMeasurements.h"
 
 #include <chimp/RuntimeDB.h>
+#include <chimp/interaction/Driver.h>
 #include <chimp/interaction/filter/Or.h>
 #include <chimp/interaction/filter/Elastic.h>
 #include <chimp/interaction/filter/Label.h>
+
+#include <xylose/random/Kiss.hpp>
 
 #include <physical/physical.h>
 
@@ -48,7 +51,10 @@ using physical::unit::K;
 static const double nm2 = nm*nm;
 
 typedef chimp::make_options<>::type
-  ::setParticle< simtest::Particle >::type options;
+  ::setParticle< simtest::Particle >::type
+  ::setInplaceInteractions<false>::type options;
+
+typedef xylose::random::Kiss RNG;
 
 const int n_particles = 100;
 
@@ -58,6 +64,8 @@ int main() {
   typedef chimp::RuntimeDB< options > DB;
 
   DB db;
+
+  RNG rng;
 
   /* load information from XML file. */
   db.addParticleType("87Rb");
@@ -82,10 +90,10 @@ int main() {
   createRandomParticles( particles , n_particles, 300*K, db );
 
   /* Create the mock cell*/
-  Cell cell( particles.begin(), particles.end(), db.getProps().size() );
+  Cell cell( particles.begin(), particles.end(), db.getProps().size(),1/*m^3*/);
 
   /* sort and perform statistical measurements. */
-  sortBySpecies( particles.begin(), particles.end(), cell.types );
+  sortBySpecies( particles.begin(), particles.end(), cell.species );
   doCellMeasurements( cell, db );
 
   /* spit out known interactions and attempt execution */
@@ -93,13 +101,13 @@ int main() {
                "known to the runtime database:\n";
   std::vector< simtest::Particle > result_list;
   // FIXME:  Finish the implementation of the collision driver
-  //CollisionsDriver<>()(
-  //  cell.types.begin(),
-  //  cell.types.end(),
-  //  result_list,
-  //  cell,
-  //  db
-  //);
+  chimp::interaction::Driver<>()(
+    1e-3 /* s */,
+    cell,
+    db,
+    result_list,
+    rng
+  );
 
   /* lets print out some statistics. */
   // FIXME:  where are we going to get these said statistics???

@@ -62,16 +62,16 @@ namespace map = xylose::nsort::map;
 
 
 
-  /* add particles and sort by type */
+  /* add particles and sort by species */
   cell.particles = IteratorRange<Particle::list::iterator>(particles.begin(), particles.end());
   cell.sort_types(db.getProps().size());
-  std::cout << "\nsorted by nsort(type):\n";
+  std::cout << "\nsorted by nsort(species):\n";
   std::copy(cell.particles.begin(), cell.particles.end(), std::ostream_iterator<Particle>(std::cout, "\n"));
   std::cout << std::endl;
 
 
-  std::cout << "\tall particles of type(2):\n";
-  std::copy(cell.types[2].begin(), cell.types[2].end(), std::ostream_iterator<Particle>(std::cout, "\n"));
+  std::cout << "\tall particles of species(2):\n";
+  std::copy(cell.species[2].begin(), cell.species[2].end(), std::ostream_iterator<Particle>(std::cout, "\n"));
   std::cout << std::endl;
 
 

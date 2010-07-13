@@ -32,14 +32,14 @@
 namespace simtest {
   using xylose::Vector;
 
-  /** Representative implementation of noce/cell type of information similar to
+  /** Representative implementation of node/cell type of information similar to
    * that used in a DSMC simulation.
    */
   class Cell {
     /* TYPEDEFS */
   public:
     typedef std::vector<Particle>::iterator ParticleIterator;
-    typedef xylose::IteratorRange< ParticleIterator > Range;
+    typedef xylose::IteratorRange< ParticleIterator > SpeciesRange;
 
     struct SpeciesData {
       Vector<double,3> v_min;/**< Average velocity <v>. */
@@ -54,18 +54,21 @@ namespace simtest {
     /* MEMBER STORAGE */
   public:
     /** Beginning/ending iterators of all particles belonging to this cell. */
-    Range particles;
+    SpeciesRange particles;
 
     /** Beginning/ending iterators of all particles belonging to each species
      * group.  This vector is of length n_species. */
-    std::vector< Range > types;
+    std::vector< SpeciesRange > species;
 
     /** Per species statistical data. */
     std::vector< SpeciesData > data;             /* size : n */
 
   private:
-    /** The number of types that will be used in this cell. */
-    const int n_species;
+    /** The number of species that will be used in this cell. */
+    const size_t n_species;
+
+    /** The volume of the cell. */
+    const double vol;
 
 
     /* MEMBER FUNCTIONS */
@@ -73,18 +76,27 @@ namespace simtest {
     /** Constructor specifies the number of species in this Cell. */
     Cell( const ParticleIterator & pbegin,
           const ParticleIterator & pend,
-          const int & n_species )
-      : particles(pbegin, pend), n_species(n_species) {
-      types.resize(n_species);
+          const size_t & n_species,
+          const double & vol )
+      : particles(pbegin, pend), n_species(n_species), vol(vol) {
+      species.resize(n_species);
       data.resize(n_species);
     }
 
     /** Get number of species that this cell has been configured to work with.
      * This function will generally be necessary for compatibility with
      * libraries such /dsmc//octree.  This is because for /dsmc//octree the
-     * number of allowed types is set at compile time, not run-time.
+     * number of allowed species is set at compile time, not run-time.
      */
-    const int & getNumberTypes() const { return n_species; }
+    const size_t & getNumberOfSpecies() const { return n_species; }
+
+    const SpeciesRange & getSpecies( const unsigned int & A ) const {
+      return species[A];
+    }
+
+    SpeciesRange & getSpecies( const unsigned int & A ) {
+      return species[A];
+    }
 
 
     /** Determine the maximum relative velocity between two species.
@@ -101,6 +113,11 @@ namespace simtest {
       /* Simple estimator for maximum relative velocity between cross species.*/
       return std::max( (vA_max - vB_min).abs(),
                        (vB_max - vA_min).abs() );
+    }
+
+    /** Return the volume of the cell. */
+    double volume() const {
+      return vol;
     }
 
   };

@@ -25,10 +25,15 @@
 #define chimp_interaction_Driver_h
 
 #include <chimp/interaction/selectRandomPair.h>
+#include <chimp/interaction/detail/DriverRetval.h>
 #include <chimp/accessors.h>
-#include <chimp/interaction/global_rng.h>
+
+#include <xylose/Vector.h>
+#include <xylose/IteratorRange.h>
+#include <xylose/upper_triangle.h>
 
 #include <iterator>
+#include <set>
 
 namespace chimp {
   namespace interaction {
@@ -41,33 +46,29 @@ namespace chimp {
      * This value as provided by the CrossSpeciesInfo class can be from a
      * tracked quantity, an estimated quantity, or whatever.
      */
-    template < typename ChimpDB,
-               typename CrossSpeciesInfo >
     struct DefaultMaxSigmaVProduct {
-
-      const ChimpDB & db;
-      const CrossSpeciesInfo & info;
-
-      DefaultMaxSigmaVProduct( const ChimpDB & db,
-                               const CrossSpeciesInfo & info )
-        : db(db), info(info) { }
 
       /** Calculate the maximum value of 
        * \f$ \left( \sigma_{\rm T} v_{\rm rel} \right)_{\rm max} \f$.
        */
-      double get( const int & A,
+      template < typename ChimpDBInteractionSet,
+                 typename CrossSpeciesInfo >
+      double get( const ChimpDBInteractionSet & eqset,
+                  const CrossSpeciesInfo & info,
+                  const int & A,
                   const int & B ) const {
-        return
-        db(A,B).findMaxSigmaVProduct(
-          info.maxRelativeVelocity(A,B)
-        );
+        return eqset.findMaxSigmaVProduct( info.maxRelativeVelocity(A,B) );
       }
 
       /** Updates the maximum value of 
        * \f$ \left( \sigma_{\rm T} v_{\rm rel} \right)_{\rm max} \f$.
        * This implemenation does nothing.
        */
-      void update( const int & A,
+      template < typename ChimpDB,
+                 typename CrossSpeciesInfo >
+      void update( const ChimpDB & db,
+                   const CrossSpeciesInfo & info,
+                   const int & A,
                    const int & B,
                    const double & m_s_v ) const { }
     };
@@ -85,127 +86,184 @@ namespace chimp {
 
 
     /** Driver class for performing all interactions necessary for all the types
-     * that are present.
-     *
-     * @tparam SpeciesMap
-     *    Class used to specify which Range iteration corresponds to which
-     *    species as specified in the database.  Typically, a calling class
-     *    might just actually have all Range instances for each species defined
-     *    in the database, but it is also possible that a calling class might
-     *    only want to have Range instances for the species of particles that
-     *    fit within the current scope (in a particular cell for example).  In
-     *    this case, the calling code can create a class that supports the
-     *    operator[] function (std::vector for example) that will return the
-     *    Range index that corresponds to the database-known species.  A value
-     *    of -1 will indicate that no Range exists for that species.  <br>
-     *    [Default:  UnityTransform].
-     *
-     *    FIXME:  Do I really want to do this?  It really makes more sense to do
-     *    this if I were to use a double for loop to iterate over all the
-     *    particle type-pairs, rather than iterating over all the interactions
-     *    as is currently done.  In other words, it makes more sense to have the
-     *    map be "Range index to species index", rather than "species index to
-     *    range index."  This way, I don't need the special -1 value and the map
-     *    only needs to be as long as the number of Range instances that the
-     *    calling class provides.  
+     * that are present.  If you are really interested in peak performance, you
+     * will likely want to use this class as a template.  Your own version may
+     * need to be tuned and molded to suit the rest of the mechanics of your
+     * simulation software in order to get the best performance.
      */
-    template < typename CrossSpeciesInfo,
-               typename ChimpDB,
-               typename Monitor = NullMonitor,
-               typename MaxSigmaVProduct
-                 = DefaultMaxSigmaVProduct< ChimpDB, CrossSpeciesInfo > >
+    template < typename Monitor = NullMonitor,
+               typename MaxSigmaVProduct = DefaultMaxSigmaVProduct >
     struct Driver {
+      /* TYPEDEFS */
+    private:
+      /** Information to start the collisions per pair type. */
+      struct CollisionTestData {
+        double number_tests;
+        double m_s_v;
+      };
+
+
       /* MEMBER STORAGE */
-      const CrossSpeciesInfo & info;
-      const ChimpDB & db;
-      Monitor monitor;
+    public:
+      Monitor & monitor;
+
+
+      /* STATIC STORAGE */
+    public:
+      static Monitor global_monitor;
 
 
       /* MEMBER FUNCTIONS */
-      Driver( const CrossSpeciesInfo & info,
-              const ChimpDB & db,
-              const Monitor & monitor = Monitor() )
-        : info(info), db(db), monitor( monitor ) { }
+    public:
+      /** Constructor initializes the collisions monitor.  */
+      Driver( Monitor & monitor = Driver::global_monitor )
+        : monitor( monitor ) { }
 
-      template < typename SpeciesIterator,
-                 typename BackInsertionSequence >
+      /** Collision driver interface that MUST ONLY be used with
+       * ChimpDB::inplace_interactions == false.
+       */
+      template < typename CellInfo,
+                 typename ChimpDB,
+                 typename BackInsertionSequence,
+                 typename RNG >
       void operator() ( const double & dt,
-                        const SpeciesIterator & sc,
-                        BackInsertionSequence & result_list ) {
-        using chimp::accessors::particle::velocity; // generic accessor for velocity
+                        CellInfo & cell,
+                        const ChimpDB & db,
+                        BackInsertionSequence & result_list,
+                        RNG & rng ) {
+        bool dummy = false;
+        this->operator() ( dt, cell, db, result_list, dummy, rng );
+      }
 
-        typedef typename std::iterator_traits<SpeciesIterator>::value_type Species;
-        typedef typename Species::iterator PIter; /* ParticleIterator */
+      /** Collision driver interface that can be used with any value of
+       * ChimpDB::inplace_interactions.  In the case that
+       * ChimpDB::inplace_interactions == false, the type and value of
+       * ErasureQueue is ignored.
+       */
+      template < typename CellInfo,
+                 typename ChimpDB,
+                 typename BackInsertionSequence,
+                 typename ErasureQueue,
+                 typename RNG >
+      void operator() ( const double & dt,
+                        CellInfo & cell,
+                        const ChimpDB & db,
+                        BackInsertionSequence & result_list,
+                        ErasureQueue & eq,
+                        RNG & rng ) {
 
-        MaxSigmaVProduct maxSigmaVProduct(db, info);
+        typedef typename CellInfo::SpeciesRange SpeciesRange;
+        typedef typename SpeciesRange::iterator PIter;
+        MaxSigmaVProduct maxSigmaVProduct;
 
-        typedef typename ChimpDB::InteractionTable::const_iterator IIter;
-        for ( IIter i  = db.getInteractions().begin(),
-                   end = db.getInteractions().end();
-                    i != end; ++i ) {
-          const int & A = i->lhs.A.species;
-          const int & B = i->lhs.B.species;
 
-          if (i->rhs.size() == 0)
-            /* no interactions for these inputs. */
-            continue;
+        const unsigned int n_species =
+          std::min( cell.getNumberOfSpecies(), db.getProps().size() );
 
-          /* now let's try and pick a mock collision pair for this
-           * interaction. */
-          if ((A == B && sc[A].size() < 2) ||
-              (sc[A].size() == 0 || sc[B].size() == 0))
+        xylose::upper_triangle<CollisionTestData> ctData(n_species);
+
+        /* before we modify any ranges, calculate the estimate for the number of
+         * collisions to test. */
+        for ( unsigned int A = 0u; A < n_species; ++A ) {
+          SpeciesRange & aRange = cell.getSpecies(A);
+          for ( unsigned int B = A; B < n_species; ++B ) {
+            SpeciesRange & bRange = cell.getSpecies(B);
+
+            CollisionTestData & ctd = ctData(A,B);
+            const typename ChimpDB::Set & eqset = db(A,B);
+
+            if (eqset.rhs.size() == 0)
+              /* no interactions for these inputs. */
               continue;
 
-          double m_s_v = maxSigmaVProduct.get(A,B);
+            ctd.m_s_v = maxSigmaVProduct.get( eqset, cell, A,B );
 
-          /* Start by determining the number of collisions to use.
-           * N_test = Fa Fb Na Nb dt MAX(s v) / ( 2 V min(Fa,Fb) )
-           */
-          double number_of_collisions_to_test;
-          {/* FIXME:  support variable weights per particles... */
-            using chimp::accessors::particle::weight;
-            register double wA = weight(*sc[A].begin()),
-                            wB = weight(*sc[B].begin());
+            /* Start by determining the number of collisions to use.
+             * N_test = Fa Fb Na Nb dt MAX(s v) / ( 2 V min(Fa,Fb) )
+             */
+            {/* FIXME:  support variable weights per particles... */
+              using chimp::accessors::particle::weight;
+              register double wA = weight(*aRange.begin()),
+                              wB = weight(*bRange.begin());
 
-            number_of_collisions_to_test =
-               wA * wB * sc[A].size() * sc[B].size() * dt * m_s_v
-              / ( 2 * info.volume() * std::min( wA, wB ) )
-            ;
-          }
+              ctd.number_tests =
+                 wA * wB * aRange.size() * bRange.size() * dt * ctd.m_s_v
+                / ( 2 * cell.volume() * std::min( wA, wB ) )
+              ;
+            }
 
-          {/* Promote the remaining selection probablity to either 0 or 1 */
-            register double number_of__fraction =
-              number_of_collisions_to_test -
-              static_cast<int>(number_of_collisions_to_test);
+            {/* Promote the remaining selection probablity to either 0 or 1 */
+              register double number_of__fraction =
+                ctd.number_tests - static_cast<int>(ctd.number_tests);
 
-            if ( global_rng.rand() < number_of__fraction )
-              number_of_collisions_to_test += 1.0;
-          }
+              if ( rng.rand() < number_of__fraction )
+                ctd.number_tests += 1.0;
+            }
 
-          monitor.pairtests( number_of_collisions_to_test );
+            monitor.pairtests( ctd.number_tests );
+          }/* for */
+        }/* for */
 
-          while ( number_of_collisions_to_test > 0 ) {
-            typedef std::pair<PIter, PIter> CollisionPair;
 
-            CollisionPair pair = selectRandomPair( sc[A], sc[B] );
+        /* Now that we are done calculating estimates for number of collisions
+         * to test, we are ready to select pairs, test then, and allow them to
+         * collide... */
 
-            // Picks the correct output equation and uses it...
-            monitor.interactions(
-              db, pair,
-              i->interact( m_s_v, pair, result_list )
-            );
+        for ( unsigned int A = 0u; A < n_species; ++A ) {
+          SpeciesRange & aRange = cell.getSpecies(A);
 
-            /* one down, ... more to go. */
-            number_of_collisions_to_test -= 1.0;
-          }/* while doing colllision tests */
+          for ( unsigned int B = A; B < n_species; ++B ) {
+            const typename ChimpDB::Set & eqset = db(A,B);
 
-          /* allow for the calling code to tack m_s_v and update it. */
-          maxSigmaVProduct.update(A, B, m_s_v);
+            if (eqset.rhs.size() == 0)
+              /* no interactions for these inputs. */
+              continue;
 
-        }/* for all interactions */
+            SpeciesRange & bRange = cell.getSpecies(B);
+            CollisionTestData & ctd = ctData(A,B);
+
+            while ( ctd.number_tests > 1.0 ) {
+              typedef std::pair<PIter, PIter> CollisionPair;
+
+              if ((A == B && aRange.size() < 2) ||
+                  (aRange.size() == 0u || bRange.size() == 0u)) {
+                /* not enough particles? */
+                using xylose::logger::log_warning;
+                log_warning( "Not enough particles to "
+                             "select collision pair %d:%d", A, B );
+                break;
+              }
+
+              using chimp::interaction::selectRandomPair;
+              CollisionPair pair = selectRandomPair( aRange, bRange, rng );
+
+              // Picks the correct output equation and uses it...
+              const size_t result_list_sz_i = result_list.size();
+              std::pair<int,double>
+                path = eqset.interact( ctd.m_s_v, pair, result_list, rng );
+
+
+              /* we work with A completely and then B so that if A == B things
+               * work still. */
+              detail::DriverRetval< ChimpDB::options::inplace_interactions >()(
+                path, pair,
+                result_list, result_list_sz_i, eq,
+                A, B, aRange, bRange
+              );
+
+              monitor.interactions( db, pair, path );
+
+              /* one down, ... more to go. */
+              ctd.number_tests -= 1.0;
+            }/* while doing colllision tests */
+          }/* for */
+        }/* for */
       }/* operator() */
-
     };
+
+
+    template < typename Monitor, typename MaxSigmaVProduct>
+    Monitor Driver<Monitor, MaxSigmaVProduct>::global_monitor;
 
   }/* namespace chimp::interaction */
 }/* namespace chimp */

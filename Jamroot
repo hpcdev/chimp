@@ -88,7 +88,6 @@ alias headers : : : : <include>src ;
 
 lib particledb :
       src/chimp/physical_calc.cpp
-      src/chimp/interaction/global_rng.cpp
       src/chimp/interaction/cross_section/DATA.cpp
       src/chimp/interaction/cross_section/detail/VHSInfo.cpp
       src/chimp/interaction/cross_section/detail/LotzDetails.cpp

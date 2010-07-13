@@ -24,31 +24,34 @@
 #define chimp_interaction_selectRandomPair_h
 
 
-#include <chimp/interaction/global_rng.h>
-
 namespace chimp {
   namespace interaction {
 
-    template < typename RandomAccessParticleContainer >
+    template <
+      typename RandomAccessParticleContainer,
+      typename RNG
+    >
+    inline
     std::pair<
       typename RandomAccessParticleContainer::iterator,
       typename RandomAccessParticleContainer::iterator
     >
     selectRandomPair( RandomAccessParticleContainer & Aparticles,
-                      RandomAccessParticleContainer & Bparticles ) {
+                      RandomAccessParticleContainer & Bparticles,
+                      RNG & rng ) {
       typedef typename RandomAccessParticleContainer::iterator PIter;
       double Asz_m05 = Aparticles.size() * 0.999999;
       double Bsz_m05 = Bparticles.size() * 0.999999;
 
       /* First pick pA */
       PIter pA = Aparticles.begin()
-               + static_cast<int>( Asz_m05 * global_rng.rand() );
+               + static_cast<int>( Asz_m05 * rng.rand() );
       PIter pB = pA;
       PIter Bbegin = Bparticles.begin();
 
       /* now we pick pB */
       while ( pA == pB )
-        pB = Bbegin + static_cast<int>( Bsz_m05 * global_rng.rand() );
+        pB = Bbegin + static_cast<int>( Bsz_m05 * rng.rand() );
 
       return std::make_pair(pA, pB);
     }

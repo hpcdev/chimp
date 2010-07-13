@@ -29,7 +29,6 @@
 #define chimp_interaction_Set_h
 
 #include <chimp/interaction/Equation.h>
-#include <chimp/interaction/global_rng.h>
 
 #include <xylose/logger.h>
 
@@ -109,9 +108,11 @@ namespace chimp {
        * equation is returned, unless no interaction can be performed.  In
        * this latter case, a value of -1 will be returned.
        * */
+      template < typename RNG >
       std::pair<int,double>
       calculateOutPath( double & max_sigma_relspeed,
-                        const double & v_relative ) const {
+                        const double & v_relative,
+                        RNG & rng ) const {
         /* first find the normalization factor for the sum of
          * cross-section values at this velocity. */
         double cs_tot = 0;
@@ -131,7 +132,7 @@ namespace chimp {
 
         /* now evaluate whether any of these interactions should even
          * happen. */
-        if ( (global_rng.rand() * max_sigma_relspeed) > (cs_tot*v_relative) )
+        if ( (rng.rand() * max_sigma_relspeed) > (cs_tot*v_relative) )
           return std::make_pair(-1,0.0); /* no interaction!!! */
 
         /* upgrade max_sigma_relspeed? */
@@ -143,7 +144,7 @@ namespace chimp {
 
         /* now, we finally pick our output state.  The 0.999999999 factor
          * is to ensure that r < cs_tot. */
-        double r = global_rng.rand() * cs_tot * 0.999999999;
+        double r = rng.rand() * cs_tot * 0.999999999;
         cs_tot = 0;
         int j = 0;
         for ( std::vector<double>::iterator i = cs.begin(),
@@ -160,11 +161,13 @@ namespace chimp {
       }
 
       template < typename PIter,
-                 typename BackInsertionSequence >
+                 typename BackInsertionSequence,
+                 typename RNG >
       std::pair<int,double>
       interact( double & max_sigma_relspeed,
                 const std::pair<PIter, PIter> & pair,
-                BackInsertionSequence & result_list ) const {
+                BackInsertionSequence & result_list,
+                RNG & rng ) const {
         typename options::Particle & pA = *pair.first;
         typename options::Particle & pB = *pair.second;
 
@@ -173,10 +176,10 @@ namespace chimp {
         double v_rel = ( velocity(pA) - velocity(pB) ).abs();
 
         std::pair<int,double> path =
-          calculateOutPath( max_sigma_relspeed, v_rel );
+          calculateOutPath( max_sigma_relspeed, v_rel, rng );
 
         if ( path.first >= 0 )
-          rhs[path.first].interaction->interact( pA, pB, result_list );
+          rhs[path.first].interaction->interact( pA, pB, result_list, rng );
 
         return path;
       }

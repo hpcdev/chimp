@@ -48,7 +48,6 @@
 #define chimp_interaction_Particle_h
 
 #  include <chimp/accessors.h>
-#  include <chimp/interaction/global_rng.h>
 
 #  include <xylose/Vector.h>
 
@@ -85,37 +84,10 @@ namespace chimp {
     };// Particle
 
 
-
-    /** Assign random values to the particle's x and v members. */
-    inline Particle & randomize( Particle & p,
-                           const Vector<double,3> & dx = 100,
-                           const Vector<double,3> & dv = 100 ) {
-      /* random values */
-      p.x[0] = dx[0] * ( global_rng.rand() - .5 );
-      p.x[1] = dx[1] * ( global_rng.rand() - .5 );
-      p.x[2] = dx[2] * ( global_rng.rand() - .5 );
-    
-      p.v[0] = dv[0] * ( global_rng.rand() - .5 );
-      p.v[1] = dv[1] * ( global_rng.rand() - .5 );
-      p.v[2] = dv[2] * ( global_rng.rand() - .5 );
-
-      return p;
-    }
-    
-    /** Compute the distance between a Particle and a point. */
-    inline double distance( Particle & p, const Vector<double,3> & r ) {
-      return (p.x - r).abs();
-    }
-
-    /** Compute the distance between two Particle instances. */
-    inline double distance( const Particle & a, const Particle & b ) {
-      return (a.x - b.x).abs();
-    }
-
     /** Print the six position and velocity values out seperated by spaces. */
     inline std::ostream & operator<< ( std::ostream & output,
                                        const Particle & q ) {
-      return output << q.x << q.v << q.species << q.weight;
+      return output << q.x << '\t' << q.v << '\t' << q.species << '\t' << q.weight;
     }
     
     /** Read in position, velocity, species, and weight values into Particle. */

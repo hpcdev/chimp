@@ -40,58 +40,67 @@ namespace chimp {
 
       /** Generic NON-const accessor for particle velocity. */
       template < typename ParticleT >
-      static Vector<double,3> & velocity( ParticleT & p ) {
+      static inline
+      Vector<double,3> & velocity( ParticleT & p ) {
         return p.v;
       }
 
       /** Generic const accessor for particle velocity. */
       template < typename ParticleT >
-      static const Vector<double,3> & velocity( const ParticleT & p ) {
+      static inline
+      const Vector<double,3> & velocity( const ParticleT & p ) {
         return p.v;
       }
 
       /** Generic particle velocity set function. */
       template < typename ParticleT >
-      static void setVelocity( ParticleT & p, const Vector<double,3> & v ) {
+      static inline
+      void setVelocity( ParticleT & p, const Vector<double,3> & v ) {
         p.v = v;
       }
 
 
       /** Generic NON-const accessor for particle position. */
       template < typename ParticleT >
-      static Vector<double,3> & position( ParticleT & p ) {
+      static inline
+      Vector<double,3> & position( ParticleT & p ) {
         return p.x;
       }
 
       /** Generic const accessor for particle position. */
       template < typename ParticleT >
-      static const Vector<double,3> & position( const ParticleT & p ) {
+      static inline
+      const Vector<double,3> & position( const ParticleT & p ) {
         return p.x;
       }
 
 
       /** Generic NON-const accessor for particle species. */
       template < typename ParticleT >
-      static int & species( ParticleT & p ) {
+      static inline
+      int & species( ParticleT & p ) {
         return p.species;
       }
 
       /** Generic const accessor for particle species. */
       template < typename ParticleT >
-      static const int & species( const ParticleT & p ) {
+      static inline
+      const int & species( const ParticleT & p ) {
         return p.species;
       }
 
 
       /** Generic NON-CONST accessor for particle weight. */
       template < typename ParticleT >
-      static float & weight( ParticleT & p ) {
+      static inline
+      float & weight( ParticleT & p ) {
         return p.weight;
       }
 
       /** Generic CONST accessor for particle weight. */
       template < typename ParticleT >
-      static const float & weight( const ParticleT & p ) {
+      static inline
+      const float & weight( const ParticleT & p ) {
         return p.weight;
       }
 
