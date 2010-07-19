@@ -187,3 +187,18 @@ DONE
 
 20. Create a way for the database to be extended (sections to be added) at
     runtime, without the need to edit the root and/or distributed xml files.
+DONE
+
+21. Do something like a least squares fit for picking the right factors for
+    doing the extrapolation for the DATA-model.
+
+22. Issue a warning when extrapolation is used--say which cross section is
+    extrapolating.  Only issue the warning once!
+
+    Perhaps it could count the number of occurances for performing an
+    extrapolation, then issue warnings at some later time.  
+
+23. Allow the DATA model to be modified such that B-spline interpolation be done
+    for the cross section data returned.   Still would probably default to
+    linear interpolation.
+
