@@ -40,10 +40,10 @@ namespace chimp {
 
       /** Non-dimension used as default arg of Generic class.  This is used when
        * a physical dimension is not specified. */
-      template <typename, int>
+      template <typename>
       struct NullDimension {};
 
-      template < typename T, template<typename,int> class dimT >
+      template < typename T, template<typename> class dimT >
       struct check {
         check(const T& t = T()) : value(t) {}
         T value;
@@ -58,12 +58,12 @@ namespace chimp {
        *    The physical units dimension that should be checked against the
        *    parsed quantity ( e.g. runtime::physical::dimension::energy ).
        */
-      template < typename T, template<typename,int> class dimT >
+      template < typename T, template<typename> class dimT >
       static void parse_item( check<T,dimT> & out,
                               const xml::Context & x ) {
         using runtime::physical::Quantity;
         using runtime::physical::system::si;
-        x.parse<Quantity>().assertMatch( dimT<si,0>::value ).getCoeff(out.value);
+        x.parse<Quantity>().assertMatch( dimT<si>::value() ).getCoeff(out.value);
       }
 
       template < typename T >

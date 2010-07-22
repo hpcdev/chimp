@@ -39,13 +39,13 @@ namespace chimp {
       using runtime::physical::dimension::make_dim;
       using runtime::physical::dimension::exp_dim;
 
-      template < typename T, int U >
+      template < typename SYS >
       struct polarizability_dims :
       make_dim<
         runtime::physical::dimension::charge,
         exp_dim< runtime::physical::dimension::length, 2 >::type,
         exp_dim< runtime::physical::dimension::electric::potential, -1 >::type
-      >::dim<T,U> {};
+      >::dim<SYS> {};
 
     }
 
