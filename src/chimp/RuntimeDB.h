@@ -347,6 +347,41 @@ namespace chimp {
     LHSRelatedInteractionCtx
     findAllLHSRelatedInteractionCtx( const std::string & xpath_extra = "" );
 
+    /** Add in missing elastic cross-species cross sections, assuming that the
+     * single-species cross section exists and is already loaded.
+     *
+     * @param i
+     *   Only create the missing elastic cross sections for ith species.  This
+     *   defaults to match all species.
+     * @param j
+     *   Only create the missing elastic cross sections for jth species.  This
+     *   defaults to match all species.
+     *
+     * @return Number of elastic cross sections created.
+     *
+     * @see createMissingElasticCrossSections( const std::string &, const std::string & ).
+     */
+    int createMissingElasticCrossSections( const int & i = -1,
+                                           const int & j = -1 );
+
+    /** Add in missing elastic cross-species cross sections, assuming that the
+     * single-species cross section exists and is already loaded.
+     *
+     * @param i
+     *   Only create the missing elastic cross sections for ith named species.
+     *   This defaults to match all species.
+     * @param j
+     *   Only create the missing elastic cross sections for jth named species.
+     *   This defaults to match all species.
+     *
+     * @return Number of elastic cross sections created.
+     *
+     * @see createMissingElasticCrossSections( const int &, const int & ).
+     */
+    inline
+    int createMissingElasticCrossSections( const std::string & i,
+                                           const std::string & j = "" );
+
   };/* RuntimeDB */
 
 

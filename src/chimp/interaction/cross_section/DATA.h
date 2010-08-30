@@ -37,7 +37,6 @@
 #include <xylose/data_set.h>
 #include <xylose/power.h>
 
-#include <map>
 #include <stdexcept>
 #include <ostream>
 
@@ -138,17 +137,26 @@ namespace chimp {
         }
 
         /** Determine by inspection the maximum value of the product v_rel *
-         * cross_section given a specific maximum v_rel to include in the search. */
-        virtual double findMaxSigmaVProduct(const double & v_rel_max) const {
+         * cross_section given a specific maximum v_rel to include in the search.
+         *
+         * @return A pair where
+         * .first == ( v * sigma(v) )_max,
+         * and
+         * .second == v at ( v * sigma(v) )_max
+         */
+        virtual std::pair<double,double>
+        findMaxSigmaV(const double & v_rel_max) const {
           /* search through the data within the range [0:v_rel_max) to find
            * maximum product. */
-          double retval = 0;
+          std::pair<double,double> retval = std::make_pair(0.0,0.0);
           /* find the first entry not less that v_rel_max */
           DoubleDataSet::const_iterator f = table.lower_bound(v_rel_max);
           for (DoubleDataSet::const_iterator i = table.begin(); i != f; ++i) {
             double prod_i = i->first * i->second;
-            if (retval < prod_i)
-              retval = prod_i;
+            if (retval.first < prod_i) {
+              retval.first = prod_i;
+              retval.second = i->first;
+            }
           }
 
           return retval;

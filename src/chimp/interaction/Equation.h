@@ -92,12 +92,32 @@ namespace chimp {
        * an XML document. */
       template < typename RnDB >
       static Equation load( const xml::Context & x, const RnDB & db );
+
+
+      /** Return whether the Equation represents and elastic collision.  Note that
+       * currently, the only indication we have of whether something is elastic or
+       * not is that the inputs match the outputs.  Therefore, a momentum transfer
+       * Equation will also match.  
+       */
+      inline bool isElastic() const;
     };
 
     /** Effective radius.  Required by octree::Octree and dsmc::ParticleNode. */
     template < typename T >
-    double inline effectiveRadius( const interaction::Equation<T> & eq,
+    double inline effectiveRadius( const Equation<T> & eq,
                                    const double & v_relative );
+
+    /** Test whether a list of equations has an elastic equation. */
+    template < typename T >
+    inline bool hasElastic( const typename Equation<T>::list & );
+
+    /** Return an iterator to the first elastic equation within a list.
+     * @returns list::end() if no elastic equation is found.
+     */
+    template < typename T >
+    inline typename Equation<T>::list::const_iterator
+    getElastic( const typename Equation<T>::list & );
+
 
   }/* namespace particldb::interaction */
 }/* namespace particldb */

@@ -65,7 +65,21 @@ namespace chimp {
          * range of velocity space.  The actual implementation of this function is
          * done by the specific cross section model. 
          * */
-        virtual double findMaxSigmaVProduct(const double & v_rel_max) const = 0;
+        double findMaxSigmaVProduct(const double & v_rel_max) const {
+          return findMaxSigmaV(v_rel_max).first;
+        }
+
+        /** Find the local maximum of cross-section*velocity (within a given
+         * range of velocity space.  The actual implementation of this function is
+         * done by the specific cross section model. 
+         *
+         * @return A pair where
+         * .first == ( v * sigma(v) )_max,
+         * and
+         * .second == v at ( v * sigma(v) )_max
+         * */
+        virtual std::pair<double,double>
+        findMaxSigmaV(const double & v_rel_max) const = 0;
 
         /** Load a new instance of cross_section::Base. */
         virtual Base * new_load( const xml::Context & x,

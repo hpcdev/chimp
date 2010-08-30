@@ -29,8 +29,10 @@
 
 #include <chimp/RuntimeDB.h>
 #include <chimp/interaction/filter/Or.h>
-#include <chimp/interaction/filter/Elastic.h>
+#include <chimp/interaction/filter/Not.h>
+#include <chimp/interaction/filter/EqIO.h>
 #include <chimp/interaction/filter/Label.h>
+#include <chimp/interaction/filter/Elastic.h>
 
 #include <boost/test/unit_test.hpp>
 
@@ -156,5 +158,111 @@ BOOST_AUTO_TEST_SUITE( RuntimeDB_tests ); // {
 
     BOOST_CHECK_EQUAL( db("Hg^+","Hg^+").rhs.size(), 0u );
   }
+
+  BOOST_AUTO_TEST_SUITE( create_missing_elastic_tests ); // {
+    /* reused check code */
+    template < typename DB >
+    void check_table( const DB & db, unsigned int cross_species_num ) {
+      int i87Rb = db.findParticleIndx("87Rb");
+      int i85Rb = db.findParticleIndx("85Rb");
+  
+      {/* 87Rb * 87Rb */
+        const typename DB::Set & set = db(i87Rb,i87Rb);
+  
+        BOOST_CHECK_EQUAL( set.rhs.size(), 1u );
+  
+        typedef typename DB::Set::Equation::list::const_iterator EIter;
+  
+        {
+          std::ostringstream estr;
+          for ( EIter i = set.rhs.begin(); i != set.rhs.end(); ++i ) {
+            i->print( estr, db ) << '\n';
+            BOOST_CHECK_EQUAL( i->interaction->getLabel(), "elastic" );
+          }
+  
+          BOOST_CHECK_EQUAL( estr.str(), "2 87Rb  -->  2 87Rb\n" );
+        }
+      }/* 87Rb * 87Rb */
+  
+      {/* 85Rb * 85Rb */
+        const typename DB::Set & set = db(i85Rb,i85Rb);
+  
+        BOOST_CHECK_EQUAL( set.rhs.size(), 1u );
+  
+        typedef typename DB::Set::Equation::list::const_iterator EIter;
+  
+        {
+          std::ostringstream estr;
+          for ( EIter i = set.rhs.begin(); i != set.rhs.end(); ++i ) {
+            i->print( estr, db ) << '\n';
+            BOOST_CHECK_EQUAL( i->interaction->getLabel(), "elastic" );
+          }
+  
+          BOOST_CHECK_EQUAL( estr.str(), "2 85Rb  -->  2 85Rb\n" );
+        }
+      }/* 85Rb * 85Rb */
+  
+      {/* 87Rb * 85Rb */
+        const typename DB::Set & set = db(i85Rb,i87Rb);
+  
+        // These if-else statements are just to make error reports easier to
+        // read
+        if ( cross_species_num == 0u )
+          BOOST_CHECK_EQUAL( set.rhs.size(), 0u );
+        else if ( cross_species_num == 1u )
+          BOOST_CHECK_EQUAL( set.rhs.size(), 1u );
+        else
+          BOOST_CHECK_EQUAL( set.rhs.size(), cross_species_num );
+      }/* 85Rb * 85Rb */
+    }
+
+    BOOST_AUTO_TEST_CASE( explicitly ) {
+      typedef chimp::RuntimeDB<> DB;
+      DB db;
+      db.addParticleType("87Rb");
+      db.addParticleType("85Rb");
+
+      namespace filter = chimp::interaction::filter;
+      typedef boost::shared_ptr<filter::Base> SP;
+      db.filter =
+        SP( new filter::Not( // pos - neg
+              // positive filter
+              SP(new filter::Elastic),
+              // negative filter
+              SP(new filter::EqIO(filter::EqIO::IN, "85Rb", "87Rb"))
+        ));
+
+
+      db.initBinaryInteractions();
+
+      check_table(db, 0u);
+      /* now add the cross-species interactions and try again. */
+      BOOST_CHECK_EQUAL(db.createMissingElasticCrossSections(), 1);
+      check_table(db, 1u);
+    }
+
+    BOOST_AUTO_TEST_CASE( auto_create_missing_elastic ) {
+      typedef chimp::make_options<>::type
+        ::setAutoCreateMissingElastic<true>::type   options;
+      typedef chimp::RuntimeDB<options> DB;
+      DB db;
+      db.addParticleType("87Rb");
+      db.addParticleType("85Rb");
+
+      namespace filter = chimp::interaction::filter;
+      typedef boost::shared_ptr<filter::Base> SP;
+      db.filter =
+        SP( new filter::Not( // pos - neg
+              // positive filter
+              SP(new filter::Elastic),
+              // negative filter
+              SP(new filter::EqIO(filter::EqIO::IN, "85Rb", "87Rb"))
+        ));
+
+
+      db.initBinaryInteractions();
+      check_table(db, 1u);
+    }
+  BOOST_AUTO_TEST_SUITE_END(); // }
 
 BOOST_AUTO_TEST_SUITE_END(); // }

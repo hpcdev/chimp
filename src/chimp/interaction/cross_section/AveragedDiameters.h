@@ -22,106 +22,93 @@
 
 
 /** \file
- * Cross section definition using the variable hard sphere (VHS) model.
+ * Averaged cross section provider class.
  * */
 
-#ifndef chimp_interaction_cross_section_VHS_h
-#define chimp_interaction_cross_section_VHS_h
+#ifndef chimp_interaction_cross_section_AveragedDiameters_h
+#define chimp_interaction_cross_section_AveragedDiameters_h
 
 #include <chimp/interaction/cross_section/Base.h>
-#include <chimp/interaction/cross_section/detail/VHSInfo.h>
 #include <chimp/interaction/Equation.h>
 #include <chimp/interaction/ReducedMass.h>
 
-#include <xylose/power.h>
 #include <xylose/xml/Doc.h>
+#include <xylose/power.h>
 
-#include <physical/physical.h>
+#include <boost/shared_ptr.hpp>
 
+#include <stdexcept>
 #include <ostream>
-#include <limits>
 
 namespace chimp {
   namespace xml = xylose::xml;
+  using boost::shared_ptr;
 
   namespace interaction {
     namespace cross_section {
 
-      /** Variable hard sphere implementation of the cross_section::Base class.
+      /** Averaged cross section provider.
        * @tparam options
        *    The RuntimeDB template options (see make_options::type for the
        *    default options class).  
        */
       template < typename options >
-      struct VHS : cross_section::Base<options> {
+      struct AveragedDiameters : cross_section::Base<options> {
+        /* TYPEDEFS */
+        typedef shared_ptr< cross_section::Base<options> > CSPtr;
+
+
         /* STATIC STORAGE */
         static const std::string label;
 
 
         /* MEMBER STORAGE */
-        /** The vhs information for this particular interaction. */
-        detail::VHSInfo vhs;
-
-        /** The reduced mass. */
-        ReducedMass mu;
-
-
+        /** Pointers to the sub-cross-section instances. */
+        CSPtr cs0, cs1;
 
 
         /* MEMBER FUNCTIONS */
-        /** Default constructor creates a VHS instance with invalid data.  This
-         * is primarily useful for obtaining a class from which to call
-         * VHS::new_load. 
-         */
-        VHS() : cross_section::Base<options>() { }
-
-        /** Constructor with the reduced mass already specified. */
-        VHS( const xml::Context & x,
-             const ReducedMass & mu )
-        : cross_section::Base<options>(),
-          vhs( detail::VHSInfo::load(x) ),
-          mu( mu ) { }
+        /** Constructor to initialize the cross section data by copying from a
+         * set of data previously loaded. */
+        AveragedDiameters( const CSPtr & cs0, const CSPtr & cs1 )
+          : cross_section::Base<options>(), cs0(cs0), cs1(cs1) {}
 
         /** Virtual NO-OP destructor. */
-        virtual ~VHS() {}
+        virtual ~AveragedDiameters() {}
 
-        /** Compute the cross section.
-         * This implements the variable hard-sphere model as
-         * described in equation 4.63 in Graeme Bird's book.
+        /** Interpolate the cross-section from a lookup table.
          *
          * @param v_relative
          *     The relative velocity between two particles.
          * */
         inline virtual double operator() (const double & v_relative) const {
-          using physical::constant::si::K_B;
           using xylose::SQR;
-          using xylose::fast_pow;
-
-          /* the collision cross-section is based on eqn (4.63) for VHS model.
-           * NOTE that we are guarding against (1/0).
-           */
-          return 
-              vhs.cross_section
-            * fast_pow(
-                ( 2.0 * K_B * vhs.T_ref
-                  / ( mu.value * SQR(v_relative)
-                      + std::numeric_limits<double>::min()
-                    )
-                ), (vhs.visc_T_law - 0.5))
-            * vhs.gamma_visc_inv;
+          return 0.25 * SQR( sqrt(cs0->operator()(v_relative)) +
+                             sqrt(cs1->operator()(v_relative)) );
         }
 
+        /** Determine by inspection the maximum value of the product v_rel *
+         * cross_section given a specific maximum v_rel to include in the search. */
         virtual std::pair<double,double>
         findMaxSigmaV(const double & v_rel_max) const {
-          /* just return the product since the product is monotonically
-           * increasing. */
-          return std::make_pair(operator()(v_rel_max) * v_rel_max, v_rel_max);
+          std::pair<double,double> sv0 = cs0->findMaxSigmaV(v_rel_max);
+          std::pair<double,double> sv1 = cs1->findMaxSigmaV(v_rel_max);
+
+          // FIXME: I know that this is hokey, but until I figure out something
+          // smarter, I'll just return ...
+
+          double csv0 = sv0.first + sv0.second * cs1->operator()(sv0.second);
+          double csv1 = sv1.first + sv1.second * cs0->operator()(sv1.second);
+          if ( csv0 > csv1 )
+            return std::make_pair( csv0, sv0.second );
+          else
+            return std::make_pair( csv1, sv1.second );
         }
 
-        virtual VHS * new_load( const xml::Context & x,
-                                const interaction::Equation<options> & eq,
-                                const RuntimeDB<options> & db ) const {
-          return new VHS( x, eq.reducedMass );
+        virtual AveragedDiameters * new_load( const xml::Context & x,
+                                 const interaction::Equation<options> & eq,
+                                 const RuntimeDB<options> & db ) const {
+          throw std::runtime_error("AveragedDiameters::new_load doesn't work yet");
         }
 
         /** Obtain the label of the model. */
@@ -129,20 +116,21 @@ namespace chimp {
           return label;
         }
 
-        /** Print the VHS data cross section parameters. */
+        /** Print to stream... */
         std::ostream & print(std::ostream & out) const {
-          out << "{reduced-mass: " << mu.value << ", "
-              << "vhs: ";
-          vhs.print(out) << '}';
+          out << "{# Averaged Diameters of :\n";
+          cs0.print(out << "1:\n") << '\n';
+          cs1.print(out << "2:\n") << '}';
           return out;
         }
+
       };
 
       template < typename options >
-      const std::string VHS<options>::label = "vhs";
+      const std::string AveragedDiameters<options>::label = "averaged_diameters";
 
     } /* namespace chimp::interaction::cross_section */
   } /* namespace chimp::interaction */
 } /* namespace chimp */
 
-#endif // chimp_interaction_cross_section_VHS_h
+#endif // chimp_interaction_cross_section_AveragedDiameters_h

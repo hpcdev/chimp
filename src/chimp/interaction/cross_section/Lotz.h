@@ -199,12 +199,20 @@ namespace chimp {
 
         /** Determine the maximum value of the product v_rel * cross_section
          * based on cached results of the maximum search done at class
-         * initialization time. */
-        virtual double findMaxSigmaVProduct( const double & v_rel_max ) const {
+         * initialization time.
+         *
+         * @return A pair where
+         * .first == ( v * sigma(v) )_max,
+         * and
+         * .second == v at ( v * sigma(v) )_max
+         */
+        virtual std::pair<double,double>
+        findMaxSigmaV( const double & v_rel_max ) const {
           if ( v_rel_max > this->sigmaV_max_vrel )
-            return this->maxSigmaV;
+            return std::make_pair(this->maxSigmaV, this->sigmaV_max_vrel);
           else
-            return v_rel_max * this->operator()( v_rel_max );
+            return std::make_pair(v_rel_max * this->operator()( v_rel_max ),
+                                  v_rel_max);
         }
 
         virtual Lotz * new_load( const xml::Context & x,

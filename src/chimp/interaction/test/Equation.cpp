@@ -46,6 +46,7 @@ BOOST_AUTO_TEST_SUITE( Equation_tests ); // {
     Equation eq = Equation::load(db.xmlDb.root_context, "2 87Rb  -->  2 87Rb", db);
 
     BOOST_CHECK_EQUAL( eq.interaction->getLabel(), "elastic" );
+    BOOST_CHECK_EQUAL( eq.isElastic(), true );
 
     std::ostringstream sstr;
     BOOST_CHECK_EQUAL(

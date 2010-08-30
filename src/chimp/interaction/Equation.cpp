@@ -161,12 +161,62 @@ namespace chimp {
       return retval;
     }
 
+
+    template < typename options >
+    inline bool Equation<options>::isElastic() const {
+      std::set<Term> iterms, oterms;
+
+      if ( A.species == B.species )
+        iterms.insert( Term(A.species, 2) );
+      else {
+        iterms.insert(A);
+        iterms.insert(B);
+      }
+      
+      for ( TermList::const_iterator i = products.begin(),
+                                  tend = products.end();
+                                    i != tend; ++i )
+        oterms.insert(*i);
+      return iterms == oterms;
+    }
+
+
     /** Effective radius.  Required by octree::Octree and dsmc::ParticleNode. */
     template < typename T >
-    double inline effectiveRadius( const interaction::Equation<T> & eq,
+    double inline effectiveRadius( const Equation<T> & eq,
                                    const double & v_relative ) {
       return effectiveRadius( *eq.cs, v_relative );
     }
+
+
+    // FIXME:  couldn't compile when arg matched prototype.  Why?
+    template < typename T >
+    inline bool hasElastic( const std::vector< Equation<T> > & eqlist ) {
+      for ( typename Equation<T>::list::const_iterator i = eqlist.begin(),
+                                                    eend = eqlist.end();
+                                                      i != eend; ++i ) {
+        if ( i->isElastic() )
+          return true;
+      }
+
+      return false;
+    }
+
+
+    // FIXME:  couldn't compile when arg matched prototype.  Why?
+    template < typename T >
+    inline typename Equation<T>::list::const_iterator
+    getElastic( const std::vector< Equation<T> > & eqlist ) {
+      for ( typename Equation<T>::list::const_iterator i = eqlist.begin(),
+                                                    eend = eqlist.end();
+                                                      i != eend; ++i ) {
+        if ( i->isElastic() )
+          return i;
+      }
+
+      return eqlist.end();
+    }
+
 
   }/* namespace particldb::interaction */
 }/* namespace particldb */

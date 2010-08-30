@@ -34,6 +34,7 @@
 #  include <chimp/interaction/cross_section/VHS.h>
 #  include <chimp/interaction/cross_section/DATA.h>
 #  include <chimp/interaction/cross_section/Lotz.h>
+#  include <chimp/interaction/cross_section/AveragedDiameters.h>
 
 #  include <math.h>
 #  include <ostream>
@@ -165,6 +166,9 @@ namespace chimp {
         set.rhs.push_back(Set::Equation::load(*k,*this));
       }
     }
+
+    if (options::auto_create_missing_elastic)
+      createMissingElasticCrossSections();
   }
 
 
@@ -321,7 +325,91 @@ namespace chimp {
   }
 
 
+  template < typename T >
+  inline
+  int RuntimeDB<T>::createMissingElasticCrossSections( const std::string & i,
+                                                       const std::string & j ) {
+    return createMissingElasticCrossSections( findParticleIndx(i),
+                                              findParticleIndx(j) );
+  }
 
+
+  template < typename T >
+  inline
+  int RuntimeDB<T>::createMissingElasticCrossSections( const int & i,
+                                                       const int & j ) {
+    int nNewCS = 0;
+    using std::max;
+    for ( unsigned int idx = max(i,0); idx < props.size(); ++idx ) {
+      for ( unsigned int jdx = max(j,0); jdx < props.size(); ++ jdx ) {
+
+        /* first instantiate the (A,B)th interactions */
+        Set & setii = interactions( idx, idx );
+        Set & setjj = interactions( jdx, jdx );
+        Set & setij = interactions( idx, jdx );
+
+        if ( (! hasElastic( setij ) ) &&
+             hasElastic( setii ) && hasElastic(setjj) ) {
+          assert( idx != jdx );
+
+          const typename Set::Equation & eqii = *getElastic(setii);
+          const typename Set::Equation & eqjj = *getElastic(setjj);
+
+          if ( eqii.A != eqii.B || eqjj.A != eqjj.B ||
+               eqii.A.n != 1 || eqjj.A.n != 1 )
+            throw std::runtime_error(
+              "cannot create missing elastic cross sections"
+              "from non-binary or non-elastic interactions"
+            );
+
+          typename Set::Equation eq;
+
+          // Set the Input:: members (A, B)
+          // FIXME:  I'm not sure if the requirement for mass(A) <= mass(B), but
+          // I'll do it anyway...
+          using property::mass;
+          if ( props[eqii.A.species].mass::value <=
+               props[eqjj.A.species].mass::value ) {
+            eq.A = eqii.A;
+            eq.B = eqjj.A;
+          } else {
+            eq.B = eqii.A;
+            eq.A = eqjj.A;
+          }
+
+          // Set the products member
+          eq.products.push_back( eq.A );
+          eq.products.push_back( eq.B );
+
+          // Set the reducedMass member
+          eq.reducedMass = interaction::ReducedMass( eq, *this );
+
+          // Set the cross section member
+          typedef interaction::cross_section::AveragedDiameters<options> AvgCS;
+          shared_ptr< CrossSection > csii( eqii.cs ), csjj( eqjj.cs );
+          eq.cs.reset( new AvgCS(csii, csjj) );
+
+          // Set the interaction member (elastic)
+          eq.interaction.reset(
+            new interaction::model::Elastic<options>(eq.reducedMass)
+          );
+
+          // We've set all the members of Equation by hand, so now insert it
+          setij.rhs.push_back( eq );
+
+          ++nNewCS;
+        }
+
+        if ( j >= 0 )
+          break; // only requested for specific j
+      }
+
+      if ( i >= 0 )
+        break; // only requested for specific i
+    }
+
+    return nNewCS;
+  }
 
 
   template < typename LHSCtxs >

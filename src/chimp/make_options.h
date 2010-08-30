@@ -90,6 +90,11 @@ namespace chimp {
    *   arguments as either const references or modifiable references.
    *   [Default: true]
    *
+   * @tparam _auto_create_missing_elastic
+   *   Whether to automatically call createMissingElasticCrossSections() after
+   *   initBinaryInteractions() has been called.
+   *   [Default: false]
+   *
    * @tparam _RNG
    *   The type of random number generator that the interaction models will
    *   accept.
@@ -99,6 +104,7 @@ namespace chimp {
     typename _Particle          = chimp::interaction::Particle,
     typename _Properties        = chimp::property::DefaultSet,
     bool _inplace_interactions  = true,
+    bool _auto_create_missing_elastic = false,
     typename _RNG               = xylose::random::Kiss
   >
   struct make_options {
@@ -118,6 +124,12 @@ namespace chimp {
        * particle for three body interactions. */
       static const bool inplace_interactions = _inplace_interactions;
 
+      /** Whether to automatically call createMissingElasticCrossSections()
+       * after initBinaryInteractions() has been called.
+       */
+      static const bool auto_create_missing_elastic
+        = _auto_create_missing_elastic;
+
       /** Random number generator type allowed/used by interaction models. */
       typedef _RNG RNG;
 
@@ -128,42 +140,58 @@ namespace chimp {
           T,
           Properties,
           inplace_interactions,
+          auto_create_missing_elastic,
           RNG
         >::type type;
       };/* setParticle */
 
-      /** Set options with the given Particle type. */
+      /** Set options with the given particle properties to load. */
       template < typename T >
       struct setProperties {
         typedef typename make_options<
           Particle,
           T,
           inplace_interactions,
+          auto_create_missing_elastic,
           RNG
         >::type type;
       };/* setProperties */
 
-      /** Set options with the given Particle type. */
+      /** Set options with the given value of inplace_interactions. */
       template < bool B >
       struct setInplaceInteractions {
         typedef typename make_options<
           Particle,
           Properties,
           B,
+          auto_create_missing_elastic,
           RNG
         >::type type;
-      };/* setProperties */
+      };/* setInplaceInteractions */
 
-      /** Set options with the given Particle type. */
+      /** Set options with the given value of auto_create_missing_elastic. */
+      template < bool B >
+      struct setAutoCreateMissingElastic {
+        typedef typename make_options<
+          Particle,
+          Properties,
+          inplace_interactions,
+          B,
+          RNG
+        >::type type;
+      };/* setAutoCreateMissingElastic */
+
+      /** Set options with the given RNG. */
       template < typename T >
       struct setRNG {
         typedef typename make_options<
           Particle,
           Properties,
           inplace_interactions,
+          auto_create_missing_elastic,
           T
         >::type type;
-      };/* setProperties */
+      };/* setRNG */
     };/* struct type */
   };/* make_options */
 

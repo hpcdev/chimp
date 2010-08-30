@@ -167,6 +167,11 @@ namespace chimp {
       return lhs.species < rhs.species || (lhs.species == rhs.species && lhs.n < rhs.n);
     }
 
+    /** Equals operation for interaction::Term.  */
+    inline bool operator!= ( const Term & lhs, const Term & rhs ) {
+      return lhs.species != rhs.species || lhs.n != rhs.n;
+    }
+
   }/* namespace chimp::interaction */
 }/* namespace chimp */
 #endif // chimp_interaction_Term_h

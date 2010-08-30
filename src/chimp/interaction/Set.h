@@ -208,6 +208,18 @@ namespace chimp {
     };
 #endif
 
+    template < typename options >
+    inline bool hasElastic( const Set<options> & set ) {
+      return hasElastic(set.rhs);
+    }
+
+    template < typename options >
+    inline typename Set<options>::Equation::list::const_iterator
+    getElastic( const Set<options> & set ) {
+      return getElastic(set.rhs);
+    }
+
+
   }/* namespace particldb::interaction */
 }/* namespace particldb */
 
