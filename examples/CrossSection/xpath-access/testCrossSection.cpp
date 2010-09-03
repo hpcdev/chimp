@@ -98,10 +98,11 @@ int main() {
             //cs.print(std::cout) << std::endl;
 
             fdata << "# Eq:  " << Eq << '\n';
-            print(fdata, cs, v0, v1, N_points) << "\n\n";
-        } catch (std::runtime_error & e) {
+            print(fdata, cs, v0, v1, N_points);
+        } catch (std::exception & e) {
             std::cout << e.what();
         }
+        fdata  << "\n\n";
     }
 
     fvhs.close();

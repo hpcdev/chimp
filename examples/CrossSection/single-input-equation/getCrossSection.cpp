@@ -144,10 +144,17 @@ int main(int argc, char * argv[]) {
     for ( EIter i = set.rhs.begin(); i != set.rhs.end(); ++i ) {
       i->print( std::cout << "# Eq: ", db ) << '\n';
       i->print(      fout << "# Eq: ", db ) << '\n';
-      print( fout, *(i->cs), vi, vf, N_points ) << "\n\n";
+      try {
+        print( fout, *(i->cs), vi, vf, N_points );
+      } catch ( const std::exception & e ) {
+        std::cout << "Error,  what():  " << e.what() << std::endl;
+      }
+      fout << "\n\n";
     }
 
   } catch ( const xylose::xml::error & e ) {
+    std::cout << "Error,  what():  " << e.what() << std::endl;
+  } catch ( const std::exception & e ) {
     std::cout << "Error,  what():  " << e.what() << std::endl;
   } catch (...) {
     std::cout << "Unknown error" << std::endl;

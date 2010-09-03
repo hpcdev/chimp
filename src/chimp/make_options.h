@@ -94,12 +94,17 @@ namespace chimp {
    *   The type of random number generator that the interaction models will
    *   accept.
    *   [Default:  xylose::random::Kiss]
+   *
+   * @tparam _cross_section_data_extrapolation_allowed
+   *   Whether to allow cross section extrapolations.
+   *   [Default:  true]
    * */
   template <
     typename _Particle          = chimp::interaction::Particle,
     typename _Properties        = chimp::property::DefaultSet,
     bool _inplace_interactions  = true,
-    typename _RNG               = xylose::random::Kiss
+    typename _RNG               = xylose::random::Kiss,
+    bool _cross_section_data_extrapolation_allowed = true
   >
   struct make_options {
     /** The result of the chimp::make_options template metafunction. */
@@ -121,6 +126,10 @@ namespace chimp {
       /** Random number generator type allowed/used by interaction models. */
       typedef _RNG RNG;
 
+      /** Whether to allow cross section data extrapolations. */
+      static const bool cross_section_data_extrapolation_allowed
+        = _cross_section_data_extrapolation_allowed;
+
       /** Set options with the given Particle type. */
       template < typename T >
       struct setParticle {
@@ -128,7 +137,8 @@ namespace chimp {
           T,
           Properties,
           inplace_interactions,
-          RNG
+          RNG,
+          cross_section_data_extrapolation_allowed
         >::type type;
       };/* setParticle */
 
@@ -139,7 +149,8 @@ namespace chimp {
           Particle,
           T,
           inplace_interactions,
-          RNG
+          RNG,
+          cross_section_data_extrapolation_allowed
         >::type type;
       };/* setProperties */
 
@@ -150,9 +161,10 @@ namespace chimp {
           Particle,
           Properties,
           B,
-          RNG
+          RNG,
+          cross_section_data_extrapolation_allowed
         >::type type;
-      };/* setProperties */
+      };/* setInplaceInteractions */
 
       /** Set options with the given Particle type. */
       template < typename T >
@@ -161,7 +173,20 @@ namespace chimp {
           Particle,
           Properties,
           inplace_interactions,
-          T
+          T,
+          cross_section_data_extrapolation_allowed
+        >::type type;
+      };/* setRNG */
+
+      /** Set allow/disallow cross section extrapolations. */
+      template < bool B >
+      struct setCrossSectionExtrapolAllowed {
+        typedef typename make_options<
+          Particle,
+          Properties,
+          inplace_interactions,
+          RNG,
+          B
         >::type type;
       };/* setProperties */
     };/* struct type */

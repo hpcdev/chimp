@@ -124,7 +124,12 @@ int main(int argc, char * argv[]) {
     for ( EIter eq = set->rhs.begin(); eq != set->rhs.end(); ++eq ) {
       eq->print( std::cout << "# Eq: ", db ) << '\n';
       eq->print(      fout << "# Eq: ", db ) << '\n';
-      print( fout, *(eq->cs), vi, vf, N_points ) << "\n\n";
+      try {
+        print( fout, *(eq->cs), vi, vf, N_points );
+      } catch ( const std::exception & e ) {
+        std::cout << "Error,  what():  " << e.what() << std::endl;
+      }
+      fout  << "\n\n";
     }
 
   }
