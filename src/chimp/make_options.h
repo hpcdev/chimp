@@ -97,6 +97,9 @@ namespace chimp {
    *
    * @tparam _cross_section_data_extrapolation_allowed
    *   Whether to allow cross section extrapolations.
+   *   This can be overridden by the CHIMP_CROSS_SECTION_EXTRAPOLATION
+   *   environment variable.  If this variable is set to 'no' then extrapolation
+   *   will not be allowed.  Anything else will allow extrapolation.
    *   [Default:  true]
    * */
   template <

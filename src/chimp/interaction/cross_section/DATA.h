@@ -42,6 +42,9 @@
 
 #include <ostream>
 #include <stdexcept>
+#include <string>
+
+#include <cstdlib>
 
 namespace chimp {
   namespace xml = xylose::xml;
@@ -231,7 +234,12 @@ namespace chimp {
           C = a = b = 0.0;
           *extraps_done = 0;
 
-          if ( ! options::cross_section_data_extrapolation_allowed )
+          const std::string no_str = "no";
+          const char * env_allowed
+            = std::getenv("CHIMP_CROSS_SECTION_EXTRAPOLATION");
+          if ( (env_allowed && env_allowed == no_str) ||
+               (! env_allowed &&
+                ! options::cross_section_data_extrapolation_allowed ) )
             return;
 
           if (table.size() == 2u) {
