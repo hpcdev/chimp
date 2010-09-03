@@ -38,7 +38,6 @@
 
 #include <cstdlib>
 
-
 template < typename T >
 std::ostream & print( std::ostream & out,
                       chimp::interaction::cross_section::Base<T> & cs,
@@ -48,9 +47,23 @@ std::ostream & print( std::ostream & out,
   using physical::unit::nm;
   double dv = (v1-v0) / N_points;
   const double nm2 = nm*nm;
+  bool skip_rest = false;
+
+  /* The try and skip_rest statements are to make sure that we have enough data
+   * so-as to not confuse the plotting script. */
   for (double v = v0 + 0.5*dv; v <= v1; v += dv) {
-      out << v << '\t' << ( cs(v) / nm2 ) << '\n';
+    try {
+      if ( not skip_rest )
+        out << v << '\t' << ( cs(v) / nm2 ) << '\n';
+      else
+        out << v << '\t' << 0.0 << '\n';
+    } catch ( const std::exception & e ) {
+      skip_rest = true;
+      std::cout << "Error,  what():  " << e.what() << std::endl;
+      out << v << '\t' << 0.0 << '\n';
+    }
   }
+
 
   return out;
 }
@@ -144,12 +157,7 @@ int main(int argc, char * argv[]) {
     for ( EIter i = set.rhs.begin(); i != set.rhs.end(); ++i ) {
       i->print( std::cout << "# Eq: ", db ) << '\n';
       i->print(      fout << "# Eq: ", db ) << '\n';
-      try {
-        print( fout, *(i->cs), vi, vf, N_points );
-      } catch ( const std::exception & e ) {
-        std::cout << "Error,  what():  " << e.what() << std::endl;
-      }
-      fout << "\n\n";
+      print( fout, *(i->cs), vi, vf, N_points ) << "\n\n";
     }
 
   } catch ( const xylose::xml::error & e ) {

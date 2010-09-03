@@ -145,6 +145,11 @@ namespace chimp {
             /* Assume that the data begins at a threshold value */
             return 0;
           } else if (i==table.end()) {
+            --i;
+            if ( i->second == 0.0 )
+              /* the data actually says to stay at zero--no extrap. required.*/
+              return 0.0;
+
             if (C == 0.0)
               /* We cannot do any extrapolation because a,b are mostly bogus. */
               throw std::runtime_error(
@@ -231,7 +236,7 @@ namespace chimp {
 
       private:
         void setCoeffs() {
-          C = a = b = 0.0;
+          C = a = b = v02 = 0.0;
           *extraps_done = 0;
 
           const std::string no_str = "no";
@@ -254,9 +259,13 @@ namespace chimp {
           DoubleDataSet::iterator d0 = table.end(),
                                   d1 = table.end(),
                                   d2 = table.end();
-          --d0;
+          --d2;
           --d1; --d1;
-          --d2; --d2; --d2;
+          --d0; --d0; --d0;
+
+          if ( d2->second == 0.0 )
+            /* extrapolation not needed as data goes to zero. */
+            return;
 
           xylose::Vector<double,4u> Cabv2 = detail::getCab_coeffs( *d0, *d1, *d2 );
           C   = Cabv2[0];
