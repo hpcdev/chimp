@@ -97,7 +97,7 @@ namespace chimp {
         double v02;
 
         /** Extrapolation warning issued already. */
-        int * extraps_done;
+        mutable unsigned int extraps_done;
 
 
         /* MEMBER FUNCTIONS */
@@ -106,15 +106,13 @@ namespace chimp {
          * is primarily useful for obtaining a class from which to call
          * DATA::new_load. 
          */
-        DATA() : cross_section::Base<options>(), a(0.0), b(0.0) {
-          extraps_done = new int;
-        }
+        DATA()
+          : cross_section::Base<options>(), a(0.0), b(0.0), extraps_done(0u) { }
 
         /** Constructor with the reduced mass already specified. */
         DATA( const xml::Context & x,
               const ReducedMass & mu )
           : table( loadCrossSectionData(x, mu ) ) {
-          extraps_done = new int;
           setCoeffs();
         }
 
@@ -122,14 +120,11 @@ namespace chimp {
          * set of data previously loaded. */
         DATA( const DoubleDataSet & table )
           : cross_section::Base<options>(), table( table ) {
-          extraps_done = new int;
           setCoeffs();
         }
 
         /** Virtual NO-OP destructor. */
-        virtual ~DATA() {
-          delete extraps_done;
-        }
+        virtual ~DATA() { }
 
         /** Interpolate the cross-section from a lookup table.
          *
@@ -156,8 +151,8 @@ namespace chimp {
                 "velocity " + xylose::to_string(v_relative) +
                 " out of range of cross section data" );
 
-            if ( ! *extraps_done ) {
-              ++(*extraps_done);
+            if ( ! extraps_done ) {
+              ++extraps_done;
               using xylose::logger::log_warning;
               log_warning( "extrapolating cross section DATA at v=%g",
                            v_relative );
@@ -219,25 +214,15 @@ namespace chimp {
           setCoeffs();
         }
 
-        /** Copy operator. */
-        DATA & operator= ( const DATA & that ) {
-          this->table = that.table;
-          this->C     = that.C;
-          this->a     = that.a;
-          this->b     = that.b;
-          this->v02   = that.v02;
-          *this->extraps_done = *that.extraps_done;
-        }
-
         /** return the number of extrapolations performed till now. */
-        int getNumberExtraps() const {
-          return *extraps_done;
+        const unsigned int & getNumberExtraps() const {
+          return extraps_done;
         }
 
       private:
         void setCoeffs() {
           C = a = b = v02 = 0.0;
-          *extraps_done = 0;
+          extraps_done = 0u;
 
           const std::string no_str = "no";
           const char * env_allowed
