@@ -215,6 +215,21 @@ namespace chimp {
      * collisions. */
     shared_ptr<interaction::filter::Base> filter;
 
+    /** Specifies the maximum range overwhich to sum the diameters of the
+     * auto-combined non vhs-vhs cross section pairs.  Extrapolation beyond this
+     * range will follow the normal procedure.  IF <=0, only vhs-vhs cross
+     * sections can be combined.  
+     * [Default: 0]
+     */
+    double default_ElasticCreator_vmax;
+
+    /** Specifies the resolution withwhich to sum the diameters of the
+     * auto-combined non vhs-vhs cross section pairs.  IF <=0, dv will be chosen
+     * to give 100 data points.  
+     * [Default: 0]
+     */
+    double default_ElasticCreator_dv;
+
   private:
     /** Vector of particle properties.
      * Note that the order of the entries in the properties vector is NOT well
@@ -356,13 +371,21 @@ namespace chimp {
      * @param j
      *   Only create the missing elastic cross sections for jth species.  This
      *   defaults to match all species.
+     * @param vmax
+     *   Range overwhich to sum non vhs-vhs cross-section pairs.
+     *   @see default_ElasticCreator_vmax
+     * @param dv
+     *   Resolution withwhich to sum non vhs-vhs cross-section pairs.
+     *   @see default_ElasticCreator_dv
      *
      * @return Number of elastic cross sections created.
      *
      * @see createMissingElasticCrossSections( const std::string &, const std::string & ).
      */
     int createMissingElasticCrossSections( const int & i = -1,
-                                           const int & j = -1 );
+                                           const int & j = -1,
+                                           double vmax = 0.0,
+                                           double dv = 0.0 );
 
     /** Add in missing elastic cross-species cross sections, assuming that the
      * single-species cross section exists and is already loaded.
@@ -376,11 +399,15 @@ namespace chimp {
      *
      * @return Number of elastic cross sections created.
      *
-     * @see createMissingElasticCrossSections( const int &, const int & ).
+     * @see createMissingElasticCrossSections( const int &,
+     *                                         const int &,
+     *                                         double, double ).
      */
     inline
     int createMissingElasticCrossSections( const std::string & i,
-                                           const std::string & j = "" );
+                                           const std::string & j = "",
+                                           const double & vmax = 0.0,
+                                           const double & dv = 0.0 );
 
   };/* RuntimeDB */
 

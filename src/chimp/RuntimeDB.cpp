@@ -34,6 +34,7 @@
 #  include <chimp/interaction/cross_section/VHS.h>
 #  include <chimp/interaction/cross_section/DATA.h>
 #  include <chimp/interaction/cross_section/Lotz.h>
+#  include <chimp/interaction/cross_section/detail/AvgVHS.h>
 #  include <chimp/interaction/cross_section/AveragedDiameters.h>
 
 #  include <math.h>
@@ -50,7 +51,10 @@
 namespace chimp {
 
   template < typename T >
-  RuntimeDB<T>::RuntimeDB(const std::string & xml_doc) : xmlDb(xml_doc) {
+  RuntimeDB<T>::RuntimeDB(const std::string & xml_doc)
+    : xmlDb(xml_doc),
+      default_ElasticCreator_vmax(0.0),
+      default_ElasticCreator_dv(0.0) {
     /* Let's make sure that the calculator is prepared. */
     prepareCalculator(xmlDb);
 
@@ -328,16 +332,35 @@ namespace chimp {
   template < typename T >
   inline
   int RuntimeDB<T>::createMissingElasticCrossSections( const std::string & i,
-                                                       const std::string & j ) {
+                                                       const std::string & j,
+                                                       const double & vmax,
+                                                       const double & dv ) {
     return createMissingElasticCrossSections( findParticleIndx(i),
-                                              findParticleIndx(j) );
+                                              findParticleIndx(j),
+                                              vmax, dv );
   }
 
 
   template < typename T >
   inline
   int RuntimeDB<T>::createMissingElasticCrossSections( const int & i,
-                                                       const int & j ) {
+                                                       const int & j,
+                                                       double vmax,
+                                                       double dv ) {
+    /* first thing, check to see if we have a valid range and resolution for
+     * creating non vhs-vhs cross section pairs. */
+    if ( vmax <= 0.0 )
+      vmax = default_ElasticCreator_vmax;
+
+    if ( vmax > 0.0 ) {
+      if ( dv <= 0.0 )
+        dv = default_ElasticCreator_dv;
+
+      if ( dv <= 0.0 )
+        dv = vmax / 100.0;
+    }
+
+
     int nNewCS = 0;
     using std::max;
     for ( unsigned int idx = max(i,0); idx < props.size(); ++idx ) {
@@ -384,20 +407,41 @@ namespace chimp {
           // Set the reducedMass member
           eq.reducedMass = interaction::ReducedMass( eq, *this );
 
+          bool avg_success = true;
           // Set the cross section member
-          typedef interaction::cross_section::AveragedDiameters<options> AvgCS;
-          shared_ptr< CrossSection > csii( eqii.cs ), csjj( eqjj.cs );
-          eq.cs.reset( new AvgCS(csii, csjj) );
+          if ( eqii.cs->getLabel() == "vhs" && eqjj.cs->getLabel() == "vhs" ) {
+            /* Adding two vhs cross sections together is mostly easy...
+             * We have this special case for vhs-vhs mostly because it makes the
+             * findMaxSigmaV so easy.
+             */
+            typedef interaction::cross_section::detail::AvgVHS<options> AvgVHS;
+            eq.cs.reset( new AvgVHS( eqii.cs, eqjj.cs ) );
+          } else if ( vmax > 0.0 && dv > 0.0 ) {
+            /* Adding two arbitrary cross sections together--more difficult. */
+            typedef interaction::cross_section::AveragedDiameters<options> AvgCS;
+            eq.cs.reset( new AvgCS(eqii.cs, eqjj.cs, vmax, dv) );
+          } else {
+            /* Can't add arbitrary pairs together when vmax and dv are not set.
+             * Emit a warning. */
+            avg_success = false;
 
-          // Set the interaction member (elastic)
-          eq.interaction.reset(
-            new interaction::model::Elastic<options>(eq.reducedMass)
-          );
+            using xylose::logger::log_warning;
 
-          // We've set all the members of Equation by hand, so now insert it
-          setij.rhs.push_back( eq );
+            log_warning( "Cannot create missing elastic collision from "
+                         "non-VHS cross section models without vmax set." );
+          }
 
-          ++nNewCS;
+          if ( avg_success ) {
+            // Set the interaction member (elastic)
+            eq.interaction.reset(
+              new interaction::model::Elastic<options>(eq.reducedMass)
+            );
+
+            // We've set all the members of Equation by hand, so now insert it
+            setij.rhs.push_back( eq );
+
+            ++nNewCS;
+          }
         }
 
         if ( j >= 0 )

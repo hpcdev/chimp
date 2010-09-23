@@ -28,6 +28,7 @@
 #ifndef chimp_interaction_cross_section_AveragedDiameters_h
 #define chimp_interaction_cross_section_AveragedDiameters_h
 
+#include <chimp/interaction/cross_section/DATA.h>
 #include <chimp/interaction/cross_section/Base.h>
 #include <chimp/interaction/Equation.h>
 #include <chimp/interaction/ReducedMass.h>
@@ -53,13 +54,14 @@ namespace chimp {
        *    default options class).  
        */
       template < typename options >
-      struct AveragedDiameters : cross_section::Base<options> {
+      struct AveragedDiameters : cross_section::DATA<options> {
         /* TYPEDEFS */
         typedef shared_ptr< cross_section::Base<options> > CSPtr;
 
 
         /* STATIC STORAGE */
         static const std::string label;
+
 
 
         /* MEMBER STORAGE */
@@ -70,45 +72,27 @@ namespace chimp {
         /* MEMBER FUNCTIONS */
         /** Constructor to initialize the cross section data by copying from a
          * set of data previously loaded. */
-        AveragedDiameters( const CSPtr & cs0, const CSPtr & cs1 )
-          : cross_section::Base<options>(), cs0(cs0), cs1(cs1) {}
+        AveragedDiameters( const CSPtr & cs0, const CSPtr & cs1,
+                           const double & vmax, const double & dv )
+          : cross_section::DATA<options>(), cs0(cs0), cs1(cs1) {
+
+          cross_section::Base<options> & sigma0 = *cs0,
+                                       & sigma1 = *cs1;
+          using xylose::SQR;
+
+          for ( double v = vmax + 0.5*dv; v > 0.0; v -= dv ) {
+            double sigma = 0.25 * SQR( sqrt(sigma0(v)) + sqrt(sigma1(v)) );
+            this->table.insert( std::make_pair( v, sigma ) );
+          }
+        }
 
         /** Virtual NO-OP destructor. */
         virtual ~AveragedDiameters() {}
 
-        /** Interpolate the cross-section from a lookup table.
-         *
-         * @param v_relative
-         *     The relative velocity between two particles.
-         * */
-        inline virtual double operator() (const double & v_relative) const {
-          using xylose::SQR;
-          return 0.25 * SQR( sqrt(cs0->operator()(v_relative)) +
-                             sqrt(cs1->operator()(v_relative)) );
-        }
-
-        /** Determine by inspection the maximum value of the product v_rel *
-         * cross_section given a specific maximum v_rel to include in the search. */
-        virtual std::pair<double,double>
-        findMaxSigmaV(const double & v_rel_max) const {
-          std::pair<double,double> sv0 = cs0->findMaxSigmaV(v_rel_max);
-          std::pair<double,double> sv1 = cs1->findMaxSigmaV(v_rel_max);
-
-          // FIXME: I know that this is hokey, but until I figure out something
-          // smarter, I'll just return ...
-
-          double csv0 = sv0.first + sv0.second * cs1->operator()(sv0.second);
-          double csv1 = sv1.first + sv1.second * cs0->operator()(sv1.second);
-          if ( csv0 > csv1 )
-            return std::make_pair( csv0, sv0.second );
-          else
-            return std::make_pair( csv1, sv1.second );
-        }
-
         virtual AveragedDiameters * new_load( const xml::Context & x,
                                  const interaction::Equation<options> & eq,
                                  const RuntimeDB<options> & db ) const {
-          throw std::runtime_error("AveragedDiameters::new_load doesn't work yet");
+          throw std::runtime_error("AveragedDiameters::new_load not yet useful");
         }
 
         /** Obtain the label of the model. */

@@ -86,16 +86,20 @@ namespace chimp {
       }
 
       /** Find the local maximum of cross-section*velocity (within a given
-       * range of velocity space.
+       * range of velocity space).  This version of the Set class returns the
+       * sum of the maxima of each cross section contained in the set.  For null
+       * collision methods, this will resort to more collisions than necessary.
+       * For a more performance sensitive implementation, use the precomputed
+       * Set implementation.
        * */
       inline double findMaxSigmaVProduct(const double & v_rel_max) const {
-        double mx = 0.0;
+        double sum = 0.0;
         for ( typename eq_list::const_iterator i = rhs.begin(),
                                              end = rhs.end();
-              i != end; ++i ) {
-          mx = std::max(mx, i->cs->findMaxSigmaVProduct(v_rel_max));
+                                              i != end; ++i ) {
+          sum += i->cs->findMaxSigmaV(v_rel_max).first;
         }
-        return mx;
+        return sum;
       }
 
       /** Chooses an interaction path to traverse dependent on the incident
