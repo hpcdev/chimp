@@ -52,9 +52,23 @@ std::ostream & print( std::ostream & out,
                       const int & N_points ) {
   double dv = (v1-v0) / N_points;
   const double nm2 = nm*nm;
+  bool skip_rest = false;
+
+  /* The try and skip_rest statements are to make sure that we have enough data
+   * so-as to not confuse the plotting script. */
   for (double v = v0 + 0.5*dv; v <= v1; v += dv) {
-      out << v << '\t' << ( cs(v) / nm2 ) << '\n';
+    try {
+      if ( not skip_rest )
+        out << v << '\t' << ( cs(v) / nm2 ) << '\n';
+      else
+        out << v << '\t' << 0.0 << '\n';
+    } catch ( const std::exception & e ) {
+      skip_rest = true;
+      std::cout << "Error,  what():  " << e.what() << std::endl;
+      out << v << '\t' << 0.0 << '\n';
+    }
   }
+
 
   return out;
 }
@@ -99,7 +113,7 @@ int main() {
 
             fdata << "# Eq:  " << Eq << '\n';
             print(fdata, cs, v0, v1, N_points) << "\n\n";
-        } catch (std::runtime_error & e) {
+        } catch (std::exception & e) {
             std::cout << e.what();
         }
     }

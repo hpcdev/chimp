@@ -33,12 +33,18 @@
 #include <chimp/interaction/Equation.h>
 #include <chimp/interaction/ReducedMass.h>
 
-#include <xylose/xml/Doc.h>
-#include <xylose/data_set.h>
 #include <xylose/power.h>
+#include <xylose/logger.h>
+#include <xylose/Vector.h>
+#include <xylose/xml/Doc.h>
+#include <xylose/strutil.h>
+#include <xylose/data_set.h>
 
-#include <stdexcept>
 #include <ostream>
+#include <stdexcept>
+#include <string>
+
+#include <cstdlib>
 
 namespace chimp {
   namespace xml = xylose::xml;
@@ -61,48 +67,64 @@ namespace chimp {
       DoubleDataSet loadCrossSectionData( const xml::Context & x,
                                           const ReducedMass & mu );
 
-      /** Scaling constant used for extrapolating data using a ln(E)/E scaling.
-       * \todo get the scaling right.
-       * for right now, this is an arbitrary scaling.
-       */
-      const double lne_e_scaling = xylose::SQR(2500.0/3e8);
-
       /** Emperical data cross section provider.
        * @tparam options
        *    The RuntimeDB template options (see make_options::type for the
        *    default options class).  
        */
       template < typename options >
-      struct DATA : cross_section::Base<options> {
+      class DATA : public cross_section::Base<options> {
         /* STATIC STORAGE */
+      public:
         static const std::string label;
 
 
         /* MEMBER STORAGE */
+      private:
         /** Table of cross-section data. */
         DoubleDataSet table;
 
+        /** Extrapolation coefficient C in C*b*ln(a*(v^2-v0^2+b)/(a*(v^2-v0^2+b). */
+        double C;
+
+        /** Extrapolation coefficient a in C*b*ln(a*(v^2-v0^2+b)/(a*(v^2-v0^2+b). */
+        double a;
+
+        /** Extrapolation coefficient b in C*b*ln(a*(v^2-v0^2+b)/(a*(v^2-v0^2+b). */
+        double b;
+
+        /** Extrapolation coeff.    v^2 in C*b*ln(a*(v^2-v0^2+b)/(a*(v^2-v0^2+b). */
+        double v02;
+
+        /** Extrapolation warning issued already. */
+        mutable unsigned int extraps_done;
 
 
         /* MEMBER FUNCTIONS */
+      public:
         /** Default constructor creates a DATA instance with no data.  This
          * is primarily useful for obtaining a class from which to call
          * DATA::new_load. 
          */
-        DATA() : cross_section::Base<options>() {}
+        DATA()
+          : cross_section::Base<options>(), a(0.0), b(0.0), extraps_done(0u) { }
 
         /** Constructor with the reduced mass already specified. */
         DATA( const xml::Context & x,
               const ReducedMass & mu )
-          : table( loadCrossSectionData(x, mu ) ) { }
+          : table( loadCrossSectionData(x, mu ) ) {
+          setCoeffs();
+        }
 
         /** Constructor to initialize the cross section data by copying from a
          * set of data previously loaded. */
         DATA( const DoubleDataSet & table )
-          : cross_section::Base<options>(), table( table ) {}
+          : cross_section::Base<options>(), table( table ) {
+          setCoeffs();
+        }
 
         /** Virtual NO-OP destructor. */
-        virtual ~DATA() {}
+        virtual ~DATA() { }
 
         /** Interpolate the cross-section from a lookup table.
          *
@@ -118,16 +140,32 @@ namespace chimp {
             /* Assume that the data begins at a threshold value */
             return 0;
           } else if (i==table.end()) {
-            //throw std::runtime_error("fix extrapolation code please");
             --i;
+            if ( i->second == 0.0 )
+              /* the data actually says to stay at zero--no extrap. required.*/
+              return 0.0;
 
-            using detail::g;
-            return i->second * g(SQR(v_relative - i->first)*lne_e_scaling);
+            if (C == 0.0)
+              /* We cannot do any extrapolation because a,b are mostly bogus. */
+              throw std::runtime_error(
+                "velocity " + xylose::to_string(v_relative) +
+                " out of range of cross section data" );
+
+            if ( ! extraps_done ) {
+              ++extraps_done;
+              using xylose::logger::log_warning;
+              log_warning( "extrapolating cross section DATA at v=%g",
+                           v_relative );
+              log_warning( "NOTE:  extrapolation warning only issued once!" );
+            }
+
+
+            using detail::f;
+            return f(SQR(v_relative) - v02, C, a, b);
           } else {
             DoubleDataSet::const_iterator f = i;
             --i;
-            /* we are not at the ends of the data, so use the normal lever
-             * rule.  
+            /* we are not at the ends of the data, so use the normal lever rule.
              * TODO:  Do we need to do the L_inv mult befoe the add to avoid
              * precision errors?  Does our data ever require this? */
             double L_inv = 1.0/(f->first - i->first);
@@ -179,6 +217,56 @@ namespace chimp {
           return out;
         }
 
+        /** Set the table explicitly. */
+        void setTable( const DoubleDataSet & table ) {
+          this->table = table;
+          setCoeffs();
+        }
+
+        /** return the number of extrapolations performed till now. */
+        const unsigned int & getNumberExtraps() const {
+          return extraps_done;
+        }
+
+      private:
+        void setCoeffs() {
+          C = a = b = v02 = 0.0;
+          extraps_done = 0u;
+
+          const std::string no_str = "no";
+          const char * env_allowed
+            = std::getenv("CHIMP_CROSS_SECTION_EXTRAPOLATION");
+          if ( (env_allowed && env_allowed == no_str) ||
+               (! env_allowed &&
+                ! options::cross_section_data_extrapolation_allowed ) )
+            return;
+
+          if (table.size() == 2u) {
+            /* we really shouldn't have data like this, but... */
+            // FIXME:  set coeffs for linear extrap?
+            return;
+          } else if (table.size() < 2u) {
+            return;
+          }
+
+          /* We'll try for the last three points, if we have that many. */
+          DoubleDataSet::iterator d0 = table.end(),
+                                  d1 = table.end(),
+                                  d2 = table.end();
+          --d2;
+          --d1; --d1;
+          --d0; --d0; --d0;
+
+          if ( d2->second == 0.0 )
+            /* extrapolation not needed as data goes to zero. */
+            return;
+
+          xylose::Vector<double,4u> Cabv2 = detail::getCab_coeffs( *d0, *d1, *d2 );
+          C   = Cabv2[0];
+          a   = Cabv2[1];
+          b   = Cabv2[2];
+          v02 = Cabv2[3];
+        }
       };
 
       template < typename options >

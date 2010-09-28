@@ -80,10 +80,14 @@ namespace chimp {
                                        & sigma1 = *cs1;
           using xylose::SQR;
 
+          DoubleDataSet new_table;
+
           for ( double v = vmax + 0.5*dv; v > 0.0; v -= dv ) {
             double sigma = 0.25 * SQR( sqrt(sigma0(v)) + sqrt(sigma1(v)) );
-            this->table.insert( std::make_pair( v, sigma ) );
+            new_table.insert( std::make_pair( v, sigma ) );
           }
+
+          this->setTable( new_table );
         }
 
         /** Virtual NO-OP destructor. */

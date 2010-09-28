@@ -99,13 +99,21 @@ namespace chimp {
    *   The type of random number generator that the interaction models will
    *   accept.
    *   [Default:  xylose::random::Kiss]
+   *
+   * @tparam _cross_section_data_extrapolation_allowed
+   *   Whether to allow cross section extrapolations.
+   *   This can be overridden by the CHIMP_CROSS_SECTION_EXTRAPOLATION
+   *   environment variable.  If this variable is set to 'no' then extrapolation
+   *   will not be allowed.  Anything else will allow extrapolation.
+   *   [Default:  true]
    * */
   template <
     typename _Particle          = chimp::interaction::Particle,
     typename _Properties        = chimp::property::DefaultSet,
     bool _inplace_interactions  = true,
     bool _auto_create_missing_elastic = false,
-    typename _RNG               = xylose::random::Kiss
+    typename _RNG               = xylose::random::Kiss,
+    bool _cross_section_data_extrapolation_allowed = true
   >
   struct make_options {
     /** The result of the chimp::make_options template metafunction. */
@@ -133,6 +141,10 @@ namespace chimp {
       /** Random number generator type allowed/used by interaction models. */
       typedef _RNG RNG;
 
+      /** Whether to allow cross section data extrapolations. */
+      static const bool cross_section_data_extrapolation_allowed
+        = _cross_section_data_extrapolation_allowed;
+
       /** Set options with the given Particle type. */
       template < typename T >
       struct setParticle {
@@ -141,7 +153,8 @@ namespace chimp {
           Properties,
           inplace_interactions,
           auto_create_missing_elastic,
-          RNG
+          RNG,
+          cross_section_data_extrapolation_allowed
         >::type type;
       };/* setParticle */
 
@@ -153,7 +166,8 @@ namespace chimp {
           T,
           inplace_interactions,
           auto_create_missing_elastic,
-          RNG
+          RNG,
+          cross_section_data_extrapolation_allowed
         >::type type;
       };/* setProperties */
 
@@ -165,7 +179,8 @@ namespace chimp {
           Properties,
           B,
           auto_create_missing_elastic,
-          RNG
+          RNG,
+          cross_section_data_extrapolation_allowed
         >::type type;
       };/* setInplaceInteractions */
 
@@ -177,7 +192,8 @@ namespace chimp {
           Properties,
           inplace_interactions,
           B,
-          RNG
+          RNG,
+          cross_section_data_extrapolation_allowed
         >::type type;
       };/* setAutoCreateMissingElastic */
 
@@ -189,7 +205,21 @@ namespace chimp {
           Properties,
           inplace_interactions,
           auto_create_missing_elastic,
-          T
+          T,
+          cross_section_data_extrapolation_allowed
+        >::type type;
+      };/* setRNG */
+
+      /** Set allow/disallow cross section extrapolations. */
+      template < bool B >
+      struct setCrossSectionExtrapolAllowed {
+        typedef typename make_options<
+          Particle,
+          Properties,
+          inplace_interactions,
+          auto_create_missing_elastic,
+          RNG,
+          B
         >::type type;
       };/* setRNG */
     };/* struct type */

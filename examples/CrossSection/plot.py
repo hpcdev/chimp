@@ -25,6 +25,7 @@ class UpdateData:
         self.fig.clf()
         ax = self.fig.add_subplot(111)
 
+        line_start = self.current_plot + 1
         for i in xrange(self.N_lines):
             start = self.current_plot * self.N_points
             end   = start + self.N_points
@@ -37,6 +38,9 @@ class UpdateData:
             ax.semilogy(self.d[start:end,0], self.d[start:end,1])
             self.current_plot += 1
 
+        print 'plotting [{start}:{end}] of {total} lines' \
+              .format( start=line_start,end=self.current_plot,
+                       total=(len(self.d)/self.N_points) )
         ax.set_ybound(1e-6,.5)
         self.fig.canvas.draw()
 
