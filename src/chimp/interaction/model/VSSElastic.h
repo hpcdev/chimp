@@ -39,10 +39,10 @@
 #include <xylose/power.h>
 #include <xylose/Vector.h>
 #include <xylose/xml/Doc.h>
+#include <xylose/compat/math.hpp>
 
 #include <string>
 #include <vector>
-#include <cmath>
 
 namespace chimp {
   namespace interaction {

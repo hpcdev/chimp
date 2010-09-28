@@ -29,10 +29,10 @@
 #define chimp_interaction_cross_section_Base_h
 
 #include <xylose/xml/Doc.h>
+#include <xylose/compat/math.hpp>
 
 #include <physical/physical.h>
 
-#include <cmath>
 #include <vector>
 
 

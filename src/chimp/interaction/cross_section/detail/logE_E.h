@@ -27,8 +27,7 @@
 
 #include <xylose/power.h>
 #include <xylose/Vector.h>
-
-#include <cmath>
+#include <xylose/compat/math.hpp>
 
 namespace chimp {
   namespace interaction {

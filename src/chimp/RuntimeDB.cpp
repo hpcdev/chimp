@@ -37,7 +37,8 @@
 #  include <chimp/interaction/cross_section/detail/AvgVHS.h>
 #  include <chimp/interaction/cross_section/AveragedDiameters.h>
 
-#  include <math.h>
+#  include <xylose/compat/math.hpp>
+
 #  include <ostream>
 #  include <fstream>
 #  include <sstream>

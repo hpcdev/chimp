@@ -28,8 +28,9 @@
 #include <chimp/interaction/filter/Label.h>
 #include <chimp/interaction/v_rel_fnc.h>
 
-#include <xylose/upper_triangle.h>
 #include <xylose/random/Kiss.hpp>
+#include <xylose/compat/math.hpp>
+#include <xylose/upper_triangle.h>
 #include <xylose/distribution/Inverter.h>
 #include <xylose/distribution/Gaussian.h>
 
@@ -37,7 +38,6 @@
 
 #include <iostream>
 #include <iterator>
-#include <cmath>
 #include <cassert>
 
 

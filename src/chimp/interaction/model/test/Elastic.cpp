@@ -36,13 +36,13 @@
 #include <chimp/interaction/model/test/diagnostics.h>
 
 #include <xylose/random/Kiss.hpp>
+#include <xylose/compat/math.hpp>
 
 #include <boost/shared_ptr.hpp>
 #include <boost/test/unit_test.hpp>
 
 #include <sstream>
 #include <limits>
-#include <cmath>
 
 namespace {
   using boost::shared_ptr;

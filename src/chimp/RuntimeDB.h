@@ -113,10 +113,10 @@
 #  include <chimp/property/Comparator.h>
 
 #  include <xylose/logger.h>
-#  include <xylose/upper_triangle.h>
 #  include <xylose/xml/Doc.h>
+#  include <xylose/compat/math.hpp>
+#  include <xylose/upper_triangle.h>
 
-#  include <math.h>
 #  include <ostream>
 #  include <fstream>
 #  include <cfloat>

@@ -29,9 +29,9 @@
 #ifndef chimp_interaction_v_rel_fnc_h
 #define chimp_interaction_v_rel_fnc_h
 
-#include <physical/physical.h>
+#include <xylose/compat/math.hpp>
 
-#include <cmath>
+#include <physical/physical.h>
 
 namespace chimp {
   namespace interaction {

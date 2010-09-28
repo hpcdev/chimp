@@ -31,8 +31,8 @@
 #include <chimp/interaction/Equation.h>
 
 #include <xylose/logger.h>
+#include <xylose/compat/math.hpp>
 
-#include <cmath>
 #include <vector>
 #include <ostream>
 

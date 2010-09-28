@@ -32,11 +32,11 @@
 #ifndef chimp_interaction_cross_section_detail_LotzDetails_h
 #define chimp_interaction_cross_section_detail_LotzDetails_h
 
-#include <xylose/xml/Doc.h>
 #include <xylose/power.h>
+#include <xylose/xml/Doc.h>
+#include <xylose/compat/math.hpp>
 
 #include <ostream>
-#include <cmath>
 
 namespace chimp {
   namespace xml = xylose::xml;

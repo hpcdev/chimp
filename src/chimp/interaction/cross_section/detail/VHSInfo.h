@@ -32,9 +32,9 @@
 #define chimp_interaction_cross_section_detail_VHSInfo_h
 
 #include <xylose/xml/Doc.h>
+#include <xylose/compat/math.hpp>
 
 #include <ostream>
-#include <cmath>
 
 #if (defined(PGCC) || __sun__ == 1)
 inline double tgamma(double x) {
