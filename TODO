@@ -206,3 +206,7 @@ DONE (almost, except for a handy way of issuing cummulative warnings when
     for the cross section data returned.   Still would probably default to
     linear interpolation.
 
+24. Define a new cross section type:  constant
+    This will be useful for billiard-ball test problems and for some elastic
+    cross sections that currently exist in the database.
+DONE

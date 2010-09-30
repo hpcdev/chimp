@@ -22,11 +22,12 @@
 
 
 /** \file
- * Averaged cross section provider class for pair of VHS datasets.
+ * Averaged cross section provider class for pair of datasets that are
+ * monotonically increasing in (sigma * v).
  * */
 
-#ifndef chimp_interaction_cross_section_detail_AvgVHS_h
-#define chimp_interaction_cross_section_detail_AvgVHS_h
+#ifndef chimp_interaction_cross_section_detail_AvgEasy_h
+#define chimp_interaction_cross_section_detail_AvgEasy_h
 
 #include <chimp/interaction/cross_section/Base.h>
 #include <chimp/interaction/Equation.h>
@@ -40,6 +41,7 @@
 #include <stdexcept>
 #include <ostream>
 #include <cassert>
+#include <set>
 
 namespace chimp {
   namespace xml = xylose::xml;
@@ -55,13 +57,14 @@ namespace chimp {
          *    default options class).  
          */
         template < typename options >
-        struct AvgVHS : cross_section::Base<options> {
+        struct AvgEasy : cross_section::Base<options> {
           /* TYPEDEFS */
           typedef shared_ptr< cross_section::Base<options> > CSPtr;
 
 
           /* STATIC STORAGE */
           static const std::string label;
+          static const std::set< std::string > easy_labels;
 
 
           /* MEMBER STORAGE */
@@ -72,14 +75,14 @@ namespace chimp {
           /* MEMBER FUNCTIONS */
           /** Constructor to initialize the cross section data by copying from a
            * set of data previously loaded. */
-          AvgVHS( const CSPtr & cs0, const CSPtr & cs1 )
+          AvgEasy( const CSPtr & cs0, const CSPtr & cs1 )
             : cross_section::Base<options>(), cs0(cs0), cs1(cs1) {
-            assert( cs0->getLabel() == "vhs" );
-            assert( cs1->getLabel() == "vhs" );
+            assert( easy_labels.find( cs0->getLabel() ) != easy_labels.end() );
+            assert( easy_labels.find( cs1->getLabel() ) != easy_labels.end() );
           }
 
           /** Virtual NO-OP destructor. */
-          virtual ~AvgVHS() {}
+          virtual ~AvgEasy() {}
 
           /** Interpolate the cross-section from a lookup table.
            *
@@ -99,10 +102,10 @@ namespace chimp {
             return std::make_pair(operator()(v_rel_max) * v_rel_max, v_rel_max);
           }
 
-          virtual AvgVHS * new_load( const xml::Context & x,
+          virtual AvgEasy * new_load( const xml::Context & x,
                                    const interaction::Equation<options> & eq,
                                    const RuntimeDB<options> & db ) const {
-            throw std::runtime_error("AvgVHS::new_load not yet useful");
+            throw std::runtime_error("AvgEasy::new_load not yet useful");
           }
 
           /** Obtain the label of the model. */
@@ -121,11 +124,22 @@ namespace chimp {
         };
 
         template < typename options >
-        const std::string AvgVHS<options>::label = "averaged_vhs_diameters";
+        const std::string AvgEasy<options>::label = "averaged_diameters_easy";
+
+        inline std::set< std::string > get_easy_sets() {
+          std::set< std::string > retval;
+          retval.insert( "vhs" );
+          retval.insert( "constant" );
+          return retval;
+        }
+
+        template < typename options >
+        const std::set< std::string>
+        AvgEasy<options>::easy_labels = get_easy_sets();
 
       } /* namespace chimp::interaction::cross_section::detail */
     } /* namespace chimp::interaction::cross_section */
   } /* namespace chimp::interaction */
 } /* namespace chimp */
 
-#endif // chimp_interaction_cross_section_detail_AvgVHS_h
+#endif // chimp_interaction_cross_section_detail_AvgEasy_h

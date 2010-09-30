@@ -54,7 +54,13 @@ typedef xylose::random::Kiss RNG;
 int main() {
   namespace filter = chimp::interaction::filter;
   typedef boost::shared_ptr<filter::Base> SP;
+  #ifdef NOAUTO_CREATE_MISSING_ELASTIC_CROSS_SECTIONS
   typedef chimp::RuntimeDB<> DB;
+  #else
+  typedef chimp::make_options<>::type
+    ::setAutoCreateMissingElastic<true>::type options;
+  typedef chimp::RuntimeDB<options> DB;
+  #endif
 
   DB db;
   RNG rng;

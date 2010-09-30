@@ -34,7 +34,8 @@
 #  include <chimp/interaction/cross_section/VHS.h>
 #  include <chimp/interaction/cross_section/DATA.h>
 #  include <chimp/interaction/cross_section/Lotz.h>
-#  include <chimp/interaction/cross_section/detail/AvgVHS.h>
+#  include <chimp/interaction/cross_section/Constant.h>
+#  include <chimp/interaction/cross_section/detail/AvgEasy.h>
 #  include <chimp/interaction/cross_section/AveragedDiameters.h>
 
 #  include <xylose/compat/math.hpp>
@@ -64,9 +65,11 @@ namespace chimp {
     typedef interaction::cross_section::VHS<options> VHS;
     typedef interaction::cross_section::DATA<options> DATA;
     typedef interaction::cross_section::Lotz<options> Lotz;
+    typedef interaction::cross_section::Constant<options> Constant;
     cross_section_registry[VHS::label ].reset(new VHS);
     cross_section_registry[DATA::label].reset(new DATA);
     cross_section_registry[Lotz::label].reset(new Lotz);
+    cross_section_registry[Constant::label].reset(new Constant);
 
 
     /* register the library-provided Interaction functors. */
@@ -410,13 +413,15 @@ namespace chimp {
 
           bool avg_success = true;
           // Set the cross section member
-          if ( eqii.cs->getLabel() == "vhs" && eqjj.cs->getLabel() == "vhs" ) {
+          typedef interaction::cross_section::detail::AvgEasy<options> AvgEasy;
+          const std::set< std::string > & easys = AvgEasy::easy_labels;
+          if ( easys.find( eqii.cs->getLabel() ) != easys.end() &&
+               easys.find( eqjj.cs->getLabel() ) != easys.end() ) {
             /* Adding two vhs cross sections together is mostly easy...
              * We have this special case for vhs-vhs mostly because it makes the
              * findMaxSigmaV so easy.
              */
-            typedef interaction::cross_section::detail::AvgVHS<options> AvgVHS;
-            eq.cs.reset( new AvgVHS( eqii.cs, eqjj.cs ) );
+            eq.cs.reset( new AvgEasy( eqii.cs, eqjj.cs ) );
           } else if ( vmax > 0.0 && dv > 0.0 ) {
             /* Adding two arbitrary cross sections together--more difficult. */
             typedef interaction::cross_section::AveragedDiameters<options> AvgCS;
