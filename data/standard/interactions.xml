@@ -5145,10 +5145,9 @@
         <Interaction>
             <e_mass_ratio>2.733E-6</e_mass_ratio>
             <Eq><In><T><P>e^-</P></T> + <T><P>Hg</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>Hg</P></T></Out></Eq>
-            <cross_section model="data" xscale="eV" yscale="m^2">
+            <cross_section model="constant">
                 <reference>From Bolsig+ ELASTIC;</reference>
-                <val x="0.000" y="0.6000E-19"/>
-                <val x="30." y="0.6000E-19"/>
+                <value>0.6000E-19 * m^2</value>
             </cross_section>
         </Interaction>
 
