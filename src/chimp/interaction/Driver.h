@@ -181,15 +181,23 @@ namespace chimp {
             /* Start by determining the number of collisions to use.
              * N_test = Fa Fb Na Nb dt MAX(s v) / ( 2 V min(Fa,Fb) )
              */
-            {/* FIXME:  support variable weights per particles... */
+            {/* FIXME:  support variable weights per particles.
+              * Implement Schmidt and Rutlands variable weight NTC. */
               using chimp::accessors::particle::weight;
               register double wA = weight(*aRange.begin()),
                               wB = weight(*bRange.begin());
 
               ctd.number_tests =
                  wA * wB * aRange.size() * bRange.size() * dt * ctd.m_s_v
-                / ( 2 * cell.volume() * std::min( wA, wB ) )
+                / ( cell.volume() * std::min( wA, wB ) )
               ;
+
+              if ( A == B )
+                /* For identical species, we have to divide by two because of
+                 * symmetry in the summation of number of collisions.  See
+                 * Schmidt and Rutland, J. Comp. Phys. 164, 62-80, 2000.
+                 */
+                ctd.number_tests *= 0.5;
             }
 
             {/* Promote the remaining selection probablity to either 0 or 1 */
