@@ -75,7 +75,7 @@ namespace chimp {
           for ( double bi = M_E; bi <= 100.0; bi += 0.01 ) {
             double err = 1.0 - d2.second /
                                f(SQR(d2.first) - SQR(d1.first), C, a, bi);
-            if ( std::abs(err) < abs(err_lowest) ) {
+            if ( std::abs(err) < std::abs(err_lowest) ) {
               b = bi;
               err_lowest = err;
             }
