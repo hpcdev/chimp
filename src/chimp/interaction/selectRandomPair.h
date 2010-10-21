@@ -40,18 +40,18 @@ namespace chimp {
                       RandomAccessParticleContainer & Bparticles,
                       RNG & rng ) {
       typedef typename RandomAccessParticleContainer::iterator PIter;
-      double Asz_m05 = Aparticles.size() * 0.999999;
-      double Bsz_m05 = Bparticles.size() * 0.999999;
+      const unsigned int Asz = Aparticles.size();
+      const unsigned int Bsz = Bparticles.size();
 
       /* First pick pA */
       PIter pA = Aparticles.begin()
-               + static_cast<int>( Asz_m05 * rng.rand() );
+               + static_cast<int>( Asz * rng.randExc() );
       PIter pB = pA;
       PIter Bbegin = Bparticles.begin();
 
       /* now we pick pB */
       while ( pA == pB )
-        pB = Bbegin + static_cast<int>( Bsz_m05 * rng.rand() );
+        pB = Bbegin + static_cast<int>( Bsz * rng.randExc() );
 
       return std::make_pair(pA, pB);
     }
