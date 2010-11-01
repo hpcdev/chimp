@@ -31,6 +31,7 @@
 #include <xylose/Vector.h>
 #include <xylose/IteratorRange.h>
 #include <xylose/upper_triangle.h>
+#include <xylose/compat/math.hpp>
 
 #include <iterator>
 #include <set>
@@ -202,7 +203,7 @@ namespace chimp {
 
             {/* Promote the remaining selection probablity to either 0 or 1 */
               register double number_of__fraction =
-                ctd.number_tests - static_cast<int>(ctd.number_tests);
+                ctd.number_tests - std::floor(ctd.number_tests);
 
               if ( rng.rand() < number_of__fraction )
                 ctd.number_tests += 1.0;
