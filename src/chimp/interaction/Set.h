@@ -114,7 +114,7 @@ namespace chimp {
        * */
       template < typename RNG >
       std::pair<int,double>
-      calculateOutPath( double & max_sigma_relspeed,
+      calculateOutPath( const double & max_sigma_relspeed,
                         const double & v_relative,
                         RNG & rng ) const {
         /* first find the normalization factor for the sum of
@@ -139,12 +139,14 @@ namespace chimp {
         if ( (rng.rand() * max_sigma_relspeed) > (cs_tot*v_relative) )
           return std::make_pair(-1,0.0); /* no interaction!!! */
 
+        #if UPGRADE_MAX_SIGMA_V
         /* upgrade max_sigma_relspeed? */
         {
           register double cs_max_relspeed = cs_max * v_relative;
           if (cs_max_relspeed > max_sigma_relspeed)
             max_sigma_relspeed = cs_max_relspeed;
         }
+        #endif
 
         /* now, we finally pick our output state.  */
         double r = rng.randExc() * cs_tot;
@@ -167,7 +169,7 @@ namespace chimp {
                  typename BackInsertionSequence,
                  typename RNG >
       std::pair<int,double>
-      interact( double & max_sigma_relspeed,
+      interact( const double & max_sigma_relspeed,
                 const std::pair<PIter, PIter> & pair,
                 BackInsertionSequence & result_list,
                 RNG & rng ) const {
@@ -210,7 +212,7 @@ namespace chimp {
 
 
       std::pair<int,double>
-      calculateOutPath( double & max_sigma_relspeed,
+      calculateOutPath( const double & max_sigma_relspeed,
                         const double & v_relative ) const {
         if (rhs.empty())
           return std::make_pair(-1,0.0);
