@@ -73,15 +73,17 @@ namespace chimp {
           virtual ~Not() { }
 
           virtual SHB load( const xml::Context & x ) const {
-            xml::Context::list x_list = x.eval("child::node()");// get all children
+            xml::Context::list x_list = x.eval("child::*");// get all children
 
             if ( x_list.size() != 2u )
               throw xml::error(
                 "<Not> filter should have exactly two direct child nodes"
               );
 
-            SHB pos = filter::loader::list[ x_list.front().name() ]->load(x);
-            SHB neg = filter::loader::list[ x_list.back().name() ]->load(x);
+            xml::Context & xpos = x_list.front();
+            xml::Context & xneg = x_list.back();
+            SHB pos = filter::loader::lookup( xpos.name() )->load(xpos);
+            SHB neg = filter::loader::lookup( xneg.name() )->load(xneg);
 
             return SHB( new filter::Not( pos, neg ) );
           }

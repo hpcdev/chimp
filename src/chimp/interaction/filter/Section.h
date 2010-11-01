@@ -32,6 +32,8 @@
 #include <chimp/interaction/filter/Null.h>
 #include <chimp/interaction/filter/detail/EqPair.h>
 
+#include <xylose/strutil.h>
+
 #include <boost/shared_ptr.hpp>
 
 #include <string>
@@ -134,10 +136,14 @@ namespace chimp {
 
           virtual SHB load( const xml::Context & x ) const {
             std::string section = x.query< std::string >("@name", "standard");
-            std::string prefer
-              = x.query< std::string >("@preference", "preferred");
 
-            xml::Context::list x_list = x.eval("child::node()");// get all children
+            filter::Section::REQUIREMENT prefer = filter::Section::PREFERRED;
+            if ( xylose::tolower(
+                   x.query< std::string >("@preference", "preferred")
+                 ).find("required") != std::string::npos )
+              prefer = filter::Section::REQUIRED;
+
+            xml::Context::list x_list = x.eval("child::*");// get all children
 
             if ( x_list.size() == 0u )
               return SHB( new filter::Section( section, prefer ) );
@@ -146,7 +152,8 @@ namespace chimp {
                 "<equation-filter> should only have one direct child node"
               );
 
-            SHB f = filter::loader::list[ x_list.front().name() ]->load(x);
+            xml::Context & xchild = x_list.front();
+            SHB f = filter::loader::lookup( xchild.name() )->load(xchild);
 
             return SHB( new filter::Section( section, prefer, f ) );
           }

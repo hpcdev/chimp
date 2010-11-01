@@ -20,12 +20,20 @@
  *                                                                             *
  -----------------------------------------------------------------------------*/
 
-#include <chimp/interaction/filter/Base.h>
+#include <chimp/interaction/filter/Or.h>
+#include <chimp/interaction/filter/And.h>
+#include <chimp/interaction/filter/Not.h>
 #include <chimp/interaction/filter/Null.h>
+#include <chimp/interaction/filter/EqIO.h>
+#include <chimp/interaction/filter/Label.h>
+#include <chimp/interaction/filter/Section.h>
+#include <chimp/interaction/filter/Elastic.h>
+#include <chimp/interaction/filter/Base.h>
 
 #include <xylose/xml/Doc.h>
 
 #include <boost/shared_ptr.hpp>
+#include <boost/make_shared.hpp>
 
 #include <map>
 #include <string>
@@ -36,6 +44,25 @@ namespace chimp {
 
       namespace loader {
         std::map< std::string, shared_ptr<filter::loader::Base> > list;
+
+        int init() {
+          using boost::make_shared;
+          loader::list["Or"]      = make_shared<loader::Or>();
+          loader::list["And"]     = make_shared<loader::And>();
+          loader::list["Not"]     = make_shared<loader::Not>();
+          loader::list["Null"]    = make_shared<loader::Null>();
+          loader::list["EqIO"]    = make_shared<loader::EqIO>();
+          loader::list["Label"]   = make_shared<loader::Label>();
+          loader::list["Section"] = make_shared<loader::Section>();
+          loader::list["Elastic"] = make_shared<loader::Elastic>();
+
+          return loader::list.size();
+        }
+
+        static const int _init = loader::init();
+        int dummy_function_to_shut_up_compiler() {
+          return _init;
+        }
       }/* namespace chimp::interaction::filter::loader */
 
 
@@ -45,7 +72,7 @@ namespace chimp {
       /** Need to parse the filter set from xml. */
       void parse_item( shared_ptr<filter::Base> & out,
                        const xml::Context & x ) {
-        xml::Context::list x_list = x.eval("child::node()");// get all children
+        xml::Context::list x_list = x.eval("child::*");// get all children
 
         if ( x_list.size() == 0u ) {
           out = shared_ptr<filter::Base>( new Null );
@@ -53,8 +80,10 @@ namespace chimp {
           throw xml::error(
             "<equation-filter> should only have one direct child node"
           );
-        else
-          out = filter::loader::list[ x_list.front().name() ]->load(x);
+        else {
+          xml::Context & xchild = x_list.front();
+          out = filter::loader::lookup( xchild.name() )->load(xchild);
+        }
       }
 
     }/* namespace chimp::interaction::filter */

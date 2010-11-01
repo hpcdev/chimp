@@ -31,7 +31,6 @@
 
 #include <chimp/interaction/cross_section/Base.h>
 #include <chimp/interaction/Equation.h>
-#include <chimp/interaction/ReducedMass.h>
 
 #include <xylose/xml/Doc.h>
 #include <xylose/power.h>

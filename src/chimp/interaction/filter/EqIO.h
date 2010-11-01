@@ -32,10 +32,12 @@
 
 #include <xylose/strutil.h>
 #include <xylose/xml/Doc.h>
+#include <xylose/xml/vector_parse.h>
 
-#include <string>
-#include <sstream>
 #include <set>
+#include <string>
+#include <vector>
+#include <sstream>
 
 namespace chimp {
   namespace interaction {
@@ -197,7 +199,7 @@ namespace chimp {
                 "dir in <EqIO dir='...'> must either be 'in' or 'out'"
               );
 
-            xml::Context::list x_list = x.eval("child::node()");// get all children
+            xml::Context::list x_list = x.eval("child::*");// get all children
 
             if ( x_list.size() < 1u )
               throw xml::error(

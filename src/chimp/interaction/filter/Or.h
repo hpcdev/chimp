@@ -72,15 +72,17 @@ namespace chimp {
           virtual ~Or() { }
 
           virtual SHB load( const xml::Context & x ) const {
-            xml::Context::list x_list = x.eval("child::node()");// get all children
+            xml::Context::list x_list = x.eval("child::*");// get all children
 
             if ( x_list.size() != 2u )
               throw xml::error(
                 "<Or> filter should have exactly two direct child nodes"
               );
 
-            SHB l = filter::loader::list[ x_list.front().name() ]->load(x);
-            SHB r = filter::loader::list[ x_list.back().name() ]->load(x);
+            xml::Context & xl = x_list.front();
+            xml::Context & xr = x_list.back();
+            SHB l = filter::loader::lookup( xl.name() )->load(xl);
+            SHB r = filter::loader::lookup( xr.name() )->load(xr);
 
             return SHB( new filter::Or( l, r ) );
           }

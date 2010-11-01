@@ -34,6 +34,7 @@
 
 #include <map>
 #include <string>
+#include <stdexcept>
 
 namespace chimp {
   namespace interaction {
@@ -90,6 +91,17 @@ namespace chimp {
         /** Map from filter-name to xml load facility for that filter. */
         extern std::map< std::string,
                          shared_ptr<filter::loader::Base> > list;
+
+        /** Lookup a loader from the list map with error reporting. */
+        inline shared_ptr<filter::loader::Base>
+        lookup( const std::string & name) {
+          std::map< std::string, shared_ptr<filter::loader::Base> >::iterator i
+              = loader::list.find( name );
+          if ( i == loader::list.end() )
+            throw std::invalid_argument("no filter known by name '"+name+"'");
+          else
+            return i->second;
+        }
 
       }/* namespace chimp::interaction::filter::loader */
 

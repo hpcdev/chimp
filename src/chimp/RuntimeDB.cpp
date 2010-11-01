@@ -38,8 +38,8 @@
 #  include <chimp/interaction/cross_section/detail/AvgEasy.h>
 #  include <chimp/interaction/cross_section/AveragedDiameters.h>
 
+#  include <xylose/strutil.h>
 #  include <xylose/compat/math.hpp>
-#  include <xylose/xml/vector_parse.h>
 
 #  include <ostream>
 #  include <fstream>
@@ -262,11 +262,16 @@ namespace chimp {
 
   template < typename T >
   inline void RuntimeDB<T>::addModel( const std::string & model_name ) {
-    xml::Context x = xmlDb.find("//model[@name='"+model_name+"']/particles");
-    std::vector<std::string> v = x.parse< std::vector<std::string> >();
-    addParticleType( v.begin(), v.end() );
+    xml::Context::list xl
+      = xmlDb.eval("//model[@name='"+model_name+"']/particles/P");
+    for ( xml::Context::list::iterator i = xl.begin(),
+                                    iend = xl.end();
+                                    i != iend; ++i ) {
+      addParticleType( xylose::strip( i->parse<std::string>() ) );
+    }
 
-    x = xmlDb.find("//model[@name='"+model_name+"']/equation-filter");
+    xml::Context x
+      = xmlDb.find("//model[@name='"+model_name+"']/equation-filter");
     typedef shared_ptr<interaction::filter::Base> SPFilter;
     filter = x.parse< SPFilter >();
   }

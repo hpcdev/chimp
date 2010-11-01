@@ -146,9 +146,8 @@ namespace chimp {
             max_sigma_relspeed = cs_max_relspeed;
         }
 
-        /* now, we finally pick our output state.  The 0.999999999 factor
-         * is to ensure that r < cs_tot. */
-        double r = rng.rand() * cs_tot * 0.999999999;
+        /* now, we finally pick our output state.  */
+        double r = rng.randExc() * cs_tot;
         cs_tot = 0;
         int j = 0;
         for ( std::vector<double>::iterator i = cs.begin(),
@@ -176,14 +175,22 @@ namespace chimp {
         typename options::Particle & pB = *pair.second;
 
         using chimp::accessors::particle::velocity;
+        using chimp::accessors::particle::species;
+
         /* Relative velocity of the the two particles. */
         double v_rel = ( velocity(pA) - velocity(pB) ).abs();
 
         std::pair<int,double> path =
           calculateOutPath( max_sigma_relspeed, v_rel, rng );
 
-        if ( path.first >= 0 )
-          rhs[path.first].interaction->interact( pA, pB, result_list, rng );
+        if ( path.first >= 0 ) {
+          /* help make sure that the order of the particles is correct--sorted
+           * by increasing mass. */
+          if ( species(pA) > species(pB) )
+            rhs[path.first].interaction->interact( pB, pA, result_list, rng );
+          else
+            rhs[path.first].interaction->interact( pA, pB, result_list, rng );
+        }
 
         return path;
       }
@@ -224,7 +231,7 @@ namespace chimp {
     }
 
 
-  }/* namespace particldb::interaction */
-}/* namespace particldb */
+  }/* namespace chimp::interaction */
+}/* namespace chimp */
 
 #endif // chimp_interaction_Set_h
