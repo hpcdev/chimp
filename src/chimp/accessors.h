@@ -40,68 +40,78 @@ namespace chimp {
 
       /** Generic NON-const accessor for particle velocity. */
       template < typename ParticleT >
-      static inline
-      Vector<double,3> & velocity( ParticleT & p ) {
+      inline Vector<double,3> & velocity( ParticleT & p ) {
         return p.v;
       }
 
       /** Generic const accessor for particle velocity. */
       template < typename ParticleT >
-      static inline
-      const Vector<double,3> & velocity( const ParticleT & p ) {
+      inline const Vector<double,3> & velocity( const ParticleT & p ) {
         return p.v;
       }
 
       /** Generic particle velocity set function. */
       template < typename ParticleT >
-      static inline
-      void setVelocity( ParticleT & p, const Vector<double,3> & v ) {
+      inline void setVelocity( ParticleT & p, const Vector<double,3> & v ) {
         p.v = v;
       }
 
 
       /** Generic NON-const accessor for particle position. */
       template < typename ParticleT >
-      static inline
-      Vector<double,3> & position( ParticleT & p ) {
+      inline Vector<double,3> & position( ParticleT & p ) {
         return p.x;
       }
 
       /** Generic const accessor for particle position. */
       template < typename ParticleT >
-      static inline
-      const Vector<double,3> & position( const ParticleT & p ) {
+      inline const Vector<double,3> & position( const ParticleT & p ) {
         return p.x;
+      }
+
+      /** Generic particle position set function. */
+      template < typename ParticleT >
+      inline
+      void setPosition( ParticleT & p, const Vector<double,3u> & x ) {
+        p.x = x;
       }
 
 
       /** Generic NON-const accessor for particle species. */
       template < typename ParticleT >
-      static inline
-      int & species( ParticleT & p ) {
+      inline int & species( ParticleT & p ) {
         return p.species;
       }
 
       /** Generic const accessor for particle species. */
       template < typename ParticleT >
-      static inline
-      const int & species( const ParticleT & p ) {
+      inline const int & species( const ParticleT & p ) {
         return p.species;
+      }
+
+      /** Generic particle species set function. */
+      template < typename ParticleT >
+      inline void setSpecies( ParticleT & p, const int & s ) {
+        p.species = s;
       }
 
 
       /** Generic NON-CONST accessor for particle weight. */
       template < typename ParticleT >
-      static inline
-      float & weight( ParticleT & p ) {
+      inline float & weight( ParticleT & p ) {
         return p.weight;
       }
 
       /** Generic CONST accessor for particle weight. */
       template < typename ParticleT >
-      static inline
-      const float & weight( const ParticleT & p ) {
+      inline const float & weight( const ParticleT & p ) {
         return p.weight;
+      }
+
+      /** Generic particle weight set function. */
+      template < typename ParticleT >
+      inline void setWeight( ParticleT & p, const float & w ) {
+        p.weight = w;
       }
 
     } /* namespace chimp::accessors::particle */
