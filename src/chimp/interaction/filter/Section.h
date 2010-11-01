@@ -52,7 +52,7 @@ namespace chimp {
           /** Require all interactions to be from the specific section. */
           REQUIRED,
           /** Prefer all interactions to be from the specific section. */
-          PREFERED
+          PREFERRED
         };
 
 
@@ -76,7 +76,7 @@ namespace chimp {
         /* MEMBER FUNCTIONS */
         /** Constructor */
         Section( const std::string & section = "standard",
-                 const enum REQUIREMENT & requirement = PREFERED,
+                 const enum REQUIREMENT & requirement = PREFERRED,
                  const shared_ptr<filter::Base> & f
                    = shared_ptr<filter::Base>(new Null) )
           : f(f), section(section), requirement(requirement) { }
@@ -125,6 +125,33 @@ namespace chimp {
           return retval;
         }
       };
+
+
+      namespace loader {
+        struct Section : filter::loader::Base {
+          typedef shared_ptr<filter::Base> SHB;
+          virtual ~Section() { }
+
+          virtual SHB load( const xml::Context & x ) const {
+            std::string section = x.query< std::string >("@name", "standard");
+            std::string prefer
+              = x.query< std::string >("@preference", "preferred");
+
+            xml::Context::list x_list = x.eval("child::node()");// get all children
+
+            if ( x_list.size() == 0u )
+              return SHB( new filter::Section( section, prefer ) );
+            else if ( x_list.size() > 1u )
+              throw xml::error(
+                "<equation-filter> should only have one direct child node"
+              );
+
+            SHB f = filter::loader::list[ x_list.front().name() ]->load(x);
+
+            return SHB( new filter::Section( section, prefer, f ) );
+          }
+        };
+      }/* namespace chimp::interaction::filter::loader */
 
     }/* namespace particldb::interaction::filter */
   }/* namespace particldb::interaction */

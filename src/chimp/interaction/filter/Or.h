@@ -66,6 +66,28 @@ namespace chimp {
         }
       };
 
+      namespace loader {
+        struct Or : filter::loader::Base {
+          typedef shared_ptr<filter::Base> SHB;
+          virtual ~Or() { }
+
+          virtual SHB load( const xml::Context & x ) const {
+            xml::Context::list x_list = x.eval("child::node()");// get all children
+
+            if ( x_list.size() != 2u )
+              throw xml::error(
+                "<Or> filter should have exactly two direct child nodes"
+              );
+
+            SHB l = filter::loader::list[ x_list.front().name() ]->load(x);
+            SHB r = filter::loader::list[ x_list.back().name() ]->load(x);
+
+            return SHB( new filter::Or( l, r ) );
+          }
+        };
+      }/* namespace chimp::interaction::filter::loader */
+
+
     }/* namespace particldb::interaction::filter */
   }/* namespace particldb::interaction */
 }/* namespace particldb */

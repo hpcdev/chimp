@@ -282,6 +282,9 @@ namespace chimp {
      * array only if it doesn't already exist. */
     inline void addParticleType(const Properties & prop);
 
+    /** Adds particles and specifies an interaction filter from a model. */
+    inline void addModel( const std::string & model_name );
+
 
     /** Read-only access to the properties vector.
      *

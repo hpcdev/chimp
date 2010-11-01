@@ -83,6 +83,7 @@ set( ${PROJECT_NAME}_HEADERS
 
 set( ${PROJECT_NAME}_SOURCES
     src/chimp/physical_calc.cpp
+    src/chimp/interaction/filter/Base.cpp
     src/chimp/interaction/cross_section/DATA.cpp
     src/chimp/interaction/cross_section/Constant.cpp
     src/chimp/interaction/cross_section/detail/VHSInfo.cpp

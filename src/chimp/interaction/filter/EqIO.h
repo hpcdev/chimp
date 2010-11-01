@@ -30,6 +30,9 @@
 
 #include <chimp/interaction/filter/Base.h>
 
+#include <xylose/strutil.h>
+#include <xylose/xml/Doc.h>
+
 #include <string>
 #include <sstream>
 #include <set>
@@ -48,12 +51,20 @@ namespace chimp {
          */
         int n;
 
-        EqTerm( const std::string & name, const int & n = 1 )
+        EqTerm( const std::string & name = "", const int & n = 1 )
           : name(name), n(n) { }
 
         EqTerm( const char * name, const int & n = 1 )
           : name(name), n(n) { }
       };
+
+      /** Need to parse the filter set from xml. */
+      inline void parse_item( EqTerm & out, const xml::Context & x ) {
+        out.name = x.query< std::string >("P");
+        out.n = x.query< int >("n", 1);
+      }
+
+
 
       /** The comparator for Eq terms sorts by name only.  The reason for this
        * is to ensure that we can only have one entry for each particle species.
@@ -74,7 +85,7 @@ namespace chimp {
        * @returns "" if the EqTermSet was empty.
        */
       inline std::string getXpathQuery( const std::string & EqIO,
-                                          const EqTermSet & set ) {
+                                        const EqTermSet & set ) {
         if ( set.size() == 0u )
           return "";
 
@@ -166,6 +177,39 @@ namespace chimp {
           xpath_query = getXpathQuery(m_id_name, terms);
         }
       };
+
+      namespace loader {
+        struct EqIO : filter::loader::Base {
+          typedef shared_ptr<filter::Base> SHB;
+          virtual ~EqIO() { }
+
+          virtual SHB load( const xml::Context & x ) const {
+            std::string dir_str
+              = xylose::tolower( x.query<std::string>("@dir") );
+
+            filter::EqIO::EqIOId dir;            
+            if      ( dir_str == "in" )
+              dir = filter::EqIO::IN;
+            else if ( dir_str == "out" )
+              dir = filter::EqIO::OUT;
+            else
+              throw xml::error(
+                "dir in <EqIO dir='...'> must either be 'in' or 'out'"
+              );
+
+            xml::Context::list x_list = x.eval("child::node()");// get all children
+
+            if ( x_list.size() < 1u )
+              throw xml::error(
+                "<EqIO> filter should have at least one direct child node"
+              );
+
+            std::vector< EqTerm > terms = x.parse< std::vector< EqTerm > >();
+            return SHB(new filter
+              ::EqIO( dir, EqTermSet(terms.begin(), terms.end()) ));
+          }
+        };
+      }/* namespace chimp::interaction::filter::loader */
 
     }/* namespace particldb::interaction::filter */
   }/* namespace particldb::interaction */

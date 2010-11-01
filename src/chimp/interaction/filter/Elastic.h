@@ -76,6 +76,17 @@ namespace chimp {
           return false;
       }
 
+      namespace loader {
+        struct Elastic : filter::loader::Base {
+          typedef shared_ptr<filter::Base> SHB;
+          virtual ~Elastic() { }
+
+          virtual SHB load( const xml::Context & x ) const {
+            return SHB( new filter::Elastic() );
+          }
+        };
+      }/* namespace chimp::interaction::filter::loader */
+
     }/* namespace particldb::interaction::filter */
   }/* namespace particldb::interaction */
 }/* namespace particldb */

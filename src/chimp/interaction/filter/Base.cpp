@@ -20,76 +20,44 @@
  *                                                                             *
  -----------------------------------------------------------------------------*/
 
-
-/** \file
- * Declaration of filter::Not class. 
- */
-
-#ifndef chimp_interaction_filter_Not_h
-#define chimp_interaction_filter_Not_h
-
 #include <chimp/interaction/filter/Base.h>
+#include <chimp/interaction/filter/Null.h>
+
+#include <xylose/xml/Doc.h>
 
 #include <boost/shared_ptr.hpp>
 
-#include <algorithm>
+#include <map>
+#include <string>
 
 namespace chimp {
   namespace interaction {
     namespace filter {
 
-      using boost::shared_ptr;
-
-      /** Filters by performing a set difference (pos - neg). */
-      struct Not : filter::Base {
-        /* MEMBER STORAGE */
-        shared_ptr<filter::Base> pos, neg;
-
-        /* MEMBER FUNCTIONS */
-        /** Constructor */
-        Not( const shared_ptr<filter::Base> & pos,
-             const shared_ptr<filter::Base> & neg )
-          : pos(pos), neg(neg) { }
-
-        /** Virtual NO-OP destructor. */
-        virtual ~Not() {}
-
-        /** Virtual filter operation. */
-        virtual set filter(const set & in) {
-          set pset = pos->filter(in);
-          set nset = neg->filter(in);
-
-          set retval;
-          std::set_difference( pset.begin(), pset.end(),
-                               nset.begin(), nset.end(),
-                               inserter(retval, retval.begin()) );
-          return retval;
-        }
-      };
-
       namespace loader {
-        struct Not : filter::loader::Base {
-          typedef shared_ptr<filter::Base> SHB;
-          virtual ~Not() { }
-
-          virtual SHB load( const xml::Context & x ) const {
-            xml::Context::list x_list = x.eval("child::node()");// get all children
-
-            if ( x_list.size() != 2u )
-              throw xml::error(
-                "<Not> filter should have exactly two direct child nodes"
-              );
-
-            SHB pos = filter::loader::list[ x_list.front().name() ]->load(x);
-            SHB neg = filter::loader::list[ x_list.back().name() ]->load(x);
-
-            return SHB( new filter::Not( pos, neg ) );
-          }
-        };
+        std::map< std::string, shared_ptr<filter::loader::Base> > list;
       }/* namespace chimp::interaction::filter::loader */
 
-    }/* namespace particldb::interaction::filter */
-  }/* namespace particldb::interaction */
-}/* namespace particldb */
 
-#endif // chimp_interaction_filter_Not_h
+      using boost::shared_ptr;
+      namespace xml = xylose::xml;
+
+      /** Need to parse the filter set from xml. */
+      void parse_item( shared_ptr<filter::Base> & out,
+                       const xml::Context & x ) {
+        xml::Context::list x_list = x.eval("child::node()");// get all children
+
+        if ( x_list.size() == 0u ) {
+          out = shared_ptr<filter::Base>( new Null );
+        } else if ( x_list.size() > 1u )
+          throw xml::error(
+            "<equation-filter> should only have one direct child node"
+          );
+        else
+          out = filter::loader::list[ x_list.front().name() ]->load(x);
+      }
+
+    }/* namespace chimp::interaction::filter */
+  }/* namespace chimp::interaction */
+}/* namespace chimp */
+

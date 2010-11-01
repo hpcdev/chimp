@@ -30,12 +30,16 @@
 
 #include <xylose/xml/Doc.h>
 
+#include <boost/shared_ptr.hpp>
+
+#include <map>
 #include <string>
 
 namespace chimp {
   namespace interaction {
-
     namespace filter {
+
+      using boost::shared_ptr;
       namespace xml = xylose::xml;
 
       typedef xml::Context::set set;
@@ -75,8 +79,26 @@ namespace chimp {
         }
       };
 
-    }/* namespace particldb::interaction::filter */
-  }/* namespace particldb::interaction */
-}/* namespace particldb */
+      namespace loader {
+        struct Base {
+          virtual ~Base() { }
+
+          virtual shared_ptr<filter::Base>
+          load( const xml::Context & x ) const = 0;
+        };
+
+        /** Map from filter-name to xml load facility for that filter. */
+        extern std::map< std::string,
+                         shared_ptr<filter::loader::Base> > list;
+
+      }/* namespace chimp::interaction::filter::loader */
+
+
+      /** Need to parse the filter set from xml. */
+      void parse_item( shared_ptr<filter::Base> & out, const xml::Context & x );
+
+    }/* namespace chimp::interaction::filter */
+  }/* namespace chimp::interaction */
+}/* namespace chimp */
 
 #endif // chimp_interaction_filter_Base_h
