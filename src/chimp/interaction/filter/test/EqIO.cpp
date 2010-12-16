@@ -27,9 +27,8 @@
 #define BOOST_TEST_MODULE  EqIO
 
 
+#include <chimp/default_data.h>
 #include <chimp/interaction/filter/EqIO.h>
-
-#include <xylose/XSTR.h>
 
 #include <boost/test/unit_test.hpp>
 
@@ -61,7 +60,7 @@ BOOST_AUTO_TEST_SUITE( EqIO_tests ); // {
     EqIO f(EqIO::IN, "e^-", "Hg");
 
     namespace xml = xylose::xml;
-    xml::Doc xmlDb(XSTR(CHIMP_PARTICLEDB_XML));
+    xml::Doc xmlDb( chimp::default_data::particledb() );
 
     typedef xml::Context::set set;
     xml::Context::list xl = xmlDb.eval("//Interaction");
@@ -90,7 +89,7 @@ BOOST_AUTO_TEST_SUITE( EqIO_tests ); // {
     EqIO f(EqIO::OUT, "e^-", "Hg");
 
     namespace xml = xylose::xml;
-    xml::Doc xmlDb(XSTR(CHIMP_PARTICLEDB_XML));
+    xml::Doc xmlDb( chimp::default_data::particledb() );
 
     typedef xml::Context::set set;
     xml::Context::list xl = xmlDb.eval("//Interaction");

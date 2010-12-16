@@ -26,11 +26,9 @@
  * */
 #define BOOST_TEST_MODULE  And
 
-
+#include <chimp/default_data.h>
 #include <chimp/interaction/filter/EqIO.h>
 #include <chimp/interaction/filter/And.h>
-
-#include <xylose/XSTR.h>
 
 #include <boost/test/unit_test.hpp>
 
@@ -46,7 +44,7 @@ BOOST_AUTO_TEST_SUITE( And_tests ); // {
            shared_ptr<EqIO>(new EqIO(EqIO::OUT, "e^-", "Hg(6-3P0)")) );
 
     namespace xml = xylose::xml;
-    xml::Doc xmlDb(XSTR(CHIMP_PARTICLEDB_XML));
+    xml::Doc xmlDb( chimp::default_data::particledb() );
 
     typedef xml::Context::set set;
     xml::Context::list xl = xmlDb.eval("//Interaction");

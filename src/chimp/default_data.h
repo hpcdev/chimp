@@ -21,32 +21,19 @@
  -----------------------------------------------------------------------------*/
 
 
-/** \file Simple test of chimp::property mechanics. */
+#ifndef chimp_default_data_h
+#define chimp_default_data_h
 
-#include <chimp/default_data.h>
-#include <chimp/physical_calc.h>
-#include <chimp/property/DefaultSet.h>
+#  include <xylose/XSTR.h>
 
-#include <physical/physical.h>
+#  include <string>
 
-#include <iostream>
+namespace chimp {
+  namespace default_data {
+    inline std::string particledb() {
+      return XSTR(CHIMP_PARTICLEDB_XML);
+    }
+  }
+} /* namespace chimp */
 
-int main() {
-  namespace xml = xylose::xml;
-
-  xml::Doc db( chimp::default_data::particledb() );
-  chimp::prepareCalculator(db);
-
-  xml::Context x = db.root_context.find("/ParticleDB//particles/Particle[@name='87Rb']");
-  chimp::property::DefaultSet p = chimp::property::DefaultSet::load(x);
-
-  std::cout << "Accessing each property individually:\n";
-  std::cout << "p.name:  "   << p.name::value << std::endl;
-  std::cout << "p.mass:  "   << p.mass::value << std::endl;
-  std::cout << "p.charge:  " << p.charge::value << std::endl;
-
-  std::cout << "Printing all properties by using stream insertion:\n";
-  std::cout << "\t{" << p << '}' << std::endl;
-
-  return 0;
-}
+#endif // chimp_default_data_h
