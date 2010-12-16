@@ -27,6 +27,7 @@
 #define BOOST_TEST_MODULE  Elastic
 
 
+#include <chimp/default_data.h>
 #include <chimp/interaction/filter/Elastic.h>
 
 #include <boost/test/unit_test.hpp>
@@ -41,7 +42,7 @@ BOOST_AUTO_TEST_SUITE( Elastic_tests ); // {
     Elastic f;
 
     namespace xml = xylose::xml;
-    xml::Doc xmlDb(PARTICLEDB_XML);
+    xml::Doc xmlDb( chimp::default_data::particledb() );
 
     typedef xml::Context::set set;
     xml::Context::list xl = xmlDb.eval(

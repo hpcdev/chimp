@@ -31,8 +31,9 @@
 #include <chimp/physical_calc.h>
 #include <chimp/make_options.h>
 
-#include <xylose/xml/vector_parse.h>
+#include <xylose/XSTR.h>
 #include <xylose/power.h>
+#include <xylose/xml/vector_parse.h>
 
 #include <physical/physical.h>
 
@@ -62,7 +63,7 @@ namespace {
 BOOST_AUTO_TEST_SUITE( LotzParameters_test ); // {
 
   BOOST_AUTO_TEST_CASE( loading ) {
-    xml::Doc doc(XML_FILENAME);
+    xml::Doc doc(XSTR(XML_FILENAME));
     chimp::prepareCalculator(doc);
 
     {
@@ -103,7 +104,7 @@ BOOST_AUTO_TEST_SUITE_END(); // }  LotzParameters
 
 BOOST_AUTO_TEST_SUITE( Lotz_test ); // {
   BOOST_AUTO_TEST_CASE( loading ) {
-    xml::Doc doc(XML_FILENAME);
+    xml::Doc doc(XSTR(XML_FILENAME));
     chimp::prepareCalculator(doc);
 
     {

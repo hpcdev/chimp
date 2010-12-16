@@ -27,6 +27,7 @@
 #define BOOST_TEST_MODULE  Not
 
 
+#include <chimp/default_data.h>
 #include <chimp/interaction/filter/EqIO.h>
 #include <chimp/interaction/filter/Or.h>
 #include <chimp/interaction/filter/Not.h>
@@ -53,7 +54,7 @@ BOOST_AUTO_TEST_SUITE( Not_tests ); // {
          );
 
     namespace xml = xylose::xml;
-    xml::Doc xmlDb(PARTICLEDB_XML);
+    xml::Doc xmlDb( chimp::default_data::particledb() );
 
     typedef xml::Context::set set;
     xml::Context::list xl = xmlDb.eval("//Interaction");

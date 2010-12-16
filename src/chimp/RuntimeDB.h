@@ -104,6 +104,7 @@
 #ifndef chimp_RuntimeDB_h
 #define chimp_RuntimeDB_h
 
+#  include <chimp/default_data.h>
 #  include <chimp/make_options.h>
 #  include <chimp/interaction/Set.h>
 #  include <chimp/interaction/model/Base.h>
@@ -112,6 +113,7 @@
 #  include <chimp/property/name.h>
 #  include <chimp/property/Comparator.h>
 
+#  include <xylose/XSTR.h>
 #  include <xylose/logger.h>
 #  include <xylose/xml/Doc.h>
 #  include <xylose/compat/math.hpp>
@@ -248,7 +250,7 @@ namespace chimp {
     /** Constructor opens up the PARTICLE_XML xml file, prepares the units
      * calculator and registers the default models.
      */
-    RuntimeDB(const std::string & xml_doc = PARTICLEDB_XML);
+    RuntimeDB( const std::string & xml_doc = default_data::particledb() );
 
     /** Add XML section data into the already loaded CHIMP XML data set. */
     inline void addXMLData( const std::string & filename );

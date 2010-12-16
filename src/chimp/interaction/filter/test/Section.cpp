@@ -27,6 +27,7 @@
 #define BOOST_TEST_MODULE  Section
 
 
+#include <chimp/default_data.h>
 #include <chimp/interaction/filter/Base.h>
 #include <chimp/interaction/filter/EqIO.h>
 #include <chimp/interaction/filter/Section.h>
@@ -43,7 +44,7 @@ BOOST_AUTO_TEST_SUITE( Section_tests ); // {
     Section f;
 
     namespace xml = xylose::xml;
-    xml::Doc xmlDb(PARTICLEDB_XML);
+    xml::Doc xmlDb( chimp::default_data::particledb() );
 
     typedef xml::Context::set set;
     xml::Context::list xl = xmlDb.eval("/ParticleDB/standard//Interaction");
@@ -60,7 +61,7 @@ BOOST_AUTO_TEST_SUITE( Section_tests ); // {
     Section f("unstandard");
 
     namespace xml = xylose::xml;
-    xml::Doc xmlDb(PARTICLEDB_XML);
+    xml::Doc xmlDb( chimp::default_data::particledb() );
 
     typedef xml::Context::set set;
     xml::Context::list xl = xmlDb.eval("/ParticleDB/standard//Interaction");
@@ -77,7 +78,7 @@ BOOST_AUTO_TEST_SUITE( Section_tests ); // {
     Section f("unstandard", Section::REQUIRED);
 
     namespace xml = xylose::xml;
-    xml::Doc xmlDb(PARTICLEDB_XML);
+    xml::Doc xmlDb( chimp::default_data::particledb() );
 
     typedef xml::Context::set set;
     xml::Context::list xl = xmlDb.eval("/ParticleDB/standard//Interaction");
@@ -99,7 +100,7 @@ BOOST_AUTO_TEST_SUITE( Section_tests ); // {
              );
 
     namespace xml = xylose::xml;
-    xml::Doc xmlDb(PARTICLEDB_XML);
+    xml::Doc xmlDb( chimp::default_data::particledb() );
 
     typedef xml::Context::set set;
     xml::Context::list xl = xmlDb.eval("/ParticleDB/standard//Interaction");

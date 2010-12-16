@@ -64,7 +64,7 @@ local xml2-features = [ mpi.cmdline_to_features [ SHELL "printf '%s ' compiler `
 # root-project loads boost and others...
 use-project /root-project : ../ ;
 
-path-constant PARTICLEDB_XML : $(TOP)/data/particledb.xml ;
+path-constant CHIMP_PARTICLEDB_XML : $(TOP)/data/particledb.xml ;
 
 project /chimp
     : requirements
@@ -72,14 +72,14 @@ project /chimp
         <library>/xylose//headers
         <library>/boost//headers
         $(xml2-features)
-        <define>PARTICLEDB_XML=\\\"$(PARTICLEDB_XML)\\\"
+        <define>CHIMP_PARTICLEDB_XML=$(CHIMP_PARTICLEDB_XML)
         <define>CHIMP_VERSION=\\\"$(VERSION)\\\"
     : usage-requirements
         <include>src
         <library>/xylose//headers
         <library>/boost//headers
         $(xml2-features)
-        <define>PARTICLEDB_XML=\\\"$(PARTICLEDB_XML)\\\"
+        <define>CHIMP_PARTICLEDB_XML=$(CHIMP_PARTICLEDB_XML)
         <define>CHIMP_VERSION=\\\"$(VERSION)\\\"
     ;
 
