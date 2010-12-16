@@ -55,6 +55,9 @@ find_package( LibXml2 REQUIRED )
 add_definitions( ${LIBXML2_DEFINITIONS} )
 include_directories( ${LIBXML2_INCLUDE_DIR} )
 
+find_package( Boost REQUIRED )
+add_definitions( ${Boost_DEFINITIONS} )
+include_directories( ${Boost_INCLUDE_DIRS} )
 
 # /chimp//particledb configuration
 set( ${PROJECT_NAME}_HEADERS
