@@ -23,6 +23,7 @@ add_definitions(
     -DPARTICLEDB_XML=\"${CHIMP_PARTICLEDB_XML}\"
 )
 
+install( DIRECTORY data DESTINATION share/chimp )
 
 # /chimp//particledb configuration
 set( ${PROJECT_NAME}_HEADERS
