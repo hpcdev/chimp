@@ -77,10 +77,12 @@ namespace chimp {
     /** The default collision monitor does nothing. */
     struct NullMonitor {
       template < typename ChimpDB,
-                 typename PIter >
+                 typename PIter,
+                 typedef BackInsertionSequence >
       void interactions( const ChimpDB & db,
                          const std::pair<PIter, PIter> & pair,
-                         const std::pair<int,double> & path ) const { }
+                         const std::pair<int,double> & path,
+                         const BackInsertionSequence & result_list ) const { }
 
       void pairtests( const double & number_of_pairtests ) const { }
     };
@@ -251,6 +253,7 @@ namespace chimp {
               std::pair<int,double>
                 path = eqset.interact( ctd.m_s_v, pair, result_list, rng );
 
+              monitor.interactions( db, pair, path, result_list );
 
               /* we work with A completely and then B so that if A == B things
                * work still. */
@@ -259,8 +262,6 @@ namespace chimp {
                 result_list, result_list_sz_i, eq,
                 A, B, aRange, bRange
               );
-
-              monitor.interactions( db, pair, path );
 
               /* one down, ... more to go. */
               ctd.number_tests -= 1.0;
