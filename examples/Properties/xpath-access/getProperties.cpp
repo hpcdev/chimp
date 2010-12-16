@@ -31,7 +31,7 @@
 int main() {
   namespace xml = xylose::xml;
 
-  xml::Doc db(PARTICLEDB_XML);
+  xml::Doc db(#CHIMP_PARTICLEDB_XML);
   chimp::prepareCalculator(db);
 
   xml::Context x = db.root_context.find("/ParticleDB//particles/Particle[@name='87Rb']");

@@ -1,1 +1,1 @@
-chimp_unit_test( Equation   Equation.cpp )
+chimp_unit_test( interaction.Equation   Equation.cpp )

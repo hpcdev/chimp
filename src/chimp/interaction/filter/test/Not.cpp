@@ -31,6 +31,8 @@
 #include <chimp/interaction/filter/Or.h>
 #include <chimp/interaction/filter/Not.h>
 
+#include <xylose/XSTR.h>
+
 #include <boost/test/unit_test.hpp>
 
 #include <sstream>
@@ -53,7 +55,7 @@ BOOST_AUTO_TEST_SUITE( Not_tests ); // {
          );
 
     namespace xml = xylose::xml;
-    xml::Doc xmlDb(PARTICLEDB_XML);
+    xml::Doc xmlDb(XSTR(CHIMP_PARTICLEDB_XML));
 
     typedef xml::Context::set set;
     xml::Context::list xl = xmlDb.eval("//Interaction");

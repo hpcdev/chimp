@@ -29,6 +29,8 @@
 
 #include <chimp/interaction/filter/EqIO.h>
 
+#include <xylose/XSTR.h>
+
 #include <boost/test/unit_test.hpp>
 
 #include <sstream>
@@ -59,7 +61,7 @@ BOOST_AUTO_TEST_SUITE( EqIO_tests ); // {
     EqIO f(EqIO::IN, "e^-", "Hg");
 
     namespace xml = xylose::xml;
-    xml::Doc xmlDb(PARTICLEDB_XML);
+    xml::Doc xmlDb(XSTR(CHIMP_PARTICLEDB_XML));
 
     typedef xml::Context::set set;
     xml::Context::list xl = xmlDb.eval("//Interaction");
@@ -88,7 +90,7 @@ BOOST_AUTO_TEST_SUITE( EqIO_tests ); // {
     EqIO f(EqIO::OUT, "e^-", "Hg");
 
     namespace xml = xylose::xml;
-    xml::Doc xmlDb(PARTICLEDB_XML);
+    xml::Doc xmlDb(XSTR(CHIMP_PARTICLEDB_XML));
 
     typedef xml::Context::set set;
     xml::Context::list xl = xmlDb.eval("//Interaction");

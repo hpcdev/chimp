@@ -8,9 +8,28 @@ cmake_minimum_required( VERSION 2.6 )
 
 project( chimp )
 
-set( VERSION chimp-0.1.2-13-gc89373f )
-
 include( CTest )
+
+################################################################################
+# Obtain the chimp version
+################################################################################
+set( VERSION )
+
+find_program( GIT_EXECUTABLE NAMES git )
+if( GIT_EXECUTABLE )
+  exec_program(
+    ${GIT_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR} ARGS describe
+    OUTPUT_VARIABLE VERSION
+    RETURN_VALUE GIT_RETVAL )
+  if( NOT ${GIT_RETVAL} EQUAL 0 )
+    # Something went wrong, fall back on other methods.
+    # We still didn't find a version, so it's really unknown.
+    set( VERSION "chimp-unknownversion" )
+  endif()
+endif()
+
+message( STATUS "chimp VERSION: ${VERSION}" )
+
 
 set( CHIMP_PARTICLEDB_XML
     "${CMAKE_CURRENT_SOURCE_DIR}/data/particledb.xml" CACHE STRING
@@ -18,12 +37,24 @@ set( CHIMP_PARTICLEDB_XML
 )
 mark_as_advanced( CHIMP_PARTICLEDB_XML )
 
-add_definitions(
-    -DCHMIP_VERSION=\"${VERSION}\"
-    -DPARTICLEDB_XML=\"${CHIMP_PARTICLEDB_XML}\"
+LIST(APPEND ${PROJECT_NAME}_DEFINITIONS
+    -DCHIMP_VERSION=${VERSION}
+    -DCHIMP_PARTICLEDB_XML=${CHIMP_PARTICLEDB_XML}
 )
 
-install( DIRECTORY data DESTINATION share/chimp )
+# include the current directory for framework style includes
+LIST(APPEND ${PROJECT_NAME}_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/src )
+
+# FIXME:  physical needs a find module
+# find_package( physical )
+add_definitions( ${physical_DEFINITIONS} )
+include_directories( ${physical_INCLUDE_DIRS} )
+
+
+find_package( LibXml2 REQUIRED )
+add_definitions( ${LIBXML2_DEFINITIONS} )
+include_directories( ${LIBXML2_INCLUDE_DIR} )
+
 
 # /chimp//particledb configuration
 set( ${PROJECT_NAME}_HEADERS
@@ -92,26 +123,23 @@ set( ${PROJECT_NAME}_SOURCES
     src/chimp/interaction/model/detail/vss_helpers.cpp
 )
 
-find_package( LibXml2 REQUIRED )
-
-include_directories( ${LIBXML2_INCLUDE_DIR} )
-add_definitions( ${LIBXML2_DEFINITIONS} )
-
+add_definitions( ${${PROJECT_NAME}_DEFINITIONS} )
+include_directories( ${${PROJECT_NAME}_INCLUDE_DIRS} )
 add_library( ${PROJECT_NAME} 
     ${${PROJECT_NAME}_HEADERS}
     ${${PROJECT_NAME}_SOURCES}
 )
 
-
-include_directories( ${Boost_INCLUDE_DIRS} )
 target_link_libraries( ${PROJECT_NAME}
     physical_calc
     Xylose
 )
 
+install( DIRECTORY data DESTINATION share/chimp )
 
-# include the current directory for framework style includes
-include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/src )
+# Bogus stuff to help simulate a find module for this project
+set( ${PROJECT_NAME}_DEFINITIONS ${${PROJECT_NAME}_DEFINITIONS} PARENT_SCOPE )
+set( ${PROJECT_NAME}_INCLUDE_DIRS ${${PROJECT_NAME}_INCLUDE_DIRS} PARENT_SCOPE )
 
 
 # utility macro to add a unit test to be shared by all subdirectories.

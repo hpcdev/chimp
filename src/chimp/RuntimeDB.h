@@ -112,6 +112,7 @@
 #  include <chimp/property/name.h>
 #  include <chimp/property/Comparator.h>
 
+#  include <xylose/XSTR.h>
 #  include <xylose/logger.h>
 #  include <xylose/xml/Doc.h>
 #  include <xylose/compat/math.hpp>
@@ -248,7 +249,7 @@ namespace chimp {
     /** Constructor opens up the PARTICLE_XML xml file, prepares the units
      * calculator and registers the default models.
      */
-    RuntimeDB(const std::string & xml_doc = PARTICLEDB_XML);
+    RuntimeDB(const std::string & xml_doc = XSTR(CHIMP_PARTICLEDB_XML));
 
     /** Add XML section data into the already loaded CHIMP XML data set. */
     inline void addXMLData( const std::string & filename );
