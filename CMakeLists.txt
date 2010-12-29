@@ -45,19 +45,14 @@ LIST(APPEND ${PROJECT_NAME}_DEFINITIONS
 # include the current directory for framework style includes
 LIST(APPEND ${PROJECT_NAME}_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/src )
 
-# FIXME:  physical needs a find module
-# find_package( physical )
-add_definitions( ${physical_DEFINITIONS} )
-include_directories( ${physical_INCLUDE_DIRS} )
+###############################################################
+# Required support libraries...
+###############################################################
 
-
+find_package( physical REQUIRED COMPONENTS calc )
+find_package( xylose REQUIRED )
 find_package( LibXml2 REQUIRED )
-add_definitions( ${LIBXML2_DEFINITIONS} )
-include_directories( ${LIBXML2_INCLUDE_DIR} )
-
 find_package( Boost REQUIRED )
-add_definitions( ${Boost_DEFINITIONS} )
-include_directories( ${Boost_INCLUDE_DIRS} )
 
 # /chimp//particledb configuration
 set( ${PROJECT_NAME}_HEADERS
@@ -126,16 +121,31 @@ set( ${PROJECT_NAME}_SOURCES
     src/chimp/interaction/model/detail/vss_helpers.cpp
 )
 
-add_definitions( ${${PROJECT_NAME}_DEFINITIONS} )
-include_directories( ${${PROJECT_NAME}_INCLUDE_DIRS} )
+add_definitions(
+    ${${PROJECT_NAME}_DEFINITIONS}
+    ${physical_DEFINITIONS}
+    ${xylose_DEFINITIONS}
+    ${LIBXML2_DEFINITIONS}
+    ${Boost_DEFINITIONS}
+)
+
+include_directories(
+    ${${PROJECT_NAME}_INCLUDE_DIRS}
+    ${physical_INCLUDE_DIRS}
+    ${xylose_INCLUDE_DIRS}
+    ${LIBXML2_INCLUDE_DIR}
+    ${Boost_INCLUDE_DIRS}
+)
+
 add_library( ${PROJECT_NAME} 
     ${${PROJECT_NAME}_HEADERS}
     ${${PROJECT_NAME}_SOURCES}
 )
 
 target_link_libraries( ${PROJECT_NAME}
-    physical_calc
-    Xylose
+    ${physical_CALC_LIBRARY}
+    ${xylose_LIBRARIES}
+    ${LIBXML2_LIBRARIES}
 )
 
 install( DIRECTORY data DESTINATION share/chimp )
@@ -143,6 +153,24 @@ install( DIRECTORY data DESTINATION share/chimp )
 # Bogus stuff to help simulate a find module for this project
 set( ${PROJECT_NAME}_DEFINITIONS ${${PROJECT_NAME}_DEFINITIONS} PARENT_SCOPE )
 set( ${PROJECT_NAME}_INCLUDE_DIRS ${${PROJECT_NAME}_INCLUDE_DIRS} PARENT_SCOPE )
+# Stuff to help a simple local find module for this project
+MESSAGE(STATUS "Creating chimp-config.cmake")
+FILE(WRITE
+    ${CMAKE_BINARY_DIR}/chimp-config.cmake
+    "set( ${PROJECT_NAME}_VERSION \n"
+    "     ${VERSION}\n"
+    ")\n"
+    "set( ${PROJECT_NAME}_DEFINITIONS \n"
+    "   ${${PROJECT_NAME}_DEFINITIONS}\n"
+    ")\n"
+    "set( ${PROJECT_NAME}_INCLUDE_DIRS\n"
+    "   ${${PROJECT_NAME}_INCLUDE_DIRS}\n"
+    ")\n"
+    "set( ${PROJECT_NAME}_${PROJECT_NAME}_LIBRARY\n"
+    "     ${PROJECT_NAME}\n"
+    ")\n"
+)
+
 
 
 # utility macro to add a unit test to be shared by all subdirectories.
@@ -151,7 +179,6 @@ macro( chimp_unit_test test_name )
     set(Boost_USE_STATIC_LIBS ON)
     find_package( Boost REQUIRED COMPONENTS unit_test_framework )
     set(BOOST_USE_STATIC_LIBS ${Boost_USE_STATIC_LIBS_TMP})
-    include_directories( ${Boost_INCLUDE_DIRS} )
     add_executable( chimp.${test_name}.test ${ARGN} )
     target_link_libraries( chimp.${test_name}.test
         ${PROJECT_NAME}
