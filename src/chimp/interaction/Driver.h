@@ -78,7 +78,7 @@ namespace chimp {
     struct NullMonitor {
       template < typename ChimpDB,
                  typename PIter,
-                 typedef BackInsertionSequence >
+                 typename BackInsertionSequence >
       void interactions( const ChimpDB & db,
                          const std::pair<PIter, PIter> & pair,
                          const std::pair<int,double> & path,
