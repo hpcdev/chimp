@@ -168,7 +168,7 @@ namespace chimp {
 
       xml::Context::set const & xs = lhs_i->second;
       /* add each of the allowed interactions to the new set. */
-      for ( xml::Context::set::iterator k = xs.begin(),
+      for ( xml::Context::set::const_iterator k = xs.begin(),
                                      kend = xs.end();
                                        k != kend; ++k ) {
         /* Finally load the Equation fully and push it into the Output stack. */

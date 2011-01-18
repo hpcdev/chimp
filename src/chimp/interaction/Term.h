@@ -99,7 +99,7 @@ namespace chimp {
         std::ostream & print(std::ostream & out, const RnDB & db) const {
           const char * plus = " + ";
           const char * sep = "";
-          for ( typename sT::iterator i = s.begin(); i!= s.end(); ++i ) {
+          for ( typename sT::const_iterator i = s.begin(); i!= s.end(); ++i ) {
             i->term.print(out << sep, db);
             sep = plus;
           }
