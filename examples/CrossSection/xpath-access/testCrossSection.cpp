@@ -113,7 +113,7 @@ int main() {
 
             fdata << "# Eq:  " << Eq << '\n';
             print(fdata, cs, v0, v1, N_points) << "\n\n";
-        } catch (std::exception & e) {
+        } catch (const std::exception & e) {
             std::cout << e.what();
         }
     }
