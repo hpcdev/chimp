@@ -72,8 +72,8 @@ namespace chimp {
           LotzParameters() : P(0), beta(0), q(0), a(0), b(0), c(0) { }
         };
 
-        static inline std::ostream & operator<< ( std::ostream & out,
-                                                  const LotzParameters & p ) {
+        inline std::ostream & operator<< ( std::ostream & out,
+                                           const LotzParameters & p ) {
           out << "<Lotz>\n"
                  "  <P>" << p.P << "</P>\n"
                  "  <q>" << p.q << "</q>\n"

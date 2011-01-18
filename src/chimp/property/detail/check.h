@@ -59,7 +59,7 @@ namespace chimp {
        *    parsed quantity ( e.g. runtime::physical::dimension::energy ).
        */
       template < typename T, template<typename> class dimT >
-      static void parse_item( check<T,dimT> & out,
+      inline void parse_item( check<T,dimT> & out,
                               const xml::Context & x ) {
         using runtime::physical::Quantity;
         using runtime::physical::system::si;
@@ -67,7 +67,7 @@ namespace chimp {
       }
 
       template < typename T >
-      static void parse_item( check<T,NullDimension> & out,
+      inline void parse_item( check<T,NullDimension> & out,
                               const xml::Context & x ) {
         out.value = x.parse<T>();
       }
