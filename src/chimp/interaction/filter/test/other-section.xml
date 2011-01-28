@@ -1,0 +1,11 @@
+<test>
+
+  <Interactions>
+    <Interaction>
+      <Eq><In><T><P>e^-</P></T> + <T><P>N2</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>N2</P></T></Out></Eq>
+      <SomeNode>Some node</SomeNode>
+    </Interaction>
+  </Interactions>
+
+</test>
+

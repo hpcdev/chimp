@@ -32,11 +32,13 @@
 #include <chimp/interaction/filter/Null.h>
 #include <chimp/interaction/filter/detail/EqPair.h>
 
+#include <xylose/logger.h>
 #include <xylose/strutil.h>
 
 #include <boost/shared_ptr.hpp>
 
 #include <string>
+#include <algorithm>
 
 namespace chimp {
   namespace interaction {
@@ -88,7 +90,41 @@ namespace chimp {
 
         /** Virtual filter operation. */
         virtual set filter(const set & in) {
+          if ( section.size() == 0 ) {
+            using xylose::logger::log_warning;
+            log_warning( "Empty Section filter name allows everything" );
+            return in;
+          }
+
           set fset = f->filter(in);
+
+          if ( fset.size() == 0u )
+            return fset;
+
+          set section_set;
+          {
+            xml::Context::list xl = fset.begin()->eval(
+              "/ParticleDB/" + section + "//Interaction"
+            );
+            section_set.insert( xl.begin(), xl.end() );
+          }
+
+          if ( requirement == REQUIRED ) {
+            set retval;
+            std::set_intersection( fset.begin(), fset.end(),
+                                   section_set.begin(), section_set.end(),
+                                   inserter(retval, retval.begin()) );
+            return retval;
+          }
+
+          /* else requirement == PREFERRED */
+          set standard_set;
+          {
+            xml::Context::list xl = fset.begin()->eval(
+              "/ParticleDB/standard//Interaction"
+            );
+            standard_set.insert( xl.begin(), xl.end() );
+          }
 
           detail::EqMap map;
 
@@ -98,17 +134,12 @@ namespace chimp {
             /* we need to test to see if the section matches. */
             std::string estr = i->query<std::string>("Eq");
 
-            bool match =
-              i->query<std::string>(
-                "/ParticleDB/" + section +
-                "//Interaction[string(Eq) = '"+estr+"']/Eq",
-                ""
-              ) == estr ;
-
-            if ( match )
-              map[estr].first = &(*i);
+            if      ( section_set.find(*i) != section_set.end() )
+              map[estr].matched = &(*i);
+            else if ( standard_set.find(*i) != standard_set.end() )
+              map[estr].standard = &(*i);
             else
-              map[estr].second = &(*i);
+              map[estr].unmatched = &(*i);
           }
 
           /* now insert the appropriate item. */
@@ -116,12 +147,16 @@ namespace chimp {
           for ( detail::EqMap::iterator i  = map.begin(),
                                       end  = map.end();
                                         i != end; ++i ) {
-            assert(i->second.first || i->second.second);
+            assert( i->second.matched  ||
+                    i->second.standard ||
+                    i->second.unmatched );
 
-            if (i->second.first)
-              retval.insert( *(i->second.first) );
-            else if ( requirement != REQUIRED )
-              retval.insert( *(i->second.second) );
+            if      (i->second.matched)
+              retval.insert( *(i->second.matched) );
+            else if (i->second.standard)
+              retval.insert( *(i->second.standard) );
+            else
+              retval.insert( *(i->second.unmatched) );
           }
 
           return retval;

@@ -32,9 +32,17 @@
 #include <chimp/interaction/filter/EqIO.h>
 #include <chimp/interaction/filter/Section.h>
 
+#include <xylose/XSTR.h>
+#include <xylose/logger.h>
+
 #include <boost/test/unit_test.hpp>
 
 #include <sstream>
+
+#ifndef OTHER_SECTION
+#  error OTHER_SECTION filename is supposed to be specified by compile command
+#endif
+
 
 BOOST_AUTO_TEST_SUITE( Section_tests ); // {
 
@@ -55,7 +63,26 @@ BOOST_AUTO_TEST_SUITE( Section_tests ); // {
     BOOST_CHECK_EQUAL( set_in == set_out, true );
   }
 
-  BOOST_AUTO_TEST_CASE( nonstandard_filter_preferred ) {
+  BOOST_AUTO_TEST_CASE( empty_section_issues_warning ) {
+    xylose::logger::log_info("A warning should be issued for this test...");
+    using chimp::interaction::filter::Section;
+
+    Section f;
+    f.section = "";
+
+    namespace xml = xylose::xml;
+    xml::Doc xmlDb( chimp::default_data::particledb() );
+
+    typedef xml::Context::set set;
+    xml::Context::list xl = xmlDb.eval("/ParticleDB/standard//Interaction");
+    set set_in(xl.begin(), xl.end());
+
+    set set_out = f.filter(set_in);
+
+    BOOST_CHECK_EQUAL( set_in == set_out, true );
+  }
+
+  BOOST_AUTO_TEST_CASE( nonstandard_filter_preferred_no_other_section ) {
     using chimp::interaction::filter::Section;
 
     Section f("unstandard");
@@ -72,7 +99,28 @@ BOOST_AUTO_TEST_SUITE( Section_tests ); // {
     BOOST_CHECK_EQUAL( set_in == set_out, true );
   }
 
-  BOOST_AUTO_TEST_CASE( nonstandard_filter_required ) {
+  BOOST_AUTO_TEST_CASE( nonstandard_filter_preferred_yes_other_section ) {
+    using chimp::interaction::filter::Section;
+
+    Section f("test");
+
+    namespace xml = xylose::xml;
+    xml::Doc xmlDb( chimp::default_data::particledb() );
+    {
+      xml::Doc otherDoc( XSTR(OTHER_SECTION) );
+      xmlDb.root_context.extend( otherDoc.root_context );
+    }
+
+    typedef xml::Context::set set;
+    xml::Context::list xl = xmlDb.eval("/ParticleDB//Interaction");
+    set set_in(xl.begin(), xl.end());
+
+    set set_out = f.filter(set_in);
+
+    BOOST_CHECK_EQUAL( set_out.size(), set_in.size() - 1u );
+  }
+
+  BOOST_AUTO_TEST_CASE( nonstandard_filter_required_empty_result ) {
     using chimp::interaction::filter::Section;
 
     Section f("unstandard", Section::REQUIRED);
@@ -87,6 +135,42 @@ BOOST_AUTO_TEST_SUITE( Section_tests ); // {
     set set_out = f.filter(set_in);
 
     BOOST_CHECK_EQUAL( set_out.empty(), true );
+  }
+
+  BOOST_AUTO_TEST_CASE( nonstandard_filter_required_dual_possibilities ) {
+    using chimp::interaction::filter::Section;
+
+    Section f("test", Section::REQUIRED);
+
+    namespace xml = xylose::xml;
+    xml::Doc xmlDb( chimp::default_data::particledb() );
+    {
+      xml::Doc otherDoc( XSTR(OTHER_SECTION) );
+      xmlDb.root_context.extend( otherDoc.root_context );
+    }
+
+    typedef xml::Context::set  set;
+    typedef xml::Context::list list;
+    {
+      list xl = xmlDb.eval("/ParticleDB/standard//Interaction");
+      set set_in(xl.begin(), xl.end());
+
+      set set_out = f.filter(set_in);
+
+      BOOST_CHECK_EQUAL( set_out.size(), 0u );
+    }
+    {
+      list xl = xmlDb.eval("/ParticleDB//Interaction");
+      set set_in(xl.begin(), xl.end());
+
+      set set_out = f.filter(set_in);
+
+      BOOST_CHECK_EQUAL( set_out.size(), 1u );
+      BOOST_CHECK_EQUAL(
+        set_out.begin()->query< std::string >("SomeNode", ""),
+        "Some node"
+      );
+    }
   }
 
   BOOST_AUTO_TEST_CASE( standard_filter_required_EqIO_subfilter ) {

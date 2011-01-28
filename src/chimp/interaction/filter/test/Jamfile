@@ -1,3 +1,10 @@
+path-constant OTHER_SECTION : ./other-section.xml ;
+
+project
+    : requirements
+      <define>OTHER_SECTION=$(OTHER_SECTION)
+    ;
+
 unit-test EqIO : EqIO.cpp ;
 unit-test Elastic : Elastic.cpp ;
 unit-test And : And.cpp ;

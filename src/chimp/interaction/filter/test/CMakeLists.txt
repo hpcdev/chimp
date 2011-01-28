@@ -1,3 +1,6 @@
+set( OTHER_SECTION ${CMAKE_CURRENT_SOURCE_DIR}/other-section.xml )
+add_definitions( -DOTHER_SECTION=${OTHER_SECTION} )
+
 chimp_unit_test( interaction.filter.EqIO     EqIO.cpp )
 chimp_unit_test( interaction.filter.Elastic  Elastic.cpp )
 chimp_unit_test( interaction.filter.And      And.cpp )

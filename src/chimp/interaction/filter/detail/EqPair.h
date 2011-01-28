@@ -33,16 +33,18 @@ namespace chimp {
     namespace filter {
       namespace detail {
 
-        struct EqPair : std::pair< const xml::Context *, const xml::Context *> {
-          typedef std::pair< const xml::Context *,
-                             const xml::Context *> super;
+        struct EqSet {
+          const xml::Context * matched;
+          const xml::Context * standard;
+          const xml::Context * unmatched;
 
-          EqPair( const xml::Context * matched = NULL,
-                  const xml::Context * unmatched = NULL )
-            : super(matched, unmatched) { }
+          EqSet( const xml::Context * matched = NULL,
+                 const xml::Context * standard = NULL,
+                 const xml::Context * unmatched = NULL )
+            : matched(matched), standard(standard), unmatched(unmatched) { }
         };
 
-        typedef std::map< std::string, EqPair> EqMap;
+        typedef std::map< std::string, EqSet> EqMap;
 
       }/* namespace chimp::interaction::filter::detail */
     }/* namespace particldb::interaction::filter */
