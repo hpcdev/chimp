@@ -48,21 +48,34 @@
             <Eq><In><T><n>2</n> <P>85Rb</P></T></In>  --&gt;  <Out><T><n>2</n> <P>85Rb</P></T></Out></Eq>
             <cross_section model="vhs">
                 <value>8*pi*(100*a_0)^2</value>
-                <T_ref>150*uK</T_ref>             <!-- We'll just guess this value -->
+                <T_ref>18*uK</T_ref>             <!-- this value estimated, see reference info -->
                 <visc_T_law>3.0/4.0</visc_T_law><!-- We'll just guess this value -->
-                <reference>Need reference for diameter and cross section--Almost common knowledge in the cold atom physics community.  The VHS/VSS data is just an educated guess.  </reference>
-            </cross_section>
-        </Interaction>
-
-        <Interaction>
-            <Eq><In><T><P>85Rb</P></T> + <T><P>87Rb</P></T></In>  --&gt;  <Out><T><P>85Rb</P></T> + <T><P>87Rb</P></T></Out></Eq>
-            <cross_section model="vhs">
-                <value>8*pi*(100*a_0)^2</value>
-                <T_ref>150*uK</T_ref>             <!-- We'll just guess this value -->
-                <visc_T_law>3.0/4.0</visc_T_law><!-- We'll just guess this value -->
-                <reference>FIXME:  This really should be replaced by a layered
-                model in chimp that automatically computes a cross species cross
-                section based on the average of separate single species diameters.</reference>
+                <reference>
+                    <notes>
+                      Using 100*a_0 as the zero-energy scattering length fits in
+                      pretty well with the findings in
+                      doi:10.1103/PhysRevA.56.2784 and the references therein,
+                      but is an estimation none the less.  The reference
+                      temperature here was picked almost "out of a hat" so that
+                      the values are approximately a bit larger than 87Rb as
+                      calculated/shown in doi:10.1103/PhysRevA.56.2784.
+                    </notes>
+                    <bibtex>
+@Article{Westphal1997lve,
+  title = {Low-velocity elastic scattering of Rb-Rb},
+  author = {Westphal, P.  and Koch, S.  and Horn, A.  and Schmand, J.  and Andr\"a, H. J.},
+  journal = {Phys. Rev. A},
+  volume = {56},
+  number = {4},
+  pages = {2784--2787},
+  numpages = {3},
+  year = {1997},
+  month = {Oct},
+  doi = {10.1103/PhysRevA.56.2784},
+  publisher = {American Physical Society}
+}
+                    </bibtex>
+                </reference>
             </cross_section>
         </Interaction>
 
