@@ -78,6 +78,8 @@ namespace chimp {
           }
           return retval;
         }
+
+        virtual std::string getLabel() const = 0;
       };
 
       namespace loader {

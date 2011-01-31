@@ -1,4 +1,5 @@
 path-constant OTHER_SECTION : ./other-section.xml ;
+path-constant FILTERS_XML : ./filters.xml ;
 
 project
     : requirements
@@ -13,3 +14,4 @@ unit-test Not : Not.cpp ;
 unit-test Null : Null.cpp ;
 unit-test Section : Section.cpp ;
 unit-test Label : Label.cpp ;
+unit-test xml_loaders : xml_loaders.cpp : <define>FILTERS_XML=$(FILTERS_XML) ;

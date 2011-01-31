@@ -1,0 +1,41 @@
+<test>
+  <filter_Null>
+    <Null/>
+  </filter_Null>
+
+  <filter_Elastic>
+    <Elastic/>
+  </filter_Elastic>
+
+  <filter_Label>
+    <Label>vss_elastic</Label>
+  </filter_Label>
+
+  <filter_EqIO>
+    <EqIO dir="In">
+      <T><P>e^-</P></T><T><P>02</P></T>
+    </EqIO>
+  </filter_EqIO>
+
+  <filter_complicated>
+    <Or>
+      <Section preference="required" name="standard">
+        <Or>
+          <Not>
+            <Null/>
+            <Elastic/>
+          </Not>
+          <Label>vss_elastic</Label>
+        </Or>
+      </Section>
+      <And>
+        <EqIO dir="In">
+          <T><P>e^-</P></T><T><P>O2</P></T>
+        </EqIO>
+        <EqIO dir="Out">
+          <T><n>2</n><P>e^-</P></T><T><P>O2^+</P></T>
+        </EqIO>
+      </And>
+    </Or>
+  </filter_complicated>
+</test>

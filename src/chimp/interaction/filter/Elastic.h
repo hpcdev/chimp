@@ -54,6 +54,10 @@ namespace chimp {
         Elastic() {
           xpath_query = elastic_predicate<>::xpath_query;
         }
+
+        virtual std::string getLabel() const { return this->label(); }
+
+        static std::string label() { return "Elastic"; }
       };
 
       template < unsigned int i >

@@ -65,6 +65,10 @@ namespace chimp {
                                inserter(retval, retval.begin()) );
           return retval;
         }
+
+        virtual std::string getLabel() const { return this->label(); }
+
+        static std::string label() { return "Not"; }
       };
 
       namespace loader {

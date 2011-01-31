@@ -46,15 +46,17 @@ namespace chimp {
         std::map< std::string, shared_ptr<filter::loader::Base> > list;
 
         int init() {
+          namespace F = chimp::interaction::filter;
+          namespace L = chimp::interaction::filter::loader;
           using boost::make_shared;
-          loader::list["Or"]      = make_shared<loader::Or>();
-          loader::list["And"]     = make_shared<loader::And>();
-          loader::list["Not"]     = make_shared<loader::Not>();
-          loader::list["Null"]    = make_shared<loader::Null>();
-          loader::list["EqIO"]    = make_shared<loader::EqIO>();
-          loader::list["Label"]   = make_shared<loader::Label>();
-          loader::list["Section"] = make_shared<loader::Section>();
-          loader::list["Elastic"] = make_shared<loader::Elastic>();
+          loader::list[F::Or::label()]      = make_shared<L::Or>();
+          loader::list[F::And::label()]     = make_shared<L::And>();
+          loader::list[F::Not::label()]     = make_shared<L::Not>();
+          loader::list[F::Null::label()]    = make_shared<L::Null>();
+          loader::list[F::EqIO::label()]    = make_shared<L::EqIO>();
+          loader::list[F::Label::label()]   = make_shared<L::Label>();
+          loader::list[F::Section::label()] = make_shared<L::Section>();
+          loader::list[F::Elastic::label()] = make_shared<L::Elastic>();
 
           return loader::list.size();
         }

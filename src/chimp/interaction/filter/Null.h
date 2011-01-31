@@ -46,6 +46,10 @@ namespace chimp {
         virtual set filter(const set & in) {
           return in;
         }
+
+        virtual std::string getLabel() const { return this->label(); }
+
+        static std::string label() { return "Null"; }
       };
 
       namespace loader {

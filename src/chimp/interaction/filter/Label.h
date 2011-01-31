@@ -46,6 +46,10 @@ namespace chimp {
           xpath_query = "self::node()[@model='" + label + "']";
         }
 
+        virtual std::string getLabel() const { return this->label(); }
+
+        static std::string label() { return "Label"; }
+
       };
 
       namespace loader {

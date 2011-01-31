@@ -178,6 +178,10 @@ namespace chimp {
         void set_xpath_query() {
           xpath_query = getXpathQuery(m_id_name, terms);
         }
+
+        virtual std::string getLabel() const { return this->label(); }
+
+        static std::string label() { return "EqIO"; }
       };
 
       namespace loader {
