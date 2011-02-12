@@ -64,7 +64,10 @@ BOOST_AUTO_TEST_SUITE( RuntimeDB_tests ); // {
   }
 
   BOOST_AUTO_TEST_CASE( default_filter_initBinaryInteraction_2part ) {
-    typedef chimp::RuntimeDB<> DB;
+    typedef chimp::RuntimeDB<
+      chimp::make_options<>::type::setAutoCreateMissingElastic<true>::type
+    > DB;
+
     DB db;
     db.addParticleType("87Rb");
     db.addParticleType("85Rb");
