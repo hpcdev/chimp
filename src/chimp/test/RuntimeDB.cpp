@@ -150,9 +150,9 @@ BOOST_AUTO_TEST_SUITE( RuntimeDB_tests ); // {
     }
 
     // NOTE:  if we add new collisions data, we will have to change these:
-    BOOST_CHECK_EQUAL( number_interactions, 2u );
+    BOOST_CHECK_EQUAL( number_interactions, 1u );
 
-    BOOST_CHECK_EQUAL( db("e^-", "e^-" ).rhs.size(), 1u );
+    BOOST_CHECK_EQUAL( db("e^-", "e^-" ).rhs.size(), 0u );
     BOOST_CHECK_EQUAL( db("e^-", "Hg"  ).rhs.size(), 1u );
     BOOST_CHECK_EQUAL( db("e^-", "Hg^+").rhs.size(), 0u );
 
