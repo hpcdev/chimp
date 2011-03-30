@@ -100,8 +100,9 @@
             </cross_section>
         </Interaction>
 
+        <!-- example Variable Soft Sphere (VSS) interaction:
         <Interaction model="vss_elastic">
-            <Eq><In><T><n>2</n> <P>e^-</P></T></In>  --&gt;  <Out><T><n>2</n> <P>e^-</P></T></Out></Eq>
+            <Eq><In><T><n>2</n> <P>A</P></T></In>  -&gt;  <Out><T><n>2</n> <P>A</P></T></Out></Eq>
             <vss_param_inv>1.0</vss_param_inv>
             <cross_section model="vhs">
                 <value>pi*(0.417*nm)^2</value>
@@ -110,6 +111,7 @@
                 <reference>NEED TO PUT SOMETHING HERE THAT IS REMOTELY VALID!  CREATE A NEW MODEL(?)</reference>
             </cross_section>
         </Interaction>
+        -->
 
         <Interaction old_model_label="excitation">
             <Eq><In><T><P>photon</P></T> + <T><P>87Rb |1,m&gt;</P></T></In>  --&gt;  <Out><T><P>photon</P></T> + <T><P>87Rb |2,m&gt;</P></T></Out></Eq>
@@ -4139,6 +4141,16 @@
             <Eq><In><T><P>e^-</P></T> + <T><P>Ar</P></T></In>  --&gt;  <Out><T><P>e^-</P></T> + <T><P>Ar</P></T></Out></Eq>
             <cross_section model="data" xscale="eV" yscale="1.e-20*m^2">
                 <reference>Various sources. See G. Raju, Gaseous Electronics: Theory and Practice, CRC Press, 2006, Table 3.11.  </reference>
+                <val x="0.0" y="1.50">
+                  <comment>
+                    G. Raju does indicate that there are very few measurements
+                    at low energies and the Ferch et. al data from which part of
+                    this comes only covers 0.08eV to 0.1 eV.
+                    This data point is not based on anything experimental.  I
+                    just needed something non-zero at zero energy--as is
+                    expected for elastic collision cross sections.
+                  </comment>
+                </val>
                 <val x="0.08" y="1.50"/>
                 <val x="0.1" y="1.19"/>
                 <val x="0.5" y="0.374"/>

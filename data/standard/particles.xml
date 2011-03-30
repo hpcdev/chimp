@@ -33,6 +33,11 @@
             <mass>m_e</mass>
             <charge>e</charge>
         </Particle>
+        <Particle name="Ar*">
+            <comment>An excited state of Argon</comment>
+            <mass>element::Ar::mass</mass>
+            <charge>e</charge>
+        </Particle>
         <Particle name="Ar^+">
             <mass>element::Ar::mass</mass>
             <charge>e</charge>
