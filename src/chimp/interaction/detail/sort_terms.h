@@ -76,6 +76,7 @@ namespace chimp {
 
           const typename RnDB::Properties * p = &( db[particle_name] );
 
+          /* This ensures that "A + A" turns into "2 A" */
           PIter j = el.find(p);
           if ( j != el.end() )
             j->second += n;

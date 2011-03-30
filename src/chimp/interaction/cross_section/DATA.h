@@ -132,46 +132,8 @@ namespace chimp {
          *     The relative velocity between two particles.
          * */
         inline virtual double operator() (const double & v_relative) const {
-          using xylose::SQR;
-
           /* find the first entry not less that v_relative */
-          DoubleDataSet::const_iterator i = table.lower_bound(v_relative);
-          if      (i==table.begin()) {
-            /* Assume that the data begins at a threshold value */
-            return 0;
-          } else if (i==table.end()) {
-            --i;
-            if ( i->second == 0.0 )
-              /* the data actually says to stay at zero--no extrap. required.*/
-              return 0.0;
-
-            if (C == 0.0)
-              /* We cannot do any extrapolation because a,b are mostly bogus. */
-              throw std::runtime_error(
-                "velocity " + xylose::to_string(v_relative) +
-                " out of range of cross section data" );
-
-            if ( ! extraps_done ) {
-              ++extraps_done;
-              using xylose::logger::log_warning;
-              log_warning( "extrapolating cross section DATA at v=%g",
-                           v_relative );
-              log_warning( "NOTE:  extrapolation warning only issued once!" );
-            }
-
-
-            using detail::f;
-            return f(SQR(v_relative) - v02, C, a, b);
-          } else {
-            DoubleDataSet::const_iterator f = i;
-            --i;
-            /* we are not at the ends of the data, so use the normal lever rule.
-             * TODO:  Do we need to do the L_inv mult befoe the add to avoid
-             * precision errors?  Does our data ever require this? */
-            double L_inv = 1.0/(f->first - i->first);
-            return   i->second * L_inv * (f->first - v_relative) +
-                     f->second * L_inv * (v_relative - i->first);
-          }
+          return this->eval( table.lower_bound(v_relative), v_relative );
         }
 
         /** Determine by inspection the maximum value of the product v_rel *
@@ -187,13 +149,26 @@ namespace chimp {
           /* search through the data within the range [0:v_rel_max) to find
            * maximum product. */
           std::pair<double,double> retval = std::make_pair(0.0,0.0);
-          /* find the first entry not less that v_rel_max */
-          DoubleDataSet::const_iterator f = table.lower_bound(v_rel_max);
-          for (DoubleDataSet::const_iterator i = table.begin(); i != f; ++i) {
+          /* find the first entry not less than v_rel_max */
+          const DoubleDataSet::const_iterator e = table.lower_bound(v_rel_max);
+          for (DoubleDataSet::const_iterator i = table.begin(); i != e; ++i) {
             double prod_i = i->first * i->second;
             if (retval.first < prod_i) {
               retval.first = prod_i;
               retval.second = i->first;
+            }
+          }
+
+          /* make one last ditch effort to find (v*sigma)_max by determining the
+           * interpolated/extrapolated value and comparing the result.
+           * (Really, only interpolations should/will probably be used, since
+           * extrapolations should only be allowed for functions that can be
+           * approximated by a decaying ln(E)/E curve. */
+          {
+            double prod_interp = v_rel_max * this->eval(e, v_rel_max);
+            if ( retval.first < prod_interp ) {
+              retval.first = prod_interp;
+              retval.second = v_rel_max;
             }
           }
 
@@ -266,6 +241,51 @@ namespace chimp {
           a   = Cabv2[1];
           b   = Cabv2[2];
           v02 = Cabv2[3];
+        }
+
+        /** Do the actual work of evaluating the cross section, with the initial
+         * lookup already done.  i is assumed to be the result of
+         * table.lower_bound(v_relative). */
+        inline double eval( DoubleDataSet::const_iterator i,
+                            const double & v_relative ) const {
+          using xylose::SQR;
+
+          if      (i==table.begin()) {
+            /* Assume that the data begins at a threshold value */
+            return 0;
+          } else if (i==table.end()) {
+            --i;
+            if ( i->second == 0.0 )
+              /* the data actually says to stay at zero--no extrap. required.*/
+              return 0.0;
+
+            if (C == 0.0)
+              /* We cannot do any extrapolation because a,b are mostly bogus. */
+              throw std::runtime_error(
+                "velocity " + xylose::to_string(v_relative) +
+                " out of range of cross section data" );
+
+            if ( ! extraps_done ) {
+              ++extraps_done;
+              using xylose::logger::log_warning;
+              log_warning( "extrapolating cross section DATA at v=%g",
+                           v_relative );
+              log_warning( "NOTE:  extrapolation warning only issued once!" );
+            }
+
+
+            using detail::f;
+            return f(SQR(v_relative) - v02, C, a, b);
+          } else {
+            DoubleDataSet::const_iterator f = i;
+            --i;
+            /* we are not at the ends of the data, so use the normal lever rule.
+             * TODO:  Do we need to do the L_inv mult befoe the add to avoid
+             * precision errors?  Does our data ever require this? */
+            double L_inv = 1.0/(f->first - i->first);
+            return   i->second * L_inv * (f->first - v_relative) +
+                     f->second * L_inv * (v_relative - i->first);
+          }
         }
       };
 
